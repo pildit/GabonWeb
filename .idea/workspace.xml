@@ -100,6 +100,8 @@
       <path value="$PROJECT_DIR$/vendor/phpdocumentor/type-resolver" />
       <path value="$PROJECT_DIR$/vendor/ramsey/uuid" />
       <path value="$PROJECT_DIR$/vendor/nwidart/laravel-modules" />
+      <path value="$PROJECT_DIR$/vendor/generationtux/jwt-artisan" />
+      <path value="$PROJECT_DIR$/vendor/firebase/php-jwt" />
     </include_path>
   </component>
   <component name="ProjectId" id="1hH11e2tawfL1AjTQTHK8N0zsEi" />
@@ -108,15 +110,71 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="postgresql" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Modules/User/Database/factories" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
   </component>
-  <component name="RunManager">
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Modules/User/Database/factories" />
+      <recent name="$PROJECT_DIR$/Modules/User/Entities" />
+      <recent name="$PROJECT_DIR$/Modules/User/Tests/Unit" />
+      <recent name="$PROJECT_DIR$/Modules/User/Http/Requests" />
+      <recent name="$PROJECT_DIR$/Modules/User/Http/Controllers" />
+    </key>
+  </component>
+  <component name="RunManager" selected="PHPUnit.AuthenticationTest">
+    <configuration name="AuthenticationTest" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <CommandLine>
+        <PhpTestInterpreterSettings>
+          <option name="interpreterName" value="PHP 7.3" />
+        </PhpTestInterpreterSettings>
+      </CommandLine>
+      <TestRunner class="Modules\User\Tests\Unit\AuthenticationTest" configuration_file="$PROJECT_DIR$/phpunit.xml" file="$PROJECT_DIR$/Modules/User/Tests/Unit/AuthenticationTest.php" scope="Class" />
+      <method v="2" />
+    </configuration>
+    <configuration name="AuthenticationTest.it_generate_user_jwt_token" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <CommandLine>
+        <PhpTestInterpreterSettings>
+          <option name="interpreterName" value="PHP 7.3" />
+        </PhpTestInterpreterSettings>
+      </CommandLine>
+      <TestRunner class="Modules\User\Tests\Unit\AuthenticationTest" configuration_file="$PROJECT_DIR$/phpunit.xml" file="$PROJECT_DIR$/Modules/User/Tests/Unit/AuthenticationTest.php" method="it_generate_user_jwt_token" scope="Method" />
+      <method v="2" />
+    </configuration>
+    <configuration name="AuthenticationTest.it_requires_email_and_password_to_auth" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
+      <TestRunner class="Modules\User\Tests\Unit\AuthenticationTest" file="$PROJECT_DIR$/Modules/User/Tests/Unit/AuthenticationTest.php" method="it_requires_email_and_password_to_auth" scope="Method" />
+      <method v="2" />
+    </configuration>
     <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <CommandLine>
+        <PhpTestInterpreterSettings>
+          <option name="interpreterName" value="PHP 7.3" />
+        </PhpTestInterpreterSettings>
+      </CommandLine>
       <TestRunner scope="XML" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="PHPUnit.phpunit.xml" />
+      <item itemvalue="PHPUnit.AuthenticationTest.it_generate_user_jwt_token" />
+      <item itemvalue="PHPUnit.AuthenticationTest" />
+      <item itemvalue="PHPUnit.AuthenticationTest.it_requires_email_and_password_to_auth" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="PHPUnit.AuthenticationTest" />
+        <item itemvalue="PHPUnit.AuthenticationTest.it_requires_email_and_password_to_auth" />
+        <item itemvalue="PHPUnit.AuthenticationTest.it_generate_user_jwt_token" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -126,7 +184,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1599652989737</updated>
-      <workItem from="1599652990844" duration="1000000" />
+      <workItem from="1599652990844" duration="8850000" />
     </task>
     <servers />
   </component>
@@ -134,9 +192,37 @@
     <option name="version" value="3" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="505" y="250" width="670" height="676" key="search.everywhere.popup" timestamp="1599653415395">
+    <state x="440" y="202" width="1071" height="834" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1599731385006">
       <screen x="0" y="23" width="1680" height="1027" />
     </state>
-    <state x="505" y="250" width="670" height="676" key="search.everywhere.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1599653415395" />
+    <state x="440" y="202" width="1071" height="834" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1599731385006" />
+    <state x="578" y="298" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1599729448732">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="578" y="298" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.23.1680.1027@0.23.1680.1027" timestamp="1599729448732" />
+    <state width="1638" height="275" key="GridCell.Tab.0.bottom" timestamp="1599731392126">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1638" height="275" key="GridCell.Tab.0.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1599731392126" />
+    <state width="1638" height="275" key="GridCell.Tab.0.center" timestamp="1599731392125">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1638" height="275" key="GridCell.Tab.0.center/0.23.1680.1027@0.23.1680.1027" timestamp="1599731392125" />
+    <state width="1638" height="275" key="GridCell.Tab.0.left" timestamp="1599731392123">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1638" height="275" key="GridCell.Tab.0.left/0.23.1680.1027@0.23.1680.1027" timestamp="1599731392123" />
+    <state width="1638" height="275" key="GridCell.Tab.0.right" timestamp="1599731392126">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1638" height="275" key="GridCell.Tab.0.right/0.23.1680.1027@0.23.1680.1027" timestamp="1599731392126" />
+    <state width="500" height="445" key="SwitcherDM" timestamp="1599731343212">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="500" height="445" key="SwitcherDM/0.23.1680.1027@0.23.1680.1027" timestamp="1599731343212" />
+    <state x="505" y="250" width="670" height="676" key="search.everywhere.popup" timestamp="1599731409721">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="505" y="250" width="670" height="676" key="search.everywhere.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1599731409721" />
   </component>
 </project>
