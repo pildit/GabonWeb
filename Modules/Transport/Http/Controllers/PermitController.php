@@ -6,6 +6,7 @@ namespace Modules\Transport\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Transport\Entities\Permit as PermitEntity;
 use Modules\Transport\Services\Permit;
 
 class PermitController extends Controller
@@ -31,5 +32,16 @@ class PermitController extends Controller
         $permit->setOrderDirection($request->get('orderDirection', 'desc'));
 
         return response()->json($permit->getPaginator());
+    }
+
+    /**
+     * @param PermitEntity $permit
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(PermitEntity $permit)
+    {
+        return response()->json([
+            'data' => $permit
+        ]);
     }
 }

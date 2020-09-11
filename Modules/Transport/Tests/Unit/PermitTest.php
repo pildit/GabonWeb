@@ -4,13 +4,14 @@
 namespace Modules\Transport\Tests\Unit;
 
 
-use GenTux\Jwt\JwtToken;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Modules\User\Entities\User;
+use Modules\Transport\Entities\Permit;
 use Tests\TestCase;
 
 class PermitTest extends TestCase
 {
+    use RefreshDatabase;
+
     /** @test */
     public function it_fails_getting_list_of_permits_paginated_due_the_authentication()
     {
@@ -27,7 +28,7 @@ class PermitTest extends TestCase
     /** @test */
     public function it_returns_list_of_permits_paginated()
     {
-        $token = app(JwtToken::class)->createToken(factory(User::class)->create())->token();
+        $token = $this->generateJwtToken();
 
         $response = $this->getJson('/api/permits', ['Authorization' => "Bearer $token"]);
 
@@ -59,4 +60,52 @@ class PermitTest extends TestCase
         $this->assertEquals(1, $data['current_page']);
         $this->assertEquals(1, $data['from']);
     }
+
+    /** @test */
+    public function it_returns_404_when_permit_with_id_does_not_exist()
+    {
+        $token = $this->generateJwtToken();
+
+        $response = $this->getJson('api/permit/1', ['Authorization' => "Bearer $token"]);
+
+        $response
+            ->assertNotFound()
+            ->assertJsonStructure(['message']);
+
+        $data = $response->decodeResponseJson();
+        $this->assertNotEmpty($data['message']);
+    }
+
+    /** @test */
+    public function it_gets_a_single_permit_info_by_id()
+    {
+        $token = $this->generateJwtToken();
+
+        $permit = factory(Permit::class)->create();
+
+        $response = $this->getJson("api/permit/{$permit->id}", ['Authorization' => "Bearer $token"]);
+
+        $response
+            ->assertOk()
+            ->assertJsonStructure([
+                'data' => [
+                    'id', 'recdate', 'obsdate', 'appuser', 'lat', 'lon', 'gps_accu', 'permit_no', 'harvest_name',
+                    'client_name', 'concession_name', 'transport_comp', 'license_plate', 'destination',
+                    'management_unit', 'operational_unit', 'annual_operational_unit', 'mobile_id', 'note',
+                    'the_geom', 'product_type', 'permit_status', 'verified_by', 'transport_by', 'generated_by',
+                    'scan_lat', 'scan_lon', 'scan_gps_accu'
+                ]
+            ]);
+
+        $data = $response->decodeResponseJson()['data'];
+
+        $this->assertMultipleEquals($permit, $data, [
+            'id', 'permit_no', 'permit_no', 'harvest_name',
+            'client_name', 'concession_name', 'transport_comp', 'license_plate', 'destination',
+            'management_unit', 'operational_unit', 'annual_operational_unit'
+        ]);
+        $this->assertNotEquals($permit->the_geom, $data['the_geom']);
+        $this->assertNotEmpty($data['recdate']);
+    }
+
 }
