@@ -28,8 +28,9 @@ class PermitController extends Controller
      */
     public function index(Request $request, Permit $permit)
     {
-        $permit->setOrderBy($request->get('orderBy', 'id'));
-        $permit->setOrderDirection($request->get('orderDirection', 'desc'));
+        $permit->validateRequest($request);
+        $permit->setPage($request->get('page'));
+        $permit->setPerPage($request->get('per_page'));
 
         return response()->json($permit->getPaginator());
     }

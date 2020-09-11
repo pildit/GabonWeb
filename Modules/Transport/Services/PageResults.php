@@ -4,19 +4,24 @@
 namespace Modules\Transport\Services;
 
 
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+
 class PageResults
 {
-    protected $per_page;
+    protected $per_page = 50;
 
-    protected $page;
+    protected $page = 1;
 
     protected $headers;
 
     protected $filters = [];
 
-    protected $orderBy = 'id';
+    protected $sortCriteria = [];
 
-    protected $orderDirection = 'asc';
+    protected $sortFields = ['id'];
+
+    protected $sort = ['desc'];
 
     protected $records = [];
 
@@ -33,9 +38,11 @@ class PageResults
     /**
      * @param mixed $per_page
      */
-    public function setPerPage($per_page): void
+    public function setPerPage($per_page)
     {
-        $this->per_page = $per_page;
+        if($per_page) {
+            $this->per_page = $per_page;
+        }
     }
 
     /**
@@ -49,9 +56,11 @@ class PageResults
     /**
      * @param mixed $page
      */
-    public function setPage($page): void
+    public function setPage($page)
     {
-        $this->page = $page;
+        if($page) {
+            $this->page = $page;
+        }
     }
 
     public function getHeaders()
@@ -67,35 +76,47 @@ class PageResults
     }
 
     /**
-     * @return string
+     * @param string[] $sortFields
      */
-    public function getOrderBy(): string
+    public function setSortFields(array $sortFields)
     {
-        return $this->orderBy;
+        $this->sortFields = $sortFields;
     }
 
     /**
-     * @param string $orderBy
+     * @param string[] $sort
      */
-    public function setOrderBy(string $orderBy): void
+    public function setSort(array $sort)
     {
-        $this->orderBy = $orderBy;
+        $this->sort = $sort;
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getOrderDirection(): string
+    public function getSortCriteria()
     {
-        return $this->orderDirection;
+        $this->sortCriteria = collect($this->sortFields)->mapWithKeys(function ($item, $k) {
+            return [$item => $this->sort[$k]];
+        });
+
+        return $this->sortCriteria;
     }
 
     /**
-     * @param string $orderDirection
+     * @return string[]
      */
-    public function setOrderDirection(string $orderDirection): void
+    public function getSortFields()
     {
-        $this->orderDirection = $orderDirection;
+        return $this->sortFields;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getSort()
+    {
+        return $this->sort;
     }
 
     /**
@@ -126,5 +147,25 @@ class PageResults
     public function getResult()
     {
         return $this->paginator->toArray();
+    }
+
+    /**
+     * @param Request $request
+     * @throws \Throwable
+     */
+    public function validateRequest(Request $request)
+    {
+        $this->sortFields = explode('|', $request->get('sort_fields', 'id'));
+        $this->sort = explode('|', $request->get('sort', 'desc'));
+
+        throw_if(count($this->sort) != count($this->sortFields), ValidationException::withMessages([
+            'sort' => ['sort should match fields numbers'],
+            'sort_fields' => ['sort fields should match sort ']
+        ]));
+
+        $request->validate([
+            'page' => 'numeric',
+            'per_page' => 'numeric'
+        ]);
     }
 }

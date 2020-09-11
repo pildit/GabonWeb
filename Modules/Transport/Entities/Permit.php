@@ -39,4 +39,14 @@ class Permit extends Model
     protected $table = 'transportation.permits';
 
 
+    /**
+     * @param $query
+     * @param $sort
+     */
+    public function scopeOfSort($query, $sort)
+    {
+        foreach ($sort as $column => $direction) {
+            $query->orderBy($column, $direction);
+        }
+    }
 }

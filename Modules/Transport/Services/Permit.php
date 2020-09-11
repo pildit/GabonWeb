@@ -4,7 +4,9 @@
 namespace Modules\Transport\Services;
 
 
+use http\Env\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 use Modules\Transport\Entities\Permit as PermitEntity;
 
 class Permit extends PageResults
@@ -14,8 +16,9 @@ class Permit extends PageResults
      */
     public function getPaginator()
     {
-        $data = PermitEntity::orderBy($this->getOrderBy(), $this->getOrderDirection())
-            ->paginate(50);
+
+        $data = PermitEntity::ofSort($this->getSortCriteria())
+            ->paginate($this->per_page);
         return $data;
     }
 

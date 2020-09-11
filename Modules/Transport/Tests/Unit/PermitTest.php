@@ -26,9 +26,40 @@ class PermitTest extends TestCase
     }
 
     /** @test */
+    public function it_fails_getting_list_of_permits_paginated_due_the_wrong_sort_parameters()
+    {
+        $token = $this->generateJwtToken();
+
+        $response = $this->getJson('/api/permits?sort=asc,sort_fields=obsdate|gps_accu', ['Authorization' => "Bearer $token"]);
+
+        $response
+            ->assertStatus(422)
+            ->assertJsonStructure([
+                'message',
+                'errors' => ['sort', 'sort_fields']
+            ]);
+    }
+
+    /** @test */
+    public function it_fails_getting_list_of_permits_paginated_due_the_wrong_type_of_request_parameters()
+    {
+        $token = $this->generateJwtToken();
+
+        $response = $this->getJson('/api/permits?page=a&per_page=b', ['Authorization' => "Bearer $token"]);
+
+        $response
+            ->assertStatus(422)
+            ->assertJsonStructure([
+                'message',
+                'errors' => ['page', 'per_page']
+            ]);
+    }
+
+    /** @test */
     public function it_returns_list_of_permits_paginated()
     {
         $token = $this->generateJwtToken();
+        factory(Permit::class, 50)->create();
 
         $response = $this->getJson('/api/permits', ['Authorization' => "Bearer $token"]);
 
@@ -59,6 +90,27 @@ class PermitTest extends TestCase
 
         $this->assertEquals(1, $data['current_page']);
         $this->assertEquals(1, $data['from']);
+        $this->assertCount(50, $data['data']);
+    }
+
+    /** @test */
+    public function it_test_getting_next_page_and_less_per_page_of_permits()
+    {
+        $token = $this->generateJwtToken();
+        factory(Permit::class, 50)->create();
+        $per_page = 10;
+        $page = 2;
+
+        $response = $this->getJson("/api/permits?page=$page&per_page=$per_page", ['Authorization' => "Bearer $token"]);
+
+        $response
+            ->assertOk();
+
+        $data = $response->decodeResponseJson();
+        $this->assertEquals(2, $data['current_page']);
+        $this->assertEquals($per_page+1, $data['from']);
+        $this->assertEquals($per_page*$page, $data['to']);
+        $this->assertCount(10, $data['data']);
     }
 
     /** @test */
@@ -66,7 +118,7 @@ class PermitTest extends TestCase
     {
         $token = $this->generateJwtToken();
 
-        $response = $this->getJson('api/permits/1', ['Authorization' => "Bearer $token"]);
+        $response = $this->getJson('/api/permits/1', ['Authorization' => "Bearer $token"]);
 
         $response
             ->assertNotFound()
@@ -83,7 +135,7 @@ class PermitTest extends TestCase
 
         $permit = factory(Permit::class)->create();
 
-        $response = $this->getJson("api/permits/{$permit->id}", ['Authorization' => "Bearer $token"]);
+        $response = $this->getJson("/api/permits/{$permit->id}", ['Authorization' => "Bearer $token"]);
 
         $response
             ->assertOk()
@@ -115,7 +167,7 @@ class PermitTest extends TestCase
         $token = $this->generateJwtToken();
         $bbox = '829188.882837592,-709335.6224864357,1758663.1467853351,391357.58482010243';
 
-        $response = $this->getJson("api/permits/vectors?bbox=$bbox", ['Authorization' => "Bearer $token"]);
+        $response = $this->getJson("/api/permits/vectors?bbox=$bbox", ['Authorization' => "Bearer $token"]);
 
         $response
             ->assertOk()
