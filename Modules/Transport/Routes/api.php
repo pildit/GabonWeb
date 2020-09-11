@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,3 +13,6 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::get('/permits', 'PermitController@index');
+Route::get('/permits/vectors', 'PermitController@vectors');
+Route::get('/permits/{permit}', 'PermitController@show');
