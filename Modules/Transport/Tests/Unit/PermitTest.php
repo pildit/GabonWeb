@@ -66,7 +66,7 @@ class PermitTest extends TestCase
     {
         $token = $this->generateJwtToken();
 
-        $response = $this->getJson('api/permit/1', ['Authorization' => "Bearer $token"]);
+        $response = $this->getJson('api/permits/1', ['Authorization' => "Bearer $token"]);
 
         $response
             ->assertNotFound()
@@ -83,7 +83,7 @@ class PermitTest extends TestCase
 
         $permit = factory(Permit::class)->create();
 
-        $response = $this->getJson("api/permit/{$permit->id}", ['Authorization' => "Bearer $token"]);
+        $response = $this->getJson("api/permits/{$permit->id}", ['Authorization' => "Bearer $token"]);
 
         $response
             ->assertOk()
@@ -106,6 +106,36 @@ class PermitTest extends TestCase
         ]);
         $this->assertNotEquals($permit->the_geom, $data['the_geom']);
         $this->assertNotEmpty($data['recdate']);
+    }
+
+    /** @test */
+    public function it_gets_the_vectors_collection_for_permits()
+    {
+        //829188.882837592,-709335.6224864357,1758663.1467853351,391357.58482010243
+        $token = $this->generateJwtToken();
+        $bbox = '829188.882837592,-709335.6224864357,1758663.1467853351,391357.58482010243';
+
+        $response = $this->getJson("api/permits/vectors?bbox=$bbox", ['Authorization' => "Bearer $token"]);
+
+        $response
+            ->assertOk()
+            ->assertJsonStructure([
+                'data' => [
+                    'type',
+                    'name',
+                    'features' => [
+                        '*' => [
+                            'geometry' => [
+                                'type',
+                                'coordinates'
+                            ],
+                            'properties' => ['id']
+                        ]
+                    ]
+                ]
+            ]);
+        $data = $response->decodeResponseJson()['data'];
+        $this->assertEquals('permits', $data['name']);
     }
 
 }

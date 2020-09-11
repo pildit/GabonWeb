@@ -13,4 +13,5 @@ use Illuminate\Http\Request;
 |
 */
 Route::get('/permits', 'PermitController@index');
-Route::get('/permit/{permit}', 'PermitController@show');
+Route::get('/permits/vectors', 'PermitController@vectors');
+Route::get('/permits/{permit}', 'PermitController@show');

@@ -23,6 +23,15 @@ class Permit extends Model
     protected $fillable = [];
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'geom' => 'json'
+    ];
+
+    /**
      * The table associated with the model.
      *
      * @var string

@@ -44,4 +44,22 @@ class PermitController extends Controller
             'data' => $permit
         ]);
     }
+
+    /**
+     * @param Request $request
+     * @param Permit $permit
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function vectors(Request $request, Permit $permit)
+    {
+        $request->validate(['bbox' => 'required']);
+
+        return response()->json([
+            'data' => [
+                'type' => 'FeatureCollection',
+                'name' => 'permits',
+                'features' => $permit->getVectors($request->get('bbox'))
+            ]
+        ]);
+    }
 }
