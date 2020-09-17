@@ -22,8 +22,8 @@ class PermitTest extends TestCase
             ->assertUnauthorized()
             ->assertJsonStructure(['message']);
 
-        $data = $response->decodeResponseJson();
-        $this->assertNotEmpty($data['message']);
+        $jsonResponse = $response->decodeResponseJson();
+        $this->assertNotEmpty($jsonResponse['message']);
     }
 
     /** @test */
@@ -81,17 +81,17 @@ class PermitTest extends TestCase
                 'total'
             ]);
 
-        $data = $response->decodeResponseJson();
+        $jsonResponse = $response->decodeResponseJson();
 
         $this->assertManyNotEmpty([
             'current_page', 'per_page', 'total',
             'current_page', 'from', 'to',
             'first_page_url', 'last_page_url'
-        ], $data);
+        ], $jsonResponse);
 
-        $this->assertEquals(1, $data['current_page']);
-        $this->assertEquals(1, $data['from']);
-        $this->assertCount(50, $data['data']);
+        $this->assertEquals(1, $jsonResponse['current_page']);
+        $this->assertEquals(1, $jsonResponse['from']);
+        $this->assertCount(50, $jsonResponse['data']);
     }
 
     /** @test */
@@ -107,11 +107,11 @@ class PermitTest extends TestCase
         $response
             ->assertOk();
 
-        $data = $response->decodeResponseJson();
-        $this->assertEquals(2, $data['current_page']);
-        $this->assertEquals($per_page+1, $data['from']);
-        $this->assertEquals($per_page*$page, $data['to']);
-        $this->assertCount(10, $data['data']);
+        $jsonResponse = $response->decodeResponseJson();
+        $this->assertEquals(2, $jsonResponse['current_page']);
+        $this->assertEquals($per_page+1, $jsonResponse['from']);
+        $this->assertEquals($per_page*$page, $jsonResponse['to']);
+        $this->assertCount(10, $jsonResponse['data']);
     }
 
     /** @test */
@@ -125,8 +125,8 @@ class PermitTest extends TestCase
             ->assertNotFound()
             ->assertJsonStructure(['message']);
 
-        $data = $response->decodeResponseJson();
-        $this->assertNotEmpty($data['message']);
+        $jsonResponse = $response->decodeResponseJson();
+        $this->assertNotEmpty($jsonResponse['message']);
     }
 
     /** @test */
@@ -150,15 +150,15 @@ class PermitTest extends TestCase
                 ]
             ]);
 
-        $data = $response->decodeResponseJson()['data'];
+        $jsonResponse = $response->decodeResponseJson()['data'];
 
-        $this->assertMultipleEquals($permit, $data, [
+        $this->assertMultipleEquals($permit, $jsonResponse, [
             'id', 'permit_no', 'permit_no', 'harvest_name',
             'client_name', 'concession_name', 'transport_comp', 'license_plate', 'destination',
             'management_unit', 'operational_unit', 'annual_operational_unit'
         ]);
-        $this->assertNotEquals($permit->the_geom, $data['the_geom']);
-        $this->assertNotEmpty($data['recdate']);
+        $this->assertNotEquals($permit->the_geom, $jsonResponse['the_geom']);
+        $this->assertNotEmpty($jsonResponse['recdate']);
     }
 
     /** @test */
@@ -187,8 +187,8 @@ class PermitTest extends TestCase
                     ]
                 ]
             ]);
-        $data = $response->decodeResponseJson()['data'];
-        $this->assertEquals('permits', $data['name']);
+        $jsonResponse = $response->decodeResponseJson()['data'];
+        $this->assertEquals('permits', $jsonResponse['name']);
     }
 
     /** @test */
@@ -236,37 +236,22 @@ class PermitTest extends TestCase
             ->assertStatus(201)
             ->assertJsonStructure([
                 'data' => [
-                    "obsdate",
-                    "lat",
-                    "lon",
-                    "gps_accu",
-                    "permit_no",
-                    "harvest_name",
-                    "client_name",
-                    "concession_name",
-                    "transport_comp",
-                    "license_plate",
-                    "destination",
-                    "management_unit",
-                    "operational_unit",
-                    "annual_operational_unit",
-                    "note",
-                    "the_geom",
-                    "product_type",
-                    "permit_status",
-                    "id"
+                    "obsdate", "lat", "lon", "gps_accu", "permit_no", "harvest_name", "client_name",
+                    "concession_name", "transport_comp", "license_plate", "destination", "management_unit",
+                    "operational_unit", "annual_operational_unit", "note", "the_geom",
+                    "product_type", "permit_status", "id"
                 ]
             ]);
 
-        $data = $response->decodeResponseJson();
-        $this->assertArrayHasKey('data', $data);
-        $this->assertNotEmpty($data['data']);
+        $jsonResponse = $response->decodeResponseJson();
+        $this->assertArrayHasKey('data', $jsonResponse);
+        $this->assertNotEmpty($jsonResponse['data']);
         $this->assertManyNotEmpty([
             "obsdate", "lat", "lon", "gps_accu", "permit_no", "harvest_name",
             "client_name", "concession_name", "transport_comp", "license_plate",
             "destination", "management_unit", "operational_unit", "annual_operational_unit",
             "the_geom", "product_type", "permit_status", "id"],
-            $data['data']
+            $jsonResponse['data']
         );
 
     }
@@ -274,7 +259,29 @@ class PermitTest extends TestCase
     /** @test */
     public function it_updated_a_transport_permit()
     {
-        // TODO
+        $token = $this->generateJwtToken();
+        $permit = factory(Permit::class)->create();
+
+        $response = $this->patchJson("/api/permits/{$permit->id}", [
+            'transport_comp' => $this->faker->company,
+            'harvest_name' => $this->faker->name,
+        ], ['Authorization' => "Bearer $token"]);
+
+        $response
+            ->assertOk()
+            ->assertJsonStructure([
+                'data' => [
+                    "obsdate", "lat", "lon", "gps_accu", "permit_no", "harvest_name", "client_name",
+                    "concession_name", "transport_comp", "license_plate", "destination", "management_unit",
+                    "operational_unit", "annual_operational_unit", "note", "the_geom",
+                    "product_type", "permit_status", "id"
+                ]
+            ]);
+
+        $jsonResponse = $response->decodeResponseJson();
+        $this->assertArrayHasKey('data', $jsonResponse);
+        $this->assertNotEquals($permit->transport_comp, $jsonResponse['data']['transport_comp']);
+        $this->assertNotEquals($permit->harvest_name, $jsonResponse['data']['harvest_name']);
     }
 
     /** @test */

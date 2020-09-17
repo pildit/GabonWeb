@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Transport\Entities\Permit as PermitEntity;
 use Modules\Transport\Http\Requests\CreatePermitRequest;
+use Modules\Transport\Http\Requests\UpdatePermitRequest;
 use Modules\Transport\Services\Permit;
 
 class PermitController extends Controller
@@ -52,7 +53,7 @@ class PermitController extends Controller
      * @param Permit $permit
      * @return \Illuminate\Http\JsonResponse
      */
-    public function vectors(Request $request, Permit $permit)
+    public function vectors(Request $request, Permit $permitService)
     {
         $request->validate(['bbox' => 'required']);
 
@@ -60,14 +61,14 @@ class PermitController extends Controller
             'data' => [
                 'type' => 'FeatureCollection',
                 'name' => 'permits',
-                'features' => $permit->getVectors($request->get('bbox'))
+                'features' => $permitService->getVectors($request->get('bbox'))
             ]
         ]);
     }
 
-    public function mobile(Request $request, Permit $permit)
+    public function mobile(Request $request, Permit $permitService)
     {
-        $form = $permit->getMobileForm();
+        $form = $permitService->getMobileForm();
 
         return response()->json($form);
     }
@@ -77,18 +78,22 @@ class PermitController extends Controller
      * @param Permit $permit
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(CreatePermitRequest $request, Permit $permit)
+    public function store(CreatePermitRequest $request, Permit $permitService)
     {
-        $result = $permit->store($request->all());
+        $result = $permitService->store($request->all());
 
         return response()->json([
             'data' => $result
         ], 201);
     }
 
-    public function update($id, Request $request, Permit $permit)
+    public function update(PermitEntity $permit, UpdatePermitRequest $request)
     {
-        //TODO update a permit record
+        $permit->update($request->all());
+
+        return response()->json([
+            'data' => $permit
+        ]);
     }
 
     public function destroy($id)
