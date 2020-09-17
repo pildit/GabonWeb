@@ -87,6 +87,11 @@ class PermitController extends Controller
         ], 201);
     }
 
+    /**
+     * @param PermitEntity $permit
+     * @param UpdatePermitRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(PermitEntity $permit, UpdatePermitRequest $request)
     {
         $permit->update($request->all());
@@ -96,8 +101,16 @@ class PermitController extends Controller
         ]);
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function destroy($id)
     {
-        //TODO delete a permit recor
+        $permit = PermitEntity::findOrFail($id);
+
+        $permit->delete();
+
+        return response()->noContent();
     }
 }

@@ -287,7 +287,28 @@ class PermitTest extends TestCase
     /** @test */
     public function it_deletes_a_transport_permit()
     {
-        // TODO
+        $token = $this->generateJwtToken();
+        $permit = factory(Permit::class)->create();
+
+        $response = $this->deleteJson("/api/permits/{$permit->id}", [], ['Authorization' => "Bearer $token"]);
+
+        $response->assertNoContent();
+    }
+
+    /** @test */
+    public function it_fails_to_delete_a_permit()
+    {
+        $token = $this->generateJwtToken();
+        $permit = factory(Permit::class)->create();
+        $id = $permit->id + 1;
+
+        $response = $this->deleteJson("/api/permits/{$id}", [], ['Authorization' => "Bearer $token"]);
+
+        $response
+            ->assertNotFound()
+            ->assertJsonStructure(['message']);
+        $jsonResponse = $response->decodeResponseJson();
+        $this->assertNotEmpty($jsonResponse['message']);
     }
 
 }

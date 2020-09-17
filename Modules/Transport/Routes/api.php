@@ -19,3 +19,4 @@ Route::get('/permits/mobile', 'PermitController@mobile');
 Route::get('/permits/{permit}', 'PermitController@show');
 Route::post('/permits', 'PermitController@store');
 Route::patch('/permits/{permit}', 'PermitController@update');
+Route::delete('/permits/{id}', 'PermitController@destroy');
