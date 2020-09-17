@@ -5,12 +5,13 @@ namespace Modules\Transport\Tests\Unit;
 
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Modules\Transport\Entities\Permit;
 use Tests\TestCase;
 
 class PermitTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithFaker;
 
     /** @test */
     public function it_fails_getting_list_of_permits_paginated_due_the_authentication()
@@ -188,6 +189,84 @@ class PermitTest extends TestCase
             ]);
         $data = $response->decodeResponseJson()['data'];
         $this->assertEquals('permits', $data['name']);
+    }
+
+    /** @test */
+    public function it_creates_a_transport_permit()
+    {
+        $token = $this->generateJwtToken();
+
+        $response = $this->postJson('/api/permits', [
+            'the_geom' => "POINT(1469563.9738679952 -49607.63135707937)",
+            'permit_no' => $this->faker->numerify('##_########_######'),
+            'obsdate' => $this->faker->dateTimeBetween('-5 days')->format('Y-m-d'),
+            'license_plate' => $this->faker->regexify('[A-Z][0-9]'),
+            'transport_comp' => $this->faker->company,
+            'harvest_name' => $this->faker->name,
+            'client_name' => $this->faker->name,
+            'concession_name' => $this->faker->company,
+            'destination' => $this->faker->randomElement(['depot', 'sawmil', 'local_community']),
+            'management_unit' => $this->faker->randomElement(['m3', 'pieces']),
+            'operational_unit' => $this->faker->randomElement(['m3', 'pieces']),
+            'annual_operational_unit' => $this->faker->word,
+            'product_type' => $this->faker->randomElement(['logs', 'transformed']),
+            'permit_status' => $this->faker->randomElement(['ready', 'verified', 'in_transit', 'transfer_load', 'end_transport', 'canceled']),
+            'verified_by' => $this->faker->name,
+            'transport_by' => $this->faker->company,
+            'lat' => $this->faker->latitude,
+            'lon' => $this->faker->longitude,
+            'gps_accu' => rand(1,10)
+        ], ['Authorization' => "Bearer $token"]);
+
+        $response
+            ->assertStatus(201)
+            ->assertJsonStructure([
+                'data' => [
+                    "obsdate",
+                    "lat",
+                    "lon",
+                    "gps_accu",
+                    "permit_no",
+                    "harvest_name",
+                    "client_name",
+                    "concession_name",
+                    "transport_comp",
+                    "license_plate",
+                    "destination",
+                    "management_unit",
+                    "operational_unit",
+                    "annual_operational_unit",
+                    "note",
+                    "the_geom",
+                    "product_type",
+                    "permit_status",
+                    "id"
+                ]
+            ]);
+
+        $data = $response->decodeResponseJson();
+        $this->assertArrayHasKey('data', $data);
+        $this->assertNotEmpty($data['data']);
+        $this->assertManyNotEmpty([
+            "obsdate", "lat", "lon", "gps_accu", "permit_no", "harvest_name",
+            "client_name", "concession_name", "transport_comp", "license_plate",
+            "destination", "management_unit", "operational_unit", "annual_operational_unit",
+            "the_geom", "product_type", "permit_status", "id"],
+            $data['data']
+        );
+
+    }
+
+    /** @test */
+    public function it_updated_a_transport_permit()
+    {
+        // TODO
+    }
+
+    /** @test */
+    public function it_deletes_a_transport_permit()
+    {
+        // TODO
     }
 
 }

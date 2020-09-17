@@ -7,6 +7,7 @@ namespace Modules\Transport\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Transport\Entities\Permit as PermitEntity;
+use Modules\Transport\Http\Requests\CreatePermitRequest;
 use Modules\Transport\Services\Permit;
 
 class PermitController extends Controller
@@ -62,5 +63,29 @@ class PermitController extends Controller
                 'features' => $permit->getVectors($request->get('bbox'))
             ]
         ]);
+    }
+
+    /**
+     * @param CreatePermitRequest $request
+     * @param Permit $permit
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(CreatePermitRequest $request, Permit $permit)
+    {
+        $result = $permit->store($request->all());
+
+        return response()->json([
+            'data' => $result
+        ], 201);
+    }
+
+    public function update($id, Request $request, Permit $permit)
+    {
+        //TODO update a permit record
+    }
+
+    public function destroy($id)
+    {
+        //TODO delete a permit recor
     }
 }

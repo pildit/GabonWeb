@@ -41,4 +41,32 @@ class Permit extends PageResults
             ];
         });
     }
+
+    public function store($data)
+    {
+        $permit = new PermitEntity();
+
+        $permit->obsdate = $data['obsdate'];
+        $permit->lat = $data['lat'];
+	    $permit->lon = $data['lon'];
+	    $permit->gps_accu = $data['gps_accu'];
+	    $permit->permit_no = $data['permit_no'];
+	    $permit->harvest_name = $data['harvest_name'];
+	    $permit->client_name = $data['client_name'];
+	    $permit->concession_name = $data['concession_name'];
+	    $permit->transport_comp = $data['transport_comp'];
+	    $permit->license_plate = $data['license_plate'];
+	    $permit->destination = $data['destination'];
+	    $permit->management_unit = $data['management_unit'];
+	    $permit->operational_unit = $data['operational_unit'];
+	    $permit->annual_operational_unit = $data['annual_operational_unit'];
+	    $permit->note = $data['note'] ?? null;
+	    $permit->the_geom = $data['the_geom'];
+	    $permit->product_type = $data['product_type'];
+	    $permit->permit_status = $data['permit_status'];
+
+	    $permit->save();
+
+	    return $permit;
+    }
 }

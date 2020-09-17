@@ -16,3 +16,4 @@ use Illuminate\Validation\ValidationException;
 Route::get('/permits', 'PermitController@index');
 Route::get('/permits/vectors', 'PermitController@vectors');
 Route::get('/permits/{permit}', 'PermitController@show');
+Route::post('/permits', 'PermitController@store');
