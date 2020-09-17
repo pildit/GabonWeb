@@ -192,6 +192,20 @@ class PermitTest extends TestCase
     }
 
     /** @test */
+    public function it_returns_the_field_list_for_permits_for_mobile_app()
+    {
+        $token = $this->generateJwtToken();
+
+        $response = $this->getJson("/api/permits/mobile", ["Authorization" => "Bearer $token"]);
+
+        $response
+            ->assertOk()
+            ->assertJsonStructure([
+               '*' => ['f', 'fl', 'type']
+            ]);
+    }
+
+    /** @test */
     public function it_creates_a_transport_permit()
     {
         $token = $this->generateJwtToken();

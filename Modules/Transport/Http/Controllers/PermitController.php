@@ -65,6 +65,13 @@ class PermitController extends Controller
         ]);
     }
 
+    public function mobile(Request $request, Permit $permit)
+    {
+        $form = $permit->getMobileForm();
+
+        return response()->json($form);
+    }
+
     /**
      * @param CreatePermitRequest $request
      * @param Permit $permit
