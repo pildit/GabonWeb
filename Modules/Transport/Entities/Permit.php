@@ -52,4 +52,14 @@ class Permit extends Model
             $query->orderBy($column, $direction);
         }
     }
+
+    /**
+     * Items / trees
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function items()
+    {
+        return $this->hasMany(Item::class);
+    }
 }

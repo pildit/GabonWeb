@@ -4,10 +4,8 @@
 namespace Modules\Transport\Services;
 
 
-use http\Env\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
 use Modules\Transport\Entities\Permit as PermitEntity;
 
 class Permit extends PageResults

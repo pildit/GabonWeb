@@ -14,12 +14,21 @@ $factory->define(\Modules\Transport\Entities\Permit::class, function (Faker $fak
         'harvest_name' => $faker->name,
         'client_name' => $faker->name,
         'concession_name' => $faker->company,
-        'destination' => $faker->randomElement(['depot', 'sawmil', 'local_community']),
+        'destination' => app('db')
+            ->table('transportation.permits_lists')
+            ->where('field', '=', 'destination')
+            ->get()->random()->val,
         'management_unit' => $faker->randomElement(['m3', 'pieces']),
         'operational_unit' => $faker->randomElement(['m3', 'pieces']),
         'annual_operational_unit' => $faker->word,
-        'product_type' => $faker->randomElement(['logs', 'transformed']),
-        'permit_status' => $faker->randomElement(['ready', 'verified', 'in_transit', 'transfer_load', 'end_transport', 'canceled']),
+        'product_type' => app('db')
+            ->table('transportation.permits_lists')
+            ->where('field', '=', 'product_type')
+            ->get()->random()->val,
+        'permit_status' => app('db')
+            ->table('transportation.permits_lists')
+            ->where('field', '=', 'permit_status')
+            ->get()->random()->val,
         'verified_by' => $faker->name,
         'transport_by' => $faker->company,
         'lat' => $faker->latitude,
