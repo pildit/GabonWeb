@@ -130,4 +130,18 @@ class ItemTest extends TestCase
         $this->assertEquals($per_page*$page, $jsonResponse['to']);
         $this->assertCount(10, $jsonResponse['data']);
     }
+
+    /** @test */
+    public function it_returns_the_field_list_for_permit_items_for_mobile_app()
+    {
+        $token = $this->generateJwtToken();
+
+        $response = $this->getJson("/api/permit_items/mobile", ["Authorization" => "Bearer $token"]);
+
+        $response
+            ->assertOk()
+            ->assertJsonStructure([
+                '*' => ['f', 'fl', 'type']
+            ]);
+    }
 }

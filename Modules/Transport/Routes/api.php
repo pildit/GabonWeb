@@ -16,4 +16,5 @@ use Illuminate\Validation\ValidationException;
 Route::get('/permits/vectors', 'PermitController@vectors');
 Route::get('/permits/mobile', 'PermitController@mobile');
 Route::resource('/permits', PermitController::class)->except(['create', 'edit']);
+Route::get('/permit_items/mobile', 'PermitItemController@mobile');
 Route::resource('/permits/{permit}/items', PermitItemController::class)->except(['create', 'edit']);

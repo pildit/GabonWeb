@@ -73,4 +73,15 @@ class PermitItemController extends Controller
     {
         //
     }
+
+    /**
+     * @param Item $itemService
+     * @return JsonResponse
+     */
+    public function mobile(Item $itemService)
+    {
+        $form = $itemService->getMobileForm();
+
+        return response()->json($form);
+    }
 }
