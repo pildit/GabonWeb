@@ -13,8 +13,8 @@ use Illuminate\Validation\ValidationException;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::get('/permits/vectors', 'PermitController@vectors');
-Route::get('/permits/mobile', 'PermitController@mobile');
-Route::resource('/permits', PermitController::class)->except(['create', 'edit']);
-Route::get('/permit_items/mobile', 'PermitItemController@mobile');
-Route::resource('/permits/{permit}/items', PermitItemController::class)->only(['index', 'store']);
+Route::middleware('jwt:api')->get('/permits/vectors', 'PermitController@vectors');
+Route::middleware('jwt:api')->get('/permits/mobile', 'PermitController@mobile');
+Route::middleware('jwt:api')->resource('/permits', PermitController::class)->except(['create', 'edit']);
+Route::middleware('jwt:api')->get('/permit_items/mobile', 'PermitItemController@mobile');
+Route::middleware('jwt:api')->resource('/permits/{permit}/items', PermitItemController::class)->except(['create', 'edit']);
