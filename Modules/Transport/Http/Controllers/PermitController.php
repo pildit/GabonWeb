@@ -13,13 +13,6 @@ use Modules\Transport\Services\Permit;
 
 class PermitController extends Controller
 {
-    /**
-     * PermitController constructor.
-     */
-    public function __construct()
-    {
-        $this->middleware('jwt:api');
-    }
 
     /**
      * Returns list of permits paginated

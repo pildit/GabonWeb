@@ -11,13 +11,6 @@ use Modules\Transport\Services\Item;
 
 class PermitItemController extends Controller
 {
-    /**
-     * PermitController constructor.
-     */
-    public function __construct()
-    {
-        $this->middleware('jwt:api');
-    }
 
     /**
      * Return a list of permit items for a specific permit
