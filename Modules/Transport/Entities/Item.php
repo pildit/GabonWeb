@@ -37,4 +37,12 @@ class Item extends Model
             $query->orderBy($column, $direction);
         }
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function permit()
+    {
+        return $this->belongsTo(Permit::class);
+    }
 }
