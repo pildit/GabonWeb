@@ -49,37 +49,6 @@ class PermitItemController extends Controller
     }
 
     /**
-     * Show the specified resource.
-     * @param int $id
-     * @return JsonResponse
-     */
-    public function show($id)
-    {
-        return view('transport::show');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return JsonResponse
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return JsonResponse
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
-    /**
      * @param Item $itemService
      * @return JsonResponse
      */
