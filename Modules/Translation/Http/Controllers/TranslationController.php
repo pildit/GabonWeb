@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Translation\Entities\Language;
+use Modules\Translation\Http\Requests\CreateTranslateKeyRequest;
 use Modules\Translation\Services\Translation;
 
 class TranslationController extends Controller
@@ -27,23 +28,28 @@ class TranslationController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
      * @param Request $request
+     * @param Translation $translation
      * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(CreateTranslateKeyRequest $request, Translation $translation)
     {
-        //
+        $result = $translation->store($request->all());
+
+        return response()->json([
+            'data' => $result
+        ], 201);
     }
 
     /**
-     * Show the specified resource.
-     * @param int $id
+     * @param Language $language
      * @return JsonResponse
      */
-    public function show($id)
+    public function show(Language $translation)
     {
-        return [];
+        return response()->json([
+            'data' => $translation
+        ]);
     }
 
     /**
