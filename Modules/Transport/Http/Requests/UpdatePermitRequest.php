@@ -21,8 +21,8 @@ class UpdatePermitRequest extends FormRequest
             'operational_unit' => 'in:m3,pieces',
             'product_type' => 'in:logs,transformed',
             'permit_status' => 'in:ready,verified,in_transit,transfer_load,end_transport,canceled',
-            'lat' => 'regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/',
-            'lon' => 'regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/',
+            'lat' => ['regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
+            'lon' => ['regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
             'gps_accu' => 'numeric'
         ];
     }
