@@ -13,6 +13,4 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('jwt:api')->get('/translation', function (Request $request) {
-    return [];
-});
+Route::middleware('jwt:api')->get('/translation/dictionary', 'TranslationController@dictionary');

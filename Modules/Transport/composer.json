@@ -1,12 +1,6 @@
 {
-    "name": "nwidart/transport",
+    "name": "globalorigin/transport",
     "description": "",
-    "authors": [
-        {
-            "name": "Nicolas Widart",
-            "email": "n.widart@gmail.com"
-        }
-    ],
     "extra": {
         "laravel": {
             "providers": [],

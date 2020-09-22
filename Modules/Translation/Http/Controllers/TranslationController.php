@@ -6,6 +6,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Translation\Entities\Language;
 
 class TranslationController extends Controller
 {
@@ -57,5 +58,18 @@ class TranslationController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Get the whole dictionary
+     *
+     * @return JsonResponse
+     */
+    public function dictionary()
+    {
+        return response()->json([
+            'text_en' => Language::all()->pluck('text_us', 'text_key'),
+            'text_fr' => Language::all()->pluck('text_ga', 'text_key')
+        ]);
     }
 }
