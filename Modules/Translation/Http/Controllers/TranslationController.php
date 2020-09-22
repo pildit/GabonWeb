@@ -7,16 +7,23 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Translation\Entities\Language;
+use Modules\Translation\Services\Translation;
 
 class TranslationController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @param Request $request
+     * @param Translation $translation
      * @return JsonResponse
+     * @throws \Throwable
      */
-    public function index()
+    public function index(Request $request, Translation $translation)
     {
-        return [];
+        $translation->validateRequest($request);
+        $translation->setPage($request->get('page'));
+        $translation->setPerPage($request->get('per_page'));
+
+        return response()->json($translation->getPaginator());
     }
 
     /**
