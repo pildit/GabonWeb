@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Transport\Entities\Permit;
+use Modules\Transport\Http\Requests\CreatePermitItemRequest;
 use Modules\Transport\Services\Item;
 
 class PermitItemController extends Controller
@@ -31,40 +32,13 @@ class PermitItemController extends Controller
      * Store a newly created resource in storage.
      * @param Request $request
      */
-    public function store(Request $request)
+    public function store(Permit $permit, CreatePermitItemRequest $request, Item $itemService)
     {
-        //
-    }
+        $result = $itemService->store($permit, $request->all());
 
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return JsonResponse
-     */
-    public function show($id)
-    {
-        return view('transport::show');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return JsonResponse
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return JsonResponse
-     */
-    public function destroy($id)
-    {
-        //
+        return response()->json([
+            "data" => $result
+        ], 201);
     }
 
     /**
