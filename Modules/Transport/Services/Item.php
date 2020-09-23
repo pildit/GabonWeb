@@ -4,6 +4,7 @@
 namespace Modules\Transport\Services;
 
 
+use App\Services\PageResults;
 use Modules\Transport\Entities\Item as ItemEntity;
 
 class Item extends PageResults

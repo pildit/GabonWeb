@@ -4,6 +4,7 @@
 namespace Modules\Transport\Services;
 
 
+use App\Services\PageResults;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Modules\Transport\Entities\Permit as PermitEntity;

@@ -4,6 +4,7 @@
 namespace Modules\Translation\Services;
 
 
+use App\Services\PageResults;
 use Modules\Translation\Entities\Language;
 
 class Translation extends PageResults

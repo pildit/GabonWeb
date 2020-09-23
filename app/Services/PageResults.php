@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Modules\Transport\Services;
+namespace App\Services;
 
 
 use Illuminate\Http\Request;
@@ -13,8 +13,6 @@ class PageResults
 
     protected $page = 1;
 
-    protected $headers;
-
     protected $filters = [];
 
     protected $sortCriteria = [];
@@ -25,15 +23,9 @@ class PageResults
 
     protected $records = [];
 
-    protected $paginator;
+    protected $query;
 
-    /**
-     * @return mixed
-     */
-    public function getPerPage()
-    {
-        return $this->per_page;
-    }
+    protected $search;
 
     /**
      * @param mixed $per_page
@@ -46,14 +38,6 @@ class PageResults
     }
 
     /**
-     * @return mixed
-     */
-    public function getPage()
-    {
-        return $this->page;
-    }
-
-    /**
      * @param mixed $page
      */
     public function setPage($page)
@@ -61,34 +45,6 @@ class PageResults
         if($page) {
             $this->page = $page;
         }
-    }
-
-    public function getHeaders()
-    {
-        return $this->headers;
-    }
-
-    public function setHeaders($headers)
-    {
-        $this->headers = $headers;
-
-        return $this;
-    }
-
-    /**
-     * @param string[] $sortFields
-     */
-    public function setSortFields(array $sortFields)
-    {
-        $this->sortFields = $sortFields;
-    }
-
-    /**
-     * @param string[] $sort
-     */
-    public function setSort(array $sort)
-    {
-        $this->sort = $sort;
     }
 
     /**
@@ -104,22 +60,6 @@ class PageResults
     }
 
     /**
-     * @return string[]
-     */
-    public function getSortFields()
-    {
-        return $this->sortFields;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getSort()
-    {
-        return $this->sort;
-    }
-
-    /**
      * @param mixed $filters
      */
     public function setFilters($filters)
@@ -130,11 +70,11 @@ class PageResults
     }
 
     /**
-     * @param array $records
+     * @param mixed $search
      */
-    public function setRecords(object $records)
+    public function setSearch($search)
     {
-        $this->records = $records;
+        $this->search = $search;
 
         return $this;
     }
@@ -144,9 +84,15 @@ class PageResults
      *
      * @return mixed
      */
-    public function getResult()
+    public function getResults()
     {
-        return $this->paginator->toArray();
+        if($this->search) {
+            foreach ($this->filters as $field) {
+                $this->query->orWhere($field, 'LIKE', "%{$this->search}%");
+            }
+        }
+
+        return $this->query->paginate($this->per_page);
     }
 
     /**
