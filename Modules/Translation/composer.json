@@ -1,5 +1,5 @@
 {
-    "name": "globalorigin/transport",
+    "name": "globalorigin/translation",
     "description": "",
     "extra": {
         "laravel": {
@@ -11,7 +11,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Modules\\Transport\\": ""
+            "Modules\\Translation\\": ""
         }
     }
 }

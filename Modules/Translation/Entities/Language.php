@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\Transport\Entities;
+namespace Modules\Translation\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Item extends Model
+class Language extends Model
 {
     /**
      * Indicates if the model should be timestamped.
@@ -14,18 +14,18 @@ class Item extends Model
     public $timestamps = false;
 
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'tools.languages';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [];
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'transportation.permit_items';
 
     /**
      * @param $query
@@ -36,13 +36,5 @@ class Item extends Model
         foreach ($sort as $column => $direction) {
             $query->orderBy($column, $direction);
         }
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function permit()
-    {
-        return $this->belongsTo(Permit::class);
     }
 }

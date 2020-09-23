@@ -5,13 +5,14 @@ namespace Modules\Transport\Tests\Unit;
 
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Modules\Transport\Entities\Item;
 use Modules\Transport\Entities\Permit;
 use Tests\TestCase;
 
 class ItemTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase, WithFaker;
 
     protected $permit;
 
@@ -40,7 +41,7 @@ class ItemTest extends TestCase
     {
         $token = $this->generateJwtToken();
 
-        $response = $this->getJson("/api/permits/{$this->permit->id}/items?sort=asc,sort_fields=obsdate|gps_accu", [
+        $response = $this->getJson("/api/permits/{$this->permit->id}/items?sort=asc&sort_fields=obsdate|gps_accu", [
             'Authorization' => "Bearer $token"
         ]);
 
@@ -143,5 +144,90 @@ class ItemTest extends TestCase
             ->assertJsonStructure([
                 '*' => ['f', 'fl', 'type']
             ]);
+    }
+
+    /** @test */
+    public function it_succesfully_stores_a_permit_item_to_an_existing_permit_record()
+    {
+        $token = $this->generateJwtToken();
+
+        $response = $this->postJson("/api/permits/{$this->permit->id}/items", [
+            'trunk_number' => $this->faker->uuid,
+            'lot_number' => $this->faker->numerify('####'),
+            'species' => app('db')->table('transportation.list_species')->get()->random()->pop_name,
+            'diam1' => $this->faker->randomFloat(2,10, 99),
+            'diam2' => $this->faker->randomFloat(2,10, 99),
+            'length' => $this->faker->randomFloat(2,10, 99),
+            'volume' => $this->faker->randomFloat(2,10, 99),
+            'width' => $this->faker->randomFloat(2,10, 99),
+            'height' => $this->faker->randomFloat(2,10, 99),
+            'mobile_id' => $this->faker->numerify('##_########_######'),
+        ], ['Authorization' => "Bearer $token"]);
+
+        $response
+            ->assertCreated()
+            ->assertJsonStructure([
+                "data" => [
+                    "trunk_number", "lot_number", "species", "diam1", "diam2",
+                    "length", "volume", "width", "height", "mobile_id",
+                    "permit_id", "id"
+                ]
+            ]);
+
+        $jsonResponse = $response->decodeResponseJson();
+        $this->assertArrayHasKey('data', $jsonResponse);
+        $this->assertNotEmpty($jsonResponse['data']);
+        $this->assertManyNotEmpty([
+            "trunk_number", "lot_number", "species", "diam1", "diam2",
+            "length", "volume", "width", "height", "mobile_id",
+            "permit_id", "id"
+        ], $jsonResponse['data']);
+
+    }
+
+    /** @test */
+    public function it_failse_storing_permit_item_due_validation()
+    {
+        $token = $this->generateJwtToken();
+
+        $response = $this->postJson("/api/permits/{$this->permit->id}/items", [
+            'trunk_number' => $this->faker->numberBetween(0,10),
+            'lot_number' => $this->faker->numberBetween(0,10),
+            'species' => app('db')->table('transportation.list_species')->get()->random()->pop_name,
+            'diam1' => $this->faker->word,
+            'diam2' => $this->faker->randomFloat(2,10, 99),
+            'length' => $this->faker->randomFloat(2,10, 99),
+            'volume' => $this->faker->randomFloat(2,10, 99),
+            'width' => $this->faker->randomFloat(2,10, 99),
+            'height' => $this->faker->randomFloat(2,10, 99),
+            'mobile_id' => $this->faker->numerify('##_########_######'),
+        ], ['Authorization' => "Bearer $token"]);
+
+        $response
+            ->assertStatus(422)
+            ->assertJsonStructure([
+                'message',
+                'errors' => ['trunk_number', 'lot_number', 'diam1']
+            ]);
+        $jsonResponse = $response->decodeResponseJson();
+        $this->assertArrayHasKey('message', $jsonResponse);
+        $this->assertArrayHasKey('errors', $jsonResponse);
+        $this->assertNotEmpty($jsonResponse['message']);
+        $this->assertNotEmpty($jsonResponse['errors']);
+    }
+
+    /** @test */
+    public function it_fails_storing_permit_item_on_non_existing_permit()
+    {
+        $token = $this->generateJwtToken();
+        $id = $this->permit->id+1;
+
+        $response = $this->postJson("/api/permits/{$id}/items", [], ['Authorization' => "Bearer $token"]);
+
+        $response
+            ->assertNotFound()
+            ->assertJsonStructure(['message']);
+        $jsonResponse = $response->decodeResponseJson();
+        $this->assertNotEmpty($jsonResponse['message']);
     }
 }

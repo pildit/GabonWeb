@@ -4,11 +4,13 @@
 namespace Modules\Transport\Services;
 
 
+use Modules\Transport\Entities\Item as ItemEntity;
+
 class Item extends PageResults
 {
     public function getPaginator()
     {
-        $data = \Modules\Transport\Entities\Item::ofSort($this->getSortCriteria())
+        $data = ItemEntity::ofSort($this->getSortCriteria())
             ->paginate($this->per_page);
         return $data;
     }
@@ -22,10 +24,10 @@ class Item extends PageResults
         $str ='';
         //field,fieldlabel,type
         // types -> //int,float,str,list,int_NotEmpty,str_NotEmpty
-        $str.='{"f":"obsdate","fl":"","type":"date"},';
+//        $str.='{"f":"obsdate","fl":"","type":"date"},';
         $str.='{"f":"appuser","fl":"","type":"str"},';
         $str.='{"f":"mobile_id","fl":"","type":"str"},';
-        $str.='{"f":"permit_id","fl":"","type":"str"},';
+//        $str.='{"f":"permit_id","fl":"","type":"str"},';
 //	   $str.='{"f":"gps_accu","fl":"","type":"int"},';
         // group="Location"
 //	   $str.='{"f":"coord_n","fl":"","type":"float"},';
@@ -46,6 +48,32 @@ class Item extends PageResults
         $str = '['.$str.']';
 
         return json_decode($str);
+    }
+
+    /**
+     * attach permit item to a permit record
+     *
+     * @param $data
+     * @return ItemEntity
+     */
+    public function store(\Modules\Transport\Entities\Permit $permit, $data)
+    {
+        $item = new ItemEntity();
+
+        $item->trunk_number =$data["trunk_number"] ?? '';
+        $item->lot_number =$data["lot_number"] ?? '';
+        $item->species =$data["species"] ?? '';
+        $item->diam1 =$data["diam1"] ?? '';
+        $item->diam2 =$data["diam2"] ?? '';
+        $item->length =$data["length"] ?? '';
+        $item->volume =$data["volume"] ?? '';
+        $item->width =$data["width"] ?? '';
+        $item->height =$data["height"] ?? '';
+        $item->mobile_id =$data["mobile_id"] ?? '';
+
+        $permit->items()->save($item);
+
+        return $item;
     }
 
     /**
