@@ -229,7 +229,8 @@ class PermitTest extends TestCase
             'transport_by' => $this->faker->company,
             'lat' => $this->faker->latitude,
             'lon' => $this->faker->longitude,
-            'gps_accu' => rand(1,10)
+            'gps_accu' => rand(1,10),
+            'note' => $this->faker->text
         ], ['Authorization' => "Bearer $token"]);
 
         $response

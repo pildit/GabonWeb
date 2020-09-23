@@ -18,7 +18,10 @@ class Item extends Model
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = [
+        "trunk_number", "lot_number", "species",
+        "diam1", "diam2", "length", "volume", "width", "height", "mobile_id",
+    ];
 
     /**
      * The table associated with the model.

@@ -7,7 +7,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Translation\Entities\Language;
-use Modules\Translation\Http\Requests\CreateTranslateKeyRequest;
+use Modules\Translation\Http\Requests\CreateTranslationKeyRequest;
+use Modules\Translation\Http\Requests\UpdateTranslationKeyRequest;
 use Modules\Translation\Services\Translation;
 
 class TranslationController extends Controller
@@ -18,24 +19,24 @@ class TranslationController extends Controller
      * @return JsonResponse
      * @throws \Throwable
      */
-    public function index(Request $request, Translation $translation)
+    public function index(Request $request, Translation $transService)
     {
-        $translation->validateRequest($request);
-        $translation->setPage($request->get('page'));
-        $translation->setPerPage($request->get('per_page'));
-        $translation->setSearch($request->get('search'));
+        $transService->validateRequest($request);
+        $transService->setPage($request->get('page'));
+        $transService->setPerPage($request->get('per_page'));
+        $transService->setSearch($request->get('search'));
 
-        return response()->json($translation->getPaginator());
+        return response()->json($transService->getPaginator());
     }
 
     /**
      * @param Request $request
-     * @param Translation $translation
+     * @param Translation $transService
      * @return JsonResponse
      */
-    public function store(CreateTranslateKeyRequest $request, Translation $translation)
+    public function store(CreateTranslationKeyRequest $request, Translation $transService)
     {
-        $result = $translation->store($request->all());
+        $result = $transService->store($request->all());
 
         return response()->json([
             'data' => $result
@@ -59,9 +60,9 @@ class TranslationController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(UpdateTranslationKeyRequest $request, Language $translation, Translation $transService)
     {
-        //
+        $result = $transService->update($translation, $request->all());
     }
 
     /**

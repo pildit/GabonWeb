@@ -4,7 +4,7 @@ namespace Modules\Translation\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateTranslateKeyRequest extends FormRequest
+class UpdateTranslationKeyRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,9 +14,9 @@ class CreateTranslateKeyRequest extends FormRequest
     public function rules()
     {
         return [
-            'text_key' => 'required|string',
-            'text_us' => 'required|string',
-            'text_ga' => 'required|string',
+            'text_key' => 'string',
+            'text_us' => 'string',
+            'text_ga' => 'string',
             'mobile' => 'boolean'
         ];
     }

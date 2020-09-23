@@ -186,7 +186,7 @@ class ItemTest extends TestCase
     }
 
     /** @test */
-    public function it_failse_storing_permit_item_due_validation()
+    public function it_fails_storing_permit_item_due_validation()
     {
         $token = $this->generateJwtToken();
 

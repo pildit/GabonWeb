@@ -71,12 +71,14 @@ class PermitController extends Controller
      * @param Permit $permit
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(CreatePermitRequest $request, Permit $permitService)
+    public function store(CreatePermitRequest $request)
     {
-        $result = $permitService->store($request->all());
+        $permit = new PermitEntity();
+        $permit->fill($request->all());
+        $permit->save();
 
         return response()->json([
-            'data' => $result
+            'data' => $permit
         ], 201);
     }
 

@@ -32,9 +32,9 @@ class PermitItemController extends Controller
      * Store a newly created resource in storage.
      * @param Request $request
      */
-    public function store(Permit $permit, CreatePermitItemRequest $request, Item $itemService)
+    public function store(Permit $permit, CreatePermitItemRequest $request)
     {
-        $result = $itemService->store($permit, $request->all());
+        $result = $permit->items()->save(new \Modules\Transport\Entities\Item($request->all()));
 
         return response()->json([
             "data" => $result

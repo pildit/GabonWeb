@@ -36,4 +36,9 @@ class Translation extends PageResults
 
         return $lang;
     }
+
+    public function update(Language $lang, array $data)
+    {
+        $lang->text_key = $data['text_key'] ??
+    }
 }

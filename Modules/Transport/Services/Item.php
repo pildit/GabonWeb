@@ -52,32 +52,6 @@ class Item extends PageResults
     }
 
     /**
-     * attach permit item to a permit record
-     *
-     * @param $data
-     * @return ItemEntity
-     */
-    public function store(\Modules\Transport\Entities\Permit $permit, $data)
-    {
-        $item = new ItemEntity();
-
-        $item->trunk_number =$data["trunk_number"] ?? '';
-        $item->lot_number =$data["lot_number"] ?? '';
-        $item->species =$data["species"] ?? '';
-        $item->diam1 =$data["diam1"] ?? '';
-        $item->diam2 =$data["diam2"] ?? '';
-        $item->length =$data["length"] ?? '';
-        $item->volume =$data["volume"] ?? '';
-        $item->width =$data["width"] ?? '';
-        $item->height =$data["height"] ?? '';
-        $item->mobile_id =$data["mobile_id"] ?? '';
-
-        $permit->items()->save($item);
-
-        return $item;
-    }
-
-    /**
      * @return string
      */
     public function listOfSpecies(): string
