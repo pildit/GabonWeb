@@ -13,9 +13,10 @@ class Translation extends PageResults
      */
     public function getPaginator()
     {
-        $data = Language::ofSort($this->getSortCriteria())
-            ->paginate($this->per_page);
-        return $data;
+        $this->query = Language::ofSort($this->getSortCriteria());
+
+        return $this->setFilters(['text_key', 'text_us', 'text_ga'])->getResults();
+
     }
 
     /**

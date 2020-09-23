@@ -23,6 +23,7 @@ class TranslationController extends Controller
         $translation->validateRequest($request);
         $translation->setPage($request->get('page'));
         $translation->setPerPage($request->get('per_page'));
+        $translation->setSearch($request->get('search'));
 
         return response()->json($translation->getPaginator());
     }
