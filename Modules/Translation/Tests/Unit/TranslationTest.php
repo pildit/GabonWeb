@@ -182,7 +182,7 @@ class TranslationTest extends TestCase
     }
 
     /** @test */
-    public function it_creates_a_trans_keu()
+    public function it_creates_a_trans_key()
     {
         $token = $this->generateJwtToken();
 
@@ -208,6 +208,30 @@ class TranslationTest extends TestCase
             "text_us", "text_ga", "id", "text_key", "mobile"],
             $jsonResponse['data']
         );
+
+    }
+
+    /** @test */
+    public function it_fails_validation_on_creating_new_trans_key()
+    {
+        $token = $this->generateJwtToken();
+
+        $response = $this->postJson('/api/translation', [
+            'text_key' => $this->faker->randomNumber(2),
+            'text_us' => $this->faker->randomNumber(2),
+            'mobile' => $this->faker->randomLetter
+        ],['Authorization' => "Bearer $token"]);
+
+        $response
+            ->assertStatus(422)
+            ->assertJsonStructure([
+                'message',
+                'errors' => ['text_key', 'text_us', 'text_ga', 'mobile']
+            ]);
+    }
+
+    public function it_updates_a_translation_key()
+    {
 
     }
 }

@@ -60,19 +60,27 @@ class TranslationController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function update(UpdateTranslationKeyRequest $request, Language $translation, Translation $transService)
+    public function update(UpdateTranslationKeyRequest $request, Language $translation)
     {
-        $result = $transService->update($translation, $request->all());
+        $result = $translation->update($request->all());
+
+        return response()->json([
+           'data' => $result
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
-     * @param int $id
+     * @param int $translation
      * @return JsonResponse
      */
-    public function destroy($id)
+    public function destroy(Language $translation)
     {
-        //
+        $translation->delete();
+
+        return response()->json([
+            'message' => lang('delete_success')
+        ]);
     }
 
     /**
