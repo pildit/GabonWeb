@@ -41,7 +41,7 @@ class ItemTest extends TestCase
     {
         $token = $this->generateJwtToken();
 
-        $response = $this->getJson("/api/permits/{$this->permit->id}/items?sort=asc,sort_fields=obsdate|gps_accu", [
+        $response = $this->getJson("/api/permits/{$this->permit->id}/items?sort=asc&sort_fields=obsdate|gps_accu", [
             'Authorization' => "Bearer $token"
         ]);
 
