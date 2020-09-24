@@ -4,7 +4,7 @@ namespace Modules\User\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateUserRequest extends FormRequest
+class ForgotPasswordRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,11 +14,8 @@ class CreateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'firstname' => 'required|string',
-            'lastname' => 'required|string',
-            'email' => 'required|email|unique:pgsql.admin.accounts',
-            'password' => 'required|confirmed',
-            'employee_type' => 'exists:Modules\User\Entities\EmployeeTypes,id'
+            'code'     => 'required|string',
+            'password' => 'required|confirmed'
         ];
     }
 

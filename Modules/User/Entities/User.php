@@ -14,7 +14,7 @@ class User extends Model implements JwtPayloadInterface
      *
      * @var array
      */
-    protected $fillable = ['firstname', 'lastname', 'email', 'password'];
+    protected $fillable = ['firstname', 'lastname', 'email', 'password', 'activationcode', 'employee_type'];
 
     /**
      * The table associated with the model.
@@ -47,7 +47,6 @@ class User extends Model implements JwtPayloadInterface
                 'id' => $this->id,
                 'firstname' => $this->firstname,
                 'lastname' => $this->lastname,
-                'role' => $this->roles->pluck('role')->join(',')
             ]
         ];
     }

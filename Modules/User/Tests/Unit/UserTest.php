@@ -18,7 +18,7 @@ class UserTest extends TestCase
     public function it_regsiters_an_user_with_success()
     {
         $password = Hash::make($this->faker->password);
-        $response = $this->postJson('/api/register', [
+        $response = $this->postJson('/api/users/register', [
             'firstname' => $this->faker->firstName,
             'lastname' => $this->faker->lastName,
             'email' => $this->faker->email,
@@ -39,7 +39,7 @@ class UserTest extends TestCase
     /** @test */
     public function it_fails_password_confirmation_on_register()
     {
-        $response = $this->postJson('/api/register', [
+        $response = $this->postJson('/api/users/register', [
             'firstname' => $this->faker->firstName,
             'lastname' => $this->faker->lastName,
             'email' => $this->faker->email,
@@ -64,7 +64,7 @@ class UserTest extends TestCase
         $user = factory(User::class)->create();
         $password = Hash::make($this->faker->password);
 
-        $response = $this->postJson('/api/register', [
+        $response = $this->postJson('/api/users/register', [
             'firstname' => $this->faker->firstName,
             'lastname' => $this->faker->lastName,
             'email' => $user->email,
