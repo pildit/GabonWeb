@@ -4,9 +4,15 @@ namespace Modules\User\Entities;
 
 use GenTux\Jwt\JwtPayloadInterface;
 use Illuminate\Database\Eloquent\Model;
+use App\Services\PageResults;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Model implements JwtPayloadInterface
 {
+    use HasRoles;
+    
+    protected $guard_name = 'api';
+
     public $timestamps = false;
 
     /**
@@ -29,6 +35,8 @@ class User extends Model implements JwtPayloadInterface
      * @var array
      */
     protected $hidden = ['password'];
+
+    const STATUS_APPROVED = 1;
 
     /**
      * The payload for JWT
@@ -53,11 +61,14 @@ class User extends Model implements JwtPayloadInterface
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @param $query
+     * @param $sort
      */
-    public function roles()
+    // TODO : move into trait
+    public function scopeOfSort($query, $sort)
     {
-        return $this->hasMany(Role::class, 'email', 'email')
-            ->select('role', 'email');
+        foreach ($sort as $column => $direction) {
+            $query->orderBy($column, $direction);
+        }
     }
 }

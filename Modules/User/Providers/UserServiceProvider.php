@@ -53,6 +53,10 @@ class UserServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             module_path($this->moduleName, 'Config/config.php'), $this->moduleNameLower
         );
+
+        $this->mergeConfigFrom(
+            module_path($this->moduleName, 'Config/permission.php'), $this->moduleNameLower . '.permission'
+        );    
     }
 
     /**
