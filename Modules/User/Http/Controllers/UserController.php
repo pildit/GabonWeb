@@ -44,10 +44,7 @@ class UserController extends Controller
             $user = User::where('activationcode', '=', $request->get('code'))->first();
             if ($user !== null) {
                 $user->activationcode = null;
-                /**
-                 * TODO: Gpetrescu - create global status variables
-                 */
-                $user->status = 1;
+                $user->status = $user->STATUS_PENDING;
                 $user->save();
                 return response()->json([
                     'message' => lang("verify_success")
@@ -61,10 +58,7 @@ class UserController extends Controller
 
     public function approve(User $user) {
         if ($user !== null) {
-            /**
-             * TODO: Gpetrescu - create global status variables
-             */
-            $user->status = 2;
+            $user->status = $user->STATUS_ACTIVE;
             $user->save();
 
             $email_data['email'] = $user->email;

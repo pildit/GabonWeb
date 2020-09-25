@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class User extends Model implements JwtPayloadInterface
 {
+    const STATUS_DISABLED = 0;
+    const STATUS_PENDING = 1;
+    const STATUS_ACTIVE = 2;
+
     public $timestamps = false;
 
     /**
