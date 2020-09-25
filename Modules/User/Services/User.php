@@ -8,7 +8,6 @@ use Modules\User\Entities\User as UserEntity;
 
 class User extends PageResults
 {
-	protected $per_page = 3;
 
     public function getPaginator()
     {

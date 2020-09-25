@@ -13,12 +13,13 @@ class CreatePermissionTables extends Migration
      */
     public function up()
     {
-        $tableNames = config('user.permission.table_names');
-        $columnNames = config('user.permission.column_names');
+        $tableNames = config('permission.table_names');
+        $columnNames = config('permission.column_names');
 
         if (empty($tableNames)) {
             throw new \Exception('Error: config/permission.php not loaded. Run [php artisan config:clear] and try again.');
         }
+        
 
         Schema::create($tableNames['permissions'], function (Blueprint $table) {
             $table->bigIncrements('id');
@@ -95,7 +96,7 @@ class CreatePermissionTables extends Migration
      */
     public function down()
     {
-        $tableNames = config('user.permission.table_names');
+        $tableNames = config('permission.table_names');
 
         if (empty($tableNames)) {
             throw new \Exception('Error: config/permission.php not found and defaults could not be merged. Please publish the package configuration before proceeding, or drop the tables manually.');
