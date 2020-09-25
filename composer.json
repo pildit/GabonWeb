@@ -13,7 +13,8 @@
         "generationtux/jwt-artisan": "^1.1",
         "laravel/framework": "^6.0",
         "laravel/tinker": "^1.0",
-        "nwidart/laravel-modules": "^7.2"
+        "nwidart/laravel-modules": "^7.2",
+        "spatie/laravel-permission": "^3.17"
     },
     "require-dev": {
         "filp/whoops": "^2.0",
