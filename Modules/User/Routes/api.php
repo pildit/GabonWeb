@@ -17,9 +17,9 @@ Route::prefix('users')->group(function () {
     Route::post('/login', 'AuthController@login');
     Route::post('/register', 'UserController@store');
     Route::post('/verify', 'UserController@verify');
-    Route::post('/approve/{user}', 'UserController@approve');
-    Route::post('/resendconfirmation/{user}', 'UserController@resendConfirmation');
-    Route::post('/forgotpassword/{user}', 'UserController@forgotPassword');
-    Route::post('/changepassword', 'UserController@changePassword');
-    Route::post('/createaccount', 'UserController@createAccount');
+    Route::post('/{user}/approve/', 'UserController@approve');
+    Route::post('/{user}/confirmation/', 'UserController@resendConfirmation');
+    Route::post('/{user}/forgot/', 'UserController@forgotPassword');
+    Route::post('/password', 'UserController@changePassword');
+    Route::post('/registerAdmin', 'UserController@createAccount');
 });
