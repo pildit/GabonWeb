@@ -20,16 +20,16 @@ class AuthController extends Controller
 
         $user = User::where('email', $data['email'])->first();
 
-        throw_if(!$user, new NotFoundHttpException('User not found'));
+        throw_if(!$user, new NotFoundHttpException(lang('user_not_found')));
 
         throw_if(
             !app('hash')->check($data['password'], $user->password),
-            new HttpException(401,'Invalid credentials'));
+            new HttpException(401,lang('invalid_credentials')));
 
 
         $token = $jwtToken->createToken($user);
         return response()->json([
-            "message" => "Successful login.",
+            "message" => lang("successful_login"),
             "jwt" => $token
         ]);
     }

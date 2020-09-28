@@ -4,7 +4,7 @@ namespace Modules\User\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model
+class EmployeeType extends Model
 {
     public $timestamps = false;
 
@@ -20,5 +20,5 @@ class Role extends Model
      *
      * @var string
      */
-    protected $table = 'admin.userrole';
+    protected $table = 'admin.employee_types';
 }

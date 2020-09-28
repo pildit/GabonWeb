@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return response()->json([
-        'message' => 'Gabon API',
-        'version' => '1.0.0'
-    ]);
-});
+//Route::get('/', function () {
+//    return response()->json([
+//        'message' => 'Gabon API',
+//        'version' => '1.0.0'
+//    ]);
+//});

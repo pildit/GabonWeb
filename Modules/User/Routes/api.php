@@ -12,9 +12,20 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::post('/login', 'AuthController@login');
-Route::post('/register', 'UserController@store');
 
 Route::middleware('jwt:api')->resource('/users', UserController::class)->except(['edit', 'create']);
+Route::prefix('users')->group(function () {
+    Route::post('/register', 'UserController@store');
+    Route::post('/verify', 'UserController@verify');
+    Route::post('/{user}/forgot', 'UserController@forgotPassword');
+    Route::post('/password', 'UserController@changePassword');
+    Route::middleware('jwt:api')->post('/{user}/role', 'UserController@assignRoleToUser');
+    Route::middleware('checkstatus')->post('/login', 'AuthController@login');
+    Route::middleware('jwt:api')->post('/{user}/approve', 'UserController@approve');
+    Route::middleware('jwt:api')->post('/{user}/confirmation', 'UserController@resendConfirmation');
+    Route::middleware('jwt:api')->post('/registerAdmin', 'UserController@createAccount');
 
-Route::middleware('jwt:api')->post('/users/{user}/assignRole', 'UserController@assignRoleToUser');
+});
+
+
+
