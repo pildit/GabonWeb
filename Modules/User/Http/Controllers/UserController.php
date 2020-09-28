@@ -7,15 +7,11 @@ namespace Modules\User\Http\Controllers;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
-use Modules\User\Entities\Role;
 use Modules\User\Entities\User;
 use Illuminate\Http\Request;
 use Modules\User\Http\Requests\CreateUserRequest;
 use Modules\User\Http\Requests\UpdateUserRequest;
 use Modules\User\Http\Requests\AssignRoleToUserRequest;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Modules\User\Services\User as UserService;
 use Modules\User\Http\Requests\ForgotPasswordRequest;
 use Mail;
@@ -49,8 +45,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-
-        return response()->json($user, 200);
+        return response()->json(['data' => $user]);
     }
 
 
@@ -280,7 +275,7 @@ class UserController extends Controller
     public function assignRoleToUser(Request $request, User $user)
     {
         $data = $request->validate([
-            'role' => 'required|exists:roles,name'
+            'role' => 'required|exists:Spatie\Permission\Models\Role,name'
         ]);
 
         $user->assignRole($data['role']);

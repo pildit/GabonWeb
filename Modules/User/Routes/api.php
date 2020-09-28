@@ -13,14 +13,13 @@ use Illuminate\Http\Request;
 |
 */
 
-
+Route::middleware('jwt:api')->resource('/users', UserController::class)->except(['edit', 'create']);
 Route::prefix('users')->group(function () {
-    Route::middleware('jwt:api')->resource('/', UserController::class)->except(['edit', 'create']);
     Route::post('/register', 'UserController@store');
     Route::post('/verify', 'UserController@verify');
     Route::post('/{user}/forgot', 'UserController@forgotPassword');
     Route::post('/password', 'UserController@changePassword');
-    Route::middleware('jwt:api')->post('/{user}/assignRole', 'UserController@assignRoleToUser');
+    Route::middleware('jwt:api')->post('/{user}/role', 'UserController@assignRoleToUser');
     Route::middleware('checkstatus')->post('/login', 'AuthController@login');
     Route::middleware('jwt:api')->post('/{user}/approve', 'UserController@approve');
     Route::middleware('jwt:api')->post('/{user}/confirmation', 'UserController@resendConfirmation');
