@@ -13,6 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::middleware('jwt:api')->resource('/users', UserController::class)->except(['edit', 'create']);
+Route::middleware('jwt:api')->post('/users/{user}/assignRole', 'UserController@assignRoleToUser');
+
 Route::prefix('users')->group(function () {
     Route::post('/login', 'AuthController@login');
     Route::post('/register', 'UserController@store');
@@ -23,3 +26,6 @@ Route::prefix('users')->group(function () {
     Route::post('/password', 'UserController@changePassword');
     Route::post('/registerAdmin', 'UserController@createAccount');
 });
+
+
+
