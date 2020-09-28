@@ -14,7 +14,6 @@ class User extends Model implements JwtPayloadInterface
     const STATUS_DISABLED = 0;
     const STATUS_PENDING = 1;
     const STATUS_ACTIVE = 2;
-    const STATUS_APPROVED = 1;
 
     protected $guard_name = 'api';
 
