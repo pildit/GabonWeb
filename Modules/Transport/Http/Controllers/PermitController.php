@@ -89,7 +89,7 @@ class PermitController extends Controller
      */
     public function update(PermitEntity $permit, UpdatePermitRequest $request)
     {
-        $permit->update($request->all());
+        $permit->update($request->validated());
 
         return response()->json([
             'data' => $permit

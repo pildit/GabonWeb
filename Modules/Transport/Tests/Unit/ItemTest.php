@@ -4,7 +4,7 @@
 namespace Modules\Transport\Tests\Unit;
 
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Modules\Transport\Entities\Item;
 use Modules\Transport\Entities\Permit;
@@ -12,7 +12,7 @@ use Tests\TestCase;
 
 class ItemTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use DatabaseTransactions, WithFaker;
 
     protected $permit;
 

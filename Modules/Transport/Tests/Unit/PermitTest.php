@@ -4,14 +4,14 @@
 namespace Modules\Transport\Tests\Unit;
 
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Modules\Transport\Entities\Permit;
 use Tests\TestCase;
 
 class PermitTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use DatabaseTransactions, WithFaker;
 
     /** @test */
     public function it_fails_getting_list_of_permits_paginated_due_the_authentication()

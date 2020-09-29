@@ -1,5 +1,6 @@
 {
     "User": true,
     "Transport": true,
-    "Translation": true
+    "Translation": true,
+    "Admin": true
 }
