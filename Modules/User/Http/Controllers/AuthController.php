@@ -22,6 +22,8 @@ class AuthController extends Controller
 
         throw_if(!$user, new NotFoundHttpException(lang('user_not_found')));
 
+        throw_if($user->status != User::STATUS_ACTIVE, new HttpException(401,lang('not_validated')));
+
         throw_if(
             !app('hash')->check($data['password'], $user->password),
             new HttpException(401,lang('invalid_credentials')));
