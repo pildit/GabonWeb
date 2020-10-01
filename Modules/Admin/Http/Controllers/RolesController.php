@@ -83,7 +83,7 @@ class RolesController extends Controller
      * @param Role $role
      * @return JsonResponse
      */
-    public function destroy(Role $role)
+    public function destroy(RoleEntity $role)
     {
         $role->delete();
 

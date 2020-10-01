@@ -2,14 +2,14 @@
 
 namespace Modules\User\Tests\Unit;
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Modules\User\Entities\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AuthenticationTest extends TestCase
 {
-    use WithFaker, RefreshDatabase;
+    use WithFaker, DatabaseTransactions;
 
     /** @test */
     public function it_generate_user_jwt_token()
@@ -17,7 +17,7 @@ class AuthenticationTest extends TestCase
         $user = factory(User::class)->create();
 
         $response = $this
-            ->postJson('/api/login', ['email' => $user->email, 'password' => 'pass123']);
+            ->postJson('/api/users/login', ['email' => $user->email, 'password' => 'pass123']);
 
         $response
             ->assertOk()
@@ -34,7 +34,7 @@ class AuthenticationTest extends TestCase
     /** @test */
     public function it_requires_email_and_password_to_auth()
     {
-        $response = $this->postJson('/api/login', []);
+        $response = $this->postJson('/api/users/login', []);
 
         $response
             ->assertStatus(422)
@@ -52,7 +52,7 @@ class AuthenticationTest extends TestCase
     /** @test */
     public function it_fails_to_generate_token_due_user_not_found()
     {
-        $response = $this->postJson('/api/login', [
+        $response = $this->postJson('/api/users/login', [
             'email' => $this->faker->email,
             'password' => $this->faker->password
         ]);
@@ -73,7 +73,7 @@ class AuthenticationTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        $response = $this->postJson('/api/login', [
+        $response = $this->postJson('/api/users/login', [
             'email' => $user->email,
             'password' => 'wrong_pass'
         ]);
