@@ -10,7 +10,11 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Model implements JwtPayloadInterface
 {
     use HasRoles;
-    
+
+    const STATUS_DISABLED = 0;
+    const STATUS_PENDING = 1;
+    const STATUS_ACTIVE = 2;
+
     protected $guard_name = 'api';
 
     public $timestamps = false;
@@ -20,7 +24,7 @@ class User extends Model implements JwtPayloadInterface
      *
      * @var array
      */
-    protected $fillable = ['firstname', 'lastname', 'email', 'password'];
+    protected $fillable = ['firstname', 'lastname', 'email', 'password', 'activationcode', 'employee_type'];
 
     /**
      * The table associated with the model.
@@ -36,7 +40,6 @@ class User extends Model implements JwtPayloadInterface
      */
     protected $hidden = ['password'];
 
-    const STATUS_APPROVED = 1;
 
     /**
      * The payload for JWT
@@ -55,7 +58,6 @@ class User extends Model implements JwtPayloadInterface
                 'id' => $this->id,
                 'firstname' => $this->firstname,
                 'lastname' => $this->lastname,
-                'role' => $this->roles->pluck('role')->join(',')
             ]
         ];
     }
