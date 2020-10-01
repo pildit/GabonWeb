@@ -14,4 +14,9 @@ class Role extends \Spatie\Permission\Models\Role
         'guard_name' => 'api'
     ];
 
+    public function pages()
+    {
+        return $this->belongsToMany(Page::class, 'admin.page_role');
+    }
+
 }

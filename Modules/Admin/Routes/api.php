@@ -14,3 +14,4 @@ use Illuminate\Http\Request;
 */
 
 Route::middleware('jwt:api')->resource('/roles', 'RolesController')->except(['create', 'edit']);
+Route::middleware('jwt:api')->resource('/permissions', 'PermissionController')->except(['create', 'edit']);
