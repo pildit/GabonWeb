@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Traits;
+namespace Modules\Loggable\Traits;
 
 use GenTux\Jwt\GetsJwtToken;
 use GenTux\Jwt\Exceptions\NoTokenException;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\LogEntry;
+use Modules\Loggable\Entities\LogEntry;
+
 use Illuminate\Support\Facades\Route;
 use DateTime;
-use Auth;
 
 trait Loggable 
 {
@@ -60,13 +60,8 @@ trait Loggable
     public function createLogEntry($action)
     {
      	
-     	$user_id = null;
-
         // If there is no token, then this is the public /register route ;
-    	try {
-    		$user_id = $this->jwtPayload('data.id');
-    	} catch (NoTokenException $e) {
-    	}
+		$user_id = $this->getToken() ? $this->jwtPayload('data.id') : null;
 
         $logEntry = new LogEntry();
 
