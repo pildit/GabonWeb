@@ -4,14 +4,14 @@
 namespace Modules\Translation\Tests\Unit;
 
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Modules\Translation\Entities\Language;
 use Tests\TestCase;
 
 class TranslationTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use DatabaseTransactions, WithFaker;
 
     /** @test */
     public function it_gets_translation_dictionary()
@@ -205,9 +205,10 @@ class TranslationTest extends TestCase
         $this->assertArrayHasKey('data', $jsonResponse);
         $this->assertNotEmpty($jsonResponse['data']);
         $this->assertManyNotEmpty([
-            "text_us", "text_ga", "id", "text_key", "mobile"],
+            "text_us", "text_ga", "id", "text_key"],
             $jsonResponse['data']
         );
+        $this->assertIsBool($jsonResponse['data']['mobile']);
 
     }
 

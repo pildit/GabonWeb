@@ -4,7 +4,7 @@
 namespace Modules\User\Tests\Unit;
 
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Hash;
 use Modules\User\Entities\User;
@@ -12,7 +12,7 @@ use Tests\TestCase;
 
 class UserTest extends TestCase
 {
-    use WithFaker, RefreshDatabase;
+    use WithFaker, DatabaseTransactions;
 
     /** @test */
     public function it_regsiters_an_user_with_success()
