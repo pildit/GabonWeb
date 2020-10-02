@@ -14,8 +14,7 @@ class AuthenticationTest extends TestCase
     /** @test */
     public function it_generate_user_jwt_token()
     {
-        $user = factory(User::class)->create();
-
+        $user = factory(User::class)->create(['status' => User::STATUS_ACTIVE]);
         $response = $this
             ->postJson('/api/users/login', ['email' => $user->email, 'password' => 'pass123']);
 

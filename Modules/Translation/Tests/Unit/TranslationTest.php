@@ -205,8 +205,9 @@ class TranslationTest extends TestCase
         $this->assertArrayHasKey('data', $jsonResponse);
         $this->assertNotEmpty($jsonResponse['data']);
         $this->assertManyNotEmpty([
-            "text_us", "text_ga", "id", "text_key"
-        ], $jsonResponse['data']);
+            "text_us", "text_ga", "id", "text_key"],
+            $jsonResponse['data']
+        );
         $this->assertIsBool($jsonResponse['data']['mobile']);
 
     }
