@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use GenTux\Jwt\Exceptions\JwtException;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -62,6 +63,12 @@ class Handler extends ExceptionHandler
             return response()->json([
                 'message' => "There is database problem"
             ], 500);
+        }
+
+        if($exception instanceof AuthorizationException) {
+            return response()->json([
+                'message' => "This action is unauthorized."
+            ],403);
         }
 
         if ($exception instanceof JwtException) {
