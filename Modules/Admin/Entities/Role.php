@@ -14,6 +14,8 @@ class Role extends \Spatie\Permission\Models\Role
         'guard_name' => 'api'
     ];
 
+    protected $hidden = ['created_at', 'updated_at', 'guard_name'];
+
     public function pages()
     {
         return $this->belongsToMany(Page::class, 'admin.page_role');

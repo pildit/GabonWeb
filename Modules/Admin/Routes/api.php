@@ -13,5 +13,13 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('jwt:api')->resource('/roles', 'RolesController')->except(['create', 'edit']);
-Route::middleware('jwt:api')->resource('/permissions', 'PermissionController')->except(['create', 'edit']);
+Route::middleware('jwt:api')->group(function (){
+    Route::resource('/roles', 'RolesController')->except(['create', 'edit']);
+    Route::get('/roles/{role}/permissions', "PermissionController@showPermissions");
+    Route::put('/roles/{role}/permissions', "PermissionController@permissions");
+    Route::resource('/permissions', 'PermissionController')->only(['index', 'store']);
+    Route::resource('/pages', 'PageController')->only('index');
+    Route::get('/test', function () {
+       return \Modules\Admin\Entities\Page::with('roles')->get();
+    });
+});

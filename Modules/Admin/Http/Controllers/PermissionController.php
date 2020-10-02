@@ -7,9 +7,11 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Modules\Admin\Entities\Page;
 use Modules\Admin\Entities\PageRole;
+use Modules\Admin\Entities\Permission as PermissionEntity;
 use Modules\Admin\Entities\Role;
 use Modules\Admin\Http\Requests\PermissionRequest;
 use Modules\Admin\Services\Permission;
@@ -36,64 +38,44 @@ class PermissionController extends Controller
      * @param Request $request
      * @return Renderable
      */
-    public function store(PermissionRequest $request)
+    public function store(PermissionRequest $request, Permission $permissionService)
     {
-        DB::beginTransaction();
+        $permissionService->storeTransaction($request);
 
-        try {
-
-            $page = Page::find($request->get('page_id'));
-            $role = Role::find($request->get('role_id'));
-
-            PageRole::create([
-                'page_id' => $request->get('page_id'), 'role_id' => $request->get('role_id')
-            ]);
-
-            foreach ($request->get('can') as $item) {
-                $permission = new \Modules\Admin\Entities\Permission();
-                $permission->name = $page->resource.".".$item;
-                $permission->save();
-                $permission->assignRole($role);
-            }
-
-
-            DB::commit();
-            return response()->json([
-                'data' => [],
-                'message' => 'success'
-            ]);
-        } catch (\Exception $exception) {
-            DB::rollBack();
-            return response()->json(['message' => 'Internal Error'], 500);
-        }
+        return response()->json([
+            'message' => 'success'
+        ]);
     }
 
     /**
-     * Show the specified resource.
-     * @param int $id
-     */
-    public function show($id)
-    {
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * @param Role $role
      * @param Request $request
-     * @param int $id
-     * @return Renderable
+     * @return JsonResponse
      */
-    public function update(Request $request, $id)
+    public function permissions(Role $role, Request $request, Permission $permissionService)
     {
-        //
+        $request->validate([
+            'page_id' => 'required|exists:Modules\Admin\Entities\Page,id',
+            'can' => 'required',
+            'can.*' => ['required', Rule::in(PermissionEntity::$choices)]
+        ]);
+
+        $permissionService->updateTransaction($request, $role);
+
+        return response()->json([
+            'message' => 'success'
+        ]);
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
+     * @param Role $role
      */
-    public function destroy($id)
+    public function showPermissions(Role $role, Request $request, Permission $permissionService)
     {
-        //
+        $permissionService->validateRequest($request);
+        $permissionService->setPage($request->get('page'));
+        $permissionService->setPerPage($request->get('per_page'));
+
+        return $permissionService->getRolePagePaginator($role);
     }
 }

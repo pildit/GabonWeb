@@ -15,11 +15,19 @@ class Permission extends \Spatie\Permission\Models\Permission
     const EDIT = 'edit';
     const EDIT_OWN = 'edit_own';
 
-    public static $choices = [self::VIEW, self::VIEW_OWN, self::CREATE, self::EDIT, self::EDIT_OWN];
+    public static $choices = [
+        self::VIEW,
+        self::VIEW_OWN,
+        self::CREATE,
+        self::EDIT,
+        self::EDIT_OWN
+    ];
 
     protected $fillable = ["name"];
 
     protected $attributes = [
         'guard_name' => 'api'
     ];
+
+    protected $hidden = ['created_at', 'updated_at', 'guard_name'];
 }

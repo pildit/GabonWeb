@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use GenTux\Jwt\Exceptions\JwtException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -55,6 +56,12 @@ class Handler extends ExceptionHandler
             return response()->json([
                 'message' => 'Entry for '.$model.' not found'
             ], 404);
+        }
+
+        if ($exception instanceof QueryException) {
+            return response()->json([
+                'message' => "There is database problem"
+            ], 500);
         }
 
         if ($exception instanceof JwtException) {

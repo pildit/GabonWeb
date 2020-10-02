@@ -11,4 +11,19 @@ class PageRole extends Model
     public $timestamps = false;
 
     protected $fillable = ['page_id', 'role_id'];
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function page()
+    {
+        return $this->belongsTo(Page::class);
+    }
+
+    public function permissions()
+    {
+
+    }
 }

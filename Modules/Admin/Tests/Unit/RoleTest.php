@@ -6,6 +6,8 @@ namespace Modules\Admin\Tests\Unit;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
+use Modules\Admin\Entities\Page;
+use Modules\Admin\Entities\Permission;
 use Modules\Admin\Entities\Role;
 use Tests\TestCase;
 
@@ -226,5 +228,47 @@ class RoleTest extends TestCase
 
         $response
             ->assertNoContent();
+    }
+
+    /** @test */
+    public function it_getting_permissions_for_a_role()
+    {
+        $token = $this->generateJwtToken();
+        $role = factory(Role::class)->create();
+        $role->pages()->saveMany(factory(Page::class, 10)->create());
+        $role->permissions()->saveMany(factory(Permission::class, 3)->create());
+
+        $response = $this->getJson("/api/roles/{$role->id}/permissions",
+            ['Authorization' => "Bearer $token"]);
+
+        $response
+            ->assertOk()
+            ->assertJsonStructure([
+                'current_page',
+                'data',
+                'from',
+                'to',
+                'first_page_url',
+                'last_page_url',
+                'next_page_url',
+                'prev_page_url',
+                'last_page',
+                'path',
+                'per_page',
+                'total'
+            ]);
+
+        $jsonResponse = $response->decodeResponseJson();
+
+        $this->assertManyNotEmpty([
+            'current_page', 'per_page', 'total',
+            'current_page', 'from', 'to',
+            'first_page_url', 'last_page_url'
+        ], $jsonResponse);
+
+        $this->assertEquals(1, $jsonResponse['current_page']);
+        $this->assertEquals(1, $jsonResponse['from']);
+        $this->assertCount(10, $jsonResponse['data']);
+
     }
 }

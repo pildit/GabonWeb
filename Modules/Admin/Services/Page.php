@@ -5,13 +5,13 @@ namespace Modules\Admin\Services;
 
 
 use App\Services\PageResults;
-use Modules\Admin\Entities\Role as RoleEntity;
+use App\Services\PaginatorContract;
 
-class Role extends PageResults
+class Page extends PageResults implements PaginatorContract
 {
     public function getPaginator()
     {
-        $this->query = RoleEntity::with('permissions')->ofSort($this->getSortCriteria());
+        $this->query = \Modules\Admin\Entities\Page::ofSort($this->getSortCriteria());
 
         return $this->setFilters(['name'])->getResults();
     }
