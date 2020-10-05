@@ -10,18 +10,13 @@ use Modules\Loggable\Traits\Loggable;
 
 class User extends Model implements JwtPayloadInterface
 {
-    use HasRoles, Loggable;
+    use HasRoles;
 
     const STATUS_DISABLED = 0;
     const STATUS_PENDING = 1;
     const STATUS_ACTIVE = 2;
-
-
-    use HasRoles, Loggable;
     
     protected $guard_name = 'api';
-
-    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.

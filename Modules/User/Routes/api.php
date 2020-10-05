@@ -28,6 +28,5 @@ Route::prefix('users')->group(function () {
 });
 
 
-Route::middleware('jwt:api')->resource('/companies', CompanyController::class)->except(['edit', 'create', 'delete ']);
-
+Route::middleware('jwt:api')->resource('/companies', CompanyController::class)->except(['edit', 'create', 'delete']);
 
