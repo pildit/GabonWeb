@@ -6,6 +6,7 @@ use GenTux\Jwt\JwtPayloadInterface;
 use Illuminate\Database\Eloquent\Model;
 use App\Services\PageResults;
 use Spatie\Permission\Traits\HasRoles;
+use Modules\Loggable\Traits\Loggable;
 
 class User extends Model implements JwtPayloadInterface
 {
@@ -14,17 +15,15 @@ class User extends Model implements JwtPayloadInterface
     const STATUS_DISABLED = 0;
     const STATUS_PENDING = 1;
     const STATUS_ACTIVE = 2;
-
+    
     protected $guard_name = 'api';
-
-    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['firstname', 'lastname', 'email', 'password', 'activationcode', 'employee_type'];
+    protected $fillable = ['firstname', 'lastname', 'email', 'password', 'activationcode', 'employee_type', 'company_id'];
 
     /**
      * The table associated with the model.
@@ -72,5 +71,10 @@ class User extends Model implements JwtPayloadInterface
         foreach ($sort as $column => $direction) {
             $query->orderBy($column, $direction);
         }
+    }
+
+    public function company()
+    {
+        return $this->belongsTo('Modules\User\Entities\Company');
     }
 }
