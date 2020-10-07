@@ -114,4 +114,18 @@ class PageResults
             'per_page' => 'numeric'
         ]);
     }
+
+    public function getPaginator(Request $request,string $model,array $searchFields)
+    {
+
+        $this->validateRequest($request);
+        $this->setPage($request->get('page'));
+        $this->setPerPage($request->get('per_page'));
+        $this->setSearch($request->get('search'));
+
+        $this->query = $model::ofSort($this->getSortCriteria());
+
+        return $this->setFilters($searchFields)->getResults();
+    }
+
 }

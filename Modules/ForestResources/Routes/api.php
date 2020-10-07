@@ -16,3 +16,7 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/forestresources', function (Request $request) {
     return $request->user();
 });
+
+Route::prefix('forestresources')->group(function () {
+	Route::middleware('jwt:api')->resource('/cp', ConstituentPermitController::class);
+});
