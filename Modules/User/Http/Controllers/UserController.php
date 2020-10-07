@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Modules\User\Http\Requests\CreateUserRequest;
 use Modules\User\Http\Requests\UpdateUserRequest;
 use Modules\User\Http\Requests\AssignRoleToUserRequest;
-use Modules\User\Services\User as UserService;
+use Modules\User\Services\Parcel as UserService;
 use Modules\User\Http\Requests\ForgotPasswordRequest;
 use Mail;
 use Str;
@@ -25,7 +25,7 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request,UserService $userService)
     {
@@ -41,7 +41,7 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(User $user)
     {
@@ -54,7 +54,7 @@ class UserController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  User $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateUserRequest $request, User $user)
     {
@@ -74,7 +74,7 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  User $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(User $user)
     {
@@ -87,7 +87,7 @@ class UserController extends Controller
 
 
     /**
-     * Assign role to user
+     * Create user
      * @param string $role (in POST)
      * @param User $user (in URL)
      * @return
