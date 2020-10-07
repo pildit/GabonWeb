@@ -4,9 +4,15 @@
 namespace Modules\Transport\Http\Controllers;
 
 
+use GeoJson\Geometry\LineString;
+use GeoJson\Geometry\Point;
+use GeoJson\Geometry\Polygon;
+use GeoJson\Tests\Geometry\PointTest;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Modules\Transport\Entities\Permit as PermitEntity;
+use Modules\Transport\Entities\Tracking;
 use Modules\Transport\Http\Requests\CreatePermitRequest;
 use Modules\Transport\Http\Requests\UpdatePermitRequest;
 use Modules\Transport\Services\Permit;
@@ -107,5 +113,29 @@ class PermitController extends Controller
         $permit->delete();
 
         return response()->noContent();
+    }
+
+    public function storeTracking($permit, Request $request)
+    {
+        $coords = $request->get('coords');
+
+        $points = '';
+        $end = end($coords);
+        foreach ($coords as $loc) {
+            $points .= "public.st_point({$loc['lat']}, {$loc['lon']})";
+            if($loc != $end) {
+                $points .= ', ';
+            }
+        }
+        $geomQuery = "public.st_transform(public.st_setsrid(public.ST_MakeLine(ARRAY[ {$points} ]  ),4326),3857)";
+
+        $tracking = new Tracking();
+        $tracking->User = 1;
+        $tracking->Geometry = DB::raw("(select $geomQuery)");
+        $tracking->Permit = $permit;
+
+        $tracking->save();
+
+        return response()->json(['data' => $tracking],201);
     }
 }
