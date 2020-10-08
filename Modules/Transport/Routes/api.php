@@ -18,8 +18,4 @@ Route::middleware('jwt:api')->get('/permits/mobile', 'PermitController@mobile');
 Route::middleware('jwt:api')->resource('/permits', PermitController::class)->except(['create', 'edit']);
 Route::middleware('jwt:api')->get('/permit_items/mobile', 'PermitItemController@mobile');
 Route::middleware('jwt:api')->resource('/permits/{permit}/items', PermitItemController::class)->except(['create', 'edit']);
-Route::middleware('jwt:api')->post('/permits/{permit}/tracking', 'PermitController@storeTracking');
-Route::middleware('jwt:api')->get('/permits/{permit}/tracking', function (\Modules\Transport\Entities\Permit $permit) {
-   return $permit->tracking->toArray();
-});
-
+Route::middleware('jwt:api')->put('/permits/{permit}/tracking', 'PermitController@storeTracking');
