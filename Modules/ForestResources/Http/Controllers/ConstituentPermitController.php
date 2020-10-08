@@ -8,16 +8,24 @@ use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\ConstituentPermit;
 use App\Services\PageResults;
 use Modules\ForestResources\Http\Requests\CreateConstituentPermitRequest;
+use GenTux\Jwt\GetsJwtToken;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Auth;
+
 
 class ConstituentPermitController extends Controller
 {
+    use GetsJwtToken;
+
     /**
      * Display a listing of the resource.
      * @return Response
      */
     public function index(Request $request, PageResults $pr)
     {
-        return response()->json($pr->getPaginator($request, ConstituentPermit::class , ['email']));
+        $pr->setSortFields(['Id']);
+
+        return response()->json($pr->getPaginator($request, ConstituentPermit::class , ['Email']));
     }
 
 
@@ -29,7 +37,7 @@ class ConstituentPermitController extends Controller
     public function store(CreateConstituentPermitRequest $request)
     {
         $data = $request->validated();
-
+        $data['User'] = $this->jwtPayload('data.id');
         ConstituentPermit::create($data);
 
         return response()->json([
@@ -43,9 +51,9 @@ class ConstituentPermitController extends Controller
      * @param int $id
      * @return Response
      */
-    public function show(ConstituentPermit $cp)
+    public function show(ConstituentPermit $constituent_permit)
     {
-        return response()->json(['data' => $cp], 200);    
+        return response()->json(['data' => $constituent_permit], 200);    
     }
 
 
@@ -65,8 +73,12 @@ class ConstituentPermitController extends Controller
      * @param int $id
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(ConstituentPermit $constituent_permit)
     {
-        //
+        $constituent_permit->delete();
+
+        return response()->json([
+            'message' => lang('Delete succesful')
+        ], 204);
     }
 }

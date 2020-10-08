@@ -3,13 +3,20 @@
 namespace Modules\ForestResources\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Sortable;
 
 class ConstituentPermit extends Model
 {
-	use Sortable;
+	use Sortable, SoftDeletes;
 	
-    protected $fillable = ['email', 'permit_type', 'permit_no'];
+    protected $fillable = ['User', 'PermitType', 'PermitNumber'];
 
-    protected $table = 'ConstituentPermits';
+    protected $table = 'ForestResources.ConstituentPermits';
+
+    public $timestamps = false;
+
+    protected $primaryKey = 'Id';
+
+
 }

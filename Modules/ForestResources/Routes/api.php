@@ -17,6 +17,5 @@ Route::middleware('auth:api')->get('/forestresources', function (Request $reques
     return $request->user();
 });
 
-Route::prefix('forestresources')->group(function () {
-	Route::middleware('jwt:api')->resource('/cp', ConstituentPermitController::class);
-});
+
+Route::middleware('jwt:api')->resource('/constituent_permits', ConstituentPermitController::class)->except(['create', 'edit']);
