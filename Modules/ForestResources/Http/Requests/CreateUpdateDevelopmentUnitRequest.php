@@ -14,12 +14,11 @@ class CreateUpdateDevelopmentUnitRequest extends FormRequest
     public function rules()
     {
         return [
-            'Id' => 'required|string',
             'Name' => 'required|string',
             'Concession' => 'required|integer',
             'Start' => 'required|date',
             'End' => 'required|date',
-            'Geometry' => 'required',
+            'Geometry' => 'required|regex:/\POLYGON\b/',
         ];
     }
 

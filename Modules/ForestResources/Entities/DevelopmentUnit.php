@@ -21,4 +21,6 @@ class DevelopmentUnit extends Model
      * @var string
      */
     protected $table = 'ForestResources.DevelopmentUnits';
+
+    protected $primaryKey = "Id";
 }
