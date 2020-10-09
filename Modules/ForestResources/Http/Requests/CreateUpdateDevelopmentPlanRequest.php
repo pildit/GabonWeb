@@ -18,7 +18,7 @@ class CreateUpdateDevelopmentPlanRequest extends FormRequest
             'Species' => 'required|string',
             'MinimumExploitableDiameter' => 'required|string',
             'VolumeTariff' => 'string',
-            'Increment' => 'regex:^(?:[1-9]\d+|\d)(?:\,\d\d)?$',
+            'Increment' => 'regex:^(?:[1-9]\d+|\d)(?:\.\d\d)?(?:\,\d\d)?$',
         ];
     }
 
