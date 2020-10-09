@@ -20,3 +20,20 @@ Route::prefix('parcels')->group(function () {
     Route::middleware('jwt:api')->post('/show', 'ParcelController@show');
     Route::middleware('jwt:api')->post('/destroy', 'ParcelController@destroy');
 });
+
+Route::middleware('jwt:api')->resource('/developmentunit', DevelopmentUnit::class)->except(['edit', 'create']);
+Route::prefix('developmentunit')->group(function () {
+    Route::middleware('jwt:api')->post('/store', 'DevelopmentUnit@store');
+    Route::middleware('jwt:api')->put('/update', 'DevelopmentUnit@update');
+    Route::middleware('jwt:api')->post('/show', 'DevelopmentUnit@show');
+    Route::middleware('jwt:api')->post('/destroy', 'DevelopmentUnit@destroy');
+});
+
+Route::middleware('jwt:api')->resource('/developmentplace', DevelopmentUnit::class)->except(['edit', 'create']);
+Route::prefix('developmentplace')->group(function () {
+    Route::middleware('jwt:api')->post('/store', 'DevelopmentUnit@store');
+    Route::middleware('jwt:api')->put('/update', 'DevelopmentUnit@update');
+    Route::middleware('jwt:api')->post('/show', 'DevelopmentUnit@show');
+    Route::middleware('jwt:api')->post('/destroy', 'DevelopmentUnit@destroy');
+});
+

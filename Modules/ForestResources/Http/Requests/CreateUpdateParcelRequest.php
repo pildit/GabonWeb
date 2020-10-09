@@ -15,7 +15,6 @@ class CreateUpdateParcelRequest extends FormRequest
     {
         return [
             'Name' => 'required',
-            'ResourceType' => 'exists:Modules\ForestResources\Entities\ResourceType,Id',
             'geometry_shp' => 'required',
             'geometry_shx' => 'required',
             'geometry_dbf' => 'required',
