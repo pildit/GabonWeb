@@ -78,8 +78,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->destroy();
-
+        $user->delete();
+ 
         return response()->json([
             'message' => lang('Delete succesful')
         ], 204);
@@ -129,6 +129,9 @@ class UserController extends Controller
                     'message' => lang("verify_success")
                 ], 201);
             }
+            return response()->json([
+                'message' => lang("verify_error_no_user_foud")
+            ], 200);
         }
         return response()->json([
             'message' => lang("verify_error")
@@ -154,7 +157,7 @@ class UserController extends Controller
 
             return response()->json([
                 'message' => lang("approve_success")
-            ], 200);
+            ], 201);
         }
 
         return response()->json([
@@ -184,7 +187,7 @@ class UserController extends Controller
 
             return response()->json([
                 'message' => lang("forgotpassword_success")
-            ], 200);
+            ], 201);
         }
 
         return response()->json([
@@ -206,7 +209,7 @@ class UserController extends Controller
             $user->save();
             return response()->json([
                 'message' => lang("change_password_success")
-            ], 200);
+            ], 201);
         }
 
         return response()->json([
@@ -232,7 +235,7 @@ class UserController extends Controller
                 });
                 return response()->json([
                     'message' => lang("resend_confirmation_success")
-                ], 200);
+                ], 201);
             }
         }
 
