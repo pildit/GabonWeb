@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 Route::middleware('jwt:api')->resource('/parcels', ParcelController::class)->except(['edit', 'create']);
 Route::prefix('parcels')->group(function () {
     Route::middleware('jwt:api')->post('/store', 'ParcelController@store');
-    Route::middleware('jwt:api')->put('/update', 'ParcelController@update');
-    Route::middleware('jwt:api')->post('/show', 'ParcelController@show');
-    Route::middleware('jwt:api')->post('/destroy', 'ParcelController@destroy');
+    Route::middleware('jwt:api')->put('{parcel}/update', 'ParcelController@update');
+    Route::middleware('jwt:api')->get('{parcel}/show', 'ParcelController@show');
+    Route::middleware('jwt:api')->post('{parcel}/destroy', 'ParcelController@destroy');
 });
