@@ -4,7 +4,7 @@ namespace Modules\ForestResources\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateUpdateDevelopmentUnitRequest extends FormRequest
+class CreateDevelopmentUnitRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.

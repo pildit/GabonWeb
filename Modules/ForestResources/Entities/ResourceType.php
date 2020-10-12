@@ -21,4 +21,6 @@ class ResourceType extends Model
      * @var string
      */
     protected $table = 'ForestResources.ResourceTypesTable';
+
+    protected $primaryKey = "Id";
 }

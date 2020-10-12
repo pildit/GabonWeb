@@ -6,13 +6,9 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\DevelopmentPlan;
-use Modules\ForestResources\Http\Requests\CreateUpdateDevelopmentPlanRequest;
-use ShapeFile\Shapefile;
-use Shapefile\ShapefileException;
-use Shapefile\ShapefileReader;
+use Modules\ForestResources\Http\Requests\CreateDevelopmentPlanRequest;
+use Modules\ForestResources\Http\Requests\UpdateDevelopmentPlanRequest;
 use Modules\ForestResources\Services\DevelopmentPlan as DevelopmentPlanService;
-use Shapefile\Geometry\Polygon;
-use Illuminate\Support\Facades\File;
 
 class DevelopmentPlanController extends Controller
 {
@@ -20,7 +16,10 @@ class DevelopmentPlanController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
+     * @param DevelopmentPlanService $developmentPlanService
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Throwable
      */
     public function index(Request $request,DevelopmentPlanService $developmentPlanService)
     {
@@ -33,12 +32,17 @@ class DevelopmentPlanController extends Controller
     }
     /**
      * Store developmentPlan
-     * @param CreateUpdateDevelopmentPlanRequest $request
+     * @param CreateDevelopmentPlanRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(CreateUpdateDevelopmentPlanRequest $request)
+    public function store(CreateDevelopmentPlanRequest $request)
     {
         $data = $request->validated();
+        if (DevelopmentPlan::where('DevelopmentUnit', $data['DevelopmentUnit'])->where('Species', $data['Species'])->count() > 0) {
+            return response()->json([
+                'message' => lang("developmentPlan_developmentunit_species_exist")
+            ], 200);
+        }
 
         $developmentPlan = DevelopmentPlan::create($data);
 
@@ -55,20 +59,28 @@ class DevelopmentPlanController extends Controller
      */
     public function show(DevelopmentPlan $developmentPlan)
     {
-        return response()->json(['data' => $developmentPlan]);
+        return response()->json(['data' => $developmentPlan->get()->toArray()]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  DevelopmentPlan $developmentPlan
+     * @param UpdateDevelopmentPlanRequest $request
+     * @param DevelopmentPlan $developmentPlan
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(CreateUpdateDevelopmentPlanRequest $request, DevelopmentPlan $developmentPlan)
+    public function update(UpdateDevelopmentPlanRequest $request, DevelopmentPlan $developmentPlan)
     {
-
         $data = $request->validated();
+
+        if (DevelopmentPlan::where('DevelopmentUnit', $data['DevelopmentUnit'])->where('Species', $data['Species'])->where('Id', '!=', $developmentPlan->get()[0]->Id)->count() > 0) {
+            return response()->json([
+                'message' => lang("developmentPlan_developmentunit_species_exist")
+            ], 200);
+        } elseif( DevelopmentPlan::where('DevelopmentUnit', $data['DevelopmentUnit'])->where('Species', $data['Species'])->where('Id', '=', $developmentPlan->get()[0]->Id)->count() > 0) {
+            unset($data['DevelopmentUnit']);
+            unset($data['Species']);
+        }
 
         $developmentPlan->fill($data);
         $developmentPlan->save($data);

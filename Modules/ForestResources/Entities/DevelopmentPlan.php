@@ -23,4 +23,5 @@ class DevelopmentPlan extends Model
     protected $table = 'ForestResources.DevelopmentPlans';
 
     protected $primaryKey = "Id";
+
 }

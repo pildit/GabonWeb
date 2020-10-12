@@ -6,13 +6,10 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\DevelopmentUnit;
-use Modules\ForestResources\Http\Requests\CreateUpdateDevelopmentUnitRequest;
-use ShapeFile\Shapefile;
-use Shapefile\ShapefileException;
-use Shapefile\ShapefileReader;
+use Modules\ForestResources\Http\Requests\CreateDevelopmentUnitRequest;
+use Modules\ForestResources\Http\Requests\UpdateDevelopmentUnitRequest;
 use Modules\ForestResources\Services\DevelopmentUnit as DevelopmentUnitService;
-use Shapefile\Geometry\Polygon;
-use Illuminate\Support\Facades\File;
+
 
 class DevelopmentUnitController extends Controller
 {
@@ -33,10 +30,10 @@ class DevelopmentUnitController extends Controller
     }
     /**
      * Store developmentUnit
-     * @param CreateUpdateDevelopmentUnitRequest $request
+     * @param CreateDevelopmentUnitRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(CreateUpdateDevelopmentUnitRequest $request)
+    public function store(CreateDevelopmentUnitRequest $request)
     {
         $data = $request->validated();
 
@@ -50,12 +47,12 @@ class DevelopmentUnitController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param DevelopmentUnit $developmentUnit
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(DevelopmentUnit $developmentUnit)
     {
-        return response()->json(['data' => $developmentUnit]);
+        return response()->json(['data' => $developmentUnit->get()->toArray()]);
     }
 
     /**
@@ -65,7 +62,7 @@ class DevelopmentUnitController extends Controller
      * @param  DevelopmentUnit $developmentUnit
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(CreateUpdateDevelopmentUnitRequest $request, DevelopmentUnit $developmentUnit)
+    public function update(UpdateDevelopmentUnitRequest $request, DevelopmentUnit $developmentUnit)
     {
 
         $data = $request->validated();

@@ -14,7 +14,7 @@ class DevelopmentPlan extends PageResults
 
         $this->query = DevelopmentPlanEntity::ofSort($this->getSortCriteria());
 
-        return $this->setFilters(['Name', 'Geometry'])->getResults();
+        return $this->setFilters(['DevelopmentUnit', 'VolumeTariff'])->getResults();
     }
 
 
