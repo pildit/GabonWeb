@@ -21,7 +21,7 @@ while [ ! -z "${1}" ]; do
     shift
 done;
 
-echo "Creating Forest Resources database structure in database: ${DBNAME}";
-psql --host localhost --dbname ${DBNAME} --user ${USERNAME} < "./ForestResources.sql" | tee database.log;
+echo "Add timestamps to tables in ForestResources schema: ${DBNAME}";
+psql --host localhost --dbname ${DBNAME} --user ${USERNAME} < "./UpdateTablesWithTimestamps.sql" | tee database.log;
 popd 2>&1 1>/dev/null
 
