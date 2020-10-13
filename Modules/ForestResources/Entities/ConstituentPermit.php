@@ -10,7 +10,7 @@ class ConstituentPermit extends Model
 {
 	use Sortable, SoftDeletes;
 	
-    protected $fillable = ['User', 'PermitType', 'PermitNumber'];
+    protected $fillable = ['PermitType', 'PermitNumber'];
 
     protected $table = 'ForestResources.ConstituentPermits';
 

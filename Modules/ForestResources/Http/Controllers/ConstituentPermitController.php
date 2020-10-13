@@ -36,9 +36,14 @@ class ConstituentPermitController extends Controller
      */
     public function store(CreateConstituentPermitRequest $request)
     {
-        $data = $request->validated();
-        $data['User'] = $this->jwtPayload('data.id');
-        ConstituentPermit::create($data);
+        $data = $request->validated();        
+
+        $constituent_permit = new ConstituentPermit;
+        $constituent_permit->PermitType = $data['permit_type'];
+        $constituent_permit->PermitNumber = $data['permit_number'];
+        $constituent_permit->User = $this->jwtPayload('data.id');
+
+        $constituent_permit->save();
 
         return response()->json([
             'message' => lang("created_successfully")

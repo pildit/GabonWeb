@@ -14,8 +14,8 @@ class CreateConstituentPermitRequest extends FormRequest
     public function rules()
     {
         return [
-            'PermitType' => 'required|exists:PermitTypes,Id',
-            'PermitNumber' => 'required'
+            'permit_type' => 'required|exists:PermitTypes,Id',
+            'permit_number' => 'required'
         ];
     }
 
