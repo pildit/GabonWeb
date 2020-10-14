@@ -82,8 +82,7 @@ class DevelopmentPlanController extends Controller
             unset($data['Species']);
         }
 
-        $developmentPlan->fill($data);
-        $developmentPlan->save($data);
+        $developmentPlan->update($data);
 
         return response()->json([
             'message' => lang('developmentPlan_update_successful')

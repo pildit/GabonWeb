@@ -20,7 +20,7 @@ class DevelopmentPlanTest extends TestCase
     public function it_create_a_development_plan()
     {
         $developmentUnit = factory(DevelopmentUnit::class)->create();
-        $response = $this->postJson('/api/developmentplan/store',[
+        $response = $this->postJson('/api/developmentplan',[
             'DevelopmentUnit' => $developmentUnit->Id,
             'Species' => '1',
             'MinimumExploitableDiameter' => '1',
@@ -47,7 +47,7 @@ class DevelopmentPlanTest extends TestCase
         $developmentPlan = factory(DevelopmentPlan::class)->create(
             ['DevelopmentUnit' => $developmentUnit->Id]);
 
-        $response = $this->postJson('/api/developmentplan/'.$developmentPlan->Id.'/update/', [
+        $response = $this->putJson('/api/developmentplan/'.$developmentPlan->Id, [
             'DevelopmentUnit' => $developmentPlan->DevelopmentUnit,
             'Species' => '1',
             'MinimumExploitableDiameter' => '1',
