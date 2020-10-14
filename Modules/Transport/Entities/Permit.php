@@ -65,6 +65,6 @@ class Permit extends Model
 
     public function tracking()
     {
-        return $this->hasOne(Tracking::class, 'Permit');
+        return $this->hasMany(Tracking::class, 'Permit');
     }
 }
