@@ -19,17 +19,17 @@ class DevelopmentUnitController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request,DevelopmentUnitService $developmentUnitService)
+    public function index(Request $request,DevelopmentUnitService $developmentunitService)
     {
-        $developmentUnitService->validateRequest($request);
-        $developmentUnitService->setPage($request->get('page'));
-        $developmentUnitService->setPerPage($request->get('per_page'));
-        $developmentUnitService->setSearch($request->get('search'));
+        $developmentunitService->validateRequest($request);
+        $developmentunitService->setPage($request->get('page'));
+        $developmentunitService->setPerPage($request->get('per_page'));
+        $developmentunitService->setSearch($request->get('search'));
 
-        return response()->json($developmentUnitService->getPaginator());
+        return response()->json($developmentunitService->getPaginator());
     }
     /**
-     * Store developmentUnit
+     * Store developmentunit
      * @param CreateDevelopmentUnitRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -37,41 +37,40 @@ class DevelopmentUnitController extends Controller
     {
         $data = $request->validated();
 
-        $developmentUnit = DevelopmentUnit::create($data);
+        $developmentunit = DevelopmentUnit::create($data);
 
         return response()->json([
-            'message' => lang("developmentUnit_created_successfully")
+            'message' => lang("developmentunit_created_successfully")
         ], 201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param DevelopmentUnit $developmentUnit
+     * @param DevelopmentUnit $developmentunit
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(DevelopmentUnit $developmentUnit)
+    public function show(DevelopmentUnit $developmentunit)
     {
-        return response()->json(['data' => $developmentUnit->get()->toArray()]);
+        return response()->json(['data' => $developmentunit]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  DevelopmentUnit $developmentUnit
+     * @param  DevelopmentUnit $developmentunit
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateDevelopmentUnitRequest $request, DevelopmentUnit $developmentUnit)
+    public function update(UpdateDevelopmentUnitRequest $request, DevelopmentUnit $developmentunit)
     {
 
         $data = $request->validated();
 
-        $developmentUnit->fill($data);
-        $developmentUnit->save($data);
+        $developmentunit->update($data);
 
         return response()->json([
-            'message' => lang('developmentUnit_update_successful')
+            'message' => lang('developmentunit_update_successful')
         ], 200);
 
     }
@@ -82,11 +81,11 @@ class DevelopmentUnitController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function destroy(DevelopmentUnit $developmentUnit)
+    public function destroy(DevelopmentUnit $developmentunit)
     {
         //$data['status'] = timestamp();
-        //$developmentUnit->fill($data);
-        //$developmentUnit->save($data);
+        //$developmentunit->fill($data);
+        //$developmentunit->save($data);
 
     }
 
