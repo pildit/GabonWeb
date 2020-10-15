@@ -77,8 +77,10 @@ class PermitController extends Controller
      */
     public function store(CreatePermitRequest $request)
     {
+        $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$request->get('lon')}, {$request->get('lat')}),4326),3857)";
         $permit = new PermitEntity();
         $permit->fill($request->all());
+        $permit->the_geom = $permit->the_geom ?? DB::raw("(select $geomQuery)");
         $permit->save();
 
         return response()->json([

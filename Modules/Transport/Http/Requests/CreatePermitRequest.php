@@ -14,7 +14,6 @@ class CreatePermitRequest extends FormRequest
     public function rules()
     {
         return [
-            'the_geom' => 'required',
             'permit_no' => 'required',
             'obsdate' => 'required|date_format:Y-m-d',
             'license_plate' => 'required|alpha_num',
