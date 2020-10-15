@@ -19,17 +19,17 @@ class ManagementUnitController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request,ManagementUnitService $managementUnitService)
+    public function index(Request $request,ManagementUnitService $managementunitService)
     {
-        $managementUnitService->validateRequest($request);
-        $managementUnitService->setPage($request->get('page'));
-        $managementUnitService->setPerPage($request->get('per_page'));
-        $managementUnitService->setSearch($request->get('search'));
+        $managementunitService->validateRequest($request);
+        $managementunitService->setPage($request->get('page'));
+        $managementunitService->setPerPage($request->get('per_page'));
+        $managementunitService->setSearch($request->get('search'));
 
-        return response()->json($managementUnitService->getPaginator());
+        return response()->json($managementunitService->getPaginator());
     }
     /**
-     * Store managementUnit
+     * Store managementunit
      * @param CreateManagementUnitRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -37,40 +37,40 @@ class ManagementUnitController extends Controller
     {
         $data = $request->validated();
 
-        $managementUnit = ManagementUnit::create($data);
+        $managementunit = ManagementUnit::create($data);
 
         return response()->json([
-            'message' => lang("managementUnit_created_successfully")
+            'message' => lang("managementunit_created_successfully")
         ], 201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param ManagementUnit $managementUnit
+     * @param ManagementUnit $managementunit
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(ManagementUnit $managementUnit)
+    public function show(ManagementUnit $managementunit)
     {
-        return response()->json(['data' => $managementUnit->get()->toArray()]);
+        return response()->json(['data' => $managementunit]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  ManagementUnit $managementUnit
+     * @param  ManagementUnit $managementunit
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateManagementUnitRequest $request, ManagementUnit $managementUnit)
+    public function update(UpdateManagementUnitRequest $request, ManagementUnit $managementunit)
     {
 
         $data = $request->validated();
 
-        $managementUnit->update($data);
+        $managementunit->update($data);
 
         return response()->json([
-            'message' => lang('managementUnit_update_successful')
+            'message' => lang('managementunit_update_successful')
         ], 200);
 
     }
@@ -81,11 +81,11 @@ class ManagementUnitController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function destroy(ManagementUnit $managementUnit)
+    public function destroy(ManagementUnit $managementunit)
     {
         //$data['status'] = timestamp();
-        //$managementUnit->fill($data);
-        //$managementUnit->save($data);
+        //$managementunit->fill($data);
+        //$managementunit->save($data);
 
     }
 

@@ -20,9 +20,9 @@ class ManagementPlanTest extends TestCase
     /** @test */
     public function it_create_a_development_plan()
     {
-        $managementUnit = factory(ManagementUnit::class)->create();
+        $managementunit = factory(ManagementUnit::class)->create();
         $response = $this->postJson('/api/managementplan',[
-            'ManagementUnit' => $managementUnit->Id,
+            'ManagementUnit' => $managementunit->Id,
             'Species' => '1',
             'GrossVolumeUFG' => '1',
             'GrossVolumeYear' => '1',
@@ -45,12 +45,12 @@ class ManagementPlanTest extends TestCase
     /** @test  */
     public function it_update_a_development_plan(){
 
-        $managementUnit = factory(ManagementUnit::class)->create();
-        $managementPlan = factory(ManagementPlan::class)->create(
-            ['ManagementUnit' => $managementUnit->Id]);
+        $managementunit = factory(ManagementUnit::class)->create();
+        $managementplan = factory(ManagementPlan::class)->create(
+            ['ManagementUnit' => $managementunit->Id]);
 
-        $response = $this->putJson('/api/managementplan/'.$managementPlan->Id, [
-            'ManagementUnit' => $managementUnit->Id,
+        $response = $this->putJson('/api/managementplan/'.$managementplan->Id, [
+            'ManagementUnit' => $managementunit->Id,
             'Species' => '1',
             'GrossVolumeUFG' => '1',
             'GrossVolumeYear' => '1',
