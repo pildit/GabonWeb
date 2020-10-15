@@ -14,13 +14,6 @@ use Modules\Admin\Entities\Role;
 
 class Permission extends PageResults
 {
-    public function getPaginator()
-    {
-        $this->query = PermissionEntity::ofSort($this->getSortCriteria());
-
-        return $this->setFilters(['name'])->getResults();
-    }
-
     public function getRolePagePaginator($role)
     {
         $this->query = PageRole::with(['role.permissions', 'page'])->where(['role_id' => $role->id]);
@@ -46,8 +39,8 @@ class Permission extends PageResults
             ]);
 
             foreach ($request->get('can') as $can) {
-                $permission = new PermissionEntity();
-                $permission->name = $page->resource . "." . $can;
+                $permissionName = $page->resource . "." . $can;
+                $permission = PermissionEntity::firstOrNew(['name' => $permissionName]);
                 $permission->save();
                 $permission->assignRole($role);
             }

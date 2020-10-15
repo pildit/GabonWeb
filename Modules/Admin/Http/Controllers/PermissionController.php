@@ -2,6 +2,7 @@
 
 namespace Modules\Admin\Http\Controllers;
 
+use App\Services\PageResults;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -22,14 +23,10 @@ class PermissionController extends Controller
      * Display a listing of the resource.
      * @return JsonResponse
      */
-    public function index(Request $request, Permission $permissionService)
+    public function index(Request $request, PageResults $pageResults)
     {
-        $permissionService->validateRequest($request);
-        $permissionService->setPage($request->get('page'));
-        $permissionService->setPerPage($request->get('per_page'));
-        $permissionService->setSearch($request->get('search'));
-
-        return response()->json($permissionService->getPaginator());
+        return response()
+            ->json($pageResults->getPaginator($request, PermissionEntity::class, ['name']));
     }
 
 
