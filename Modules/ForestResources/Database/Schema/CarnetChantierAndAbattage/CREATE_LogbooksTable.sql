@@ -1,3 +1,6 @@
+--
+-- Carnet d'abattage
+--
 create table "ForestResources"."LogbooksTable"
 (
     "Id" int not null,

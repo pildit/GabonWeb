@@ -1,3 +1,6 @@
+--
+-- Carnet d'abattage (items/rows)
+--
 create table "ForestResources"."LogbookItemsTable"
 (
     "Id" int not null,
@@ -9,6 +12,9 @@ create table "ForestResources"."LogbookItemsTable"
     "MinDiameter" decimal,
     "Length" decimal,
     "Volume" decimal,
+    "Latitude" varchar,
+    "Longitude" varchar,
+    "GPSAccuracy" decimal,
     "Note" text,
     "ObserveAt" timestamp not null,
     "CreatedAt" timestamp default current_timestamp not null,
@@ -78,6 +84,9 @@ select
     lbi."MinDiameter",
     lbi."Length",
     lbi."Volume",
+    lbi."Latitude",
+    lbi."Longitude",
+    lbi."GPSAccuracy",
     lbi."Note",
     lbi."ObserveAt",
     lbi."CreatedAt",
@@ -111,6 +120,9 @@ create or replace rule "LogbookItems_instead_of_insert"
         "MinDiameter",
         "Length",
         "Volume",
+        "Latitude",
+        "Longitude",
+        "GPSAccuracy",
         "Note",
         "ObserveAt",
         "CreatedAt",
@@ -128,6 +140,9 @@ create or replace rule "LogbookItems_instead_of_insert"
         new."MinDiameter",
         new."Length",
         new."Volume",
+        new."Latitude",
+        new."Longitude",
+        new."GPSAccuracy",
         new."Note",
         new."ObserveAt",
         new."CreatedAt",
@@ -144,6 +159,9 @@ create or replace rule "LogbookItems_instead_of_insert"
         "MinDiameter",
         "Length",
         "Volume",
+        "Latitude",
+        "Longitude",
+        "GPSAccuracy",
         "Note",
         "ObserveAt",
         "CreatedAt",
@@ -157,7 +175,6 @@ create or replace rule "LogbookItems_instead_of_update"
     do instead
     update "ForestResources"."LogbookItemsTable"
     set
-        "Logbook" = new."Logbook",
         "AnnualAllowableCutInventory" = new."AnnualAllowableCutInventory",
         "HewingId" = new."HewingId",
         "Species" = new."Species",
@@ -165,6 +182,9 @@ create or replace rule "LogbookItems_instead_of_update"
         "MinDiameter" = new."MinDiameter",
         "Length" = new."Length",
         "Volume" = new."Volume",
+        "Latitude" = new."Latitude",
+        "Longitude" = new."Longitude",
+        "GPSAccuracy" = new."GPSAccuracy",
         "Note" = new."Note",
         "ObserveAt" = new."ObserveAt",
         "UpdatedAt" = new."UpdatedAt",
@@ -181,6 +201,9 @@ create or replace rule "LogbookItems_instead_of_update"
         "MinDiameter",
         "Length",
         "Volume",
+        "Latitude",
+        "Longitude",
+        "GPSAccuracy",
         "Note",
         "ObserveAt",
         "CreatedAt",
