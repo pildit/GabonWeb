@@ -23,5 +23,5 @@ Route::prefix('parcels')->group(function () {
 
 Route::middleware('jwt:api')->resource('/developmentunit', DevelopmentUnitController::class)->except(['edit', 'create']);
 Route::middleware('jwt:api')->resource('/developmentplan', DevelopmentPlanController::class)->except(['edit', 'create']);
-Route::middleware('jwt:api')->resource('/managementplan', ManagementPlanController::class)->except(['edit', 'create']);
-Route::middleware('jwt:api')->resource('/managementunit', ManagementPlanController::class)->except(['edit', 'create']);
+Route::middleware('jwt:api')->resource('/managementplans', ManagementPlanController::class)->except(['edit', 'create']);
+Route::middleware('jwt:api')->resource('/managementunits', ManagementPlanController::class)->except(['edit', 'create']);
