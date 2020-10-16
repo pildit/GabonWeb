@@ -12,7 +12,7 @@ class Tracking extends Model
 
     protected $primaryKey = 'Id';
 
-    protected $fillable = ['User', 'Lat', 'Lon', 'ObserveDate'];
+    protected $fillable = ['User', 'Lat', 'Lon','GPSAccuracy', 'ObserveDate'];
 
     protected $table = 'transportation.PermitTracking';
 
