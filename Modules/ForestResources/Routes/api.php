@@ -21,5 +21,5 @@ Route::prefix('parcels')->group(function () {
     Route::middleware('jwt:api')->post('/destroy', 'ParcelController@destroy');
 });
 
-Route::middleware('jwt:api')->resource('/developmentunit', DevelopmentUnitController::class)->except(['edit', 'create']);
-Route::middleware('jwt:api')->resource('/developmentplan', DevelopmentPlanController::class)->except(['edit', 'create']);
+Route::middleware('jwt:api')->resource('/developmentunits', DevelopmentUnitController::class)->except(['edit', 'create']);
+Route::middleware('jwt:api')->resource('/developmentplans', DevelopmentPlanController::class)->except(['edit', 'create']);
