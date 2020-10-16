@@ -20,7 +20,7 @@ class ResourceType extends Model
      *
      * @var string
      */
-    protected $table = 'ForestResources.ResourceTypesTable';
+    protected $table = 'ForestResources.ResourceTypes';
 
     protected $primaryKey = "Id";
 }

@@ -14,8 +14,8 @@ class CreatePermitRequest extends FormRequest
     public function rules()
     {
         return [
-            'the_geom' => 'required',
             'permit_no' => 'required',
+            'mobile_id' => 'required|unique:Modules\\Transport\\Entities\\Permit,mobile_id',
             'obsdate' => 'required|date_format:Y-m-d',
             'license_plate' => 'required|alpha_num',
             'transport_comp' => 'required',

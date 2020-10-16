@@ -18,7 +18,7 @@ class TranslationTest extends TestCase
     {
         $token = $this->generateJwtToken();
 
-        $response = $this->getJson('/api/translation/dictionary', ['Authorization' => "Bearer {$token}"]);
+        $response = $this->getJson('/api/translations/dictionary', ['Authorization' => "Bearer {$token}"]);
 
         $response
             ->assertOk()
@@ -30,7 +30,7 @@ class TranslationTest extends TestCase
     /** @test */
     public function it_fails_getting_translation_dictionary_due_authentication()
     {
-        $response = $this->getJson('/api/translation/dictionary');
+        $response = $this->getJson('/api/translations/dictionary');
 
         $response
             ->assertUnauthorized()
@@ -43,7 +43,7 @@ class TranslationTest extends TestCase
     /** @test */
     public function it_fails_getting_list_of_trans_keys_paginated_due_the_authentication()
     {
-        $response = $this->getJson('/api/translation');
+        $response = $this->getJson('/api/translations');
 
         $response
             ->assertUnauthorized()
@@ -58,7 +58,7 @@ class TranslationTest extends TestCase
     {
         $token = $this->generateJwtToken();
 
-        $response = $this->getJson('/api/translation?sort=asc&sort_fields=text_key|text_en', ['Authorization' => "Bearer $token"]);
+        $response = $this->getJson('/api/translations?sort=asc&sort_fields=text_key|text_en', ['Authorization' => "Bearer $token"]);
 
         $response
             ->assertStatus(422)
@@ -73,7 +73,7 @@ class TranslationTest extends TestCase
     {
         $token = $this->generateJwtToken();
 
-        $response = $this->getJson('/api/translation?page=a&per_page=b', ['Authorization' => "Bearer $token"]);
+        $response = $this->getJson('/api/translations?page=a&per_page=b', ['Authorization' => "Bearer $token"]);
 
         $response
             ->assertStatus(422)
@@ -89,7 +89,7 @@ class TranslationTest extends TestCase
         $token = $this->generateJwtToken();
         factory(Language::class, 50)->create();
 
-        $response = $this->getJson('/api/translation', ['Authorization' => "Bearer $token"]);
+        $response = $this->getJson('/api/translations', ['Authorization' => "Bearer $token"]);
 
         $response
             ->assertOk()
@@ -129,7 +129,7 @@ class TranslationTest extends TestCase
         $per_page = 10;
         $page = 2;
 
-        $response = $this->getJson("/api/translation?page=$page&per_page=$per_page", ['Authorization' => "Bearer $token"]);
+        $response = $this->getJson("/api/translations?page=$page&per_page=$per_page", ['Authorization' => "Bearer $token"]);
 
         $response
             ->assertOk();
@@ -146,7 +146,7 @@ class TranslationTest extends TestCase
     {
         $token = $this->generateJwtToken();
 
-        $response = $this->getJson('/api/translation/1123123', ['Authorization' => "Bearer $token"]);
+        $response = $this->getJson('/api/translations/1123123', ['Authorization' => "Bearer $token"]);
 
         $response
             ->assertNotFound()
@@ -163,7 +163,7 @@ class TranslationTest extends TestCase
 
         $trans = factory(Language::class)->create();
 
-        $response = $this->getJson("/api/translation/{$trans->id}", ['Authorization' => "Bearer $token"]);
+        $response = $this->getJson("/api/translations/{$trans->id}", ['Authorization' => "Bearer $token"]);
 
         $response
             ->assertOk()
@@ -186,7 +186,7 @@ class TranslationTest extends TestCase
     {
         $token = $this->generateJwtToken();
 
-        $response = $this->postJson('/api/translation', [
+        $response = $this->postJson('/api/translations', [
             'text_key' => $this->faker->word,
             'text_us' => $this->faker->word,
             'text_ga' => $this->faker->word,
@@ -217,7 +217,7 @@ class TranslationTest extends TestCase
     {
         $token = $this->generateJwtToken();
 
-        $response = $this->postJson('/api/translation', [
+        $response = $this->postJson('/api/translations', [
             'text_key' => $this->faker->randomNumber(2),
             'text_us' => $this->faker->randomNumber(2),
             'mobile' => $this->faker->randomLetter
