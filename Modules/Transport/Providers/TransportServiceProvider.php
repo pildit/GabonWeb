@@ -2,6 +2,7 @@
 
 namespace Modules\Transport\Providers;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 
@@ -47,6 +48,8 @@ class TransportServiceProvider extends ServiceProvider
      */
     protected function registerConfig()
     {
+        Config::set('database.connections.pgsql.schema', 'transportation');
+
         $this->publishes([
             module_path($this->moduleName, 'Config/config.php') => config_path($this->moduleNameLower . '.php'),
         ], 'config');

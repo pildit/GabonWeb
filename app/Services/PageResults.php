@@ -80,6 +80,17 @@ class PageResults
     }
 
     /**
+     * @param array $fields
+     */
+    public function setSortFields($fields)
+    {
+        $this->sortFields = $fields;
+
+        return $this;
+    }
+
+
+    /**
      * Return paginator as array
      *
      * @return mixed
@@ -101,7 +112,9 @@ class PageResults
      */
     public function validateRequest(Request $request)
     {
-        $this->sortFields = explode('|', $request->get('sort_fields', 'id'));
+        if ($request->has('sort_fields'))
+            $this->sortFields = explode('|', $request->get('sort_fields'));
+        
         $this->sort = explode('|', $request->get('sort', 'desc'));
 
         throw_if(count($this->sort) != count($this->sortFields), ValidationException::withMessages([

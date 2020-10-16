@@ -19,3 +19,5 @@ Route::middleware('auth:api')->get('/forestresources', function (Request $reques
 
 
 Route::middleware('jwt:api')->resource('/constituent_permits', ConstituentPermitController::class)->except(['create', 'edit']);
+Route::middleware('jwt:api')->resource('/parcels', ParcelController::class)->except(['edit', 'create']);
+Route::middleware('jwt:api')->resource('/concessions', ConcessionsController::class)->except(['edit', 'create']);
