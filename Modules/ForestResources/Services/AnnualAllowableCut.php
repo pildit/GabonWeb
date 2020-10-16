@@ -14,7 +14,7 @@ class AnnualAllowableCut extends PageResults
 
         $this->query = AnnualAllowableCutEntity::ofSort($this->getSortCriteria());
 
-        return $this->setFilters(['Name', 'Geometry'])->getResults();
+        return $this->setFilters(['Name'])->getResults();
     }
 
 

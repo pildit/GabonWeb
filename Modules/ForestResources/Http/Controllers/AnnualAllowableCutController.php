@@ -2,6 +2,7 @@
 
 namespace Modules\ForestResources\Http\Controllers;
 
+use App\Services\PageResults;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -21,15 +22,13 @@ class AnnualAllowableCutController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @throws \Throwable
      */
-    public function index(Request $request,AnnualAllowableCutService $annualallowablecutService)
+    public function index(Request $request, PageResults $pr)
     {
-        $annualallowablecutService->validateRequest($request);
-        $annualallowablecutService->setPage($request->get('page'));
-        $annualallowablecutService->setPerPage($request->get('per_page'));
-        $annualallowablecutService->setSearch($request->get('search'));
+        $pr->setSortFields(['Id']);
 
-        return response()->json($annualallowablecutService->getPaginator());
+        return response()->json($pr->getPaginator($request, AnnualAllowableCut::class , [ 'Name']));
     }
+
     /**
      * Store annualallowablecut
      * @param CreateAnnualAllowableCutRequest $request
@@ -54,7 +53,7 @@ class AnnualAllowableCutController extends Controller
      */
     public function show(AnnualAllowableCut $annualallowablecut)
     {
-        return response()->json(['data' => $annualallowablecut->get()->toArray()]);
+        return response()->json(['data' => $annualallowablecut]);
     }
 
     /**

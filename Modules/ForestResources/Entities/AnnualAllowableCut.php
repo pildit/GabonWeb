@@ -13,7 +13,7 @@ class AnnualAllowableCut extends Model
      *
      * @var array
      */
-    protected $fillable = ['Name','ManagementUnit','Geometry'];
+    protected $fillable = ['Name','ManagementUnit','ManagementPlan','Geometry'];
 
     /**
      * The table associated with the model.
