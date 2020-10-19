@@ -2,10 +2,17 @@
 
 namespace Modules\ForestResources\Entities;
 
+use App\Services\Sortable;
 use Illuminate\Database\Eloquent\Model;
 
 class Parcel extends Model
 {
+    use Sortable;
+
+    const CREATED_AT = "CreatedAt";
+    const UPDATED_AT = "UpdatedAt";
+    const DELETED_AT = "DeletedAt";
+
     public $timestamps = false;
 
     /**
