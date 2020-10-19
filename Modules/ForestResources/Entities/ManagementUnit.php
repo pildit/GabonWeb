@@ -23,4 +23,17 @@ class ManagementUnit extends Model
     protected $table = 'ForestResources.ManagementUnits';
 
     protected $primaryKey = "Id";
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function concession()
+    {
+        return $this->hasOne(Concession::class);
+    }
+
+    public function plans()
+    {
+        return $this->hasMany(DevelopmentPlan::class);
+    }
 }

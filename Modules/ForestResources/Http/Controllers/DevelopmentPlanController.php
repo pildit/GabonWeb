@@ -2,6 +2,7 @@
 
 namespace Modules\ForestResources\Http\Controllers;
 
+use App\Services\PageResults;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -12,24 +13,6 @@ use Modules\ForestResources\Services\DevelopmentPlan as DevelopmentPlanService;
 
 class DevelopmentPlanController extends Controller
 {
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @param Request $request
-     * @param DevelopmentPlanService $developmentplanService
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Throwable
-     */
-    public function index(Request $request,DevelopmentPlanService $developmentplanService)
-    {
-        $developmentplanService->validateRequest($request);
-        $developmentplanService->setPage($request->get('page'));
-        $developmentplanService->setPerPage($request->get('per_page'));
-        $developmentplanService->setSearch($request->get('search'));
-
-        return response()->json($developmentplanService->getPaginator());
-    }
     /**
      * Store developmentplan
      * @param CreateDevelopmentPlanRequest $request

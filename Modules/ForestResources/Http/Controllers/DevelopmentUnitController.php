@@ -2,31 +2,28 @@
 
 namespace Modules\ForestResources\Http\Controllers;
 
+use App\Services\PageResults;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\DevelopmentUnit;
 use Modules\ForestResources\Http\Requests\CreateDevelopmentUnitRequest;
 use Modules\ForestResources\Http\Requests\UpdateDevelopmentUnitRequest;
-use Modules\ForestResources\Services\DevelopmentUnit as DevelopmentUnitService;
 
 
 class DevelopmentUnitController extends Controller
 {
 
     /**
-     * Display a listing of the resource.
-     *
+     * @param Request $request
+     * @param PageResults $pr
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request,DevelopmentUnitService $developmentunitService)
+    public function index(Request $request, PageResults $pr)
     {
-        $developmentunitService->validateRequest($request);
-        $developmentunitService->setPage($request->get('page'));
-        $developmentunitService->setPerPage($request->get('per_page'));
-        $developmentunitService->setSearch($request->get('search'));
+        $pr->setSortFields(['Id']);
 
-        return response()->json($developmentunitService->getPaginator());
+        return response()->json($pr->getPaginator($request, DevelopmentUnit::class , ['Id', 'Name','Start','End','CreatedAt']));
     }
     /**
      * Store developmentunit
