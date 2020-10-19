@@ -2,11 +2,18 @@
 
 namespace Modules\ForestResources\Entities;
 
+use App\Services\Sortable;
 use Illuminate\Database\Eloquent\Model;
 
 class DevelopmentUnit extends Model
 {
-    public $timestamps = false;
+    use Sortable;
+
+    const CREATED_AT = "CreatedAt";
+    const UPDATED_AT = "UpdatedAt";
+    const DELETED_AT = "DeletedAt";
+
+    public $timestamps = true;
 
     /**
      * The attributes that are mass assignable.
@@ -23,4 +30,15 @@ class DevelopmentUnit extends Model
     protected $table = 'ForestResources.DevelopmentUnits';
 
     protected $primaryKey = "Id";
+
+    public function concession()
+    {
+        return $this->hasOne(Concession::class);
+    }
+
+    public function plans()
+    {
+        return $this->hasMany(DevelopmentPlan::class);
+    }
+
 }

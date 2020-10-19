@@ -6,7 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class DevelopmentPlan extends Model
 {
-    public $timestamps = false;
+    const CREATED_AT = "CreatedAt";
+    const UPDATED_AT = "UpdatedAt";
+    const DELETED_AT = "DeletedAt";
+
+    public $timestamps = true;
 
     /**
      * The attributes that are mass assignable.

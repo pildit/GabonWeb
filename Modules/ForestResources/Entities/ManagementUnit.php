@@ -27,13 +27,4 @@ class ManagementUnit extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function concession()
-    {
-        return $this->hasOne(Concession::class);
-    }
-
-    public function plans()
-    {
-        return $this->hasMany(DevelopmentPlan::class);
-    }
 }
