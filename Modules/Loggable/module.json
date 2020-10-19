@@ -1,0 +1,13 @@
+{
+    "name": "Loggable",
+    "alias": "loggable",
+    "description": "",
+    "keywords": [],
+    "order": 0,
+    "providers": [
+        
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

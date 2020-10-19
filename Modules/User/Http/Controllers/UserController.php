@@ -78,8 +78,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->destroy();
-
+        $user->delete();
+ 
         return response()->json([
             'message' => lang('Delete succesful')
         ], 204);
@@ -278,7 +278,7 @@ class UserController extends Controller
     public function assignRoleToUser(Request $request, User $user)
     {
         $data = $request->validate([
-            'role' => 'required|exists:Spatie\Permission\Models\Role,name'
+            'role' => 'required|exists:Modules\Admin\Entities\Role,name'
         ]);
 
         $user->assignRole($data['role']);

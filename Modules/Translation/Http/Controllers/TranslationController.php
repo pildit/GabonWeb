@@ -2,7 +2,6 @@
 
 namespace Modules\Translation\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -13,6 +12,12 @@ use Modules\Translation\Services\Translation;
 
 class TranslationController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('permission:translations.view', ['only' => 'index']);
+    }
+
     /**
      * @param Request $request
      * @param Translation $translation

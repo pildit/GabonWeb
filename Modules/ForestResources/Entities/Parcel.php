@@ -21,4 +21,6 @@ class Parcel extends Model
      * @var string
      */
     protected $table = 'ForestResources.Parcels';
+
+    protected $primaryKey = "Id";
 }

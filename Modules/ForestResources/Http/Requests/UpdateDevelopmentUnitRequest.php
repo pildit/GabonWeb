@@ -15,9 +15,9 @@ class UpdateDevelopmentUnitRequest extends FormRequest
     {
         return [
             'Name' => 'required|string',
-            'Concession' => 'required|integer',
-            'Start' => 'required|date',
-            'End' => 'required|date',
+            'Concession' => 'integer',
+            'Start' => 'date',
+            'End' => 'date',
             'Geometry' => 'required|regex:/\POLYGON\b/',
         ];
     }

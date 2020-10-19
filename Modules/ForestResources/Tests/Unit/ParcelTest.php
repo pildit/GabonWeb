@@ -20,7 +20,7 @@ class ParcelTest extends TestCase
     {
 
 
-        $response = $this->postJson('/api/parcels/store',[
+        $response = $this->postJson('/api/parcels',[
             'Name' => 'Test',
             'geometry_shp' =>  new \Illuminate\Http\UploadedFile(resource_path('test-files/provinces_gabon.shp'), 'provinces_gabon.shp', null, null, null, true),
             'geometry_shx' => new \Illuminate\Http\UploadedFile(resource_path('test-files/provinces_gabon.shx'), 'provinces_gabon.shx', null, null, null, true),
