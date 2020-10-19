@@ -1,21 +1,21 @@
 <?php
 
-namespace Modules\ForestResources\Providers;
+namespace Modules\Admin\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 
-class ParcelServiceProvider extends ServiceProvider
+class AdminServiceProvider extends ServiceProvider
 {
     /**
      * @var string $moduleName
      */
-    protected $moduleName = 'Parcel';
+    protected $moduleName = 'Admin';
 
     /**
      * @var string $moduleNameLower
      */
-    protected $moduleNameLower = 'parcel';
+    protected $moduleNameLower = 'admin';
 
     /**
      * Boot the application events.
@@ -26,6 +26,7 @@ class ParcelServiceProvider extends ServiceProvider
     {
         $this->registerTranslations();
         $this->registerConfig();
+        $this->registerViews();
         $this->registerFactories();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
     }
@@ -53,10 +54,24 @@ class ParcelServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             module_path($this->moduleName, 'Config/config.php'), $this->moduleNameLower
         );
+    }
 
-        $this->mergeConfigFrom(
-                module_path($this->moduleName, 'Config/permission.php'), 'permission'
-        );
+    /**
+     * Register views.
+     *
+     * @return void
+     */
+    public function registerViews()
+    {
+        $viewPath = resource_path('views/modules/' . $this->moduleNameLower);
+
+        $sourcePath = module_path($this->moduleName, 'Resources/views');
+
+        $this->publishes([
+            $sourcePath => $viewPath
+        ], ['views', $this->moduleNameLower . '-module-views']);
+
+        $this->loadViewsFrom(array_merge($this->getPublishableViewPaths(), [$sourcePath]), $this->moduleNameLower);
     }
 
     /**
@@ -107,5 +122,4 @@ class ParcelServiceProvider extends ServiceProvider
         }
         return $paths;
     }
-
 }

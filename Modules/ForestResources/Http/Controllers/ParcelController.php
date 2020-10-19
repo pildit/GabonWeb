@@ -38,11 +38,14 @@ class ParcelController extends Controller
      */
     public function store(CreateUpdateParcelRequest $request)
     {
+
+
         $data = $request->validated();
+
+        /* Upload and get polygon from Shapefile
 
         try {
             // Open Shapefile
-
             $upload_folder = "uploads";
             $upload_path = public_path($upload_folder).'/';
             $file_name_shp = time().'.shp';
@@ -69,10 +72,8 @@ class ParcelController extends Controller
                     continue;
                 }
 
-               // dd($Geometry->getDataArray()); //- get name
+                // dd($Geometry->getDataArray()); //- get name
                 $polygon = $Geometry->getWKT();
-                dd($polygon);
-                exit;
 
             }
         } catch (ShapefileException $e) {
@@ -81,10 +82,12 @@ class ParcelController extends Controller
             ], 200);
         }
 
+
         $data['Geometry'] = isset($polygon) ? $polygon : '';
 
+          */
+
         $parcel = Parcel::create($data);
-        //TODO: Delete temp files shp,shx,dbf
 
         return response()->json([
             'message' => lang("parcel_created_successfully")
@@ -113,6 +116,8 @@ class ParcelController extends Controller
     {
 
         $data = $request->validated();
+
+        /* Upload and get polygon from Shapefile
 
         try {
             // Open Shapefile
@@ -145,8 +150,6 @@ class ParcelController extends Controller
 
                 // dd($Geometry->getDataArray()); //- get name
                 $polygon = $Geometry->getWKT();
-                dd($polygon);
-                exit;
 
             }
         } catch (ShapefileException $e) {
@@ -155,7 +158,9 @@ class ParcelController extends Controller
             ], 200);
         }
 
-        $data['Geometry'] = isset($polygon) ? $polygon : '';
+        */
+
+       // $data['Geometry'] = isset($polygon) ? $polygon : '';
 
         $parcel->fill($data);
         $parcel->save($data);

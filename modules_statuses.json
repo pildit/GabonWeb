@@ -2,5 +2,7 @@
     "User": true,
     "Transport": true,
     "Translation": true,
-    "ForestResources": true
+    "ForestResources": true,
+   	"Loggable": true,
+    "Admin": true
 }

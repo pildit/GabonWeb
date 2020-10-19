@@ -15,9 +15,7 @@ class CreateUpdateParcelRequest extends FormRequest
     {
         return [
             'Name' => 'required',
-            'geometry_shp' => 'required',
-            'geometry_shx' => 'required',
-            'geometry_dbf' => 'required',
+            'Geometry' => 'required|regex:/\POLYGON\b/',
         ];
     }
 
