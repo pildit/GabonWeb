@@ -14,7 +14,7 @@ class CreateConstituentPermitRequest extends FormRequest
     public function rules()
     {
         return [
-            'permit_type' => 'required|exists:PermitTypes,Id',
+            'permit_type' => 'required|exists:pgsql.ForestResources.PermitTypes,Id',
             'permit_number' => 'required'
         ];
     }
