@@ -2,18 +2,25 @@
 
 namespace Modules\ForestResources\Entities;
 
+use App\Services\Sortable;
 use Illuminate\Database\Eloquent\Model;
 
 class AnnualAllowableCut extends Model
 {
-    public $timestamps = false;
+    use Sortable;
+
+    const CREATED_AT = "CreatedAt";
+    const UPDATED_AT = "UpdatedAt";
+    const DELETED_AT = "DeletedAt";
+
+    public $timestamps = true;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['Name','ManagementUnit','ManagementPlan','Geometry'];
+    protected $fillable = ['Name','AacId','ManagementUnit','ManagementPlan','Geometry'];
 
     /**
      * The table associated with the model.

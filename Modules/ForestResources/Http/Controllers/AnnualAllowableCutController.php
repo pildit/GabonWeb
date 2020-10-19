@@ -9,7 +9,7 @@ use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\AnnualAllowableCut;
 use Modules\ForestResources\Http\Requests\CreateAnnualAllowableCutRequest;
 use Modules\ForestResources\Http\Requests\UpdateAnnualAllowableCutRequest;
-use Modules\ForestResources\Services\AnnualAllowableCut as AnnualAllowableCutService;
+use Illuminate\Support\Facades\DB;
 
 class AnnualAllowableCutController extends Controller
 {
@@ -37,6 +37,14 @@ class AnnualAllowableCutController extends Controller
     public function store(CreateAnnualAllowableCutRequest $request)
     {
         $data = $request->validated();
+
+        $AacIdName =  date("y")."_".strtoupper(substr($data['Name'], 0, 3));
+        $aacNumber = DB::table('ForestResources.AnnualAllowableCuts')
+            ->where('AacId','LIKE', $AacIdName."%")
+            ->count();
+
+        $aacNumber = sprintf("%03d", ++$aacNumber);
+        $data['AacId'] = $AacIdName."_".$aacNumber;
 
         $annualallowablecut = AnnualAllowableCut::create($data);
 
@@ -66,7 +74,6 @@ class AnnualAllowableCutController extends Controller
     public function update(UpdateAnnualAllowableCutRequest $request, AnnualAllowableCut $annualallowablecut)
     {
         $data = $request->validated();
-
         $annualallowablecut->update($data);
 
         return response()->json([
