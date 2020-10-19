@@ -14,9 +14,12 @@ class ConstituentPermit extends Model
 
     protected $table = 'ForestResources.ConstituentPermits';
 
-    public $timestamps = false;
+    public $timestamps = true;
+	protected $dateFormat = 'Y-m-d H:i:s.u';
 
     protected $primaryKey = 'Id';
 
-
+    const CREATED_AT = 'CreatedAt';
+    const UPDATED_AT = 'UpdatedAt';
+    const DELETED_AT = 'DeletedAt';
 }
