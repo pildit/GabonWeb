@@ -13,7 +13,7 @@ class Parcel extends Model
     const UPDATED_AT = "UpdatedAt";
     const DELETED_AT = "DeletedAt";
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     /**
      * The attributes that are mass assignable.
