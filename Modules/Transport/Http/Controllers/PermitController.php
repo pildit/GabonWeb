@@ -95,7 +95,7 @@ class PermitController extends Controller
      */
     public function update(PermitEntity $permit, UpdatePermitRequest $request)
     {
-        $permit->update($request->all());
+        $permit->update($request->validated());
 
         return response()->json([
             'data' => $permit
@@ -144,9 +144,11 @@ class PermitController extends Controller
             $trackings[$k]->User = $this->jwtPayload('data.id');
             $trackings[$k]->Lat = $coordinate['lat'];
             $trackings[$k]->Lon = $coordinate['lon'];
+            $trackings[$k]->GPSAccuracy = $coordinate['gps_acu'] ?? 0;
             $trackings[$k]->ObserveAt = $coordinate['obsdate'];
             $trackings[$k]->Geometry = DB::raw("(select $geomQuery)");
         }
+
         $permit->tracking()->saveMany($trackings);
 
         return response()->json([

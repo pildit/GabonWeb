@@ -3,5 +3,6 @@
     "Transport": true,
     "Translation": true,
     "ForestResources": true,
-   	"Loggable": true
+   	"Loggable": true,
+    "Admin": true
 }
