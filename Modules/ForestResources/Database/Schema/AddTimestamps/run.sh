@@ -22,6 +22,6 @@ while [ ! -z "${1}" ]; do
 done;
 
 echo "Add timestamps to tables in ForestResources schema: ${DBNAME}";
-psql --host localhost --dbname ${DBNAME} --user ${USERNAME} < "./UpdateTablesWithTimestamps.sql" | tee database.log;
+psql --host localhost --dbname ${DBNAME} --user ${USERNAME} < "./schema.sql" | tee database.log;
 popd 2>&1 1>/dev/null
 
