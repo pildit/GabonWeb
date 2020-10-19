@@ -1,0 +1,12 @@
+\include AnnualAllowableCuts.sql
+\include AnnualOperationPlans.sql
+\include ConstituentPermits.sql
+\include Concessions.sql
+\include DevelopmentPlans.sql
+\include DevelopmentUnits.sql
+\include ManagementPlans.sql
+\include ManagementUnits.sql
+\include PermitTypes.sql
+\include Parcels.sql
+\include InventoryQualities.sql
+\include AnnualAllowableCutInventory.sql

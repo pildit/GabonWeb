@@ -18,6 +18,8 @@ create schema "ForestResources";
 \include entities/InventoryQualities.sql
 \include entities/AnnualAllowableCutInventory.sql
 
+\include views/schema.sql
+
 -- Relationships between entities
 \include foreign.keys.sql
 
