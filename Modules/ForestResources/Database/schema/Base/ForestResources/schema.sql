@@ -2,21 +2,24 @@
 create schema "ForestResources";
 
 -- Entities
-\include ForestResources/entities/BaseResources.sql
-\include ForestResources/entities/ResourceTypes.sql
+\include entities/BaseResources.sql
+\include entities/ResourceTypes.sql
 
-\include ForestResources/entities/AnnualAllowableCuts.sql
-\include ForestResources/entities/AnnualOperationPlans.sql
-\include ForestResources/entities/ConstituentPermits.sql
-\include ForestResources/entities/Concessions.sql
-\include ForestResources/entities/DevelopmentPlans.sql
-\include ForestResources/entities/DevelopmentUnits.sql
-\include ForestResources/entities/ManagementPlans.sql
-\include ForestResources/entities/ManagementUnits.sql
-\include ForestResources/entities/PermitTypes.sql
-\include ForestResources/entities/Parcels.sql
-\include ForestResources/entities/InventoryQualities.sql
-\include ForestResources/entities/AnnualAllowableCutInventory.sql
+\include entities/AnnualAllowableCuts.sql
+\include entities/AnnualOperationPlans.sql
+\include entities/ConstituentPermits.sql
+\include entities/Concessions.sql
+\include entities/DevelopmentPlans.sql
+\include entities/DevelopmentUnits.sql
+\include entities/ManagementPlans.sql
+\include entities/ManagementUnits.sql
+\include entities/PermitTypes.sql
+\include entities/Parcels.sql
+\include entities/InventoryQualities.sql
+\include entities/AnnualAllowableCutInventory.sql
 
 -- Relationships between entities
-\include ForestResources/foreign.keys.sql
+\include foreign.keys.sql
+
+-- DATA
+\include ForestResources.data.sql
