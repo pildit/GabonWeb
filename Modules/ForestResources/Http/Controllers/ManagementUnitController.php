@@ -2,13 +2,13 @@
 
 namespace Modules\ForestResources\Http\Controllers;
 
+use App\Services\PageResults;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\ManagementUnit;
 use Modules\ForestResources\Http\Requests\CreateManagementUnitRequest;
 use Modules\ForestResources\Http\Requests\UpdateManagementUnitRequest;
-use Modules\ForestResources\Services\ManagementUnit as ManagementUnitService;
 
 
 class ManagementUnitController extends Controller
@@ -16,17 +16,13 @@ class ManagementUnitController extends Controller
 
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @return Response
      */
-    public function index(Request $request,ManagementUnitService $managementunitService)
+    public function index(Request $request, PageResults $pr)
     {
-        $managementunitService->validateRequest($request);
-        $managementunitService->setPage($request->get('page'));
-        $managementunitService->setPerPage($request->get('per_page'));
-        $managementunitService->setSearch($request->get('search'));
+        $pr->setSortFields(['Id']);
 
-        return response()->json($managementunitService->getPaginator());
+        return response()->json($pr->getPaginator($request, ManagementUnit::class , ['Name']));
     }
     /**
      * Store managementunit

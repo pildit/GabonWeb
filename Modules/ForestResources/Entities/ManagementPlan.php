@@ -2,10 +2,17 @@
 
 namespace Modules\ForestResources\Entities;
 
+use App\Services\Sortable;
 use Illuminate\Database\Eloquent\Model;
 
 class ManagementPlan extends Model
 {
+    use Sortable;
+
+    const CREATED_AT = "CreatedAt";
+    const UPDATED_AT = "UpdatedAt";
+    const DELETED_AT = "DeletedAt";
+
     public $timestamps = false;
 
     /**
@@ -24,4 +31,11 @@ class ManagementPlan extends Model
 
     protected $primaryKey = "Id";
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function units()
+    {
+        return $this->hasMany(ManagementUnit::class);
+    }
 }

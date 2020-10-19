@@ -2,33 +2,26 @@
 
 namespace Modules\ForestResources\Http\Controllers;
 
+use App\Services\PageResults;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\ManagementPlan;
 use Modules\ForestResources\Http\Requests\CreateManagementPlanRequest;
 use Modules\ForestResources\Http\Requests\UpdateManagementPlanRequest;
-use Modules\ForestResources\Services\ManagementPlan as ManagementPlanService;
 
 class ManagementPlanController extends Controller
 {
 
     /**
      * Display a listing of the resource.
-     *
-     * @param Request $request
-     * @param ManagementPlanService $managementplanService
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Throwable
+     * @return Response
      */
-    public function index(Request $request,ManagementPlanService $managementplanService)
+    public function index(Request $request, PageResults $pr)
     {
-        $managementplanService->validateRequest($request);
-        $managementplanService->setPage($request->get('page'));
-        $managementplanService->setPerPage($request->get('per_page'));
-        $managementplanService->setSearch($request->get('search'));
+        $pr->setSortFields(['Id']);
 
-        return response()->json($managementplanService->getPaginator());
+        return response()->json($pr->getPaginator($request, ManagementPlan::class , ['Name']));
     }
     /**
      * Store managementplan
