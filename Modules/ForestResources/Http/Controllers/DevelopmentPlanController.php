@@ -17,21 +17,21 @@ class DevelopmentPlanController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
-     * @param DevelopmentPlanService $developmentPlanService
+     * @param DevelopmentPlanService $developmentplanService
      * @return \Illuminate\Http\JsonResponse
      * @throws \Throwable
      */
-    public function index(Request $request,DevelopmentPlanService $developmentPlanService)
+    public function index(Request $request,DevelopmentPlanService $developmentplanService)
     {
-        $developmentPlanService->validateRequest($request);
-        $developmentPlanService->setPage($request->get('page'));
-        $developmentPlanService->setPerPage($request->get('per_page'));
-        $developmentPlanService->setSearch($request->get('search'));
+        $developmentplanService->validateRequest($request);
+        $developmentplanService->setPage($request->get('page'));
+        $developmentplanService->setPerPage($request->get('per_page'));
+        $developmentplanService->setSearch($request->get('search'));
 
-        return response()->json($developmentPlanService->getPaginator());
+        return response()->json($developmentplanService->getPaginator());
     }
     /**
-     * Store developmentPlan
+     * Store developmentplan
      * @param CreateDevelopmentPlanRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -40,14 +40,14 @@ class DevelopmentPlanController extends Controller
         $data = $request->validated();
         if (DevelopmentPlan::where('DevelopmentUnit', $data['DevelopmentUnit'])->where('Species', $data['Species'])->count() > 0) {
             return response()->json([
-                'message' => lang("developmentPlan_developmentunit_species_exist")
+                'message' => lang("developmentplan_developmentunit_species_exist")
             ], 200);
         }
 
-        $developmentPlan = DevelopmentPlan::create($data);
+        $developmentplan = DevelopmentPlan::create($data);
 
         return response()->json([
-            'message' => lang("developmentPlan_created_successfully")
+            'message' => lang("developmentplan_created_successfully")
         ], 201);
     }
 
@@ -57,35 +57,35 @@ class DevelopmentPlanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(DevelopmentPlan $developmentPlan)
+    public function show(DevelopmentPlan $developmentplan)
     {
-        return response()->json(['data' => $developmentPlan->get()->toArray()]);
+        return response()->json(['data' => $developmentplan]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param UpdateDevelopmentPlanRequest $request
-     * @param DevelopmentPlan $developmentPlan
+     * @param DevelopmentPlan $developmentplan
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateDevelopmentPlanRequest $request, DevelopmentPlan $developmentPlan)
+    public function update(UpdateDevelopmentPlanRequest $request, DevelopmentPlan $developmentplan)
     {
         $data = $request->validated();
 
-        if (DevelopmentPlan::where('DevelopmentUnit', $data['DevelopmentUnit'])->where('Species', $data['Species'])->where('Id', '!=', $developmentPlan->get()[0]->Id)->count() > 0) {
+        if (DevelopmentPlan::where('DevelopmentUnit', $data['DevelopmentUnit'])->where('Species', $data['Species'])->where('Id', '!=', $developmentplan->get()[0]->Id)->count() > 0) {
             return response()->json([
-                'message' => lang("developmentPlan_developmentunit_species_exist")
+                'message' => lang("developmentplan_developmentunit_species_exist")
             ], 200);
-        } elseif( DevelopmentPlan::where('DevelopmentUnit', $data['DevelopmentUnit'])->where('Species', $data['Species'])->where('Id', '=', $developmentPlan->get()[0]->Id)->count() > 0) {
+        } elseif( DevelopmentPlan::where('DevelopmentUnit', $data['DevelopmentUnit'])->where('Species', $data['Species'])->where('Id', '=', $developmentplan->get()[0]->Id)->count() > 0) {
             unset($data['DevelopmentUnit']);
             unset($data['Species']);
         }
 
-        $developmentPlan->update($data);
+        $developmentplan->update($data);
 
         return response()->json([
-            'message' => lang('developmentPlan_update_successful')
+            'message' => lang('developmentplan_update_successful')
         ], 200);
 
     }
@@ -96,11 +96,11 @@ class DevelopmentPlanController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function destroy(DevelopmentPlan $developmentPlan)
+    public function destroy(DevelopmentPlan $developmentplan)
     {
         //$data['status'] = timestamp();
-        //$developmentPlan->fill($data);
-        //$developmentPlan->save($data);
+        //$developmentplan->fill($data);
+        //$developmentplan->save($data);
 
     }
 
