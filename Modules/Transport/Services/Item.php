@@ -9,12 +9,6 @@ use Modules\Transport\Entities\Item as ItemEntity;
 
 class Item extends PageResults
 {
-    public function getPaginator()
-    {
-        $data = ItemEntity::ofSort($this->getSortCriteria())
-            ->paginate($this->per_page);
-        return $data;
-    }
 
     public function getMobileForm()
     {

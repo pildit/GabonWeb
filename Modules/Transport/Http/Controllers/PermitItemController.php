@@ -2,11 +2,14 @@
 
 namespace Modules\Transport\Http\Controllers;
 
+use App\Services\PageResults;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Transport\Entities\Permit;
+use Modules\Transport\Entities\Item as ItemEntity;
+
 use Modules\Transport\Http\Requests\CreatePermitItemRequest;
 use Modules\Transport\Services\Item;
 
@@ -19,13 +22,9 @@ class PermitItemController extends Controller
      * @param Permit $permit
      * @return JsonResponse
      */
-    public function index(Permit $permit, Request $request, Item $itemService)
+    public function index(Permit $permit, Request $request, PageResults $pageResults)
     {
-        $itemService->validateRequest($request);
-        $itemService->setPage($request->get('page'));
-        $itemService->setPerPage($request->get('per_page'));
-
-        return response()->json($itemService->getPaginator());
+        return response()->json($pageResults->getPaginator($request, ItemEntity::class , ["trunk_number", "lot_number", "species"]));
     }
 
     /**
