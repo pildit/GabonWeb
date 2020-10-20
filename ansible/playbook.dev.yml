@@ -1,0 +1,5 @@
+- hosts: wwwgabon-dev
+  roles:
+    - debian
+    - apache
+    - website

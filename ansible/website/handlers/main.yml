@@ -1,0 +1,20 @@
+---
+# handlers file for website
+- name: "Reload Apache2"
+  become: yes
+  service:
+    name: "apache2.service"
+    state: reloaded
+    enabled: yes
+- name: "Restart Apache2"
+  become: yes
+  service:
+    name: "apache2.service"
+    state: restarted
+    enabled: yes
+- name: "Start apache-htcacheclean"
+  become: yes
+  service:
+    name: "apache-htcacheclean"
+    state: started
+    enabled: yes

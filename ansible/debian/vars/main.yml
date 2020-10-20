@@ -1,0 +1,12 @@
+---
+# vars file for debian
+baseline_packages:
+  - aptitude
+  - git
+  - nfs-common
+  - python-apt
+  - software-properties-common
+  - tmux
+  - unattended-upgrades
+  - wget
+  - iptables-persistent

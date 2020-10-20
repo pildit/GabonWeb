@@ -1,0 +1,4 @@
+---
+# vars file for apache
+baseline_packages:
+  - apache2
