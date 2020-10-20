@@ -2,6 +2,7 @@
 
 namespace Modules\Translation\Http\Controllers;
 
+use App\Services\PageResults;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -24,14 +25,9 @@ class TranslationController extends Controller
      * @return JsonResponse
      * @throws \Throwable
      */
-    public function index(Request $request, Translation $transService)
+    public function index(Request $request, PageResults $pageResults)
     {
-        $transService->validateRequest($request);
-        $transService->setPage($request->get('page'));
-        $transService->setPerPage($request->get('per_page'));
-        $transService->setSearch($request->get('search'));
-
-        return response()->json($transService->getPaginator());
+        return response()->json($pageResults->getPaginator($request, Language::class , ['text_key', 'text_us', 'text_ga']));
     }
 
     /**

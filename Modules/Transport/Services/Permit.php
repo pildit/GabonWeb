@@ -11,16 +11,6 @@ use Modules\Transport\Entities\Permit as PermitEntity;
 
 class Permit extends PageResults
 {
-    /**
-     * @return mixed
-     */
-    public function getPaginator()
-    {
-
-        $data = PermitEntity::ofSort($this->getSortCriteria())
-            ->paginate($this->per_page);
-        return $data;
-    }
 
     /**
      * @param $bbox
