@@ -40,8 +40,8 @@ alter table "ForestResources"."PermitTypesTable"
 alter table "ForestResources"."ResourceTypesTable"
     alter column "Id" set default nextval('"ForestResources"."SEQ_ResourceTypes"'::regclass);
 
-
-
+alter table "Taxonomy"."SpeciesTable"
+    alter column "Id" set default nextval('"Taxonomy"."SEQ_Species"'::regclass);
 
 
 
