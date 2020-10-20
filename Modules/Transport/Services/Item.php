@@ -20,12 +20,22 @@ class Item extends PageResults
         // mobile form
         $array = [
             [
+                "f" => "obsdate",
+                "fl" => "",
+                "type" => "date"
+            ],
+            [
                 "f" => "appuser",
                 "fl" => "",
                 "type" => "str"
             ],
             [
                 "f" => "mobile_id",
+                "fl" => "",
+                "type" => "str"
+            ],
+            [
+                "f" => "permit_id",
                 "fl" => "",
                 "type" => "str"
             ],
