@@ -23,6 +23,11 @@ class ManagementUnit extends Model
     protected $fillable = ['Name','DevelopmentUnit','Geometry'];
 
     /**
+     * @var string
+     */
+    protected $dateFormat = 'Y-m-d H:i:s.u';
+
+    /**
      * The table associated with the model.
      *
      * @var string
@@ -36,7 +41,12 @@ class ManagementUnit extends Model
      */
     public function plans()
     {
-        return $this->hasMany(ManagementPlan::class);
+        return $this->hasMany(ManagementPlan::class,"ManagementUnit");
+    }
+
+    public function developmentUnit()
+    {
+        return $this->belongsTo(DevelopmentUnit::class,"DevelopmentUnit");
     }
 
 }

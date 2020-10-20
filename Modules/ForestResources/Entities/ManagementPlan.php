@@ -23,6 +23,11 @@ class ManagementPlan extends Model
     protected $fillable = ['ManagementUnit','Species','GrossVolumeUFG','GrossVolumeYear','YieldVolumeYear','CommercialVolumeYear'];
 
     /**
+     * @var string
+     */
+    protected $dateFormat = 'Y-m-d H:i:s.u';
+
+    /**
      * The table associated with the model.
      *
      * @var string

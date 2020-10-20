@@ -17,5 +17,5 @@ Route::middleware('jwt:api')->resource('/parcels', ParcelController::class)->exc
 Route::middleware('jwt:api')->resource('/developmentunit', DevelopmentUnitController::class)->except(['edit', 'create']);
 Route::middleware('jwt:api')->resource('/developmentplan', DevelopmentPlanController::class)->except(['edit', 'create']);
 Route::middleware('jwt:api')->resource('/managementplans', ManagementPlanController::class)->except(['edit', 'create']);
-Route::middleware('jwt:api')->resource('/managementunits', ManagementPlanController::class)->except(['edit', 'create']);
+Route::middleware('jwt:api')->resource('/managementunits', ManagementUnitController::class)->except(['edit', 'create']);
 Route::middleware('jwt:api')->resource('/concessions', ConcessionsController::class)->except(['edit', 'create']);

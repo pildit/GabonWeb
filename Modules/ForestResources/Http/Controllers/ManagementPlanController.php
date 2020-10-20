@@ -12,17 +12,6 @@ use Modules\ForestResources\Http\Requests\UpdateManagementPlanRequest;
 
 class ManagementPlanController extends Controller
 {
-
-    /**
-     * Display a listing of the resource.
-     * @return Response
-     */
-    public function index(Request $request, PageResults $pr)
-    {
-        $pr->setSortFields(['Id']);
-
-        return response()->json($pr->getPaginator($request, ManagementPlan::class , ['Name']));
-    }
     /**
      * Store managementplan
      * @param CreateManagementPlanRequest $request

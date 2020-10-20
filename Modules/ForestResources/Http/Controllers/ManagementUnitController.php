@@ -13,6 +13,18 @@ use Modules\ForestResources\Http\Requests\UpdateManagementUnitRequest;
 
 class ManagementUnitController extends Controller
 {
+
+    /**
+     * Display a listing of the resource.
+     * @return Response
+     */
+    public function index(Request $request, PageResults $pr)
+    {
+        $pr->setSortFields(['Id']);
+
+        return response()->json($pr->getPaginator($request, ManagementUnit::class , ['Name'], ['plans','developmentUnit']));
+    }
+
     /**
      * Store managementunit
      * @param CreateManagementUnitRequest $request
