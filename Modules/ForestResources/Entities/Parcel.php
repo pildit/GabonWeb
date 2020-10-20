@@ -14,6 +14,10 @@ class Parcel extends Model
     const DELETED_AT = "DeletedAt";
 
     public $timestamps = true;
+    /**
+     * @var string
+     */
+    protected $dateFormat = 'Y-m-d H:i:s.u';
 
     /**
      * The attributes that are mass assignable.
