@@ -5,7 +5,7 @@ namespace Modules\ForestResources\Entities;
 use App\Services\Sortable;
 use Illuminate\Database\Eloquent\Model;
 
-class AnnualAllowableCut extends Model
+class AnnualAllowableCutInventory extends Model
 {
     use Sortable;
 
@@ -22,14 +22,14 @@ class AnnualAllowableCut extends Model
      *
      * @var array
      */
-    protected $fillable = ['Name','AacId','ManagementUnit','ManagementPlan','Geometry'];
+    protected $fillable = ['AnnualAllowableCut','Species','Quality','Parcel','TreeId','DiameterBreastHeight','Geometry'];
 
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'ForestResources.AnnualAllowableCuts';
+    protected $table = 'ForestResources.AnnualAllowableCutInventory';
 
     protected $primaryKey = "Id";
 
