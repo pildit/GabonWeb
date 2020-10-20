@@ -89,11 +89,21 @@ class TranslationController extends Controller
      *
      * @return JsonResponse
      */
-    public function dictionary()
+    public function dictionary(Request $request)
     {
+        $request->validate([
+            'mobile' => 'boolean'
+        ]);
+
+        $language = Language::query();
+
+        if($request->has('mobile')) {
+            $language->where('mobile', $request->get('mobile'));
+        }
+
         return response()->json([
-            'text_en' => Language::all()->pluck('text_us', 'text_key'),
-            'text_fr' => Language::all()->pluck('text_ga', 'text_key')
+            'text_en' => $language->get()->pluck('text_us', 'text_key'),
+            'text_fr' => $language->get()->pluck('text_ga', 'text_key')
         ]);
     }
 }
