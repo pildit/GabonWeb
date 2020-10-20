@@ -23,6 +23,11 @@ class DevelopmentUnit extends Model
     protected $fillable = ['Name','Concession','Start','End','Geometry'];
 
     /**
+     * @var string
+     */
+    protected $dateFormat = 'Y-m-d H:i:s.u';
+
+    /**
      * The table associated with the model.
      *
      * @var string
@@ -33,12 +38,12 @@ class DevelopmentUnit extends Model
 
     public function concession()
     {
-        return $this->hasOne(Concession::class);
+        return $this->belongsTo(Concession::class,"Concession");
     }
 
     public function plans()
     {
-        return $this->hasMany(DevelopmentPlan::class);
+        return $this->hasMany(DevelopmentPlan::class,"DevelopmentUnit");
     }
 
 }

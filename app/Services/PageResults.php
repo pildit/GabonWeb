@@ -114,7 +114,7 @@ class PageResults
     {
         if ($request->has('sort_fields'))
             $this->sortFields = explode('|', $request->get('sort_fields'));
-        
+
         $this->sort = explode('|', $request->get('sort', 'desc'));
 
         throw_if(count($this->sort) != count($this->sortFields), ValidationException::withMessages([
@@ -129,7 +129,7 @@ class PageResults
     }
 
 
-    public function getPaginator(Request $request,string $modelClass,array $searchFields)
+    public function getPaginator(Request $request,string $modelClass,array $searchFields, array $relations)
     {
 
         $this->validateRequest($request);
@@ -138,6 +138,10 @@ class PageResults
         $this->setSearch($request->get('search'));
 
         $this->query = $modelClass::ofSort($this->getSortCriteria());
+
+        if(count($relations)){
+            $this->query =  $this->query->with($relations);
+        }
 
         return $this->setFilters($searchFields)->getResults();
     }
