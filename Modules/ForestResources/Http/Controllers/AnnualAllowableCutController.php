@@ -26,7 +26,7 @@ class AnnualAllowableCutController extends Controller
     {
         $pr->setSortFields(['Id']);
 
-        return response()->json($pr->getPaginator($request, AnnualAllowableCut::class , [ 'Name']));
+        return response()->json($pr->getPaginator($request, AnnualAllowableCut::class , [ 'Name'], ['mangementunit','managementplan']));
     }
 
     /**
