@@ -60,13 +60,13 @@ CREATE TRIGGER user_timestamp BEFORE INSERT OR UPDATE ON "ForestResources"."Annu
     FOR EACH ROW EXECUTE PROCEDURE update_timestamp();
 
 -- AnnualAllowableCuts
-alter table "ForestResources"."AnnualAllowableCuts"
+alter table "ForestResources"."AnnualAllowableCutsTable"
     add "CreatedAt" timestamp default CURRENT_TIMESTAMP not null;
 
-alter table "ForestResources"."AnnualAllowableCuts"
+alter table "ForestResources"."AnnualAllowableCutsTable"
     add "UpdatedAt" timestamp default CURRENT_TIMESTAMP not null;
 
-alter table "ForestResources"."AnnualAllowableCuts"
+alter table "ForestResources"."AnnualAllowableCutsTable"
     add "DeletedAt" timestamp null;
 
 CREATE TRIGGER user_timestamp BEFORE INSERT OR UPDATE ON "ForestResources"."AnnualAllowableCuts"
