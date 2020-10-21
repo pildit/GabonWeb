@@ -2,6 +2,7 @@
 
 namespace Modules\Admin\Http\Controllers;
 
+use App\Services\PageResults;
 use GenTux\Jwt\GetsJwtToken;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -17,14 +18,9 @@ class RolesController extends Controller
      * Display a listing of the resource.
      * @return JsonResponse
      */
-    public function index(Request $request, Role $roleService)
+    public function index(Request $request, PageResults $pageResults)
     {
-        $roleService->validateRequest($request);
-        $roleService->setPage($request->get('page'));
-        $roleService->setPerPage($request->get('per_page'));
-        $roleService->setSearch($request->get('search'));
-
-        return response()->json($roleService->getPaginator());
+        return response()->json($pageResults->getPaginator($request, RoleEntity::class , ['name']));
     }
 
     /**

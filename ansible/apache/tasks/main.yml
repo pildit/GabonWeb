@@ -1,0 +1,14 @@
+---
+# tasks file for apache
+- name: Ensure Apache2 is present
+  become: yes
+  apt:
+    name: "{{ baseline_packages }}"
+    state: latest
+    update_cache: yes
+- name: "Ensure Apache is running"
+  become: yes
+  service:
+    name: "apache2.service"
+    enabled: yes
+    state: started

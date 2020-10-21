@@ -1,0 +1,18 @@
+---
+# tasks file for debian
+- name: "Upgrade and autoremove/autoclean everything"
+  become: yes
+  block:
+  - name: Baseline installation
+    apt:
+      name: "{{ baseline_packages }}"
+      state: latest
+      update_cache: yes
+  - name: "Upgrade all packages"
+    apt:
+      state: latest
+      upgrade: dist
+  - name: "Autoremove and Autoclean all packages"
+    apt:
+      autoremove: yes
+      autoclean: yes

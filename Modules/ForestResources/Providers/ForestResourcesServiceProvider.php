@@ -24,11 +24,14 @@ class ForestResourcesServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        config(['database.connections.pgsql.schema' => 'ForestResources']);
+
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
         $this->registerFactories();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/Migrations'));
+
     }
 
     /**
