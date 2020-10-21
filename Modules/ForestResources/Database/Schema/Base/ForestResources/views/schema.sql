@@ -1,0 +1,14 @@
+\include ForestResources/views/ResourceTypes.sql
+\include ForestResources/views/BaseResources.sql
+\include ForestResources/views/AnnualAllowableCuts.sql
+\include ForestResources/views/AnnualOperationPlans.sql
+\include ForestResources/views/ConstituentPermits.sql
+\include ForestResources/views/Concessions.sql
+\include ForestResources/views/DevelopmentPlans.sql
+\include ForestResources/views/DevelopmentUnits.sql
+\include ForestResources/views/ManagementPlans.sql
+\include ForestResources/views/ManagementUnits.sql
+\include ForestResources/views/PermitTypes.sql
+\include ForestResources/views/Parcels.sql
+\include ForestResources/views/InventoryQualities.sql
+\include ForestResources/views/AnnualAllowableCutInventory.sql

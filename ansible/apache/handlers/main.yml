@@ -1,0 +1,8 @@
+---
+# handlers file for apache
+- name: "Reload Apache2"
+  become: yes
+  service:
+    name: "apache2.service"
+    state: reloaded
+    enabled: yes
