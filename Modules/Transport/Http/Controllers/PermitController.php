@@ -13,6 +13,7 @@ use Modules\Transport\Entities\Tracking;
 use Modules\Transport\Http\Requests\CreatePermitRequest;
 use Modules\Transport\Http\Requests\UpdatePermitRequest;
 use Modules\Transport\Services\Permit;
+use App\Services\PageResults;
 
 class PermitController extends Controller
 {
@@ -25,13 +26,11 @@ class PermitController extends Controller
      * @param Permit $permit
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request, Permit $permit)
+    public function index(Request $request, PageResults $pageResults)
     {
-        $permit->validateRequest($request);
-        $permit->setPage($request->get('page'));
-        $permit->setPerPage($request->get('per_page'));
-
-        return response()->json($permit->getPaginator());
+        return response()
+            ->json($pageResults->getPaginator($request, PermitEntity::class, ["harvest_name",
+        "client_name", "concession_name"]));
     }
 
     /**

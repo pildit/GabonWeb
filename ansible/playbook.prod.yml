@@ -1,0 +1,5 @@
+- hosts: wwwgabon-prod
+  roles:
+    - debian
+    - apache
+    - website

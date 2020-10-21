@@ -1,0 +1,5 @@
+- hosts: wwwgabon-test
+  roles:
+    - debian
+    - apache
+    - website
