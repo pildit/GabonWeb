@@ -4,15 +4,15 @@ namespace Modules\ForestResources\Services;
 
 
 use App\Services\PageResults;
-use Modules\ForestResources\Entities\DevelopmentUnit as DevelopmentUnitEntity;
+use Modules\ForestResources\Entities\ManagementUnit as ManagementUnitEntity;
 
-class DevelopmentUnit extends PageResults
+class ManagementUnit extends PageResults
 {
 
     public function getPaginator()
     {
 
-        $this->query = DevelopmentUnitEntity::ofSort($this->getSortCriteria());
+        $this->query = ManagementUnitEntity::ofSort($this->getSortCriteria());
 
         return $this->setFilters(['Name', 'Geometry'])->getResults();
     }

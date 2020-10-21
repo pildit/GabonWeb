@@ -13,8 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('jwt:api')->resource('/developmentunits', DevelopmentUnitController::class)->except(['edit', 'create']);
-Route::middleware('jwt:api')->resource('/developmentplans', DevelopmentPlanController::class)->except(['edit', 'create']);
 Route::middleware('jwt:api')->resource('/constituent_permits', ConstituentPermitController::class)->except(['create', 'edit']);
 Route::middleware('jwt:api')->resource('/parcels', ParcelController::class)->except(['edit', 'create']);
+Route::middleware('jwt:api')->resource('/developmentunits', DevelopmentUnitController::class)->except(['edit', 'create']);
+Route::middleware('jwt:api')->resource('/developmentplans', DevelopmentPlanController::class)->except(['edit', 'create']);
 Route::middleware('jwt:api')->resource('/concessions', ConcessionsController::class)->except(['edit', 'create']);

@@ -4,7 +4,7 @@ namespace Modules\ForestResources\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateDevelopmentUnitRequest extends FormRequest
+class UpdateManagementUnitRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -15,10 +15,8 @@ class UpdateDevelopmentUnitRequest extends FormRequest
     {
         return [
             'Name' => 'required|string',
-            'Concession' => 'integer',
-            'Start' => 'date',
-            'End' => 'date',
-            'Geometry' => 'required|regex:/\POLYGON\b/',
+            'DevelopmentUnit' => 'required|integer|exists:Modules\ForestResources\Entities\DevelopmentUnit,Id',
+            'Geometry' => 'required',
         ];
     }
 
