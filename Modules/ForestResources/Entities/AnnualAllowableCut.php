@@ -2,7 +2,7 @@
 
 namespace Modules\ForestResources\Entities;
 
-use App\Services\Sortable;
+use App\Traits\Sortable;
 use Illuminate\Database\Eloquent\Model;
 
 class AnnualAllowableCut extends Model
