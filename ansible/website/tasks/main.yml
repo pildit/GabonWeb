@@ -1,0 +1,131 @@
+---
+# tasks file for website
+- name: Load Vault
+  include_vars: vars/vault.yml
+- name: Baseline installation
+  become: yes
+  apt:
+    name: "{{ baseline_packages }}"
+    state: latest
+    update_cache: yes
+- name: "Set up SSH Configuration"
+  block:
+  - name: "Ensure Directory"
+    file:
+      path: "${HOME}/.ssh"
+      state: directory
+      mode: 0700
+  - name: "Deploy SSH Private Key"
+    copy:
+      src: "gabon.deployment@eia-global.org"
+      dest: "{{ gitlab_ssh_key_file }}"
+      mode: 0400
+  - name: "Deploy SSH Public Key"
+    copy:
+      src: "gabon.deployment@eia-global.org.pub"
+      dest: "{{ gitlab_ssh_key_file}}.pub"
+      mode: 0400
+  - name: "Ensure SSH config file exists"
+    file:
+      path: "${HOME}/.ssh/config"
+      state: touch
+  - name: "Check whether the {{ gitlab_host }} is already configured in the ssh config file"
+    shell: grep -c "^Host {{ gitlab_host }}$" "${HOME}/.ssh/config" || true
+    register: gitlab_host_in_ssh_config
+  - name: "Set GitLab SSH configuration"
+    lineinfile:
+      path: "${HOME}/.ssh/config"
+      regexp: "^Host {{ gitlab_host }}"
+      state: present
+      value: |
+        Host {{ gitlab_host }}
+            Hostname gitlab.com
+            IdentityFile {{ gitlab_ssh_key_file }}
+            IdentitiesOnly yes
+            User git
+    when: gitlab_host_in_ssh_config.stdout == "0"
+- name: "Create the local repository"
+  block:
+  - name: "Prepare the directory"
+    become: yes
+    file:
+      path: "{{ local_repo }}"
+      state: directory
+      group: adm
+      mode: 0775
+  - name: "Ensure the local repo"
+    git:
+      repo: "{{ remote_repo }}"
+      dest: "{{ local_repo }}"
+      key_file: "{{ gitlab_ssh_key_file }}"
+      update: yes
+      force: yes
+      version: "{{ WEBSITE_DEPLOYMENT_COMMIT }}"
+  - name: "Template the .env file"
+    template:
+      src: "dotEnv.j2"
+      dest: "{{ www_document_root }}/../.env"
+      mode: 0664
+      group: adm
+  - name: "Install composer dependencies"
+    composer:
+      command: install
+      working_dir: "{{ www_document_root }}/../"  # Same directory as the composer.json file
+      prefer_dist: yes
+      no_dev: yes
+  - name: "Set permissions and ownership on the local repo"
+    become: yes
+    file:
+      path: "{{ local_repo }}"
+      recurse: yes
+      owner: www-data
+      group: www-data
+      mode: u+rw,g+rw,o+r
+  - name: "Set permissions on the uploads directory"
+    become: yes
+    file:
+      path: "{{ www_document_root }}/uploads"
+      mode: u+rwx,g+rwx,o+rwx
+      recurse: yes
+- name: "Configure the website"
+  become: yes
+  block:
+  - name: "Configure Apache logging infrastructure"
+    block:
+    - name: "Create Apache2 logging directory for {{ WEBSITE_DOMAIN }}"
+      file:
+        path: "{{ apache_log_dir }}/{{ WEBSITE_DOMAIN }}"
+        state: directory
+        owner: root
+        group: adm
+        mode: 0755
+    - name: "Place the logrotate configuration for {{ WEBSITE_DOMAIN }}"
+      template:
+        src: "domain.logrotate.j2"
+        dest: "/etc/logrotate.d/apache2-{{ WEBSITE_DOMAIN }}.conf"
+        mode: 0644
+        owner: root
+        group: root
+  - name: "Deploy Website Configuration"
+    template:
+      src: "available-sites.domain.j2"
+      dest: "{{ apache_sites_dir }}/{{ WEBSITE_DOMAIN }}.conf"
+      owner: root
+      group: adm
+      mode: 0664
+    notify:
+      - "Reload Apache2"
+  - name: "Enable Modules"
+    become: yes
+    command: a2enmod "{{ item }}"
+    with_items:
+      - cache
+      - cache_disk
+      - expires
+    notify:
+      - "Restart Apache2"
+      - "Start apache-htcacheclean"
+  - name: "Enable {{ WEBSITE_DOMAIN }}"
+    command: a2ensite "{{ WEBSITE_DOMAIN }}"
+    notify:
+      - "Reload Apache2"

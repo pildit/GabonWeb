@@ -1,0 +1,10 @@
+---
+# file: playbook.yml
+- name: "Development Environment"
+  import_playbook: "playbook.dev.yml"
+
+- name: "Test Environment"
+  import_playbook: "playbook.test.yml"
+
+- name: "Production Environment"
+  import_playbook: "playbook.prod.yml"

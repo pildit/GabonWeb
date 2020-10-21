@@ -137,7 +137,7 @@ class PageResults
         $this->setPerPage($request->get('per_page'));
         $this->setSearch($request->get('search'));
 
-        $this->query = $modelClass::ofSort($this->getSortCriteria());
+        $this->query = $model::ofSort($this->getSortCriteria());
 
         if(count($relations)){
             $this->query =  $this->query->with($relations);

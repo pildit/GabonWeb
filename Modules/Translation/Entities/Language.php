@@ -2,10 +2,13 @@
 
 namespace Modules\Translation\Entities;
 
+use App\Services\Sortable;
 use Illuminate\Database\Eloquent\Model;
 
 class Language extends Model
 {
+    use Sortable;
+
     /**
      * Indicates if the model should be timestamped.
      *
@@ -26,15 +29,4 @@ class Language extends Model
      * @var array
      */
     protected $fillable = [];
-
-    /**
-     * @param $query
-     * @param $sort
-     */
-    public function scopeOfSort($query, $sort)
-    {
-        foreach ($sort as $column => $direction) {
-            $query->orderBy($column, $direction);
-        }
-    }
 }
