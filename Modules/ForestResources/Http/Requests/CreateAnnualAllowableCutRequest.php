@@ -4,7 +4,7 @@ namespace Modules\ForestResources\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateDevelopmentUnitRequest extends FormRequest
+class CreateAnnualAllowableCutRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,11 +14,9 @@ class UpdateDevelopmentUnitRequest extends FormRequest
     public function rules()
     {
         return [
-            'Name' => 'required|string',
-            'Concession' => 'integer',
-            'Start' => 'date',
-            'End' => 'date',
-            'Geometry' => 'required|regex:/\POLYGON\b/',
+            'ManagementUnit' => 'required|exists:Modules\ForestResources\Entities\ManagementUnit,Id',
+            'Name' => 'required|text',
+            'Geometry' => 'required',
         ];
     }
 
