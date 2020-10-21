@@ -18,7 +18,8 @@ class CreateUserRequest extends FormRequest
             'lastname' => 'required|string',
             'email' => 'required|email|unique:pgsql.admin.accounts',
             'password' => 'required|confirmed',
-            'employee_type' => 'exists:Modules\User\Entities\EmployeeType,id'
+            'employee_type' => 'exists:Modules\User\Entities\EmployeeType,id',
+            'company_id' => 'exists:Modules\User\Entities\Company,id'
         ];
     }
 

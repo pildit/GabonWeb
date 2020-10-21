@@ -80,6 +80,17 @@ class PageResults
     }
 
     /**
+     * @param array $fields
+     */
+    public function setSortFields($fields)
+    {
+        $this->sortFields = $fields;
+
+        return $this;
+    }
+
+
+    /**
      * Return paginator as array
      *
      * @return mixed
@@ -101,7 +112,9 @@ class PageResults
      */
     public function validateRequest(Request $request)
     {
-        $this->sortFields = explode('|', $request->get('sort_fields', 'id'));
+        if ($request->has('sort_fields'))
+            $this->sortFields = explode('|', $request->get('sort_fields'));
+        
         $this->sort = explode('|', $request->get('sort', 'desc'));
 
         throw_if(count($this->sort) != count($this->sortFields), ValidationException::withMessages([
@@ -114,4 +127,18 @@ class PageResults
             'per_page' => 'numeric'
         ]);
     }
+
+    public function getPaginator(Request $request,string $model,array $searchFields)
+    {
+
+        $this->validateRequest($request);
+        $this->setPage($request->get('page'));
+        $this->setPerPage($request->get('per_page'));
+        $this->setSearch($request->get('search'));
+
+        $this->query = $model::ofSort($this->getSortCriteria());
+
+        return $this->setFilters($searchFields)->getResults();
+    }
+
 }

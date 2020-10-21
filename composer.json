@@ -10,7 +10,6 @@
     "require": {
         "php": "^7.2",
         "fideloper/proxy": "^4.0",
-        "gasparesganga/php-shapefile": "^3.3",
         "generationtux/jwt-artisan": "^1.1",
         "laravel/framework": "^6.0",
         "laravel/tinker": "^1.0",

@@ -1,0 +1,36 @@
+<VirtualHost *:80>
+        # TODO: Change ServerAdmin
+        ServerAdmin gabon.deployment@eia-global.org
+        ServerName {{ WEBSITE_DOMAIN }}
+        ServerAlias {{ WEBSITE_DOMAIN }}
+
+        DocumentRoot {{ www_document_root }}
+        <Directory {{ www_document_root }}>
+                #Options Indexes FollowSymLinks
+                AllowOverride All
+                RewriteEngine on
+                DirectoryIndex index.php
+                RewriteRule ^([a-zA-Z0-9-_]+)?$ index.php?page_url=$1 [QSA]
+        </Directory>
+
+        ErrorLog {{ apache_log_dir }}/{{ WEBSITE_DOMAIN }}/error.log
+        CustomLog {{ apache_log_dir }}/{{ WEBSITE_DOMAIN }}/access.log combined
+
+        #Include conf-available/serve-cgi-bin.conf
+
+        CacheQuickHandler off
+        CacheLock on
+        CacheLockPath /tmp/mod_cache-lock
+        CacheLockMaxAge 5
+        CacheIgnoreHeaders Set-Cookie
+
+        <Location />
+                CacheEnable disk
+                CacheHeader on
+                CacheDefaultExpire 800
+                CacheMaxExpire 64000
+                CacheIgnoreNoLastMod On
+                ExpiresActive on
+                ExpiresDefault A300
+        </Location>
+</VirtualHost>
