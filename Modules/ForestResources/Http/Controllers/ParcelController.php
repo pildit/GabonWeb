@@ -2,6 +2,7 @@
 
 namespace Modules\ForestResources\Http\Controllers;
 
+use App\Services\PageResults;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -19,18 +20,15 @@ class ParcelController extends Controller
 
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @return Response
      */
-    public function index(Request $request,ParcelService $parcelService)
+    public function index(Request $request, PageResults $pr)
     {
-        $parcelService->validateRequest($request);
-        $parcelService->setPage($request->get('page'));
-        $parcelService->setPerPage($request->get('per_page'));
-        $parcelService->setSearch($request->get('search'));
+        $pr->setSortFields(['Id']);
 
-        return response()->json($parcelService->getPaginator());
+        return response()->json($pr->getPaginator($request, Parcel::class , ['Name']));
     }
+
     /**
      * Store parcel
      * @param CreateUpdateParcelRequest $request
