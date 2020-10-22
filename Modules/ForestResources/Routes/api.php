@@ -13,13 +13,12 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/forestresources', function (Request $request) {
-    return $request->user();
-});
-
-
 Route::middleware('jwt:api')->resource('/constituent_permits', ConstituentPermitController::class)->except(['create', 'edit']);
 Route::middleware('jwt:api')->resource('/parcels', ParcelController::class)->except(['edit', 'create']);
+Route::middleware('jwt:api')->resource('/developmentunit', DevelopmentUnitController::class)->except(['edit', 'create']);
+Route::middleware('jwt:api')->resource('/developmentplan', DevelopmentPlanController::class)->except(['edit', 'create']);
+Route::middleware('jwt:api')->resource('/managementplans', ManagementPlanController::class)->except(['edit', 'create']);
+Route::middleware('jwt:api')->resource('/managementunits', ManagementUnitController::class)->except(['edit', 'create']);
 Route::middleware('jwt:api')->resource('/concessions', ConcessionsController::class)->except(['edit', 'create']);
 Route::middleware('jwt:api')->resource('/annualallowablecuts', AnnualAllowableCutController::class)->except(['edit', 'create']);
 Route::middleware('jwt:api')->resource('/annualoperationplans', AnnualOperationPlanController::class)->except(['edit', 'create']);

@@ -2,11 +2,22 @@
 
 namespace Modules\ForestResources\Entities;
 
+use App\Traits\Sortable;
 use Illuminate\Database\Eloquent\Model;
 
 class Parcel extends Model
 {
-    public $timestamps = false;
+    use Sortable;
+
+    const CREATED_AT = "CreatedAt";
+    const UPDATED_AT = "UpdatedAt";
+    const DELETED_AT = "DeletedAt";
+
+    public $timestamps = true;
+    /**
+     * @var string
+     */
+    protected $dateFormat = 'Y-m-d H:i:s.u';
 
     /**
      * The attributes that are mass assignable.

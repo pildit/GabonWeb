@@ -43,15 +43,15 @@ class DevelopmentUnitTest extends TestCase
     /** @test  */
     public function it_update_a_development_unit(){
         $concession = factory(Concession::class)->create();
-        $developmentUnit = factory(DevelopmentUnit::class)->create(
+        $developmentunit = factory(DevelopmentUnit::class)->create(
             ['Concession' => $concession->Id]);
 
-        $response = $this->putJson('/api/developmentunit/'.$developmentUnit->Id, [
+        $response = $this->putJson('/api/developmentunit/'.$developmentunit->Id, [
             'Name' => "Test",
             'Geometry' => "POLYGON((-7708436.6311751995 -1342415.5680160334,-7708583.533588935 -1342415.5680160334,-7708757.90555971 -1342667.571343661,-7708548.898060493 -1342702.2068721028,-7708397.21833249 -1342815.6680859637,-7708216.874718879 -1342560.0817726352,-7708288.534432897 -1342613.8265581483,-7708413.938932427 -1342512.3086299568,-7708436.6311751995 -1342415.5680160334))",
             'Start' => "2020-10-12",
             'End' => "2020-12-12",
-            'Concession' => $developmentUnit->Concession,
+            'Concession' => $developmentunit->Concession,
         ]);
     }
 }
