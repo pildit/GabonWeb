@@ -2,13 +2,14 @@
 
 namespace Modules\ForestResources\Http\Controllers;
 
+use App\Services\PageResults;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\AnnualAllowableCut;
 use Modules\ForestResources\Http\Requests\CreateAnnualAllowableCutRequest;
 use Modules\ForestResources\Http\Requests\UpdateAnnualAllowableCutRequest;
-use Modules\ForestResources\Services\AnnualAllowableCut as AnnualAllowableCutService;
+use Illuminate\Support\Facades\DB;
 
 class AnnualAllowableCutController extends Controller
 {
@@ -21,15 +22,13 @@ class AnnualAllowableCutController extends Controller
      * @return \Illuminate\Http\JsonResponse
      * @throws \Throwable
      */
-    public function index(Request $request,AnnualAllowableCutService $annualallowablecutService)
+    public function index(Request $request, PageResults $pr)
     {
-        $annualallowablecutService->validateRequest($request);
-        $annualallowablecutService->setPage($request->get('page'));
-        $annualallowablecutService->setPerPage($request->get('per_page'));
-        $annualallowablecutService->setSearch($request->get('search'));
+        $pr->setSortFields(['Id']);
 
-        return response()->json($annualallowablecutService->getPaginator());
+        return response()->json($pr->getPaginator($request, AnnualAllowableCut::class , [ 'Name'], ['mangementunit','managementplan']));
     }
+
     /**
      * Store annualallowablecut
      * @param CreateAnnualAllowableCutRequest $request
@@ -38,6 +37,14 @@ class AnnualAllowableCutController extends Controller
     public function store(CreateAnnualAllowableCutRequest $request)
     {
         $data = $request->validated();
+
+        $AacIdName =  date("y")."_".strtoupper(substr($data['Name'], 0, 3));
+        $aacNumber = DB::table('ForestResources.AnnualAllowableCuts')
+            ->where('AacId','LIKE', $AacIdName."%")
+            ->count();
+
+        $aacNumber = sprintf("%03d", ++$aacNumber);
+        $data['AacId'] = $AacIdName."_".$aacNumber;
 
         $annualallowablecut = AnnualAllowableCut::create($data);
 
@@ -54,7 +61,7 @@ class AnnualAllowableCutController extends Controller
      */
     public function show(AnnualAllowableCut $annualallowablecut)
     {
-        return response()->json(['data' => $annualallowablecut->get()->toArray()]);
+        return response()->json(['data' => $annualallowablecut]);
     }
 
     /**
@@ -67,7 +74,6 @@ class AnnualAllowableCutController extends Controller
     public function update(UpdateAnnualAllowableCutRequest $request, AnnualAllowableCut $annualallowablecut)
     {
         $data = $request->validated();
-
         $annualallowablecut->update($data);
 
         return response()->json([
