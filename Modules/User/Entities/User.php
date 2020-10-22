@@ -2,7 +2,7 @@
 
 namespace Modules\User\Entities;
 
-use App\Services\Sortable;
+use App\Traits\Sortable;
 use GenTux\Jwt\JwtPayloadInterface;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Permission\Traits\HasRoles;

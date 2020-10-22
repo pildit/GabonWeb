@@ -18,8 +18,8 @@ class Permit extends PageResults
      */
     public function getVectors($bbox)
     {
-        $collection = PermitEntity::select(['id', DB::raw('ST_AsGeoJSON(the_geom) as geom')])
-            ->whereRaw("ST_Intersects(the_geom, ST_MakeEnvelope($bbox))")->get();
+        $collection = PermitEntity::select(['id', DB::raw('public.ST_AsGeoJSON(the_geom) as geom')])
+            ->whereRaw("public.ST_Intersects(the_geom, public.ST_MakeEnvelope($bbox))")->get();
 
         return $collection->map(function ($item) {
             return [

@@ -19,7 +19,5 @@ Route::middleware('jwt:api')->group(function (){
     Route::put('/roles/{role}/permissions', "PermissionController@permissions");
     Route::resource('/permissions', 'PermissionController')->only(['index', 'store']);
     Route::resource('/pages', 'PageController')->only('index');
-    Route::get('/test', function () {
-       return \Modules\Admin\Entities\Page::with('roles')->get();
-    });
+    Route::get('/mobile_maps', 'MapController@mobileFeatures');
 });
