@@ -2,36 +2,18 @@
 
 namespace Modules\ForestResources\Http\Controllers;
 
+use App\Services\PageResults;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\ManagementPlan;
 use Modules\ForestResources\Http\Requests\CreateManagementPlanRequest;
 use Modules\ForestResources\Http\Requests\UpdateManagementPlanRequest;
-use Modules\ForestResources\Services\ManagementPlan as ManagementPlanService;
 
 class ManagementPlanController extends Controller
 {
-
     /**
-     * Display a listing of the resource.
-     *
-     * @param Request $request
-     * @param ManagementPlanService $managementPlanService
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Throwable
-     */
-    public function index(Request $request,ManagementPlanService $managementPlanService)
-    {
-        $managementPlanService->validateRequest($request);
-        $managementPlanService->setPage($request->get('page'));
-        $managementPlanService->setPerPage($request->get('per_page'));
-        $managementPlanService->setSearch($request->get('search'));
-
-        return response()->json($managementPlanService->getPaginator());
-    }
-    /**
-     * Store managementPlan
+     * Store managementplan
      * @param CreateManagementPlanRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -40,14 +22,14 @@ class ManagementPlanController extends Controller
         $data = $request->validated();
         if (ManagementPlan::where('ManagementUnit', $data['ManagementUnit'])->where('Species', $data['Species'])->count() > 0) {
             return response()->json([
-                'message' => lang("managementPlan_developmentunit_species_exist")
+                'message' => lang("managementplan_developmentunit_species_exist")
             ], 200);
         }
 
-        $managementPlan = ManagementPlan::create($data);
+        $managementplan = ManagementPlan::create($data);
 
         return response()->json([
-            'message' => lang("managementPlan_created_successfully")
+            'message' => lang("managementplan_created_successfully")
         ], 201);
     }
 
@@ -57,35 +39,35 @@ class ManagementPlanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(ManagementPlan $managementPlan)
+    public function show(ManagementPlan $managementplan)
     {
-        return response()->json(['data' => $managementPlan->get()->toArray()]);
+        return response()->json(['data' => $managementplan]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param UpdateManagementPlanRequest $request
-     * @param ManagementPlan $managementPlan
+     * @param ManagementPlan $managementplan
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateManagementPlanRequest $request, ManagementPlan $managementPlan)
+    public function update(UpdateManagementPlanRequest $request, ManagementPlan $managementplan)
     {
         $data = $request->validated();
 
-        if (ManagementPlan::where('ManagementUnit', $data['ManagementUnit'])->where('Species', $data['Species'])->where('Id', '!=', $managementPlan->get()[0]->Id)->count() > 0) {
+        if (ManagementPlan::where('ManagementUnit', $data['ManagementUnit'])->where('Species', $data['Species'])->where('Id', '!=', $managementplan->get()[0]->Id)->count() > 0) {
             return response()->json([
-                'message' => lang("managementPlan_developmentunit_species_exist")
+                'message' => lang("managementplan_developmentunit_species_exist")
             ], 200);
-        } elseif( ManagementPlan::where('ManagementUnit', $data['ManagementUnit'])->where('Species', $data['Species'])->where('Id', '=', $managementPlan->get()[0]->Id)->count() > 0) {
+        } elseif( ManagementPlan::where('ManagementUnit', $data['ManagementUnit'])->where('Species', $data['Species'])->where('Id', '=', $managementplan->get()[0]->Id)->count() > 0) {
             unset($data['ManagementUnit']);
             unset($data['Species']);
         }
 
-        $managementPlan->update($data);
+        $managementplan->update($data);
 
         return response()->json([
-            'message' => lang('managementPlan_update_successful')
+            'message' => lang('managementplan_update_successful')
         ], 200);
 
     }
@@ -96,11 +78,11 @@ class ManagementPlanController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function destroy(ManagementPlan $managementPlan)
+    public function destroy(ManagementPlan $managementplan)
     {
         //$data['status'] = timestamp();
-        //$managementPlan->fill($data);
-        //$managementPlan->save($data);
+        //$managementplan->fill($data);
+        //$managementplan->save($data);
 
     }
 

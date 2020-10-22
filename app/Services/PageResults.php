@@ -142,7 +142,7 @@ class PageResults
         if(count($relations)){
             $this->query =  $this->query->with($relations);
         }
-
+        
         return $this->setFilters($searchFields)->getResults();
     }
 

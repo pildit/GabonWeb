@@ -2,13 +2,13 @@
 
 namespace Modules\ForestResources\Http\Controllers;
 
+use App\Services\PageResults;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\ManagementUnit;
 use Modules\ForestResources\Http\Requests\CreateManagementUnitRequest;
 use Modules\ForestResources\Http\Requests\UpdateManagementUnitRequest;
-use Modules\ForestResources\Services\ManagementUnit as ManagementUnitService;
 
 
 class ManagementUnitController extends Controller
@@ -16,20 +16,17 @@ class ManagementUnitController extends Controller
 
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @return Response
      */
-    public function index(Request $request,ManagementUnitService $managementUnitService)
+    public function index(Request $request, PageResults $pr)
     {
-        $managementUnitService->validateRequest($request);
-        $managementUnitService->setPage($request->get('page'));
-        $managementUnitService->setPerPage($request->get('per_page'));
-        $managementUnitService->setSearch($request->get('search'));
+        $pr->setSortFields(['Id']);
 
-        return response()->json($managementUnitService->getPaginator());
+        return response()->json($pr->getPaginator($request, ManagementUnit::class , ['Name'], ['plans','developmentUnit']));
     }
+
     /**
-     * Store managementUnit
+     * Store managementunit
      * @param CreateManagementUnitRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -37,40 +34,40 @@ class ManagementUnitController extends Controller
     {
         $data = $request->validated();
 
-        $managementUnit = ManagementUnit::create($data);
+        $managementunit = ManagementUnit::create($data);
 
         return response()->json([
-            'message' => lang("managementUnit_created_successfully")
+            'message' => lang("managementunit_created_successfully")
         ], 201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param ManagementUnit $managementUnit
+     * @param ManagementUnit $managementunit
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(ManagementUnit $managementUnit)
+    public function show(ManagementUnit $managementunit)
     {
-        return response()->json(['data' => $managementUnit->get()->toArray()]);
+        return response()->json(['data' => $managementunit]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  ManagementUnit $managementUnit
+     * @param  ManagementUnit $managementunit
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateManagementUnitRequest $request, ManagementUnit $managementUnit)
+    public function update(UpdateManagementUnitRequest $request, ManagementUnit $managementunit)
     {
 
         $data = $request->validated();
 
-        $managementUnit->update($data);
+        $managementunit->update($data);
 
         return response()->json([
-            'message' => lang('managementUnit_update_successful')
+            'message' => lang('managementunit_update_successful')
         ], 200);
 
     }
@@ -81,11 +78,11 @@ class ManagementUnitController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function destroy(ManagementUnit $managementUnit)
+    public function destroy(ManagementUnit $managementunit)
     {
         //$data['status'] = timestamp();
-        //$managementUnit->fill($data);
-        //$managementUnit->save($data);
+        //$managementunit->fill($data);
+        //$managementunit->save($data);
 
     }
 
