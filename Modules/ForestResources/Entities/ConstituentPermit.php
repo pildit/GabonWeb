@@ -2,15 +2,16 @@
 
 namespace Modules\ForestResources\Entities;
 
+use App\Traits\Geometry;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Sortable;
 
 class ConstituentPermit extends Model
 {
-	use Sortable, SoftDeletes;
-	
-    protected $fillable = ['PermitType', 'PermitNumber'];
+	use Sortable, SoftDeletes, Geometry;
+
+    protected $fillable = ['PermitType', 'Geometry', 'PermitNumber'];
 
     protected $table = 'ForestResources.ConstituentPermits';
 

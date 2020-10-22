@@ -2,18 +2,17 @@
 
 namespace Modules\ForestResources\Entities;
 
+use App\Traits\Geometry;
 use App\Traits\Sortable;
 use Illuminate\Database\Eloquent\Model;
 
 class ManagementUnit extends Model
 {
-    use Sortable;
+    use Sortable, Geometry;
 
     const CREATED_AT = "CreatedAt";
     const UPDATED_AT = "UpdatedAt";
     const DELETED_AT = "DeletedAt";
-
-    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
