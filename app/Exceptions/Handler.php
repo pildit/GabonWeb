@@ -61,7 +61,7 @@ class Handler extends ExceptionHandler
 
         if ($exception instanceof QueryException) {
             return response()->json([
-                'message' => "There is database problem"
+                'message' => "There is database problem: ".$exception->getMessage()
             ], 500);
         }
 

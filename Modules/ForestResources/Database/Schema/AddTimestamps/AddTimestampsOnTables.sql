@@ -59,6 +59,19 @@ alter table "ForestResources"."AnnualAllowableCutInventoryTable"
 CREATE TRIGGER user_timestamp BEFORE INSERT OR UPDATE ON "ForestResources"."AnnualAllowableCutInventoryTable"
     FOR EACH ROW EXECUTE PROCEDURE update_timestamp();
 
+-- AnnualAllowableCuts
+alter table "ForestResources"."AnnualAllowableCutsTable"
+    add "CreatedAt" timestamp default CURRENT_TIMESTAMP not null;
+
+alter table "ForestResources"."AnnualAllowableCutsTable"
+    add "UpdatedAt" timestamp default CURRENT_TIMESTAMP not null;
+
+alter table "ForestResources"."AnnualAllowableCutsTable"
+    add "DeletedAt" timestamp null;
+
+CREATE TRIGGER user_timestamp BEFORE INSERT OR UPDATE ON "ForestResources"."AnnualAllowableCuts"
+    FOR EACH ROW EXECUTE PROCEDURE update_timestamp();
+
 -- InventoryQualitiesTable
 alter table "ForestResources"."InventoryQualitiesTable"
     add "CreatedAt" timestamp default CURRENT_TIMESTAMP not null;

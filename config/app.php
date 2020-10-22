@@ -175,7 +175,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        GenTux\Jwt\Support\LaravelServiceProvider::class,
+        GenTux\Jwt\Support\LaravelServiceProvider::class
+
     ],
 
     /*

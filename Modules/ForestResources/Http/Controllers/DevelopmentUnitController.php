@@ -67,8 +67,7 @@ class DevelopmentUnitController extends Controller
 
         $data = $request->validated();
 
-        $developmentUnit->fill($data);
-        $developmentUnit->save($data);
+        $developmentUnit->update($data);
 
         return response()->json([
             'message' => lang('developmentUnit_update_successful')
