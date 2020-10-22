@@ -2,7 +2,7 @@
 
 namespace Modules\Translation\Entities;
 
-use App\Services\Sortable;
+use App\Traits\Sortable;
 use Illuminate\Database\Eloquent\Model;
 
 class Language extends Model

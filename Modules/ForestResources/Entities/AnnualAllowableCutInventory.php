@@ -2,12 +2,13 @@
 
 namespace Modules\ForestResources\Entities;
 
+use App\Traits\Geometry;
 use App\Traits\Sortable;
 use Illuminate\Database\Eloquent\Model;
 
 class AnnualAllowableCutInventory extends Model
 {
-    use Sortable;
+    use Sortable, Geometry;
 
     const CREATED_AT = "CreatedAt";
     const UPDATED_AT = "UpdatedAt";

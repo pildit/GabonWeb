@@ -2,14 +2,21 @@
 
 namespace Modules\ForestResources\Entities;
 
+use App\Traits\Geometry;
 use Illuminate\Database\Eloquent\Model;
-use App\Services\Sortable;
+use App\Traits\Sortable;
 
 class Concession extends Model
 {
-	use Sortable;
+	use Sortable, Geometry;
 
-    protected $fillable = ['Name', 'Company', 'Continent', 'ResourceType', 'ConstituentPermit'];
+	const CREATED_AT = 'CreatedAt';
+	const UPDATED_AT = 'UpdatedAt';
+	const DELETED_AT = 'DeletedAt';
+
+    protected $fillable = [
+        'Name', 'Company', 'Geometry', 'Company', 'Continent', 'ResourceType', 'ConstituentPermit'
+    ];
 
     protected $table = "ForestResources.Concessions";
 
@@ -17,8 +24,6 @@ class Concession extends Model
      * @var string
      */
     protected $dateFormat = 'Y-m-d H:i:s.u';
-
-    public $timestamps = false;
 
     protected $primaryKey = "Id";
 }
