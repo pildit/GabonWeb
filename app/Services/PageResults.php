@@ -129,7 +129,7 @@ class PageResults
     }
 
 
-    public function getPaginator(Request $request,string $modelClass,array $searchFields, array $relations)
+    public function getPaginator(Request $request,string $modelClass,array $searchFields=[], array $relations=[])
     {
 
         $this->validateRequest($request);
@@ -137,12 +137,12 @@ class PageResults
         $this->setPerPage($request->get('per_page'));
         $this->setSearch($request->get('search'));
 
-        $this->query = $model::ofSort($this->getSortCriteria());
+        $this->query = $modelClass::ofSort($this->getSortCriteria());
 
         if(count($relations)){
             $this->query =  $this->query->with($relations);
         }
-        
+
         return $this->setFilters($searchFields)->getResults();
     }
 
