@@ -27,6 +27,8 @@ class PageResults
 
     protected $search;
 
+    protected $where;
+
     /**
      * @param mixed $per_page
      */
@@ -80,6 +82,16 @@ class PageResults
     }
 
     /**
+     * @param mixed $where
+     */
+    public function setWhere($where)
+    {
+        $this->where = $where;
+
+        return $this;
+    }
+
+    /**
      * @param array $fields
      */
     public function setSortFields($fields)
@@ -100,6 +112,12 @@ class PageResults
         if($this->search) {
             foreach ($this->filters as $field) {
                 $this->query->orWhere($field, 'LIKE', "%{$this->search}%");
+            }
+        }
+
+        if($this->where) {
+            foreach ($this->where as $field => $value) {
+                $this->query->orWhere($field, $value);
             }
         }
 
@@ -129,7 +147,7 @@ class PageResults
     }
 
 
-    public function getPaginator(Request $request,string $modelClass,array $searchFields, array $relations)
+    public function getPaginator(Request $request,string $model,array $searchFields, array $relations = [])
     {
 
         $this->validateRequest($request);
@@ -142,7 +160,7 @@ class PageResults
         if(count($relations)){
             $this->query =  $this->query->with($relations);
         }
-        
+
         return $this->setFilters($searchFields)->getResults();
     }
 
