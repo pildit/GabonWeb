@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\User\Http\Controllers;
+namespace Modules\Admin\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
-use Modules\User\Entities\Company;
+use Modules\Admin\Entities\Company;
 
 class CompanyController extends Controller
 {

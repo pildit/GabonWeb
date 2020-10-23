@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\User\Entities;
+namespace Modules\Admin\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -8,7 +8,7 @@ class Company extends Model
 {
     protected $fillable = ['name'];
 
-    protected $table = 'admin.companies';
+    protected $table = 'Taxonomy.companies';
     
     public $timestamps = false;
 

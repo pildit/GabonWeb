@@ -22,4 +22,5 @@ Route::middleware('jwt:api')->group(function (){
     Route::get('/test', function () {
        return \Modules\Admin\Entities\Page::with('roles')->get();
     });
+    Route::resource('/companies', CompanyController::class)->except(['edit', 'create', 'delete']);
 });
