@@ -93,6 +93,14 @@ CREATE or replace rule "CompanyTypes_instead_of_update"
     SET "Name" = new."Name"
     WHERE "Id" = old."Id";
 
+-- Seeders
+
+---Seed data into CompanyTypesTable
+
+INSERT INTO "Taxonomy"."CompanyTypesTable" ("Id", "Name") VALUES (1, 'concessionaire');
+INSERT INTO "Taxonomy"."CompanyTypesTable" ("Id", "Name") VALUES (2, 'transporter');
+INSERT INTO "Taxonomy"."CompanyTypesTable" ("Id", "Name") VALUES (3, 'client');
+
 ---Seed data into CompaniesTable
 
 INSERT INTO "Taxonomy"."CompaniesTable" ("Name", "GroupName") VALUES ('BAYONNE', 'BAYONNE');
@@ -165,3 +173,9 @@ INSERT INTO "Taxonomy"."CompaniesTable" ("Name", "GroupName") VALUES ('TBNI', 'T
 INSERT INTO "Taxonomy"."CompaniesTable" ("Name", "GroupName") VALUES ('TLP', 'HUA JIA');
 INSERT INTO "Taxonomy"."CompaniesTable" ("Name", "GroupName") VALUES ('TTIB', 'TTIB');
 INSERT INTO "Taxonomy"."CompaniesTable" ("Name", "GroupName") VALUES ('WCTS', 'Honest Timber');
+
+--- Seed data into CompanyHasTypesTable
+
+INSERT INTO "Taxonomy"."CompanyHasTypesTable"("CompanyId", "CompanyTypeId")
+SELECT cmp."Id", type."Id"
+FROM "Taxonomy"."CompaniesTable" cmp, "Taxonomy"."CompanyTypesTable" type
