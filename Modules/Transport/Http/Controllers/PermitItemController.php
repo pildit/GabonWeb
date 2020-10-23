@@ -44,7 +44,7 @@ class PermitItemController extends Controller
      */
     public function store($permit, CreatePermitItemRequest $request)
     {
-        $permit = Permit::where('id', (int)$permit)->orWhere('mobile_id', $permit)->first();
+        $permit = Permit::where('id', (int)$permit)->orWhere('mobile_id', $permit)->firstOrFail();
 
         $result = $permit->items()->save(new \Modules\Transport\Entities\Item($request->all()));
 
