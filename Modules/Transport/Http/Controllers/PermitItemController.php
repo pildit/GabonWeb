@@ -53,6 +53,11 @@ class PermitItemController extends Controller
         ], 201);
     }
 
+    public function storeMobile(CreatePermitItemRequest $request)
+    {
+        return $this->store($request->get('permit_id'), $request);
+    }
+
     /**
      * @param Item $itemService
      * @return JsonResponse
