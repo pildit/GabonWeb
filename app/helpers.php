@@ -5,8 +5,9 @@ if(! function_exists('lang')) {
     {
         $locale = app()->getLocale();
         $dictionary = app('cache')->remember("local.language", 60, function() use ($locale) {
-            return \Modules\Translation\Entities\Language::all()
-                ->pluck('text_'.$locale, 'text_key');
+            return \Modules\Translation\Entities\Language::select([
+                'text_key', 'text_us as text_en', 'text_ga as text_es'
+            ])->get()->pluck('text_'.$locale, 'text_key');
         });
 
         return $dictionary[$key] ?? "*{$key}*";

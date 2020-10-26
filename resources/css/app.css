@@ -1,0 +1,77 @@
+body {
+    padding-bottom: 75px;
+}
+#intro {
+    height: 75vh;
+}
+
+#intro {
+    background: url("/images/macin.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.main-side-nav{
+    padding-left: 16rem;
+}
+
+.md-form .form-control:disabled{
+
+    color: #ced4da;
+}
+
+.paginate_button:hover {
+    color: white !important;
+    background-color: #007e33;
+
+}
+.paginate_button {
+    box-sizing: border-box;
+    display: inline-block;
+    min-width: 1.5em;
+    padding: 0.5em 1em;
+    margin-left: 2px;
+    text-align: center;
+    text-decoration: none !important;
+    cursor: pointer;
+    *cursor: hand;
+    color: #333 ;
+    border-radius: 2px;
+}
+
+.sorting_both {
+    background-image: url(/images/table/sort_both.png);
+    background-repeat: no-repeat;
+    background-position: center right;
+    cursor: pointer;
+}
+.sorting_asc {
+    background-image: url(/images/table/sort_asc.png);
+    background-repeat: no-repeat;
+    background-position: center right;
+    cursor: pointer;
+}
+.sorting_desc {
+    background-image: url(/images/table/sort_desc.png);
+    background-repeat: no-repeat;
+    background-position: center right;
+    cursor: pointer;
+}
+
+.switch label input[type=checkbox]:checked+.lever:after {
+    background-color: green;
+    left: 1.5rem;
+}
+.white-skin input[type=checkbox]:checked+label:before {
+    border-right: 2px solid #4caf50;
+    border-bottom: 2px solid #4caf50;
+}
+.form-check-input[type=checkbox]+label:before {
+    border: 2px solid #4caf50;
+}
+
+.side-nav.fixed {
+    transform: translateX(0%) !important;
+}

@@ -12,4 +12,14 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css');
+    // .sass('resources/sass/app.scss', 'public/css')
+    .scripts([
+        'resources/mdb/js/jquery-3.4.1.min.js'
+    ], 'public/js/all.js')
+    .styles([
+        'resources/mdb/css/bootstrap.min.css',
+        'resources/mdb/css/mdb.min.css',
+        'resources/mdb/css/style.css',
+        'resources/mdb/css/addons/flag.min.css',
+        'resources/css/app.css'
+    ], 'public/css/all.css');
