@@ -23,3 +23,6 @@ Route::middleware('jwt:api')->resource('/concessions', ConcessionsController::cl
 Route::middleware('jwt:api')->resource('/annualallowablecuts', AnnualAllowableCutController::class)->except(['edit', 'create']);
 Route::middleware('jwt:api')->resource('/annualoperationplans', AnnualOperationPlanController::class)->except(['edit', 'create']);
 Route::middleware('jwt:api')->resource('/annualallowablecutinventory', AnnualAllowableCutInventoryController::class)->except(['edit', 'create']);
+Route::middleware('jwt:api')->resource('/logbooks', LogbookController::class)->except(['edit', 'create']);
+Route::middleware('jwt:api')->resource('/logbookitems', LogbookItemController::class)->except(['edit', 'create']);
+
