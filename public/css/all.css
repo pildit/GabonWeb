@@ -91,6 +91,9 @@ body {
     -o-background-size: cover;
     background-size: cover;
 }
+.main-content {
+    padding-top: 75px;
+}
 
 .main-side-nav{
     padding-left: 16rem;

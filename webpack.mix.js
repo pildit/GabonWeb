@@ -1,4 +1,5 @@
 const mix = require('laravel-mix');
+require('laravel-mix-alias');
 
 /*
  |--------------------------------------------------------------------------
@@ -14,7 +15,10 @@ const mix = require('laravel-mix');
 mix.js('resources/js/app.js', 'public/js')
     // .sass('resources/sass/app.scss', 'public/css')
     .scripts([
-        'resources/mdb/js/jquery-3.4.1.min.js'
+        'resources/mdb/js/jquery-3.4.1.min.js',
+        'resources/mdb/js/popper.min.js',
+        'resources/mdb/js/bootstrap.min.js',
+        'resources/mdb/js/mdb.min.js'
     ], 'public/js/all.js')
     .styles([
         'resources/mdb/css/bootstrap.min.css',
@@ -22,4 +26,8 @@ mix.js('resources/js/app.js', 'public/js')
         'resources/mdb/css/style.css',
         'resources/mdb/css/addons/flag.min.css',
         'resources/css/app.css'
-    ], 'public/css/all.css');
+    ], 'public/css/all.css')
+    .alias({
+        'components' : '/resources/js/Components',
+        'store' : '/resources/js/Store',
+    });

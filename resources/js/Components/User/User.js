@@ -1,5 +1,5 @@
 import Base from "../Base";
-import vueDetails from "./Parts/Details/index"
+import vueDetails from "./Parts/Details"
 
 class User extends Base {
 

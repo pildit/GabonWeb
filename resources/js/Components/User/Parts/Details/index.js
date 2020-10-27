@@ -7,8 +7,8 @@ export default (selector, options) => {
         el: selector,
         components: {UserDetails},
         data: {
-
-        }
+            translations: options.translations
+        },
     }
 
     return new Vue(_.merge(options, vueOptions));
