@@ -66,7 +66,9 @@ class PermitController extends Controller
     {
         $form = $permitService->getMobileForm();
 
-        return response()->json($form);
+        return response()->json([
+            "data" => $form
+        ]);
     }
 
     /**
