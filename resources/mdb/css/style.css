@@ -1,0 +1,5 @@
+.DTE_Form_Content [type=checkbox]:checked,.DTE_Form_Content [type=checkbox]:not(:checked) {
+    position: relative;
+    opacity: 1;
+    pointer-events: all;
+}
