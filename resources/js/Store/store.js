@@ -40,7 +40,7 @@ export default new Vuex.Store({
         $fetchTranslations({commit, state}) {
             return axios.get(`${baseUrl}/api/translations/dictionary`)
                 .then((response) => {
-                    commit('translations', response.data[`text_${state.lang}`])
+                    commit('translations', response.data['data'][`text_${state.lang}`])
                 });
         }
     },

@@ -34674,7 +34674,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_reactive_cookie__WEBPACK_IMPO
       var commit = _ref.commit,
           state = _ref.state;
       return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("".concat(baseUrl, "/api/translations/dictionary")).then(function (response) {
-        commit('translations', response.data["text_".concat(state.lang)]);
+        commit('translations', response.data['data']["text_".concat(state.lang)]);
       });
     }
   },
