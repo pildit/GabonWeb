@@ -80,9 +80,11 @@ class DevelopmentUnitController extends Controller
      */
     public function destroy(DevelopmentUnit $developmentunit)
     {
-        //$data['status'] = timestamp();
-        //$developmentunit->fill($data);
-        //$developmentunit->save($data);
+        $developmentunit->delete();
+
+        return response()->json([
+            'message' => lang('developmentunit_delete_successful')
+        ], 204);
 
     }
 

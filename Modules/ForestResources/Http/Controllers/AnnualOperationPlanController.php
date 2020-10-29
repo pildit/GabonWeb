@@ -67,9 +67,11 @@ class AnnualOperationPlanController extends Controller
      */
     public function destroy(AnnualOperationPlan $annualoperationplan)
     {
-        //$data['status'] = timestamp();
-        //$annualoperationplan->fill($data);
-        //$annualoperationplan->save($data);
+        $annualoperationplan->delete();
+
+        return response()->json([
+            'message' => lang('annualoperationplan_delete_successful')
+        ], 204);
 
     }
 
