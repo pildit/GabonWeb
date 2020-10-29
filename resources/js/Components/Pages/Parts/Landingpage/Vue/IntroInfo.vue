@@ -9,14 +9,14 @@
                 <div class="col-md-10">
 
                     <!-- Heading -->
-                    <h4 class="display-4  white-text pt-5 mb-2">{{translations['Intro title']}}</h4>
+                    <h4 class="display-4  white-text pt-5 mb-2">{{translate('Intro title')}}</h4>
 
                     <!-- Divider -->
                     <hr class="hr-light">
 
                     <!-- Description -->
-                    <h5 class="white-text my-4">{{translations['Intro description']}}</h5>
-                    <button type="button" id="read-more" @click="scrollToMain()" class="btn btn-outline-white">{{translations['Read more']}}<i class="fas fa-book ml-2"></i></button>
+                    <h5 class="white-text my-4">{{translate('Intro description')}}</h5>
+                    <button type="button" id="read-more" @click="scrollToMain()" class="btn btn-outline-white">{{translate('Read more')}}<i class="fas fa-book ml-2"></i></button>
 
                 </div>
 
@@ -30,14 +30,10 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
+import Translation from "components/Mixins/Translation";
 
 export default {
-
-    computed: {
-      ...mapGetters(['translations'])
-    },
-
+    mixins: [Translation],
     methods: {
         scrollToMain() {
             $('html, body').animate({

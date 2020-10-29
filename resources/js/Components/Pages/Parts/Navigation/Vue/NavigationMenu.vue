@@ -20,7 +20,7 @@
                         <ul class="nav-item dropdown-menu dropdown-default" aria-labelledby="lang">
                             <li class="nav-item" v-for="(country,lang) in languages">
                                 <a @click="setLang(lang)" class="dropdown-item text-nowrap waves-effect waves-light">
-                                    <i :class="['flag', languages[lang]]"></i>{{translations[country]}}
+                                    <i :class="['flag', languages[lang]]"></i>{{translate(country)}}
                                 </a>
                             </li>
                         </ul>
@@ -33,13 +33,13 @@
 
 <script>
 import {mapGetters} from 'vuex';
+import Translation from "components/Mixins/Translation";
 
 export default {
     data() {
-        return {
-
-        }
+        return {}
     },
+    mixins:[Translation],
     computed: {
         ...mapGetters(['translations', 'languages', 'lang'])
     },
