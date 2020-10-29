@@ -120,7 +120,6 @@ class PageResults
                 $this->query->orWhere($field, $value);
             }
         }
-        dd($this->query->toSql());
         return $this->query->paginate($this->per_page);
     }
 
