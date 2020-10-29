@@ -11,7 +11,9 @@ CREATE VIEW "ForestResources"."ConstituentPermits" AS
 	cpt."PermitType",
     cpt."PermitNumber",
     cpt."Geometry",
-    cpt."deleted_at"
+    cpt."CreatedAt",
+    cpt."UpdatedAt",
+    cpt."DeletedAt"
    FROM "ForestResources"."ConstituentPermitsTable" cpt, "admin"."accounts" acc
    WHERE cpt."User" = acc."id" ;
 
@@ -21,7 +23,7 @@ CREATE VIEW "ForestResources"."ConstituentPermits" AS
 -- Name: ConstituentPermits ConstituentPermits_instead_of_delete; Type: RULE; Schema: ForestResources; Owner: pildit
 --
 
-CREATE RULE "ConstituentPermits_instead_of_delete" AS
+CREATE or replace RULE "ConstituentPermits_instead_of_delete" AS
     ON DELETE TO "ForestResources"."ConstituentPermits" DO INSTEAD  DELETE FROM "ForestResources"."ConstituentPermitsTable"
   WHERE ("ConstituentPermitsTable"."Id" = old."Id");
 
@@ -30,35 +32,52 @@ CREATE RULE "ConstituentPermits_instead_of_delete" AS
 -- Name: ConstituentPermits ConstituentPermits_instead_of_insert; Type: RULE; Schema: ForestResources; Owner: pildit
 --
 
-CREATE RULE "ConstituentPermits_instead_of_insert" AS
-    ON INSERT TO "ForestResources"."ConstituentPermits" DO INSTEAD  INSERT INTO "ForestResources"."ConstituentPermitsTable" ("Id", "User", "PermitType", "PermitNumber", "Geometry")
-  VALUES (nextval('"ForestResources"."SEQ_ConstituentPermits"'::regclass), new."User", new."PermitType", new."PermitNumber", new."Geometry")
-  RETURNING "ConstituentPermitsTable"."Id",
-    "ConstituentPermitsTable"."User",
-    (SELECT acc."email" FROM "admin"."accounts" acc WHERE "ForestResources"."ConstituentPermitsTable"."User" = acc.id),
-	"ConstituentPermitsTable"."PermitType",
-    "ConstituentPermitsTable"."PermitNumber",
-    "ConstituentPermitsTable"."Geometry",
-    "ConstituentPermitsTable"."deleted_at";
+CREATE or replace RULE "ConstituentPermits_instead_of_insert" AS
+    ON INSERT TO "ForestResources"."ConstituentPermits"
+    DO INSTEAD  INSERT INTO "ForestResources"."ConstituentPermitsTable"
+        ("Id", "User", "PermitType", "PermitNumber", "Geometry", "CreatedAt")
+  VALUES
+         (
+          nextval('"ForestResources"."SEQ_ConstituentPermits"'::regclass),
+          new."User",
+          new."PermitType",
+          new."PermitNumber",
+          new."Geometry",
+          new."CreatedAt"
+          )
+  RETURNING
+      "Id",
+      "User",
+      (SELECT acc."email" FROM "admin"."accounts" acc WHERE "ForestResources"."ConstituentPermitsTable"."User" = acc.id),
+	  "PermitType",
+      "PermitNumber",
+      "Geometry",
+      "CreatedAt",
+      "UpdatedAt",
+      "DeletedAt";
 
 
 --
 -- Name: ConstituentPermits ConstituentPermits_instead_of_update; Type: RULE; Schema: ForestResources; Owner: pildit
 --
 
-CREATE RULE "ConstituentPermits_instead_of_update" AS
-    ON UPDATE TO "ForestResources"."ConstituentPermits" DO INSTEAD  
-    UPDATE "ForestResources"."ConstituentPermitsTable" 
-    SET "User" = new."User", 
-        "PermitType" = new."PermitType", 
-        "PermitNumber" = new."PermitNumber", 
+CREATE or replace RULE "ConstituentPermits_instead_of_update" AS
+    ON UPDATE TO "ForestResources"."ConstituentPermits" DO INSTEAD
+    UPDATE "ForestResources"."ConstituentPermitsTable"
+    SET "User" = new."User",
+        "PermitType" = new."PermitType",
+        "PermitNumber" = new."PermitNumber",
         "Geometry" = new."Geometry",
-        "deleted_at" = new."deleted_at"
+        "UpdatedAt" = new."UpdatedAt",
+        "DeletedAt" = new."DeletedAt"
   WHERE ("ConstituentPermitsTable"."Id" = old."Id")
-  RETURNING "ConstituentPermitsTable"."Id",
-    "ConstituentPermitsTable"."User",
-    (SELECT acc."email" FROM "admin"."accounts" acc WHERE "ForestResources"."ConstituentPermitsTable"."User" = acc.id),
-  "ConstituentPermitsTable"."PermitType",
-    "ConstituentPermitsTable"."PermitNumber",
-    "ConstituentPermitsTable"."Geometry",
-    "ConstituentPermitsTable"."deleted_at";
+  RETURNING
+        "Id",
+        "User",
+        (SELECT acc."email" FROM "admin"."accounts" acc WHERE "ForestResources"."ConstituentPermitsTable"."User" = acc.id),
+        "PermitType",
+        "PermitNumber",
+        "Geometry",
+        "CreatedAt",
+        "UpdatedAt",
+        "DeletedAt";

@@ -11,9 +11,14 @@
 |
 */
 
-//Route::get('/', function () {
-//    return response()->json([
-//        'message' => 'Gabon API',
-//        'version' => '1.0.0'
-//    ]);
-//});
+Route::get('/', function (\Illuminate\Http\Request $request) {
+    return view('home');
+});
+
+Route::get('/login', function () {
+    return view('auth.login');
+});
+
+Route::get('/test', function () {
+    return view('welcome', ['test' => "SOme date for test"]);
+});

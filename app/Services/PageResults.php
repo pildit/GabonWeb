@@ -27,6 +27,8 @@ class PageResults
 
     protected $search;
 
+    protected $where;
+
     /**
      * @param mixed $per_page
      */
@@ -80,6 +82,16 @@ class PageResults
     }
 
     /**
+     * @param mixed $where
+     */
+    public function setWhere($where)
+    {
+        $this->where = $where;
+
+        return $this;
+    }
+
+    /**
      * @param array $fields
      */
     public function setSortFields($fields)
@@ -103,6 +115,11 @@ class PageResults
             }
         }
 
+        if($this->where) {
+            foreach ($this->where as $field => $value) {
+                $this->query->orWhere($field, $value);
+            }
+        }
         return $this->query->paginate($this->per_page);
     }
 
@@ -129,7 +146,7 @@ class PageResults
     }
 
 
-    public function getPaginator(Request $request,string $modelClass,array $searchFields=[], array $relations=[])
+    public function getPaginator(Request $request,string $model,array $searchFields, array $relations = [])
     {
 
         $this->validateRequest($request);
@@ -137,7 +154,7 @@ class PageResults
         $this->setPerPage($request->get('per_page'));
         $this->setSearch($request->get('search'));
 
-        $this->query = $modelClass::ofSort($this->getSortCriteria());
+        $this->query = $model::ofSort($this->getSortCriteria());
 
         if(count($relations)){
             $this->query =  $this->query->with($relations);

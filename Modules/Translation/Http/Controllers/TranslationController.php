@@ -102,8 +102,10 @@ class TranslationController extends Controller
         }
 
         return response()->json([
-            'text_en' => $language->get()->pluck('text_us', 'text_key'),
-            'text_fr' => $language->get()->pluck('text_ga', 'text_key')
+            "data" => [
+                'text_en' => $language->get()->pluck('text_us', 'text_key'),
+                'text_fr' => $language->get()->pluck('text_ga', 'text_key')
+            ]
         ]);
     }
 }
