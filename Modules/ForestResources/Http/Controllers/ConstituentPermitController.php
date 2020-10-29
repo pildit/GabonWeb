@@ -36,11 +36,12 @@ class ConstituentPermitController extends Controller
      */
     public function store(CreateConstituentPermitRequest $request)
     {
-        $data = $request->validated();        
+        $data = $request->validated();
 
         $constituent_permit = new ConstituentPermit;
         $constituent_permit->PermitType = $data['permit_type'];
         $constituent_permit->PermitNumber = $data['permit_number'];
+        $constituent_permit->Geometry = $data['geometry'];
         $constituent_permit->User = $this->jwtPayload('data.id');
 
         $constituent_permit->save();
@@ -58,7 +59,7 @@ class ConstituentPermitController extends Controller
      */
     public function show(ConstituentPermit $constituent_permit)
     {
-        return response()->json(['data' => $constituent_permit], 200);    
+        return response()->json(['data' => $constituent_permit], 200);
     }
 
 

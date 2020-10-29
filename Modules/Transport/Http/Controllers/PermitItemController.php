@@ -22,22 +22,40 @@ class PermitItemController extends Controller
      * @param Permit $permit
      * @return JsonResponse
      */
-    public function index(Permit $permit, Request $request, PageResults $pageResults)
+    public function index($permit, Request $request, PageResults $pageResults)
     {
-        return response()->json($pageResults->getPaginator($request, ItemEntity::class , ["trunk_number", "lot_number", "species"]));
+        return response()->json(
+            $pageResults
+                ->setWhere(["mobile_id" => $permit, "permit_id" => (int)$permit])
+                ->getPaginator(
+                    $request,
+                    ItemEntity::class ,
+                    [
+                        "trunk_number",
+                        "lot_number",
+                        "species"
+                    ]
+                ));
     }
 
     /**
      * Store a newly created resource in storage.
      * @param Request $request
      */
-    public function store(Permit $permit, CreatePermitItemRequest $request)
+    public function store($permit, CreatePermitItemRequest $request)
     {
+        $permit = Permit::where('id', (int)$permit)->orWhere('mobile_id', $permit)->firstOrFail();
+
         $result = $permit->items()->save(new \Modules\Transport\Entities\Item($request->all()));
 
         return response()->json([
             "data" => $result
         ], 201);
+    }
+
+    public function storeMobile(CreatePermitItemRequest $request)
+    {
+        return $this->store($request->get('permit_id'), $request);
     }
 
     /**
@@ -48,6 +66,8 @@ class PermitItemController extends Controller
     {
         $form = $itemService->getMobileForm();
 
-        return response()->json($form);
+        return response()->json([
+            "data" => $form
+        ]);
     }
 }

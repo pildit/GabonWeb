@@ -14,15 +14,15 @@ class CreatePermitItemRequest extends FormRequest
     public function rules()
     {
         return [
-            "trunk_number" => "string",
-            "lot_number" => "string",
-            "species" => "string",
-            "diam1" => "numeric",
-            "diam2" => "numeric",
-            "length" => "numeric",
-            "volume" => "numeric",
-            "width" => "numeric",
-            "height" => "numeric",
+//            "trunk_number" => "string",
+//            "lot_number" => "string",
+//            "species" => "string",
+//            "diam1" => "numeric",
+//            "diam2" => "numeric",
+//            "length" => "numeric",
+//            "volume" => "numeric",
+//            "width" => "numeric",
+//            "height" => "numeric",
             "mobile_id" => "string",
         ];
     }

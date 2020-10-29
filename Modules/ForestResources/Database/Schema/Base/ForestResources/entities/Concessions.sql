@@ -4,6 +4,7 @@
 create table "ForestResources"."ConcessionsTable"
 (
     "Continent" text not null,
+    "Company" int not null,
     "ConstituentPermit" int not null,
     constraint "CHK_ConcessionsTable.Continent" check (length("Continent") > 0),
     constraint "PK_ConcessionsTable" primary key("Id"),
@@ -35,5 +36,12 @@ create index "IX_ConcessionsTable.ConstituentPermit"
 on "ForestResources"."ConcessionsTable"
     (
         "ConstituentPermit"
+    )
+;
+
+create index "IX_ConcessionsTable.Company"
+on "ForestResources"."ConcessionsTable"
+    (
+        "Company"
     )
 ;

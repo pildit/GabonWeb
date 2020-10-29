@@ -13,5 +13,5 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('jwt:api')->get('/translations/dictionary', 'TranslationController@dictionary');
+Route::get('/translations/dictionary', 'TranslationController@dictionary');
 Route::middleware('jwt:api')->resource('/translations', 'TranslationController')->except('create', 'edit');
