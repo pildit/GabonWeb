@@ -42,7 +42,7 @@ class SiteLogbook extends Model
     }
 
     public function logs(){
-        return $this->items->log;
+        return $this->hasManyThrough(SiteLogbookLog::class,SiteLogbookItem::class,"SiteLogbook","SiteLogbookItem");
     }
 
     public function concession(){
