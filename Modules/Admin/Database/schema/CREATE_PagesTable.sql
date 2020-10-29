@@ -1,4 +1,4 @@
--- auto-generated definition
+drop table if exists admin.pages;
 create table admin.pages
 (
     id       serial  not null
@@ -9,6 +9,7 @@ create table admin.pages
     resource varchar not null
 );
 
+drop table if exists admin.page_role;
 create table admin.page_role
 (
     id      serial  not null,
@@ -25,12 +26,12 @@ create table admin.page_role
 create unique index page_role_role_id_page_id_uindex
     on admin.page_role (role_id, page_id);
 
-insert into admin.pages (id, name, path, resource) values (nextval('admin.admin_pages_id_seq'), 'permits', '/permits', 'permits');
-insert into admin.pages (id, name, path, resource) values (nextval('admin.admin_pages_id_seq'), 'permits items', '/permits/{permit}/items', 'permit_items');
-insert into admin.pages (id, name, path, resource) values (nextval('admin.admin_pages_id_seq'), 'users', '/users', 'users');
-insert into admin.pages (id, name, path, resource) values (nextval('admin.admin_pages_id_seq'), 'translations', '/translations', 'translations');
-insert into admin.pages (id, name, path, resource) values (nextval('admin.admin_pages_id_seq'), 'roles', '/roles', 'roles');
-insert into admin.pages (id, name, path, resource) values (nextval('admin.admin_pages_id_seq'), 'permissions', '/permissions', 'permissions');
-insert into admin.pages (id, name, path, resource) values (nextval('admin.admin_pages_id_seq'), 'pages', '/pages', 'pages');
+insert into admin.pages (id, name, path, resource) values (nextval('admin.pages_id_seq'), 'permits', '/permits', 'permits');
+insert into admin.pages (id, name, path, resource) values (nextval('admin.pages_id_seq'), 'permits items', '/permits/{permit}/items', 'permit_items');
+insert into admin.pages (id, name, path, resource) values (nextval('admin.pages_id_seq'), 'users', '/users', 'users');
+insert into admin.pages (id, name, path, resource) values (nextval('admin.pages_id_seq'), 'translations', '/translations', 'translations');
+insert into admin.pages (id, name, path, resource) values (nextval('admin.pages_id_seq'), 'roles', '/roles', 'roles');
+insert into admin.pages (id, name, path, resource) values (nextval('admin.pages_id_seq'), 'permissions', '/permissions', 'permissions');
+insert into admin.pages (id, name, path, resource) values (nextval('admin.pages_id_seq'), 'pages', '/pages', 'pages');
 
 

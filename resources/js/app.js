@@ -3,6 +3,7 @@
 import Vue from 'vue';
 import config from './Components/_config/index';
 import VueReactiveCookie from 'vue-reactive-cookie';
+import VeeValidate from 'vee-validate';
 
 import Base from './Components/Base';
 import Pages from './Components/Pages/Pages';
@@ -13,6 +14,7 @@ window.Vent         = new Vue;
 
 // Vue.use(VueCookie);
 Vue.use(VueReactiveCookie);
+Vue.use(VeeValidate);
 
 
 let Gabon = window.Gabon || {}

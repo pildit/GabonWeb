@@ -2,6 +2,7 @@ import Vue           from 'vue';
 import Vuex          from 'vuex';
 import axios         from 'axios';
 import cookie        from 'vue-reactive-cookie';
+import user          from './user';
 
 Vue.use(Vuex);
 Vue.use(cookie)
@@ -43,5 +44,6 @@ export default new Vuex.Store({
         }
     },
     modules: {
+        user
     }
 });

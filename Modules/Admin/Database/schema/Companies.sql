@@ -26,7 +26,7 @@ CREATE TABLE "Taxonomy"."CompanyHasTypesTable"
     "CompanyTypeId" integer NOT NULL
 );
 
-DROP VIEW "Taxonomy"."Companies";
+DROP VIEW IF EXISTS "Taxonomy"."Companies";
 
 CREATE OR REPLACE VIEW "Taxonomy"."Companies"
 AS
