@@ -1,7 +1,7 @@
 // require('./bootstrap');
 
 import Vue from 'vue';
-// import VueCookie from 'vue-cookie';
+import config from './Components/_config/index';
 import VueReactiveCookie from 'vue-reactive-cookie';
 
 import Base from './Components/Base';
@@ -22,4 +22,3 @@ Gabon.Pages = Pages;
 Gabon.User = User;
 
 window.Gabon = Gabon;
-window.baseUrl = 'http://localhost:8000';

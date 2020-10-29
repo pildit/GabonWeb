@@ -3,8 +3,6 @@ import Vuex          from 'vuex';
 import axios         from 'axios';
 import cookie        from 'vue-reactive-cookie';
 
-let baseUrl = "http://localhost:8000"
-
 Vue.use(Vuex);
 Vue.use(cookie)
 
@@ -38,7 +36,7 @@ export default new Vuex.Store({
     },
     actions: {
         $fetchTranslations({commit, state}) {
-            return axios.get(`${baseUrl}/api/translations/dictionary`)
+            return axios.get(`/api/translations/dictionary`)
                 .then((response) => {
                     commit('translations', response.data['data'][`text_${state.lang}`])
                 });
