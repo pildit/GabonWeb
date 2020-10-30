@@ -80,10 +80,11 @@ class ManagementPlanController extends Controller
      */
     public function destroy(ManagementPlan $managementplan)
     {
-        //$data['status'] = timestamp();
-        //$managementplan->fill($data);
-        //$managementplan->save($data);
+        $managementplan->delete();
 
+        return response()->json([
+            'message' => lang('managementplan_delete_successful')
+        ], 204);
     }
 
 

@@ -47,7 +47,7 @@ class ConstituentPermitController extends Controller
         $constituent_permit->save();
 
         return response()->json([
-            'message' => lang("created_successfully")
+            'message' => lang("constituent_permit_created_successfully")
         ], 201);
 
     }
@@ -84,7 +84,7 @@ class ConstituentPermitController extends Controller
         $constituent_permit->delete();
 
         return response()->json([
-            'message' => lang('Delete succesful')
+            'message' => lang('constituent_permit_deleted')
         ], 204);
     }
 }

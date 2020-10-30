@@ -75,10 +75,11 @@ class LogbookItemController extends Controller
      */
     public function destroy(LogbookItem $logbookitem)
     {
-        //$data['status'] = timestamp();
-        //$logbookitem->fill($data);
-        //$logbookitem->save($data);
+        $logbookitem->delete();
 
+        return response()->json([
+            'message' => lang('logbookitem_delete_successful')
+        ], 204);
     }
 
 

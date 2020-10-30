@@ -12,5 +12,8 @@ axios.interceptors.request.use((config) => {
         config.url = join(process.env.MIX_APP_URL, config.url);
     }
 
+    config.headers.ContentType = "application/json";
+    config.headers.Accept = "application/json";
+
     return config;
 })

@@ -74,10 +74,11 @@ class SiteLogbookLogController extends Controller
      */
     public function destroy(SiteLogbookLog $sitelogbooklog)
     {
-        //$data['status'] = timestamp();
-        //$sitelogbooklog->fill($data);
-        //$sitelogbooklog->save($data);
+        $sitelogbooklog->delete();
 
+        return response()->json([
+            'message' => lang('sitelogbooklog_delete_successful')
+        ], 204);
     }
 
 
