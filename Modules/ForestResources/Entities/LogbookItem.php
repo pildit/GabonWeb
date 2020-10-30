@@ -7,7 +7,7 @@ use App\Traits\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class AnnualAllowableCutInventory extends Model
+class LogbookItem extends Model
 {
     use Sortable, Geometry, SoftDeletes;
 
@@ -16,7 +16,9 @@ class AnnualAllowableCutInventory extends Model
     const DELETED_AT = "DeletedAt";
 
     public $timestamps = true;
-
+    /**
+     * @var string
+     */
     protected $dateFormat = 'Y-m-d H:i:s.u';
 
     /**
@@ -24,15 +26,18 @@ class AnnualAllowableCutInventory extends Model
      *
      * @var array
      */
-    protected $fillable = ['AnnualAllowableCut','Species','Quality','Parcel','TreeId','DiameterBreastHeight','Geometry'];
+    protected $fillable = ['Logbook','AnnualAllowableCutInventory','HewingId','Species','MaxDiameter','MinDiameter','Length','Volume','Latitude','Longitude','GPSAccuracy','Note','ObserveAt','Approved'];
 
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'ForestResources.AnnualAllowableCutInventory';
+    protected $table = 'ForestResources.LogbookItems';
 
     protected $primaryKey = "Id";
 
+    public function anuualallowablecutinventory(){
+        return $this->belongsTo(AnnualAllowableCutInventory::class,'AnnualAllowableCutInventory');
+    }
 }

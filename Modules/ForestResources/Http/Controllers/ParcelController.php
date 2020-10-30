@@ -177,10 +177,11 @@ class ParcelController extends Controller
      */
     public function destroy(Parcel $parcel)
     {
-        //$data['status'] = timestamp();
-        //$parcel->fill($data);
-        //$parcel->save($data);
+        $parcel->delete();
 
+        return response()->json([
+            'message' => lang('parcel_delete_successful')
+        ], 204);
     }
 
 

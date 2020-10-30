@@ -6,8 +6,9 @@ use App\Traits\Geometry;
 use App\Traits\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\ForestResources\Http\Controllers\SiteLogbookLogItemController;
 
-class AnnualAllowableCutInventory extends Model
+class SiteLogbookLog extends Model
 {
     use Sortable, Geometry, SoftDeletes;
 
@@ -16,7 +17,9 @@ class AnnualAllowableCutInventory extends Model
     const DELETED_AT = "DeletedAt";
 
     public $timestamps = true;
-
+    /**
+     * @var string
+     */
     protected $dateFormat = 'Y-m-d H:i:s.u';
 
     /**
@@ -24,14 +27,14 @@ class AnnualAllowableCutInventory extends Model
      *
      * @var array
      */
-    protected $fillable = ['AnnualAllowableCut','Species','Quality','Parcel','TreeId','DiameterBreastHeight','Geometry'];
+    protected $fillable = ['SiteLogbookItem','HewingId','Species','MaxDiameter','MinDiameter','AverageDiameter','Length','Volume','Note','EvacuationDate','Lat','Lon','GPSAccuracy','ObserveAt','Approved'];
 
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'ForestResources.AnnualAllowableCutInventory';
+    protected $table = 'ForestResources.SiteLogbookLogs';
 
     protected $primaryKey = "Id";
 

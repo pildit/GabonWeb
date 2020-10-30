@@ -80,9 +80,11 @@ class ManagementUnitController extends Controller
      */
     public function destroy(ManagementUnit $managementunit)
     {
-        //$data['status'] = timestamp();
-        //$managementunit->fill($data);
-        //$managementunit->save($data);
+        $managementunit->delete();
+
+        return response()->json([
+            'message' => lang('managementunit_delete_successful')
+        ], 204);
 
     }
 
