@@ -31,7 +31,7 @@
                             <div>
                                 <!-- Remember me -->
                                 <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe" value=''/>
+                                    <input type="checkbox" v-model="rememberMe" class="form-check-input" id="rememberMe" name="rememberMe" value=''/>
                                     <label class="form-check-label" for="rememberMe">{{translate("Remember me")}}</label>
                                 </div>
                             </div>
@@ -68,6 +68,7 @@ export default {
                 email: null,
                 password: null
             },
+            rememberMe: false,
             failed: ''
         }
     },
@@ -79,7 +80,7 @@ export default {
                     User.login(this.loginForm.email, this.loginForm.password)
                         .then((data) => {
                             this.failed = '';
-                            this.$setCookie('jwt', data['jwt']);
+                            this.$setCookie('jwt', data['jwt'], {expires: this.rememberMe ? 365 : 1});
                             window.location.href = '/';
                         })
                         .catch((error) => {

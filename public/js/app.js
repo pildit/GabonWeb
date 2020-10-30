@@ -2243,6 +2243,7 @@ __webpack_require__.r(__webpack_exports__);
         email: null,
         password: null
       },
+      rememberMe: false,
       failed: ''
     };
   },
@@ -2256,7 +2257,9 @@ __webpack_require__.r(__webpack_exports__);
           components_User_User__WEBPACK_IMPORTED_MODULE_1__["default"].login(_this.loginForm.email, _this.loginForm.password).then(function (data) {
             _this.failed = '';
 
-            _this.$setCookie('jwt', data['jwt']);
+            _this.$setCookie('jwt', data['jwt'], {
+              expires: _this.rememberMe ? 365 : 1
+            });
 
             window.location.href = '/';
           })["catch"](function (error) {
@@ -33515,12 +33518,46 @@ var render = function() {
                   _c("div", [
                     _c("div", { staticClass: "form-check" }, [
                       _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.rememberMe,
+                            expression: "rememberMe"
+                          }
+                        ],
                         staticClass: "form-check-input",
                         attrs: {
                           type: "checkbox",
                           id: "rememberMe",
                           name: "rememberMe",
                           value: ""
+                        },
+                        domProps: {
+                          checked: Array.isArray(_vm.rememberMe)
+                            ? _vm._i(_vm.rememberMe, "") > -1
+                            : _vm.rememberMe
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.rememberMe,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = "",
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 && (_vm.rememberMe = $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.rememberMe = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.rememberMe = $$c
+                            }
+                          }
                         }
                       }),
                       _vm._v(" "),
@@ -48170,7 +48207,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.config.devtools = true;
 window.Vent = new vue__WEBPACK_IMPORTED_MODULE_0___default.a(); // Vue.use(VueCookie);
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_reactive_cookie__WEBPACK_IMPORTED_MODULE_2___default.a);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vee_validate__WEBPACK_IMPORTED_MODULE_3__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vee_validate__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  events: 'blur'
+});
 var Gabon = window.Gabon || {};
 Gabon.Base = _Components_Base__WEBPACK_IMPORTED_MODULE_4__["default"];
 Gabon.Pages = _Components_Pages_Pages__WEBPACK_IMPORTED_MODULE_5__["default"];

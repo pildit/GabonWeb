@@ -14,7 +14,9 @@ window.Vent         = new Vue;
 
 // Vue.use(VueCookie);
 Vue.use(VueReactiveCookie);
-Vue.use(VeeValidate);
+Vue.use(VeeValidate, {
+    events: 'blur'
+});
 
 
 let Gabon = window.Gabon || {}
