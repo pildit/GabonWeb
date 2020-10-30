@@ -9,15 +9,21 @@ use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\SiteLogbookItem;
 use Modules\ForestResources\Http\Requests\CreateSiteLogbookItemRequest;
 use Modules\ForestResources\Http\Requests\UpdateSiteLogbookItemRequest;
-use ShapeFile\Shapefile;
-use Shapefile\ShapefileException;
-use Shapefile\ShapefileReader;
-use Modules\ForestResources\Services\SiteLogbookItem as SiteLogbookItemService;
-use Shapefile\Geometry\Polygon;
-use Illuminate\Support\Facades\File;
 
 class SiteLogbookItemController extends Controller
 {
+
+    /**
+     * Display a listing of the resource.
+     * @return Response
+     */
+    public function index(Request $request, PageResults $pr)
+    {
+        $pr->setSortFields(['Id']);
+
+        return response()->json($pr->getPaginator($request, SiteLogbookItem::class,[],['logs']));
+    }
+
     /**
      * Store sitelogbookitem
      * @param CreateSiteLogbookItemRequest $request

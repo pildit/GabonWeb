@@ -9,12 +9,7 @@ use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\SiteLogbook;
 use Modules\ForestResources\Http\Requests\CreateSiteLogbookRequest;
 use Modules\ForestResources\Http\Requests\UpdateSiteLogbookRequest;
-use ShapeFile\Shapefile;
-use Shapefile\ShapefileException;
-use Shapefile\ShapefileReader;
-use Modules\ForestResources\Services\SiteLogbook as SiteLogbookService;
-use Shapefile\Geometry\Polygon;
-use Illuminate\Support\Facades\File;
+
 
 class SiteLogbookController extends Controller
 {
@@ -27,7 +22,7 @@ class SiteLogbookController extends Controller
     {
         $pr->setSortFields(['Id']);
 
-        return response()->json($pr->getPaginator($request, SiteLogbook::class,['AnnualAllowableCut'],['items','logs','concession','developmentunit','managementunit','anuualallowablecut']));
+        return response()->json($pr->getPaginator($request, SiteLogbook::class,['AnnualAllowableCut'],['anuualallowablecut']));
     }
 
     /**

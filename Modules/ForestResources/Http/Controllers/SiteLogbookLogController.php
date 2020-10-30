@@ -9,12 +9,7 @@ use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\SiteLogbookLog;
 use Modules\ForestResources\Http\Requests\CreateSiteLogbookLogRequest;
 use Modules\ForestResources\Http\Requests\UpdateSiteLogbookLogRequest;
-use ShapeFile\Shapefile;
-use Shapefile\ShapefileException;
-use Shapefile\ShapefileReader;
-use Modules\ForestResources\Services\SiteLogbookLog as SiteLogbookLogService;
-use Shapefile\Geometry\Polygon;
-use Illuminate\Support\Facades\File;
+
 
 class SiteLogbookLogController extends Controller
 {
