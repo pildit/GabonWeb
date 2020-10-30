@@ -90,9 +90,11 @@ class AnnualAllowableCutController extends Controller
      */
     public function destroy(AnnualAllowableCut $annualallowablecut)
     {
-        //$data['status'] = timestamp();
-        //$annualallowablecut->fill($data);
-        //$annualallowablecut->save($data);
+        $annualallowablecut->delete();
+
+        return response()->json([
+            'message' => lang('annualallowablecut_delete_successful')
+        ], 204);
 
     }
 

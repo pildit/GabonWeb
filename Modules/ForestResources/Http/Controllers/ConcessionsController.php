@@ -33,7 +33,7 @@ class ConcessionsController extends Controller
        Concession::create($data);
 
        return response()->json([
-            'message' => lang('Create succesful')
+            'message' => lang('concession_create_succesful')
        ], 201);
     }
 
@@ -64,7 +64,7 @@ class ConcessionsController extends Controller
         $concession->save();
 
         return response()->json([
-            'message' => lang('Update succesful')
+            'message' => lang('concession_update_succesful')
         ], 200);
     }
 
@@ -78,7 +78,7 @@ class ConcessionsController extends Controller
         $concession->delete();
 
         return response()->json([
-            'message' => lang('Delete succesful')
-        ], 204);        
+            'message' => lang('concession_delete_succesful')
+        ], 204);
     }
 }

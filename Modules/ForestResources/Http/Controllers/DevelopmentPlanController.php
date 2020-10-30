@@ -81,9 +81,11 @@ class DevelopmentPlanController extends Controller
      */
     public function destroy(DevelopmentPlan $developmentplan)
     {
-        //$data['status'] = timestamp();
-        //$developmentplan->fill($data);
-        //$developmentplan->save($data);
+        $developmentplan->delete();
+
+        return response()->json([
+            'message' => lang('developmentplan_delete_successful')
+        ], 204);
 
     }
 

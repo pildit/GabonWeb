@@ -82,9 +82,12 @@ class AnnualAllowableCutInventoryController extends Controller
      */
     public function destroy(AnnualAllowableCutInventory $annualallowablecutinventory)
     {
-        //$data['status'] = timestamp();
-        //$annualallowablecutinventory->fill($data);
-        //$annualallowablecutinventory->save($data);
+        $annualallowablecutinventory->delete();
+
+        return response()->json([
+            'message' => lang('annualallowablecutinventory_delete_successful')
+        ], 204);
+
 
     }
 

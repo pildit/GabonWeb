@@ -2,10 +2,14 @@
 
 namespace Modules\ForestResources\Entities;
 
+use App\Traits\Sortable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class DevelopmentPlan extends Model
 {
+    use SoftDeletes , Sortable;
+
     const CREATED_AT = "CreatedAt";
     const UPDATED_AT = "UpdatedAt";
     const DELETED_AT = "DeletedAt";
