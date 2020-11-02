@@ -1,9 +1,9 @@
 // require('./bootstrap');
 
 import Vue from 'vue';
-import config from './Components/_config/index';
 import VueReactiveCookie from 'vue-reactive-cookie';
-import VeeValidate from 'vee-validate';
+import VeeValidate, {Validator} from 'vee-validate';
+import config from './Components/_config/index';
 
 import Base from './Components/Base';
 import Pages from './Components/Pages/Pages';

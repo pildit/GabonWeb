@@ -11,14 +11,10 @@
 |
 */
 
-Route::get('/', function (\Illuminate\Http\Request $request) {
+Route::get('/', function () {
     return view('home');
 });
 
-Route::get('/login', function () {
-    return view('auth.login');
-});
-
-Route::get('/test', function () {
-    return view('welcome', ['test' => "SOme date for test"]);
-});
+Route::get('/login', 'AuthController@login');
+Route::get('/logout', 'AuthController@logout');
+Route::get('/register', 'AuthController@register');

@@ -53,8 +53,12 @@ class PermitItemController extends Controller
         ], 201);
     }
 
-    public function storeMobile(CreatePermitItemRequest $request)
+    public function storeMobile(Request $request)
     {
+        $request->validate([
+            'permit_id' => 'exists:Modules\Transportation\Entities\Permit,mobile_id'
+        ]);
+
         return $this->store($request->get('permit_id'), $request);
     }
 

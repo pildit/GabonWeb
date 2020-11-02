@@ -64,12 +64,9 @@ import User from "components/User/User";
 export default {
     data() {
         return {
-            loginForm: {
-                email: null,
-                password: null
-            },
+            loginForm: {},
             rememberMe: false,
-            failed: ''
+            failed: null
         }
     },
     mixins: [Translation],
@@ -79,7 +76,7 @@ export default {
                 if(valid) {
                     User.login(this.loginForm.email, this.loginForm.password)
                         .then((data) => {
-                            this.failed = '';
+                            this.failed = null;
                             this.$setCookie('jwt', data['jwt'], {expires: this.rememberMe ? 365 : 1});
                             window.location.href = '/';
                         })

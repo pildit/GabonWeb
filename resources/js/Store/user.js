@@ -21,6 +21,12 @@ export default {
                 .then((response) => {
                     return response;
                 })
+        },
+        register({commit}, payload) {
+            return axios.post('api/users/register', payload)
+                .then((response) => {
+                    return response;
+                })
         }
     }
 }
