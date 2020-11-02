@@ -131,11 +131,11 @@ class UserController extends Controller
             }
             return response()->json([
                 'message' => lang("verify_error_no_user_foud")
-            ], 200);
+            ], 404);
         }
         return response()->json([
             'message' => lang("verify_error")
-        ], 200);
+        ], 404);
     }
 
     /**

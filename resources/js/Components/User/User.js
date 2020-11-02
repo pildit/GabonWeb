@@ -3,6 +3,7 @@ import store from "store/store"
 import vueDetails from "./Parts/Details"
 import vueLogin from "./Parts/Login";
 import vueRegister from "./Parts/Register";
+import vueAccountConfirmation from "./Parts/Confirmation";
 
 class User extends Base {
 
@@ -10,7 +11,8 @@ class User extends Base {
         return {
             "user-details" : vueDetails,
             "login-form" : vueLogin,
-            "register-form" : vueRegister
+            "register-form" : vueRegister,
+            "account-confirmation" : vueAccountConfirmation
         }
     }
 
@@ -21,6 +23,10 @@ class User extends Base {
 
     static register(data) {
         return store.dispatch('user/register', data).then((response) => response.data);
+    }
+
+    static verify(data) {
+        return store.dispatch('user/verify', data).then((response) => response.data);
     }
 
 }

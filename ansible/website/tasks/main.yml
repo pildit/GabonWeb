@@ -79,7 +79,7 @@
       path: "{{ local_repo }}"
       recurse: yes
       owner: www-data
-      group: www-data
+      group: ubuntu
       mode: u+rw,g+rw,o+r
   - name: "Set permissions on the uploads directory"
     become: yes

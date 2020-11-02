@@ -102,9 +102,10 @@ export default {
                             },2000);
                         })
                         .catch((error) => {
-                            if(error.response && [401,404,422].includes(error.response.status)) {
+                            if(error.response && [401,404].includes(error.response.status)) {
                                 this.failed = error.response.data.message;
                             }
+                            this.$setErrorsFromResponse(error.response.data);
                         });
                 }
             })

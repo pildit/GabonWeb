@@ -27,6 +27,12 @@ export default {
                 .then((response) => {
                     return response;
                 })
+        },
+        verify({commit}, payload) {
+            return axios.post('api/users/verify', payload)
+                .then((response) => {
+                    return response;
+                });
         }
     }
 }

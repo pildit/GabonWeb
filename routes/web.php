@@ -18,3 +18,4 @@ Route::get('/', function () {
 Route::get('/login', 'AuthController@login');
 Route::get('/logout', 'AuthController@logout');
 Route::get('/register', 'AuthController@register');
+Route::get('/account/confirmation/{token}', 'AuthController@emailConfirmation');

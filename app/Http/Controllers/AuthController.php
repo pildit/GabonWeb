@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 
+
 class AuthController extends Controller
 {
     /**
@@ -25,8 +26,19 @@ class AuthController extends Controller
         return redirect()->to('/');
     }
 
+    /**
+     * @return \Illuminate\View\View
+     */
     public function register()
     {
         return view('auth.register');
+    }
+
+    /**
+     * @return \Illuminate\View\View
+     */
+    public function emailConfirmation($token)
+    {
+        return view('auth.confirmation', ['token' => $token]);
     }
 }

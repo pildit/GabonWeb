@@ -48,9 +48,7 @@
                         </p>
                     </form>
                     <!-- Form -->
-                    <div id="response" v-show="failed" style="color: rgb(149,28,8); display:block">
-                        <div class="alert alert-danger">{{failed}}</div>
-                    </div>
+                    <div class="alert alert-danger" v-show="failed">{{failed}}</div>
                 </div>
             </div>
         </div>
