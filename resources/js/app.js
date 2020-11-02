@@ -2,7 +2,8 @@
 
 import Vue from 'vue';
 import VueReactiveCookie from 'vue-reactive-cookie';
-import VeeValidate, {Validator} from 'vee-validate';
+import VeeValidate from 'vee-validate';
+import VueNotification from "vue-notification";
 import config from './Components/_config/index';
 
 import Base from './Components/Base';
@@ -17,6 +18,7 @@ Vue.use(VueReactiveCookie);
 Vue.use(VeeValidate, {
     events: 'blur'
 });
+Vue.use(VueNotification);
 
 
 let Gabon = window.Gabon || {}

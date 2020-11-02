@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('jwt:api')->resource('/users', UserController::class)->except(['edit', 'create']);
 Route::prefix('users')->group(function () {
     Route::post('/login', 'AuthController@login');
     Route::post('/register', 'UserController@store');
@@ -26,3 +25,4 @@ Route::prefix('users')->group(function () {
     Route::middleware('jwt:api')->post('/registerAdmin', 'UserController@createAccount');
 
 });
+Route::middleware('jwt:api')->resource('/users', UserController::class)->except(['edit', 'create']);

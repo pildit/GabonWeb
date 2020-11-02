@@ -66,9 +66,9 @@
                         </div>
                         <button type='submit' class='btn btn-outline-success btn-rounded btn-block my-4 waves-effect z-depth-0'>{{translate('Sign Up')}}</button>
                     </form>
-                    <div id="response" v-show="failed" style="color: rgb(149,28,8); display:block">
-                        <div class="alert alert-danger">{{failed}}</div>
-                    </div>
+                    <div class="alert alert-danger" v-show="failed">{{translate(failed)}}</div>
+                    <div class="alert alert-success" v-show="success">{{translate(success)}}</div>
+
                 </div>
             </div>
         </div>
@@ -83,7 +83,8 @@ export default {
     data() {
         return {
             registerForm: {},
-            failed: null
+            failed: null,
+            success: null
         }
     },
     mixins: [Translation],
@@ -91,13 +92,17 @@ export default {
         onSubmit() {
             this.$validator.validate().then((valid) => {
                 if(valid) {
+                    this.failed = null;
+                    this.success = null;
                     User.register(this.registerForm)
                         .then((data) => {
-                            this.failed = null;
-                            console.log(data);
+                            this.success = data.message;
+                            setTimeout(() => {
+                                window.location.href='/';
+                            },2000);
                         })
                         .catch((error) => {
-                            if(error.response && [401,404].includes(error.response.status)) {
+                            if(error.response && [401,404,422].includes(error.response.status)) {
                                 this.failed = error.response.data.message;
                             }
                         });
