@@ -4,6 +4,8 @@ import Vue from 'vue';
 import VueReactiveCookie from 'vue-reactive-cookie';
 import VeeValidate from 'vee-validate';
 import Notifications from 'vue-notification'
+import VueJwt from 'vuejs-jwt';
+import store from "store/store"
 import config from './Components/_config/index';
 
 import Base from './Components/Base';
@@ -20,6 +22,11 @@ Vue.use(VeeValidate, {
     events: 'blur'
 });
 Vue.use(Notifications);
+Vue.use(VueJwt, {
+    signKey: process.env.MIX_JWT_SECRET,
+    keyName: 'jwt',
+    storage: 'cookie'
+})
 
 new Vue({
     el: '#notification'
@@ -34,3 +41,6 @@ Gabon.User = User;
 Gabon.Role = Role;
 
 window.Gabon = Gabon;
+if(Vue.$jwt.hasToken()) {
+    store.commit('user/user', Vue.$jwt.decode()['data']);
+}

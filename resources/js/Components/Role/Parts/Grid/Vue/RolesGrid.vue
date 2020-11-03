@@ -1,20 +1,43 @@
 <template>
-    <div class="container-fluid">
-        <h5 class="text-center green-text"></h5>
-        <vue-pagination :pagination="roles" @paginate="getRoles()" :offset="4"></vue-pagination>
+    <div class="container mt-40">
+        <h5 class="text-center green-text mb-40">{{translate('Roles')}}</h5>
+        <div class="table-responsive text-nowrap">
+            <table class="table">
+                <thead class="black white-text table-hover">
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="role in roles.data">
+                    <th scope="row">{{role.id}}</th>
+                    <th>{{role.name}}</th>
+                    <th>{{role.created_at}}</th>
+                    <th v-if="role.name != 'admin'"><span class="btn btn-sm btn-outline-success"><i class="fas fa-edit"></i> Edit Permissions</span></th>
+                    <th v-else><span class="btn btn-sm btn-outline-success"><i class="fas fa-plus"></i> Add Permissions</span></th>
+                </tr>
+                </tbody>
+            </table>
+            <vue-pagination :pagination="roles" @paginate="getRoles()" :offset="offset"></vue-pagination>
+        </div>
     </div>
 </template>
 
 <script>
 import VuePagination from "components/Common/VuePagination";
-import Translation from "../../../../Mixins/Translation";
+import Translation from "components/Mixins/Translation";
+import Role from "components/Role/Role";
 
 export default {
+    mixins: [Translation],
     data() {
         return {
             roles: {
                 total: 0,
-                per_page: 2,
+                per_page: 20,
                 from: 1,
                 to: 0,
                 current_page: 1
@@ -31,78 +54,20 @@ export default {
             console.log('UPDATE RES');
         },
         getRoles() {
-          this.roles = {
-              "current_page": 1,
-              "data": [
-                  {
-                      "id": 22,
-                      "name": "permit_items.create"
-                  },
-                  {
-                      "id": 21,
-                      "name": "permit_items.view_own"
-                  },
-                  {
-                      "id": 20,
-                      "name": "permit_items.view"
-                  },
-                  {
-                      "id": 19,
-                      "name": "permits.viewown"
-                  },
-                  {
-                      "id": 18,
-                      "name": "users.edit"
-                  },
-                  {
-                      "id": 17,
-                      "name": "posts"
-                  },
-                  {
-                      "id": 16,
-                      "name": "users.*"
-                  },
-                  {
-                      "id": 15,
-                      "name": "permits.edit"
-                  },
-                  {
-                      "id": 14,
-                      "name": "users.create"
-                  },
-                  {
-                      "id": 13,
-                      "name": "users.view_own"
-                  },
-                  {
-                      "id": 12,
-                      "name": "users.view"
-                  },
-                  {
-                      "id": 11,
-                      "name": "permits.view_own"
-                  },
-                  {
-                      "id": 10,
-                      "name": "permits.view"
-                  }
-              ],
-              "first_page_url": "http:\/\/127.0.0.1:8000\/api\/permissions?page=1",
-              "from": 1,
-              "last_page": 2,
-              "last_page_url": "http:\/\/127.0.0.1:8000\/api\/permissions?page=2",
-              "next_page_url": null,
-              "path": "http:\/\/127.0.0.1:8000\/api\/permissions",
-              "per_page": 10,
-              "prev_page_url": null,
-              "to": 10,
-              "total": 13
-          }
+          Role.index({page: this.roles.current_page, per_page: this.roles.per_page, sort: 'asc'})
+            .then((pagination) => {
+                this.roles = pagination;
+            })
         }
     }
 }
 </script>
 
 <style scoped>
-
+.mt-40 {
+    margin-top: 40px;
+}
+.mb-40 {
+    margin-bottom: 40px;
+}
 </style>

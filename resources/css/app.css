@@ -20,6 +20,12 @@ body {
     padding-left: 16rem;
 }
 
+table.table td, table.table th {
+    padding-top: 1.1rem;
+    padding-bottom: 1rem;
+    vertical-align: middle;
+}
+
 .md-form .form-control:disabled{
 
     color: #ced4da;

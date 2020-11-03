@@ -19,7 +19,7 @@
     <navigation-menu></navigation-menu>
 </header>
 
-<div class="main-content container">
+<div class="main-content">
     @yield('content')
 </div>
 
