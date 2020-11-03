@@ -34653,8 +34653,8 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("span", { staticClass: "btn btn-sm btn-outline-success" }, [
-      _c("i", { staticClass: "fas fa-plus" }),
-      _vm._v(" Add Permissions")
+      _c("i", { staticClass: "far fa-list-alt" }),
+      _vm._v(" View Permissions")
     ])
   }
 ]

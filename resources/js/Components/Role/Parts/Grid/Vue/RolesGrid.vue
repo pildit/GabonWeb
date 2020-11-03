@@ -28,7 +28,7 @@
                     <th>{{role.name}}</th>
                     <th>{{role.created_at}}</th>
                     <th v-if="role.name != 'admin'"><span class="btn btn-sm btn-outline-success"><i class="fas fa-edit"></i> Edit Permissions</span></th>
-                    <th v-else><span class="btn btn-sm btn-outline-success"><i class="fas fa-plus"></i> Add Permissions</span></th>
+                    <th v-else><span class="btn btn-sm btn-outline-success"><i class="far fa-list-alt"></i> View Permissions</span></th>
                 </tr>
                 </tbody>
             </table>
