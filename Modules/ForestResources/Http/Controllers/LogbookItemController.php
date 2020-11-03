@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\LogbookItem;
 use Modules\ForestResources\Http\Requests\CreateLogbookItemRequest;
 use Modules\ForestResources\Http\Requests\UpdateLogbookItemRequest;
+use Modules\ForestResources\Services\Logbook as LogbookService;
 use ShapeFile\Shapefile;
 use Shapefile\ShapefileException;
 use Shapefile\ShapefileReader;
@@ -82,5 +83,17 @@ class LogbookItemController extends Controller
         ], 204);
     }
 
+    /**
+     * @param LogbookService $logbookitemService
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function mobile(LogbookItemService $logbookitemService)
+    {
+        $form = $logbookitemService->getMobileForm();
+
+        return response()->json([
+            "data" => $form
+        ]);
+    }
 
 }

@@ -95,5 +95,18 @@ class LogbookController extends Controller
 
     }
 
+    /**
+     * @param LogbookService $logbookService
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function mobile(LogbookService $logbookService)
+    {
+        $form = $logbookService->getMobileForm();
+
+        return response()->json([
+            "data" => $form
+        ]);
+    }
+
 
 }
