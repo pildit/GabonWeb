@@ -2252,6 +2252,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2266,7 +2277,8 @@ __webpack_require__.r(__webpack_exports__);
         to: 0,
         current_page: 1
       },
-      offset: 4
+      offset: 4,
+      search: null
     };
   },
   components: {
@@ -2285,7 +2297,8 @@ __webpack_require__.r(__webpack_exports__);
       components_Role_Role__WEBPACK_IMPORTED_MODULE_2__["default"].index({
         page: this.roles.current_page,
         per_page: this.roles.per_page,
-        sort: 'asc'
+        sort: 'asc',
+        search: this.search
       }).then(function (pagination) {
         _this.roles = pagination;
       });
@@ -34500,11 +34513,70 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c(
+      "form",
+      {
+        staticClass: "md-form",
+        attrs: { novalidate: "" },
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            return _vm.getRoles($event)
+          }
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "form-row",
+            staticStyle: { "justify-content": "flex-end" }
+          },
+          [
+            _c("div", { staticClass: "col-md-5 col-sm-5 col-lg-5" }, [
+              _c("label", { attrs: { for: "role_name" } }, [
+                _vm._v(_vm._s(_vm.translate("Search")))
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.search,
+                    expression: "search"
+                  }
+                ],
+                staticClass: "form-control",
+                attrs: {
+                  type: "text",
+                  Placeholder: "",
+                  name: "role_name",
+                  id: "role_name"
+                },
+                domProps: { value: _vm.search },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.search = $event.target.value
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _vm._m(0)
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
       "div",
       { staticClass: "table-responsive text-nowrap" },
       [
         _c("table", { staticClass: "table" }, [
-          _vm._m(0),
+          _vm._m(1),
           _vm._v(" "),
           _c(
             "tbody",
@@ -34519,8 +34591,8 @@ var render = function() {
                 _c("th", [_vm._v(_vm._s(role.created_at))]),
                 _vm._v(" "),
                 role.name != "admin"
-                  ? _c("th", [_vm._m(1, true)])
-                  : _c("th", [_vm._m(2, true)])
+                  ? _c("th", [_vm._m(2, true)])
+                  : _c("th", [_vm._m(3, true)])
               ])
             }),
             0
@@ -34541,6 +34613,16 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      { staticClass: "btn btn-sm btn-green  px-2", attrs: { id: "filter" } },
+      [_c("i", { staticClass: "fas fa-search" })]
+    )
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

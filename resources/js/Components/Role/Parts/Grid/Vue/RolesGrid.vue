@@ -1,6 +1,17 @@
 <template>
     <div class="container mt-40">
         <h5 class="text-center green-text mb-40">{{translate('Roles')}}</h5>
+        <form class="md-form" @submit.prevent="getRoles" novalidate>
+            <div class="form-row" style="justify-content: flex-end">
+                <div class="col-md-5 col-sm-5 col-lg-5">
+                    <label for="role_name">{{translate('Search')}}</label>
+                    <input class="form-control" v-model="search" type="text" Placeholder="" name="role_name" id="role_name" />
+                </div>
+                <button class="btn btn-sm btn-green  px-2" id="filter">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </form>
         <div class="table-responsive text-nowrap">
             <table class="table">
                 <thead class="black white-text table-hover">
@@ -42,7 +53,8 @@ export default {
                 to: 0,
                 current_page: 1
             },
-            offset: 4
+            offset: 4,
+            search: null
         }
     },
     components: {VuePagination},
@@ -54,7 +66,7 @@ export default {
             console.log('UPDATE RES');
         },
         getRoles() {
-          Role.index({page: this.roles.current_page, per_page: this.roles.per_page, sort: 'asc'})
+          Role.index({page: this.roles.current_page, per_page: this.roles.per_page, sort: 'asc', search: this.search})
             .then((pagination) => {
                 this.roles = pagination;
             })
