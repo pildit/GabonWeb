@@ -7,7 +7,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Modules\Transport\Entities\Permit;
+use Modules\Transport\Entities\Permit as PermitEntity;
 use Modules\Transport\Entities\Item as ItemEntity;
 
 use Modules\Transport\Http\Requests\CreatePermitItemRequest;
@@ -44,7 +44,7 @@ class PermitItemController extends Controller
      */
     public function store($permit, CreatePermitItemRequest $request)
     {
-        $permit = Permit::where('id', (int)$permit)->orWhere('mobile_id', $permit)->firstOrFail();
+        $permit = PermitEntity::where('id', (int)$permit)->orWhere('mobile_id', $permit)->firstOrFail();
 
         $result = $permit->items()->save(new \Modules\Transport\Entities\Item($request->all()));
 
@@ -53,10 +53,10 @@ class PermitItemController extends Controller
         ], 201);
     }
 
-    public function storeMobile(Request $request)
+    public function storeMobile(CreatePermitItemRequest $request)
     {
         $request->validate([
-            'permit_id' => 'exists:Modules\Transportation\Entities\Permit,mobile_id'
+            'permit_id' => 'exists:Modules\Transport\Entities\Permit,mobile_id'
         ]);
 
         return $this->store($request->get('permit_id'), $request);
