@@ -2445,11 +2445,11 @@ __webpack_require__.r(__webpack_exports__);
               window.location.href = '/';
             }, 2000);
           })["catch"](function (error) {
-            if (error.response && [401, 404].includes(error.response.status)) {
-              _this.failed = error.response.data.message;
+            if ([401, 404].includes(error.status)) {
+              _this.failed = error.data.message;
             }
 
-            _this.$setErrorsFromResponse(error.response.data);
+            _this.$setErrorsFromResponse(error.data);
           });
         }
       });
@@ -50787,11 +50787,40 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vee_validate_dist_locale_fr__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vee_validate_dist_locale_fr__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vee_validate__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vee-validate */ "./node_modules/vee-validate/dist/vee-validate.esm.js");
+/* harmony import */ var store_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! store/store */ "./resources/js/Store/store.js");
+/* harmony import */ var vee_validate__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vee-validate */ "./node_modules/vee-validate/dist/vee-validate.esm.js");
 
 
 
-vee_validate__WEBPACK_IMPORTED_MODULE_2__["Validator"].localize('fr', vee_validate_dist_locale_fr__WEBPACK_IMPORTED_MODULE_0___default.a);
+
+vee_validate__WEBPACK_IMPORTED_MODULE_3__["Validator"].localize('fr', vee_validate_dist_locale_fr__WEBPACK_IMPORTED_MODULE_0___default.a);
+
+vue__WEBPACK_IMPORTED_MODULE_1___default.a.prototype.$setErrorsFromResponse = function (errorResponse) {
+  var _this = this;
+
+  // only allow this function to be run if the validator exists
+  if (!this.hasOwnProperty('errors')) {
+    return;
+  } // clear errors
+
+
+  this.errors.clear(); // check if errors exist
+
+  if (!errorResponse.hasOwnProperty('errors')) {
+    return;
+  }
+
+  var errorFields = Object.keys(errorResponse.errors); // insert laravel errors
+
+  errorFields.map(function (field) {
+    var errorString = errorResponse.errors[field].join(', ');
+
+    _this.errors.add({
+      field: field,
+      msg: store_store__WEBPACK_IMPORTED_MODULE_2__["default"].getters.translations[errorString]
+    });
+  });
+};
 
 /***/ }),
 
@@ -50970,31 +50999,6 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_notification__WEBPACK_IMPORTE
 new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#notification'
 });
-
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.prototype.$setErrorsFromResponse = function (errorResponse) {
-  var _this = this;
-
-  // only allow this function to be run if the validator exists
-  if (!this.hasOwnProperty('$validator')) {
-    return;
-  } // clear errors
-
-
-  this.$validator.errors.clear(); // check if errors exist
-
-  if (!errorResponse.hasOwnProperty('errors')) {
-    return;
-  }
-
-  var errorFields = Object.keys(errorResponse.errors); // insert laravel errors
-
-  errorFields.map(function (field) {
-    var errorString = errorResponse.errors[field].join(', ');
-
-    _this.$validator.errors.add(field, errorString);
-  });
-};
-
 var Gabon = window.Gabon || {};
 Gabon.Base = _Components_Base__WEBPACK_IMPORTED_MODULE_5__["default"];
 Gabon.Pages = _Components_Pages_Pages__WEBPACK_IMPORTED_MODULE_6__["default"];
