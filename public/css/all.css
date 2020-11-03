@@ -11165,23 +11165,38 @@ body {
 }
 
 .paginate_button:hover {
-    color: white !important;
-    background-color: #007e33;
+    /*color: white !important;*/
+    /*background-color: #007e33;*/
 
 }
-.paginate_button {
-    box-sizing: border-box;
-    display: inline-block;
-    min-width: 1.5em;
-    padding: 0.5em 1em;
-    margin-left: 2px;
-    text-align: center;
-    text-decoration: none !important;
-    cursor: pointer;
-    *cursor: hand;
-    color: #333 ;
-    border-radius: 2px;
+.pagination .page-item.active .page-link, .pagination .page-item .page-link:hover {
+    transition: all .2s linear;
+    border-radius: .125rem;
+    background-color: #007e33;
+    color: #fff;
 }
+
+.pagination .page-item.active .page-link:hover {
+    background-color: #007e33;
+}
+
+
+.paginate_button {
+    padding: 0.5em 0.2em;
+}
+/*.paginate_button {*/
+/*    box-sizing: border-box;*/
+/*    display: inline-block;*/
+/*    min-width: 1.5em;*/
+/*    padding: 0.5em 1em;*/
+/*    margin-left: 2px;*/
+/*    text-align: center;*/
+/*    text-decoration: none !important;*/
+/*    cursor: pointer;*/
+/*    *cursor: hand;*/
+/*    color: #333 ;*/
+/*    border-radius: 2px;*/
+/*}*/
 
 .sorting_both {
     background-image: url(/images/table/sort_both.png);

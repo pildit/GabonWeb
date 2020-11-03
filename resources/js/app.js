@@ -9,6 +9,7 @@ import config from './Components/_config/index';
 import Base from './Components/Base';
 import Pages from './Components/Pages/Pages';
 import User from './Components/User/User';
+import Role from './Components/Role/Role';
 
 Vue.config.devtools = true;
 window.Vent         = new Vue;
@@ -30,5 +31,6 @@ let Gabon = window.Gabon || {}
 Gabon.Base = Base;
 Gabon.Pages = Pages;
 Gabon.User = User;
+Gabon.Role = Role;
 
 window.Gabon = Gabon;

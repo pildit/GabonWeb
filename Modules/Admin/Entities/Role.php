@@ -2,7 +2,7 @@
 
 namespace Modules\Admin\Entities;
 
-use App\Services\Sortable;
+use App\Traits\Sortable;
 
 class Role extends \Spatie\Permission\Models\Role
 {
