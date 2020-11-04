@@ -5,10 +5,11 @@ namespace Modules\ForestResources\Entities;
 use App\Traits\Geometry;
 use App\Traits\Sortable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AnnualAllowableCutInventory extends Model
 {
-    use Sortable, Geometry;
+    use Sortable, Geometry, SoftDeletes;
 
     const CREATED_AT = "CreatedAt";
     const UPDATED_AT = "UpdatedAt";

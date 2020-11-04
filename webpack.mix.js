@@ -21,10 +21,10 @@ mix.js('resources/js/app.js', 'public/js')
         'resources/mdb/js/mdb.min.js'
     ], 'public/js/all.js')
     .styles([
-        'resources/mdb/css/bootstrap.min.css',
+        'resources/mdb/css/bootstrap.css',
         'resources/mdb/css/mdb.min.css',
         'resources/mdb/css/style.css',
-        'resources/mdb/css/addons/flag.min.css',
+        'resources/mdb/css/addons/flag.css',
         'resources/css/app.css'
     ], 'public/css/all.css')
     .alias({

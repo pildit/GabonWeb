@@ -25,6 +25,7 @@ class WantJsonMiddleware
             }
 
         }
+        app()->setLocale($request->headers->get('accept-language'));
 
         return $next($request);
     }

@@ -11,7 +11,10 @@
 {{--    <link href="zenith_src/css/app.css" rel="stylesheet">--}}
     @yield('styles')
 </head>
-<body>
+<body style="height: 100vh">
+<div id="notification">
+    <notifications group="server" position="bottom right" />
+</div>
 <header id="navigation-menu">
     <navigation-menu></navigation-menu>
 </header>

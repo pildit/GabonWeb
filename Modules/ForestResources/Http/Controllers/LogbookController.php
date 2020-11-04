@@ -87,9 +87,11 @@ class LogbookController extends Controller
      */
     public function destroy(Logbook $logbook)
     {
-        //$data['status'] = timestamp();
-        //$logbook->fill($data);
-        //$logbook->save($data);
+        $logbook->delete();
+
+        return response()->json([
+            'message' => lang('logbook_delete_successful')
+        ], 204);
 
     }
 
