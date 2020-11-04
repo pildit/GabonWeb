@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import VuePagination from "components/Common/Grid/VuePagination";
+import VuePagination from "components/Common/Grid/VuePagination.vue";
 import Translation from "components/Mixins/Translation";
 import FormModal from './FormModal.vue';
 import Role from "components/Role/Role";
@@ -82,6 +82,7 @@ export default {
           Role.index({page: this.roles.current_page, per_page: this.roles.per_page, sort: 'asc', search: this.search})
             .then((pagination) => {
                 this.data = pagination.data;
+                this.roles = pagination;
             })
         }
     }

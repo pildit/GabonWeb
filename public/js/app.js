@@ -2391,7 +2391,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var components_Common_Grid_VuePagination__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! components/Common/Grid/VuePagination */ "./resources/js/Components/Common/Grid/VuePagination.vue");
+/* harmony import */ var components_Common_Grid_VuePagination_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! components/Common/Grid/VuePagination.vue */ "./resources/js/Components/Common/Grid/VuePagination.vue");
 /* harmony import */ var components_Mixins_Translation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! components/Mixins/Translation */ "./resources/js/Components/Mixins/Translation.js");
 /* harmony import */ var _FormModal_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FormModal.vue */ "./resources/js/Components/Role/Parts/Grid/Vue/FormModal.vue");
 /* harmony import */ var components_Role_Role__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! components/Role/Role */ "./resources/js/Components/Role/Role.js");
@@ -2466,7 +2466,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   components: {
-    VuePagination: components_Common_Grid_VuePagination__WEBPACK_IMPORTED_MODULE_0__["default"],
+    VuePagination: components_Common_Grid_VuePagination_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     FormModal: _FormModal_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   mounted: function mounted() {
@@ -2486,6 +2486,7 @@ __webpack_require__.r(__webpack_exports__);
         search: this.search
       }).then(function (pagination) {
         _this.data = pagination.data;
+        _this.roles = pagination;
       });
     }
   }
