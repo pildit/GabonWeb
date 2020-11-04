@@ -10,7 +10,28 @@
             </button>
             <div class="collapse navbar-collapse" style="background-color: white;" id="navcol-1">
                 <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item dropdown" id="language-dropdown">
+                  <menu-item v-for="(item, index) in menu"
+                             :key="index"
+                             :model="item">
+                  </menu-item>
+                  <!-- if guest -->
+                  <li v-if="!logged_in" class="nav-item">
+                    <a class="nav-link text-nowrap" href="/login">{{translate('Login')}}</a>
+                  </li>
+                  <!-- if logged in -->
+                  <li v-else class="nav-item dropdown">
+                    <a href="#" class=" nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{  username }}<span class="caret"></span></a>
+                    <ul class="nav-item dropdown-menu dropdown-default" aria-labelledby="about-us">
+                      <li class="nav-item">
+                        <a class="dropdown-item text-nowrap" href="/logout">{{ translate ("Logout") }}</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="dropdown-item text-nowrap" href="/settings">{{ translate("Account settings") }}</a>
+                      </li>
+                    </ul>
+                  </li>
+
+                  <li class="nav-item dropdown" id="language-dropdown">
                         <a href="#" class=" nav-link dropdown-toggle waves-effect waves-light"
                            data-toggle="dropdown" role="button"
                            aria-haspopup="true"
@@ -35,13 +56,19 @@
 import {mapGetters} from 'vuex';
 import Translation from "components/Mixins/Translation";
 
+import MenuItem from './MenuItem.vue';
+
 export default {
     data() {
         return {}
     },
     mixins:[Translation],
     computed: {
-        ...mapGetters(['translations', 'languages', 'lang'])
+        ...mapGetters(['translations', 'languages', 'lang', 'menu', 'logged_in']),
+        ...mapGetters('user', ['user']),
+      username()  {
+          return this.user.firstname + ' ' + this.user.lastname;
+      }
     },
     methods: {
         setLang(lang) {
@@ -49,7 +76,11 @@ export default {
             this.$store.commit('lang', lang);
             this.$store.dispatch('$fetchTranslations');
         }
-    }
+    },
+    created() {
+      this.$store.dispatch('$fetchMenu');
+    },
+    components : {MenuItem}
 }
 </script>
 

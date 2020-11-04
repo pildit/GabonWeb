@@ -15,7 +15,9 @@ export default new Vuex.Store({
             "en" : "us",
             "fr" : "ga"
         },
-        lang: Vue.prototype.$cookies.language || 'en'
+        lang: Vue.prototype.$cookies.language || 'en',
+        menu: [],
+        logged_in: Vue.prototype.$cookies.jwt ? true:false
     },
     getters: {
         translations(state) {
@@ -26,7 +28,13 @@ export default new Vuex.Store({
         },
         lang(state) {
             return state.lang;
-        }
+        },
+        menu(state) {
+            return state.menu;
+        },
+        logged_in(state) {
+            return state.logged_in;
+        },
     },
     mutations: {
         translations(state, translations) {
@@ -34,6 +42,9 @@ export default new Vuex.Store({
         },
         lang(state, lang) {
             state.lang = lang;
+        },
+        menu(state, menu) {
+            state.menu = menu;
         }
     },
     actions: {
@@ -41,6 +52,12 @@ export default new Vuex.Store({
             return axios.get(`/api/translations/dictionary`)
                 .then((response) => {
                     commit('translations', response.data['data'][`text_${state.lang}`])
+                });
+        },
+        $fetchMenu({commit, state}) {
+            return axios.get('/api/menu')
+                .then((response) => {
+                    commit('menu', response.data['data'])
                 });
         }
     },
