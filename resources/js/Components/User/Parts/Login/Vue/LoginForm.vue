@@ -79,8 +79,11 @@ export default {
                             window.location.href = '/';
                         })
                         .catch((error) => {
-                            if(error.response && [401,404].includes(error.response.status)) {
-                                this.failed = error.response.data.message;
+                            if(error) {
+                                if([401,404].includes(error.status)) {
+                                    this.failed = error.data.message;
+                                }
+                                this.$setErrorsFromResponse(error.data);
                             }
                         });
                 }
