@@ -2,7 +2,7 @@
 
 namespace Modules\Admin\Entities;
 
-use App\Services\Sortable;
+use App\Traits\Sortable;
 
 class Role extends \Spatie\Permission\Models\Role
 {
@@ -14,7 +14,7 @@ class Role extends \Spatie\Permission\Models\Role
         'guard_name' => 'api'
     ];
 
-    protected $hidden = ['created_at', 'updated_at', 'guard_name'];
+    protected $hidden = ['guard_name'];
 
     public function pages()
     {
