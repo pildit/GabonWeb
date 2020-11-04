@@ -175,24 +175,23 @@ DROP VIEW IF EXISTS "Transportation"."PermitItems";
 
 CREATE VIEW "Transportation"."PermitItems"
 as
-select
-    peri."Id"  ,
-    peri."Permit"    ,
-    peri."TrunkNumber" ,
-    peri."LotNumber"   ,
-    peri."Species"      ,
-    peri."Diam1"        ,
-    peri."Diam2"        ,
-    peri."DiamAvg"     ,
-    peri."Length"       ,
-    peri."Volume"       ,
-    peri."Width"        ,
-    peri."Height"       ,
-    peri."MobileId"    ,
-    peri."Appuser"      ,
-    peri."CreatedAt" ,
-    peri."UpdatedAt" ,
-    peri."DeletedAt"
+select peri."Id",
+       peri."Permit",
+       peri."TrunkNumber",
+       peri."LotNumber",
+       peri."Species",
+       peri."Diam1",
+       peri."Diam2",
+       peri."DiamAvg",
+       peri."Length",
+       peri."Volume",
+       peri."Width",
+       peri."Height",
+       peri."MobileId",
+       peri."Appuser",
+       peri."CreatedAt",
+       peri."UpdatedAt",
+       peri."DeletedAt"
 from "Transportation"."PermitItemsTable" as peri
 ;
 
@@ -204,9 +203,9 @@ create or replace rule "PermitItems_instead_of_delete"
     as
     on delete to "Transportation"."PermitItems"
     do instead
-    delete from "Transportation"."PermitItemsTable"
-    where
-            "Transportation"."PermitItemsTable"."Id" = old."Id"
+    delete
+    from "Transportation"."PermitItemsTable"
+    where "Transportation"."PermitItemsTable"."Id" = old."Id"
 ;
 
 create or replace rule "PermitItems_instead_of_insert"
@@ -214,63 +213,41 @@ create or replace rule "PermitItems_instead_of_insert"
     on insert to "Transportation"."PermitItems"
     do instead
     insert into "Transportation"."PermitItemsTable"
-    (
-        "Id"  ,
-        "Permit"    ,
-        "TrunkNumber" ,
-        "LotNumber"   ,
-        "Species"      ,
-        "Diam1"        ,
-        "Diam2"        ,
-        "DiamAvg"     ,
-        "Length"       ,
-        "Volume"       ,
-        "Width"        ,
-        "Height"       ,
-        "MobileId"    ,
-        "Appuser"      ,
-        "CreatedAt" ,
-        "UpdatedAt" ,
-        "DeletedAt"
-    )
-    values
-    (
-        nextval('"Transportation"."SEQ_PermitItemsTable"'),
-        new."Permit"    ,
-        new."TrunkNumber" ,
-        new."LotNumber"   ,
-        new."Species"      ,
-        new."Diam1"        ,
-        new."Diam2"        ,
-        new."DiamAvg"     ,
-        new."Length"       ,
-        new."Volume"       ,
-        new."Width"        ,
-        new."Height"       ,
-        new."MobileId"    ,
-        new."Appuser"      ,
-        new."CreatedAt" ,
-        new."UpdatedAt" ,
-        new."DeletedAt"
-    )
-    returning
-        "Id"  ,
-        "Permit"    ,
-        "TrunkNumber" ,
-        "LotNumber"   ,
-        "Species"      ,
-        "Diam1"        ,
-        "Diam2"        ,
-        "DiamAvg"     ,
-        "Length"       ,
-        "Volume"       ,
-        "Width"        ,
-        "Height"       ,
-        "MobileId"    ,
-        "Appuser"      ,
-        "CreatedAt" ,
-        "UpdatedAt" ,
-        "DeletedAt"
+    ("Id",
+     "Permit",
+     "TrunkNumber",
+     "LotNumber",
+     "Species",
+     "Diam1",
+     "Diam2",
+     "DiamAvg",
+     "Length",
+     "Volume",
+     "Width",
+     "Height",
+     "MobileId",
+     "Appuser",
+     "CreatedAt",
+     "UpdatedAt",
+     "DeletedAt")
+    values (nextval('"Transportation"."SEQ_PermitItemsTable"'),
+            new."Permit",
+            new."TrunkNumber",
+            new."LotNumber",
+            new."Species",
+            new."Diam1",
+            new."Diam2",
+            new."DiamAvg",
+            new."Length",
+            new."Volume",
+            new."Width",
+            new."Height",
+            new."MobileId",
+            new."Appuser",
+            new."CreatedAt",
+            new."UpdatedAt",
+            new."DeletedAt")
+    returning "Id" , "Permit" , "TrunkNumber" , "LotNumber" , "Species" , "Diam1" , "Diam2" , "DiamAvg" , "Length" , "Volume" , "Width" , "Height" , "MobileId" , "Appuser" , "CreatedAt" , "UpdatedAt" , "DeletedAt"
 ;
 
 create or replace rule "PermitItems_instead_of_update"
@@ -278,40 +255,21 @@ create or replace rule "PermitItems_instead_of_update"
     on update to "Transportation"."PermitItems"
     do instead
     update "Transportation"."PermitItemsTable"
-    set
-        "Permit"  = new."Permit"    ,
-        "TrunkNumber" =  new."TrunkNumber" ,
-        "LotNumber" = new."LotNumber"   ,
-        "Species" = new."Species"      ,
-        "Diam1"  = new."Diam1"        ,
-        "Diam2" = new."Diam2"        ,
-        "DiamAvg" = new."DiamAvg"     ,
-        "Length" = new."Length"       ,
-        "Volume" = new."Volume"       ,
-        "Width" = new."Width"        ,
-        "Height" = new."Height"       ,
-        "MobileId" = new."MobileId"    ,
-        "Appuser"= new."Appuser"      ,
-        "UpdatedAt" = new."UpdatedAt" ,
-        "DeletedAt" = new."DeletedAt"
-    where
-            old."Id" = new."Id"
-    returning
-        "Id"  ,
-        "Permit"    ,
-        "TrunkNumber" ,
-        "LotNumber"   ,
-        "Species"      ,
-        "Diam1"        ,
-        "Diam2"        ,
-        "DiamAvg"     ,
-        "Length"       ,
-        "Volume"       ,
-        "Width"        ,
-        "Height"       ,
-        "MobileId"    ,
-        "Appuser"      ,
-        "CreatedAt" ,
-        "UpdatedAt" ,
-        "DeletedAt"
+    set "Permit"      = new."Permit",
+        "TrunkNumber" = new."TrunkNumber",
+        "LotNumber"   = new."LotNumber",
+        "Species"     = new."Species",
+        "Diam1"       = new."Diam1",
+        "Diam2"       = new."Diam2",
+        "DiamAvg"     = new."DiamAvg",
+        "Length"      = new."Length",
+        "Volume"      = new."Volume",
+        "Width"       = new."Width",
+        "Height"      = new."Height",
+        "MobileId"    = new."MobileId",
+        "Appuser"= new."Appuser",
+        "UpdatedAt"   = new."UpdatedAt",
+        "DeletedAt"   = new."DeletedAt"
+    where old."Id" = new."Id"
+    returning "Id" , "Permit" , "TrunkNumber" , "LotNumber" , "Species" , "Diam1" , "Diam2" , "DiamAvg" , "Length" , "Volume" , "Width" , "Height" , "MobileId" , "Appuser" , "CreatedAt" , "UpdatedAt" , "DeletedAt"
 ;
