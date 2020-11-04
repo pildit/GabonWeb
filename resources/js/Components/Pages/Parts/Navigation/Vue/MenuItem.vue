@@ -38,13 +38,6 @@ export default {
         this.open = !this.open;
       }
     },
-    changeType: function() {
-    if (!this.isFolder) {
-      Vue.set(this.model, "children", []);
-      this.addChild();
-      this.open = true;
-    }
-    },
   }
 }
 </script>
