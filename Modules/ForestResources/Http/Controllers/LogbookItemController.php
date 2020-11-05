@@ -21,6 +21,17 @@ class LogbookItemController extends Controller
 {
 
     /**
+     * Display a listing of the resource.
+     * @return Response
+     */
+    public function index(Request $request, PageResults $pr)
+    {
+        $pr->setSortFields(['Id']);
+
+        return response()->json($pr->getPaginator($request, LogbookItem::class,[]));
+    }
+
+    /**
      * Store logbookitem
      * @param CreateLogbookItemRequest $request
      * @return \Illuminate\Http\JsonResponse

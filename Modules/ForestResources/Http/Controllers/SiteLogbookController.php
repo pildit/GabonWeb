@@ -28,7 +28,7 @@ class SiteLogbookController extends Controller
     {
         $pr->setSortFields(['Id']);
 
-        return response()->json($pr->getPaginator($request, SiteLogbook::class,['AnnualAllowableCut'],['items','logs','concession','developmentunit','managementunit','anuualallowablecut']));
+        return response()->json($pr->getPaginator($request, SiteLogbook::class,['AnnualAllowableCut'],['anuualallowablecut']));
     }
 
     /**

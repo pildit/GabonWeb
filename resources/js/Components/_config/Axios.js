@@ -18,6 +18,10 @@ axios.interceptors.request.use((config) => {
     config.headers['Accept'] = "application/json";
     config.headers['Accept-Language'] = Vue.prototype.$cookies.language || 'en'
 
+    if(Vue.$jwt.hasToken()) {
+        config.headers['Authorization'] = `Bearer ${Vue.$jwt.getToken()}`
+    }
+
     return config;
 })
 
@@ -40,6 +44,10 @@ axios.interceptors.response.use(function (response) {
         });
     }
     if (rejection.status == 404) {
+        return;
+    }
+    if (rejection.status == 401 && window.location.pathname != '/login') {
+        window.location.href = '/login';
         return;
     }
 

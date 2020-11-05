@@ -19,6 +19,18 @@ use Illuminate\Support\Facades\File;
 
 class SiteLogbookItemController extends Controller
 {
+
+    /**
+     * Display a listing of the resource.
+     * @return Response
+     */
+    public function index(Request $request, PageResults $pr)
+    {
+        $pr->setSortFields(['Id']);
+
+        return response()->json($pr->getPaginator($request, SiteLogbookItem::class,[],['logs']));
+    }
+
     /**
      * Store sitelogbookitem
      * @param CreateSiteLogbookItemRequest $request
