@@ -48,9 +48,7 @@
                         </p>
                     </form>
                     <!-- Form -->
-                    <div id="response" v-show="failed" style="color: rgb(149,28,8); display:block">
-                        <div class="alert alert-danger">{{failed}}</div>
-                    </div>
+                    <div class="alert alert-danger" v-show="failed">{{failed}}</div>
                 </div>
             </div>
         </div>
@@ -64,12 +62,9 @@ import User from "components/User/User";
 export default {
     data() {
         return {
-            loginForm: {
-                email: null,
-                password: null
-            },
+            loginForm: {},
             rememberMe: false,
-            failed: ''
+            failed: null
         }
     },
     mixins: [Translation],
@@ -79,13 +74,16 @@ export default {
                 if(valid) {
                     User.login(this.loginForm.email, this.loginForm.password)
                         .then((data) => {
-                            this.failed = '';
+                            this.failed = null;
                             this.$setCookie('jwt', data['jwt'], {expires: this.rememberMe ? 365 : 1});
                             window.location.href = '/';
                         })
                         .catch((error) => {
-                            if(error.response && [401,404].includes(error.response.status)) {
-                                this.failed = error.response.data.message;
+                            if(error) {
+                                if([401,404].includes(error.status)) {
+                                    this.failed = error.data.message;
+                                }
+                                this.$setErrorsFromResponse(error.data);
                             }
                         });
                 }

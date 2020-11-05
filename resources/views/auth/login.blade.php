@@ -10,6 +10,8 @@
 
 @section('scripts')
     <script>
-        Gabon.User.render('login-form');
+       Gabon.Base.getTranslations().then(() => {
+           Gabon.User.render('login-form');
+       });
     </script>
 @endsection

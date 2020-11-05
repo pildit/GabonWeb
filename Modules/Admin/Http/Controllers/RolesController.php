@@ -31,12 +31,17 @@ class RolesController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required|string|unique:Modules\Admin\Entities\Role,name'
+            'name' => 'required|string|unique:Modules\Admin\Entities\Role,name',
+            'type' => 'string',
+            'permissions' => 'required',
+            'permissions.*' => 'integer|exists:Modules\Admin\Entities\Permission,id'
         ]);
 
         $role = new RoleEntity();
-        $role->fill($data);
+        $role->name = $data['name'];
+        $role->type = $data['type'];
         $role->save();
+        $role->syncPermissions($data['permissions']);
 
         return response()->json([
             'data' => $role
@@ -51,7 +56,9 @@ class RolesController extends Controller
     public function show(RoleEntity $role)
     {
         return response()->json([
-            "data" => $role
+            "data" => $role->fresh(['permissions' => function($q) {
+                $q->select('name', 'id');
+            }])
         ]);
     }
 
@@ -64,13 +71,17 @@ class RolesController extends Controller
     public function update(Request $request, RoleEntity $role)
     {
         $data = $request->validate([
-            'name' => 'string|unique:Modules\Admin\Entities\Role,name'
+            'name' => 'string|unique:Modules\Admin\Entities\Role,name,'.$role->id,
+            'type' => 'string',
+            'permissions' => 'required',
+            'permissions.*' => 'integer|exists:Modules\Admin\Entities\Permission,id'
         ]);
 
         $role->update($data);
+        $role->syncPermissions($data['permissions']);
 
         return response()->json([
-            'data' => $role
+            'data' => $role->fresh(['permissions'])
         ]);
     }
 

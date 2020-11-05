@@ -7,7 +7,7 @@ class Pages extends Base {
     static getComponents() {
         return {
             "navigation-menu" : vueNavMenu,
-            "landingpage" : vueLandingPage,
+            "landingpage" : vueLandingPage
         };
     }
 

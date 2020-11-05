@@ -11,14 +11,13 @@
 |
 */
 
-Route::get('/', function (\Illuminate\Http\Request $request) {
+Route::get('/', function () {
     return view('home');
 });
 
-Route::get('/login', function () {
-    return view('auth.login');
-});
+Route::get('/login', 'AuthController@login');
+Route::get('/logout', 'AuthController@logout');
+Route::get('/register', 'AuthController@register');
+Route::get('/account/confirmation/{token}', 'AuthController@emailConfirmation');
 
-Route::get('/test', function () {
-    return view('welcome', ['test' => "SOme date for test"]);
-});
+Route::get('/roles', 'RoleController@index');

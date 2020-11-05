@@ -79,7 +79,7 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
- 
+
         return response()->json([
             'message' => lang('Delete succesful')
         ], 204);
@@ -100,7 +100,7 @@ class UserController extends Controller
         $data['password'] = Hash::make($data['password']);
         $data['activationcode'] = Str::random(20);
         $data['status'] = User::STATUS_DISABLED;
-        $user = User::create($data);
+        User::create($data);
 
         Mail::send('user::emails.welcome_email', $data, function($message) use ($data)
         {
@@ -131,11 +131,11 @@ class UserController extends Controller
             }
             return response()->json([
                 'message' => lang("verify_error_no_user_foud")
-            ], 200);
+            ], 404);
         }
         return response()->json([
             'message' => lang("verify_error")
-        ], 200);
+        ], 404);
     }
 
     /**
