@@ -57,7 +57,7 @@ class User extends Model implements JwtPayloadInterface
                 'firstname' => $this->firstname,
                 'lastname' => $this->lastname,
                 'permissions' => $this->getAllPermissions()->pluck('name'),
-                'roles' => $this->getRoleNames()->pluck('name')
+                'roles' => $this->getRoleNames()
             ]
         ];
     }
