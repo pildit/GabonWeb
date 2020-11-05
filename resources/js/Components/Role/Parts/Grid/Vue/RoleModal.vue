@@ -4,7 +4,7 @@
             <h4 class="modal-title w-100 font-weight-bold">{{translate('add_role')}}</h4>
         </div>
         <div slot="body">
-            <role-form :type-prop="typeProp" ref="roleForm"></role-form>
+            <role-form :type-prop="typeProp" ref="roleForm" @done="closeModal"></role-form>
         </div>
         <div slot="footer">
             <button @click="submit" class="btn btn-default">Save</button>
@@ -31,7 +31,7 @@ export default {
     components: {bmodal, RoleForm},
 
     computed: {
-       ...mapGetters('role', ['role'])
+       ...mapGetters('role', ['role', 'permissions'])
     },
 
     methods: {
@@ -41,6 +41,10 @@ export default {
             }else{
                 this.$refs.roleForm.update();
             }
+        },
+        closeModal() {
+            this.$refs.roleModal.close();
+            this.$emit('done');
         }
     },
 
@@ -49,7 +53,10 @@ export default {
             if(!val) return;
             if(this.typeProp != 'create') {
                 this.$refs.roleForm.form = this.role;
+            }else{
+                this.$refs.roleForm.form = {};
             }
+            this.$refs.roleForm.errors.clear();
             this.$refs.roleModal.open();
         }
     }

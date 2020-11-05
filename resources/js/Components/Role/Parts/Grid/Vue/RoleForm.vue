@@ -2,13 +2,13 @@
    <div>
        <div class="md-form mb-5">
            <input type="text" v-model="form.name" name="name" class="form-control" v-validate="'required'">
-           <label data-error="wrong" data-success="right" for="name">{{ translate('name') }}</label>
+           <label data-error="wrong" data-success="right" for="name" :class="{'active': form.name}">{{ translate('name') }}</label>
            <div v-show="errors.has('name')" class="invalid-feedback">{{ errors.first('name') }}</div>
        </div>
 
        <div class="md-form mb-5">
            <input type="text" v-model="form.type" name="type" class="form-control" v-validate="'required'">
-           <label data-error="wrong" data-success="right" for="type">{{ translate('type') }}</label>
+           <label data-error="wrong" data-success="right" for="type" :class="{'active': form.type}">{{ translate('type') }}</label>
            <div v-show="errors.has('type')" class="invalid-feedback">{{ errors.first('type') }}</div>
        </div>
 
@@ -44,6 +44,7 @@ export default {
     data() {
         return {
             form : {},
+            permissionList: []
         }
     },
 
@@ -51,20 +52,16 @@ export default {
         ...mapGetters('role', ['permissions']),
         isCreateType() {
             return this.typeProp == 'create'
-        }
-    },
-
-    created() {
-        console.log('here');
+        },
     },
 
     methods: {
         save() {
             this.$validator.validate().then((valid) => {
                 if(valid) {
-                    this.form.permissions = _.map(this.form.permissions, 'id');
-                    Role.add(this.form).then((response) => {
-                        this.closeModal();
+                    let permissions = _.map(this.form.permissions, 'id');
+                    Role.add({name: this.form.name, type: this.form.type, permissions: permissions}).then((response) => {
+                        this.$emit('done');
                     }).catch((error) => {
                         if(error) {
                             this.$setErrorsFromResponse(error.data);
@@ -76,9 +73,9 @@ export default {
         update() {
             this.$validator.validate().then((valid) => {
                 if(valid) {
-                    this.form.permissions = _.map(this.form.permissions, 'id');
-                    Role.update(this.form.id, this.form).then(() => {
-                        this.closeModal();
+                    let permissions = _.map(this.form.permissions, 'id');
+                    Role.update(this.form.id, {name: this.form.name, type: this.form.type, permissions: permissions}).then(() => {
+                        this.$emit('done');
                     }).catch((error) => {
                         if(error) {
                             this.$setErrorsFromResponse(error.data);
@@ -86,9 +83,6 @@ export default {
                     })
                 }
             })
-        },
-        closeModal() {
-            this.$refs.roleForm.close();
         }
     },
 }

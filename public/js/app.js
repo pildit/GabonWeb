@@ -2399,7 +2399,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   data: function data() {
     return {
-      form: {}
+      form: {},
+      permissionList: []
     };
   },
   computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_2__["mapGetters"])('role', ['permissions'])), {}, {
@@ -2407,18 +2408,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return this.typeProp == 'create';
     }
   }),
-  created: function created() {
-    console.log('here');
-  },
   methods: {
     save: function save() {
       var _this = this;
 
       this.$validator.validate().then(function (valid) {
         if (valid) {
-          _this.form.permissions = _.map(_this.form.permissions, 'id');
-          components_Role_Role__WEBPACK_IMPORTED_MODULE_3__["default"].add(_this.form).then(function (response) {
-            _this.closeModal();
+          var permissions = _.map(_this.form.permissions, 'id');
+
+          components_Role_Role__WEBPACK_IMPORTED_MODULE_3__["default"].add({
+            name: _this.form.name,
+            type: _this.form.type,
+            permissions: permissions
+          }).then(function (response) {
+            _this.$emit('done');
           })["catch"](function (error) {
             if (error) {
               _this.$setErrorsFromResponse(error.data);
@@ -2432,9 +2435,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this.$validator.validate().then(function (valid) {
         if (valid) {
-          _this2.form.permissions = _.map(_this2.form.permissions, 'id');
-          components_Role_Role__WEBPACK_IMPORTED_MODULE_3__["default"].update(_this2.form.id, _this2.form).then(function () {
-            _this2.closeModal();
+          var permissions = _.map(_this2.form.permissions, 'id');
+
+          components_Role_Role__WEBPACK_IMPORTED_MODULE_3__["default"].update(_this2.form.id, {
+            name: _this2.form.name,
+            type: _this2.form.type,
+            permissions: permissions
+          }).then(function () {
+            _this2.$emit('done');
           })["catch"](function (error) {
             if (error) {
               _this2.$setErrorsFromResponse(error.data);
@@ -2442,9 +2450,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           });
         }
       });
-    },
-    closeModal: function closeModal() {
-      this.$refs.roleForm.close();
     }
   }
 });
@@ -2499,7 +2504,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     bmodal: components_Common_BootstrapModal_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     RoleForm: _RoleForm__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapGetters"])('role', ['role'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapGetters"])('role', ['role', 'permissions'])),
   methods: {
     submit: function submit() {
       if (this.typeProp == 'create') {
@@ -2507,6 +2512,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       } else {
         this.$refs.roleForm.update();
       }
+    },
+    closeModal: function closeModal() {
+      this.$refs.roleModal.close();
+      this.$emit('done');
     }
   },
   watch: {
@@ -2515,8 +2524,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (this.typeProp != 'create') {
         this.$refs.roleForm.form = this.role;
+      } else {
+        this.$refs.roleForm.form = {};
       }
 
+      this.$refs.roleForm.errors.clear();
       this.$refs.roleModal.open();
     }
   }
@@ -2544,6 +2556,8 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
 //
 //
 //
@@ -2638,6 +2652,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }).then(function (pagination) {
         _this.rolesPagination = pagination;
       });
+    },
+    addRole: function addRole() {
+      this.formType = 'create';
+      this.modals.form = true;
     },
     editRole: function editRole(id) {
       var _this2 = this;
@@ -35060,6 +35078,7 @@ var render = function() {
       _c(
         "label",
         {
+          class: { active: _vm.form.name },
           attrs: { "data-error": "wrong", "data-success": "right", for: "name" }
         },
         [_vm._v(_vm._s(_vm.translate("name")))]
@@ -35114,6 +35133,7 @@ var render = function() {
       _c(
         "label",
         {
+          class: { active: _vm.form.type },
           attrs: { "data-error": "wrong", "data-success": "right", for: "type" }
         },
         [_vm._v(_vm._s(_vm.translate("type")))]
@@ -35209,7 +35229,8 @@ var render = function() {
         [
           _c("role-form", {
             ref: "roleForm",
-            attrs: { "type-prop": _vm.typeProp }
+            attrs: { "type-prop": _vm.typeProp },
+            on: { done: _vm.closeModal }
           })
         ],
         1
@@ -35259,17 +35280,10 @@ var render = function() {
         _c("div", { staticClass: "col-sm-8 d-flex align-items-center" }, [
           _c(
             "button",
-            {
-              staticClass: "btn btn-md",
-              on: {
-                click: function($event) {
-                  _vm.modals.form = true
-                }
-              }
-            },
+            { staticClass: "btn btn-md", on: { click: _vm.addRole } },
             [
               _c("i", { staticClass: "fas fa-plus-circle" }),
-              _vm._v(" Add Role\n            ")
+              _vm._v(" " + _vm._s(_vm.translate("Add Role")) + "\n            ")
             ]
           )
         ]),
@@ -35336,7 +35350,31 @@ var render = function() {
         { staticClass: "table-responsive text-nowrap" },
         [
           _c("table", { staticClass: "table" }, [
-            _vm._m(0),
+            _c("thead", { staticClass: "black white-text table-hover" }, [
+              _c("tr", [
+                _c("th", { attrs: { scope: "col" } }, [
+                  _vm._v(_vm._s(_vm.translate("Id")))
+                ]),
+                _vm._v(" "),
+                _c("th", { attrs: { scope: "col" } }, [
+                  _vm._v(_vm._s(_vm.translate("Role")))
+                ]),
+                _vm._v(" "),
+                _c("th", { attrs: { scope: "col" } }, [
+                  _vm._v(_vm._s(_vm.translate("Type")))
+                ]),
+                _vm._v(" "),
+                _c("th", { attrs: { scope: "col" } }, [
+                  _vm._v(_vm._s(_vm.translate("Date")))
+                ]),
+                _vm._v(" "),
+                _c(
+                  "th",
+                  { staticClass: "text-right", attrs: { scope: "col" } },
+                  [_vm._v(_vm._s(_vm.translate("Action")))]
+                )
+              ])
+            ]),
             _vm._v(" "),
             _c(
               "tbody",
@@ -35347,6 +35385,8 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("th", [_vm._v(_vm._s(role.name))]),
+                  _vm._v(" "),
+                  _c("th", [_vm._v(_vm._s(role.type))]),
                   _vm._v(" "),
                   _c("th", [_vm._v(_vm._s(role.created_at))]),
                   _vm._v(" "),
@@ -35364,7 +35404,7 @@ var render = function() {
                           },
                           [
                             _c("i", { staticClass: "fas fa-edit" }),
-                            _vm._v(" Edit")
+                            _vm._v(" " + _vm._s(_vm.translate("Edit")))
                           ]
                         )
                       ])
@@ -35389,6 +35429,7 @@ var render = function() {
       _vm._v(" "),
       _c("role-modal", {
         attrs: { "type-prop": _vm.formType },
+        on: { done: _vm.getRoles },
         model: {
           value: _vm.modals.form,
           callback: function($$v) {
@@ -35401,26 +35442,7 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", { staticClass: "black white-text table-hover" }, [
-      _c("tr", [
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Id")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Role")]),
-        _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Date")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "text-right", attrs: { scope: "col" } }, [
-          _vm._v("Action")
-        ])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
