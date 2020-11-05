@@ -18,7 +18,7 @@ class UpdateSiteLogbookRequest extends FormRequest
             'DevelopmentUnit' => 'exists:Modules\ForestResources\Entities\DevelopmentUnit,Id',
             'ManagementUnit' => 'exists:Modules\ForestResources\Entities\ManagementUnit,Id',
             'AnnualAllowableCut' => 'exists:Modules\ForestResources\Entities\AnnualAllowableCut,Id',
-            'Company' => 'integer',
+            'Company' => 'exists:Modules\Admin\Entities\Company,Id',
             'Hammer' => 'integer',
             'ObserveAt' => 'date',
             'Approved' => 'bool',

@@ -10,6 +10,8 @@ use Modules\ForestResources\Entities\AnnualAllowableCutInventory;
 use Modules\ForestResources\Http\Requests\CreateAnnualAllowableCutInventoryRequest;
 use Modules\ForestResources\Http\Requests\UpdateAnnualAllowableCutInventoryRequest;
 use Illuminate\Support\Facades\DB;
+use Modules\ForestResources\Services\AnnualAllowableCutInventory as AnnualAllowableCutInventoryService;
+
 
 class AnnualAllowableCutInventoryController extends Controller
 {
@@ -18,15 +20,15 @@ class AnnualAllowableCutInventoryController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
-     * @param AnnualAllowableCutInventoryService $annualallowablecutinventoryService
+     * @param PageResults $pr
      * @return \Illuminate\Http\JsonResponse
-     * @throws \Throwable
      */
+
     public function index(Request $request, PageResults $pr)
     {
         $pr->setSortFields(['Id']);
 
-        return response()->json($pr->getPaginator($request, AnnualAllowableCutInventory::class , ['AnnualAllowableCut']));
+        return response()->json($pr->getPaginator($request, AnnualAllowableCutInventory::class, ['AnnualAllowableCut']));
     }
 
     /**
@@ -48,7 +50,7 @@ class AnnualAllowableCutInventoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(AnnualAllowableCutInventory $annualallowablecutinventory)
@@ -91,5 +93,18 @@ class AnnualAllowableCutInventoryController extends Controller
 
     }
 
+
+    /**
+     * @param AnnualAllowableCutInventoryService $aaciService
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function mobile(AnnualAllowableCutInventoryService $aaciService)
+    {
+        $form = $aaciService->getMobileForm();
+
+        return response()->json([
+            "data" => $form
+        ]);
+    }
 
 }

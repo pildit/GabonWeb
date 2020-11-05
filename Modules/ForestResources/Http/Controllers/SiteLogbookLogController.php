@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\SiteLogbookLog;
 use Modules\ForestResources\Http\Requests\CreateSiteLogbookLogRequest;
 use Modules\ForestResources\Http\Requests\UpdateSiteLogbookLogRequest;
+use Modules\ForestResources\Services\SiteLogbookItem as SiteLogbookItemService;
 use ShapeFile\Shapefile;
 use Shapefile\ShapefileException;
 use Shapefile\ShapefileReader;
@@ -82,4 +83,16 @@ class SiteLogbookLogController extends Controller
     }
 
 
+    /**
+     * @param SiteLogbookLogService $sitelogbooklogService
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function mobile(SiteLogbookLogService $sitelogbooklogService)
+    {
+        $form = $sitelogbooklogService->getMobileForm();
+
+        return response()->json([
+            "data" => $form
+        ]);
+    }
 }

@@ -8,7 +8,7 @@ class Role extends \Spatie\Permission\Models\Role
 {
     use Sortable;
 
-    protected $fillable = ["name"];
+    protected $fillable = ["name", "type"];
 
     protected $attributes = [
         'guard_name' => 'api'

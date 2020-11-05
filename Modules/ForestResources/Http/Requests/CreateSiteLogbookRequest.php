@@ -18,7 +18,7 @@ class CreateSiteLogbookRequest extends FormRequest
             'DevelopmentUnit' => 'required|exists:Modules\ForestResources\Entities\DevelopmentUnit,Id',
             'ManagementUnit' => 'required|exists:Modules\ForestResources\Entities\ManagementUnit,Id',
             'AnnualAllowableCut' => 'required|exists:Modules\ForestResources\Entities\AnnualAllowableCut,Id',
-            'Company' => 'required|integer',
+            'Company' => 'required|exists:Modules\Admin\Entities\Company,Id',
             'Hammer' => 'required|integer',
             'Localization' => 'required',
             'ReportNo' => 'required',
