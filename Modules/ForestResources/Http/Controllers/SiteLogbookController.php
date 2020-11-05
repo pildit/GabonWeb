@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\SiteLogbook;
 use Modules\ForestResources\Http\Requests\CreateSiteLogbookRequest;
 use Modules\ForestResources\Http\Requests\UpdateSiteLogbookRequest;
+use Modules\ForestResources\Services\Logbook as LogbookService;
 use ShapeFile\Shapefile;
 use Shapefile\ShapefileException;
 use Shapefile\ShapefileReader;
@@ -27,7 +28,7 @@ class SiteLogbookController extends Controller
     {
         $pr->setSortFields(['Id']);
 
-        return response()->json($pr->getPaginator($request, SiteLogbook::class,['AnnualAllowableCut'],['items','logs','concession','developmentunit','managementunit','anuualallowablecut']));
+        return response()->json($pr->getPaginator($request, SiteLogbook::class,['AnnualAllowableCut'],['anuualallowablecut']));
     }
 
     /**
@@ -91,6 +92,19 @@ class SiteLogbookController extends Controller
         return response()->json([
             'message' => lang('sitelogbook_delete_successful')
         ], 204);
+    }
+
+    /**
+     * @param SiteLogbookService $sitelogbookService
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function mobile(SiteLogbookService $sitelogbookService)
+    {
+        $form = $sitelogbookService->getMobileForm();
+
+        return response()->json([
+            "data" => $form
+        ]);
     }
 
 

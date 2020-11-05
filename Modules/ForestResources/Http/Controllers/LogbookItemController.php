@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\LogbookItem;
 use Modules\ForestResources\Http\Requests\CreateLogbookItemRequest;
 use Modules\ForestResources\Http\Requests\UpdateLogbookItemRequest;
+use Modules\ForestResources\Services\Logbook as LogbookService;
 use ShapeFile\Shapefile;
 use Shapefile\ShapefileException;
 use Shapefile\ShapefileReader;
@@ -18,6 +19,17 @@ use Illuminate\Support\Facades\File;
 
 class LogbookItemController extends Controller
 {
+
+    /**
+     * Display a listing of the resource.
+     * @return Response
+     */
+    public function index(Request $request, PageResults $pr)
+    {
+        $pr->setSortFields(['Id']);
+
+        return response()->json($pr->getPaginator($request, LogbookItem::class,[]));
+    }
 
     /**
      * Store logbookitem
@@ -82,5 +94,17 @@ class LogbookItemController extends Controller
         ], 204);
     }
 
+    /**
+     * @param LogbookService $logbookitemService
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function mobile(LogbookItemService $logbookitemService)
+    {
+        $form = $logbookitemService->getMobileForm();
+
+        return response()->json([
+            "data" => $form
+        ]);
+    }
 
 }
