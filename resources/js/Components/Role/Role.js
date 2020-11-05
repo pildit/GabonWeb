@@ -11,7 +11,19 @@ class Role extends Base {
     }
 
     static index(data) {
-        return store.dispatch('role/get', data).then((response) => response.data);
+        return store.dispatch('role/index', data).then((response) => response.data);
+    }
+
+    static add(data) {
+        return store.dispatch('role/add', data).then((response) => response.data);
+    }
+
+    static get(id) {
+        return store.dispatch('role/get', {id});
+    }
+
+    static update(id, data) {
+        return store.dispatch('role/update', {id, data});
     }
 
 }

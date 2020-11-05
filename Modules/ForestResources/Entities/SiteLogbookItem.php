@@ -38,8 +38,8 @@ class SiteLogbookItem extends Model
 
     protected $primaryKey = "Id";
 
-    public function log(){
-        return $this->belongsTo(SiteLogbookLog::class,'SiteLogbookItem');
+    public function logs(){
+        return $this->hasMany(SiteLogbookLog::class,'SiteLogbookItem');
     }
 
 }

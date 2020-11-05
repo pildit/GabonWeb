@@ -3,8 +3,8 @@
         <h5 class="text-center green-text mb-2">{{translate('Roles')}}</h5>
         <div class="row">
             <div class="col-sm-8 d-flex align-items-center">
-                <button class="btn btn-md" @click="modals.form = true">
-                    <i class="fas fa-plus-circle"></i> Add Role
+                <button class="btn btn-md" @click="addRole">
+                    <i class="fas fa-plus-circle"></i> {{translate('Add Role')}}
                 </button>
             </div>
             <div class="md-form col-sm-4">
@@ -23,42 +23,46 @@
             <table class="table">
                 <thead class="black white-text table-hover">
                 <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Date</th>
-                    <th scope="col" class="text-right">Action</th>
+                    <th scope="col">{{translate('Id')}}</th>
+                    <th scope="col">{{translate('Role')}}</th>
+                    <th scope="col">{{translate('Type')}}</th>
+                    <th scope="col">{{translate('Date')}}</th>
+                    <th scope="col" class="text-right">{{translate('Action')}}</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="role in data">
+                <tr v-for="role in roles">
                     <th scope="row">{{role.id}}</th>
                     <th>{{role.name}}</th>
+                    <th>{{role.type}}</th>
                     <th>{{role.created_at}}</th>
-                    <th class="text-right" v-if="role.name != 'admin'"><span class="btn btn-sm btn-outline-success"><i class="fas fa-edit"></i> Edit Permissions</span></th>
-                    <th class="text-right" v-else><span class="btn btn-sm btn-outline-success"><i class="far fa-list-alt"></i> View Permissions</span></th>
+                    <th class="text-right" v-if="role.name != 'admin'"><span class="btn btn-sm btn-outline-success" @click="editRole(role.id)"><i class="fas fa-edit"></i> {{translate('Edit')}}</span></th>
                 </tr>
                 </tbody>
             </table>
-            <vue-pagination :pagination="roles" @paginate="getRoles()" :offset="offset"></vue-pagination>
+            <vue-pagination :pagination="rolesPagination" @paginate="getRoles()" :offset="offset"></vue-pagination>
         </div>
-        <form-modal v-model="modals.form"></form-modal>
+        <role-modal :type-prop="formType" v-model="modals.form" @done="getRoles"></role-modal>
     </div>
 </template>
 
 <script>
+import {mapGetters} from 'vuex';
 import VuePagination from "components/Common/Grid/VuePagination.vue";
 import Translation from "components/Mixins/Translation";
-import FormModal from './FormModal.vue';
+import RoleModal from './RoleModal.vue';
 import Role from "components/Role/Role";
 
 export default {
     mixins: [Translation],
+    components: {VuePagination, RoleModal},
     data() {
         return {
             modals: {
                 form: false
             },
-            roles: {
+            formType: 'create',
+            rolesPagination: {
                 total: 0,
                 per_page: 20,
                 from: 1,
@@ -67,24 +71,33 @@ export default {
             },
             offset: 4,
             search: null,
-            data: []
         }
     },
-    components: {VuePagination, FormModal},
+    computed: {
+      ...mapGetters('role', ['roles'])
+    },
     mounted() {
       this.getRoles();
+      this.$store.dispatch('role/permissions');
     },
     methods: {
         updateResource() {
             console.log('UPDATE RES');
         },
         getRoles() {
-          Role.index({page: this.roles.current_page, per_page: this.roles.per_page, sort: 'asc', search: this.search})
-            .then((pagination) => {
-                this.data = pagination.data;
-                this.roles = pagination;
-            })
-        }
+            Role.index({page: this.rolesPagination.current_page, per_page: this.rolesPagination.per_page, sort: 'asc', search: this.search})
+                .then((pagination) => {
+                    this.rolesPagination = pagination;
+                })
+        },
+        addRole() {
+            this.formType = 'create';
+            this.modals.form = true
+        },
+        editRole(id) {
+            this.formType = 'edit';
+            Role.get(id).then(() => this.modals.form = true);
+        },
     }
 }
 </script>
