@@ -14,7 +14,7 @@ INSERT INTO admin.menu (menu, submenu, position, page_id, id) VALUES ('', 'Roles
 INSERT INTO admin.menu (menu, submenu, position, page_id, id) VALUES ('', 'Nomenclatures', 3.3, 53, 45);
 INSERT INTO admin.menu (menu, submenu, position, page_id, id) VALUES ('', 'Carnet de chantier', 5.2, 56, 48);
 INSERT INTO admin.menu (menu, submenu, position, page_id, id) VALUES ('Administration', null, 3, 50, 40);
-INSERT INTO admin.menu (menu, submenu, position, page_id, id) VALUES ('Geoportal', null, 2, 9, 39);
+INSERT INTO admin.menu (menu, submenu, position, page_id, id) VALUES ('Geoportal', null, 2, 49, 39);
 INSERT INTO admin.menu (menu, submenu, position, page_id, id) VALUES ('', 'Carnet d''abattage', 5.1, 55, 47);
 INSERT INTO admin.menu (menu, submenu, position, page_id, id) VALUES ('', 'Concessions', 3.4, 54, 46);
 INSERT INTO admin.menu (menu, submenu, position, page_id, id) VALUES ('Transportation', null, 5, 52, 42);
