@@ -19,7 +19,7 @@ axios.interceptors.request.use((config) => {
     config.headers['Accept-Language'] = Vue.prototype.$cookies.language || 'en'
 
     if(Vue.$jwt.hasToken()) {
-        config.headers['Authorization'] = "Bearer " + Vue.$jwt.getToken();
+        config.headers['Authorization'] = `Bearer ${Vue.$jwt.getToken()}`
     }
 
     return config;
