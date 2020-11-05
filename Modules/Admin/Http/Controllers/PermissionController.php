@@ -26,7 +26,9 @@ class PermissionController extends Controller
     public function index(Request $request, PageResults $pageResults)
     {
         return response()
-            ->json($pageResults->getPaginator($request, PermissionEntity::class, ['name']));
+            ->json(['data' => PermissionEntity::all()]);
+//        return response()
+//            ->json($pageResults->getPaginator($request, PermissionEntity::class, ['name']));
     }
 
 
