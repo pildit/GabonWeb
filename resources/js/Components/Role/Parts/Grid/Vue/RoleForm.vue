@@ -19,7 +19,7 @@
                placeholder="Permissions"
                track-by="id"
                label="name"
-               :allow-empty="false"
+               :allow-empty="true"
                :multiple="true"
                :taggable="true"
            ></multiselect>
@@ -35,8 +35,6 @@ import Role from "components/Role/Role";
 
 
 export default {
-    props: ['typeProp'],
-
     mixins: [Translation],
 
     components: {Multiselect},
@@ -50,9 +48,6 @@ export default {
 
     computed: {
         ...mapGetters('role', ['permissions']),
-        isCreateType() {
-            return this.typeProp == 'create'
-        },
     },
 
     methods: {
