@@ -46,12 +46,6 @@ class User extends Model implements JwtPayloadInterface
      */
     public function getPayload()
     {
-        $permissions = [];
-        // to be improved
-        $this->roles->each(function ($role) use (&$permissions) {
-            $permissions = array_unique(array_merge($permissions, $role->getPermissionNames()->toArray()));
-        });
-
         return [
             'iss' => env('APP_URL'),
             'aud' => env('APP_URL'),
@@ -62,7 +56,7 @@ class User extends Model implements JwtPayloadInterface
                 'id' => $this->id,
                 'firstname' => $this->firstname,
                 'lastname' => $this->lastname,
-                'permissions' => $permissions,
+                'permissions' => $this->getAllPermissions()->pluck('name'),
                 'roles' => $this->getRoleNames()
             ]
         ];

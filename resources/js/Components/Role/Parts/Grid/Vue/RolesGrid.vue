@@ -21,12 +21,40 @@
         </div>
         <div class="table-responsive text-nowrap">
             <table class="table">
-                <thead class="black white-text table-hover">
+                <thead class="green white-text table-hover">
                 <tr>
-                    <th scope="col">{{translate('Id')}}</th>
-                    <th scope="col">{{translate('Role')}}</th>
-                    <th scope="col">{{translate('Type')}}</th>
-                    <th scope="col">{{translate('Date')}}</th>
+                    <th  @click="sortBy('id')" scope="col" class="cursor-pointer">
+                        {{translate('Id')}}
+                        <span class="sortable">
+                            <i v-if="showSort('id', 'asc')" class="fas fa-sort-up"></i>
+                            <i v-if="showSort('id', 'desc')" class="fas fa-sort-down"></i>
+                            <i v-if="!showSort('id', 'desc') && !showSort('id', 'asc')" class="fas fa-sort"></i>
+                        </span>
+                    </th>
+                    <th  @click="sortBy('name')"  scope="col" class="cursor-pointer">
+                        {{translate('Role')}}
+                        <span class="sortable">
+                            <i v-if="showSort('name', 'asc')" class="fas fa-sort-up"></i>
+                            <i v-if="showSort('name', 'desc')" class="fas fa-sort-down"></i>
+                            <i v-if="!showSort('name', 'desc') && !showSort('name', 'asc')" class="fas fa-sort"></i>
+                        </span>
+                    </th>
+                    <th  @click="sortBy('type')" scope="col" class="cursor-pointer">
+                        {{translate('Type')}}
+                        <span class="sortable">
+                            <i v-if="showSort('type', 'asc')" class="fas fa-sort-up"></i>
+                            <i v-if="showSort('type', 'desc')" class="fas fa-sort-down"></i>
+                            <i v-if="!showSort('type', 'desc') && !showSort('type', 'asc')" class="fas fa-sort"></i>
+                        </span>
+                    </th>
+                    <th  @click="sortBy('created_at')" scope="col" class="cursor-pointer">
+                        {{translate('Date')}}
+                        <span class="sortable">
+                            <i v-if="showSort('created_at', 'asc')" class="fas fa-sort-up"></i>
+                            <i v-if="showSort('created_at', 'desc')" class="fas fa-sort-down"></i>
+                            <i v-if="!showSort('created_at', 'desc') && !showSort('created_at', 'asc')" class="fas fa-sort"></i>
+                        </span>
+                    </th>
                     <th scope="col" class="text-right">{{translate('Action')}}</th>
                 </tr>
                 </thead>
@@ -61,6 +89,10 @@ export default {
             modals: {
                 form: false
             },
+            sort: {
+                direction: "asc",
+                field: "id"
+            },
             formType: 'create',
             rolesPagination: {
                 total: 0,
@@ -81,11 +113,14 @@ export default {
       this.$store.dispatch('role/permissions');
     },
     methods: {
-        updateResource() {
-            console.log('UPDATE RES');
-        },
         getRoles() {
-            Role.index({page: this.rolesPagination.current_page, per_page: this.rolesPagination.per_page, sort: 'asc', search: this.search})
+            Role.index({
+                page: this.rolesPagination.current_page,
+                per_page: this.rolesPagination.per_page,
+                sort: this.sort.direction,
+                sort_fields: this.sort.field,
+                search: this.search
+            })
                 .then((pagination) => {
                     this.rolesPagination = pagination;
                 })
@@ -98,6 +133,14 @@ export default {
             this.formType = 'edit';
             Role.get(id).then(() => this.modals.form = true);
         },
+        sortBy(col) {
+            this.sort.direction = this.sort.direction == 'asc' ? 'desc' : 'asc';
+            this.sort.field = col;
+            this.getRoles();
+        },
+        showSort(key, direction) {
+            return this.sort.field == key && this.sort.direction == direction;
+        }
     }
 }
 </script>
@@ -106,7 +149,10 @@ export default {
 .mt-40 {
     margin-top: 40px;
 }
-.mb-40 {
-    margin-bottom: 40px;
+.sortable {
+    padding-left: 5px;
+}
+.cursor-pointer {
+    cursor: pointer;
 }
 </style>

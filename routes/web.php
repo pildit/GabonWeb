@@ -15,9 +15,14 @@ Route::get('/', function () {
     return view('home');
 });
 
+Route::get('/geoportal', function () {
+   return view('geoportal');
+});
+
 Route::get('/login', 'AuthController@login');
 Route::get('/logout', 'AuthController@logout');
 Route::get('/register', 'AuthController@register');
 Route::get('/account/confirmation/{token}', 'AuthController@emailConfirmation');
 
 Route::get('/roles', 'RoleController@index');
+Route::get('/users', 'UserController@index');

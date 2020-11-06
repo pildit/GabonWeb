@@ -73,6 +73,13 @@
       working_dir: "{{ www_document_root }}/../"  # Same directory as the composer.json file
       prefer_dist: yes
       no_dev: yes
+  - name: "Install node dependencies"
+    npm:
+      path: "{{ www_document_root }}/../"  # Same directory as the package.json file
+  - name: "Compile the javascript"
+    command: npm run dev
+    args:
+      chdir: "{{ www_document_root }}/../"  # Same directory as the package.json file
   - name: "Set permissions and ownership on the local repo"
     become: yes
     file:
