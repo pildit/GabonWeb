@@ -2143,7 +2143,7 @@ __webpack_require__.r(__webpack_exports__);
       formType: 'create',
       pagination: {
         total: 0,
-        per_page: 20,
+        per_page: 5,
         from: 1,
         to: 0,
         current_page: 1
@@ -2212,6 +2212,7 @@ __webpack_require__.r(__webpack_exports__);
     refresh: function refresh(payload) {
       if (payload.hasOwnProperty('search')) {
         this.search = payload.search;
+        this.pagination.current_page = 1;
       }
 
       this.fetchData();

@@ -51,7 +51,7 @@ export default {
             formType: 'create',
             pagination: {
                 total: 0,
-                per_page: 20,
+                per_page: 5,
                 from: 1,
                 to: 0,
                 current_page: 1
@@ -119,6 +119,7 @@ export default {
         refresh(payload) {
             if(payload.hasOwnProperty('search')) {
                 this.search = payload.search;
+                this.pagination.current_page = 1;
             }
             this.fetchData();
         }
