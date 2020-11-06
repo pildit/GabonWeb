@@ -4,26 +4,84 @@
 namespace Modules\Transport\Entities;
 
 
+use App\Traits\Sortable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Admin\Entities\Company;
+use Modules\ForestResources\Entities\AnnualAllowableCut;
+use Modules\ForestResources\Entities\Concession;
+use Modules\ForestResources\Entities\DevelopmentUnit;
+use Modules\ForestResources\Entities\ManagementUnit;
+use Modules\User\Entities\User;
 
 class Permit extends Model
 {
+
+    use Sortable, SoftDeletes;
+
+    const CREATED_AT = "CreatedAt";
+    const UPDATED_AT = "UpdatedAt";
+    const DELETED_AT = "DeletedAt";
+
     /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
+     * ProductType
      */
-    public $timestamps = false;
+    const PRODUCT_TYPE_LOG = '1';
+    public static $PRODUCT_TYPES = [
+        'Log'  => self::PRODUCT_TYPE_LOG,
+    ];
+
+    /**
+     * Statuses
+     */
+    const STATUS_GENERATED = '1';
+    const STATUS_IN_PROGRESS = '2';
+    const STATUS_FINISHED = '3';
+    public static $STATUSES = [
+        'Generated'  => self::STATUS_GENERATED,
+        'In progress'  => self::STATUS_IN_PROGRESS,
+        'Finished'  => self::STATUS_FINISHED,
+    ];
+
+
+    public $timestamps = true;
+
+    protected $dateFormat = 'Y-m-d H:i:s.u';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ["obsdate", "lat", "lon", "gps_accu", "permit_no", "harvest_name",
-        "client_name", "concession_name", "transport_comp", "license_plate", "note",
-        "destination", "management_unit", "operational_unit", "annual_operational_unit",
-        "the_geom", "product_type", "permit_status", "mobile_id"];
+    protected $fillable = [
+        "PermitNo",
+        "PermitNoMobile",
+        "Concession",
+        "ManagementUnit",
+        "DevelopmentUnit",
+        "AnnualAllowableCut",
+        "ClientCompany",
+        "ConcessionaireCompany",
+        "TransporterCompany",
+        "User",
+        "ProductType",
+        "Status",
+        "DriverName",
+        "LicensePlate",
+        "Province",
+        "Destination",
+        "ScanLat",
+        "ScanLon",
+        "ScanGpsAccu",
+        "Lat",
+        "Lon",
+        "GpsAccu",
+        "Geometry",
+        "MobileId",
+        "ObserveAt",
+        "CreatedAt",
+        "UpdatedAt",
+        "DeletedAt"];
 
     /**
      * The attributes that should be cast to native types.
@@ -31,7 +89,7 @@ class Permit extends Model
      * @var array
      */
     protected $casts = [
-        'geom' => 'json'
+        'Geom' => 'json'
     ];
 
     /**
@@ -39,8 +97,9 @@ class Permit extends Model
      *
      * @var string
      */
-    protected $table = 'transportation.permits';
+    protected $table = 'Transportation.Permits';
 
+    protected $primaryKey = "Id";
 
     /**
      * @param $query
@@ -67,4 +126,30 @@ class Permit extends Model
     {
         return $this->hasMany(Tracking::class, 'Permit');
     }
+
+    public function concession(){
+        return $this->belongsTo(Concession::class,"Concession");
+    }
+    public function managementunit(){
+        return $this->belongsTo(ManagementUnit::class,"ManagementUnit");
+    }
+    public function developmentunit(){
+        return $this->belongsTo(DevelopmentUnit::class,"DevelopmentUnit");
+    }
+    public function annualallowablecut(){
+        return $this->belongsTo(AnnualAllowableCut::class,"AnnualAllowableCut");
+    }
+    public function clientcompany(){
+        return $this->belongsTo(Company::class,"ClientCompany");
+    }
+    public function concessionairecompany(){
+        return $this->belongsTo(Company::class,"ConcessionaireCompany");
+    }
+    public function transportercompany(){
+        return $this->belongsTo(Company::class,"TransporterCompany");
+    }
+    public function user(){
+        return $this->belongsTo(User::class,"User");
+    }
+
 }

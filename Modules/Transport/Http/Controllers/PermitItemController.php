@@ -3,7 +3,6 @@
 namespace Modules\Transport\Http\Controllers;
 
 use App\Services\PageResults;
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -18,51 +17,76 @@ class PermitItemController extends Controller
 
     /**
      * Return a list of permit items for a specific permit
-     *
-     * @param Permit $permit
+     * @param Request $request
+     * @param PageResults $pr
      * @return JsonResponse
      */
-    public function index($permit, Request $request, PageResults $pageResults)
+    public function index(Request $request, PageResults $pr)
     {
-        return response()->json(
-            $pageResults
-                ->setWhere(["mobile_id" => $permit, "permit_id" => (int)$permit])
-                ->getPaginator(
-                    $request,
-                    ItemEntity::class ,
-                    [
-                        "trunk_number",
-                        "lot_number",
-                        "species"
-                    ]
-                ));
+        $pr->setSortFields(['Id']);
+
+        return response()->json($pr->getPaginator($request, PermitEntity::class, ["TreeId"],['species']));
+
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param Request $request
+     * Save permit item
+     * @param CreatePermitItemRequest $request
+     * @return JsonResponse
      */
-    public function store($permit, CreatePermitItemRequest $request)
-    {
-        $permit = PermitEntity::where('id', (int)$permit)->orWhere('mobile_id', $permit)->firstOrFail();
 
-        $result = $permit->items()->save(new \Modules\Transport\Entities\Item($request->all()));
+    public function store(CreatePermitItemRequest $request)
+    {
+        $data = $request->validated();
+
+        $permit = PermitEntity::where('Id', (int)$data['Permit'])->orWhere('MobileId', $data['Permit'])->firstOrFail();
+        $data['Permit'] = $permit->Id;
+        $item = ItemEntity::create($data);
 
         return response()->json([
-            "data" => $result
+            'message' => lang("permititem_created_successfully")
         ], 201);
     }
 
-    public function storeMobile(CreatePermitItemRequest $request)
-    {
-        $request->validate([
-            'permit_id' => 'exists:Modules\Transport\Entities\Permit,mobile_id'
-        ]);
+    /**
+     * Update permit item
+     * @param ItemEntity $item
+     * @param CreatePermitItemRequest $request
+     * @return JsonResponse
+     */
 
-        return $this->store($request->get('permit_id'), $request);
+    public function update(ItemEntity $item, UpdatePermitItemRequest $request)
+    {
+        $data = $request->validated();
+        $permit = PermitEntity::where('Id', (int)$data['Permit'])->orWhere('MobileId', $data['Permit'])->firstOrFail();
+        $data['Permit'] = $permit->Id;
+        $item->update($data);
+
+        return response()->json([
+            'message' => lang('permititem_update_successful')
+        ], 200);
     }
 
+
     /**
+     * Soft Delete Permit Item
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy($id)
+    {
+        $permit = ItemEntity::findOrFail($id);
+
+        $permit->delete();
+
+        return response()->json([
+            'message' => lang('permititem_delete_successful')
+        ], 204);
+    }
+
+
+    /**
+     * Get mobile form
      * @param Item $itemService
      * @return JsonResponse
      */

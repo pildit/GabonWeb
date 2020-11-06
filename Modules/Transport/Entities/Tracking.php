@@ -11,8 +11,10 @@ class Tracking extends Model
     const UPDATED_AT = "UpdatedAt";
 
     protected $primaryKey = 'Id';
+    public $timestamps = true;
+    protected $dateFormat = 'Y-m-d H:i:s.u';
 
-    protected $fillable = ['User', 'Lat', 'Lon','GPSAccuracy', 'ObserveDate'];
+    protected $fillable = ['User', 'Lat', 'Lon','GPSAccuracy', 'ObserveAt'];
 
     protected $table = 'transportation.PermitTracking';
 

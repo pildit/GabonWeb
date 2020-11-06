@@ -4,7 +4,7 @@ namespace Modules\Transport\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreatePermitItemRequest extends FormRequest
+class UpdatePermitItemRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,15 +14,15 @@ class CreatePermitItemRequest extends FormRequest
     public function rules()
     {
         return [
-            "Permit" => "required|exists:Modules\Transport\Entities\Permit,Id,MobileId",
-            "TreeId" =>"required:string",
+            "Permit" => "exists:Modules\Transport\Entities\Permit,Id,MobileId",
+            "TreeId" =>"string",
             "Species" => "required", // Todo - add Species validation;
-            "MinDiameter" => "required:float",
-            "MaxDiameter" => "required:float",
-            "AverageDiameter" => "required:float",
-            "Length" => "required:float",
-            "Volume" => "required:float",
-            "MobileId" => "required:string"
+            "MinDiameter" => "float",
+            "MaxDiameter" => "float",
+            "AverageDiameter" => "float",
+            "Length" => "float",
+            "Volume" => "float",
+            "MobileId" => "string"
         ];
     }
 

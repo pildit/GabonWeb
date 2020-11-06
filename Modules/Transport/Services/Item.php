@@ -6,106 +6,130 @@ namespace Modules\Transport\Services;
 
 use App\Services\PageResults;
 use Modules\Transport\Entities\Item as ItemEntity;
+use Modules\User\Entities\User;
+use GenTux\Jwt\GetsJwtToken;
+use Illuminate\Support\Facades\DB;
 
 class Item extends PageResults
 {
-
+    use GetsJwtToken;
     public function getMobileForm()
     {
+        /**
+         * Todo change here to Species model
+         */
         $species = app('db')
-            ->table('transportation.list_species')
+            ->table('Transportation.list_species')
             ->select('pop_name as val', 'id')
             ->get()->toArray();
 
+
+        list($treeID) = $this->treeIdList();
+
         // mobile form
+     	//!!! daca nu are "fl" NU pui NotEmpty!!!!
         $array = [
             [
-                "f" => "obsdate",
-                "fl" => "",
-                "type" => "date"
-            ],
-            [
-                "f" => "appuser",
+                "f" => "MobileId",
                 "fl" => "",
                 "type" => "str"
             ],
             [
-                "f" => "mobile_id",
+                "f" => "Permit",
                 "fl" => "",
                 "type" => "str"
             ],
             [
-                "f" => "permit_id",
-                "fl" => "",
-                "type" => "str"
+                "f" => "TreeId",
+                "fl" => "TreeId",
+                "type" => "str_NotEmpty",     //! sau listă editabilă  (type=list_ed_Not_Empty) - intorc id sau val
+                "values" => $treeID
+           //     "condition" => "product_type=logs"
             ],
             [
-                "f" => "trunk_number",
-                "fl" => "trunk_number",
-                "type" => "str_NotEmpty",
-                "condition" => "product_type=logs"
-            ],
-            [
-                "f" => "lot_number",
-                "fl" => "lot_number",
-                "type" => "str_NotEmpty",
-                "condition" => "product_type=transformed"
-            ],
-            [
-                'f' => 'species',
-                'fl' => 'species',
+                'f' => 'Species',
+                'fl' => 'Species',
                 'type' => 'list_NotEmpty_NoLang',
                 'values' => $species,
             ],
             [
-                "f" => "diam1",
-                "fl" => "diam1",
+                "f" => "MinDiameter",
+                "fl" => "Diam1",
                 "type" => "float_NotEmpty",
-                "condition" => "product_type=logs"
+            //    "condition" => "product_type=logs"
             ],
             [
-                "f" => "diam2",
-                "fl" => "diam2",
+                "f" => "MaxDiameter",
+                "fl" => "Diam2",
                 "type" => "float_NotEmpty",
-                "condition" => "product_type=logs"
+           //     "condition" => "product_type=logs"
             ],
             [
-                "f" => "diam_avg",
-                "fl" => "",
-                "type" => "int"
+                "f" => "AverageDiameter",
+                "fl" => "AverageDiameter",
+                "type" => "float_NotEmpty"
             ],
             [
-                "f" => "length",
-                "fl" => "length",
+                "f" => "Length",
+                "fl" => "Length",
                 "type" => "float_NotEmpty",
-                "condition" => "product_type=logs,transformed"
+           //     "condition" => "product_type=logs,transformed"
             ],
             [
-                "f" => "width",
-                "fl" => "width",
-                "type" => "int_NotEmpty",
-                "condition" => "product_type=transformed"
-            ],
-            [
-                "f" => "height",
-                "fl" => "height",
-                "type" => "int_NotEmpty",
-                "condition" => "product_type=transformed"
-            ],
-            [
-                "f" => "volume",
-                "fl" => "volume",
+                "f" => "Volume",
+                "fl" => "Volume",
                 "type" => "float_NotEmpty",
-                "condition" => "product_type=logs,transformed"
+          //      "condition" => "product_type=logs,transformed"
             ],
             [
-                "f" => "note",
-                "fl" => "note",
+                "f" => "Note",
+                "fl" => "Note",
                 "type" => "str"
             ]
 
         ];
 
         return $array;
+    }
+
+    public function treeIdList(): array
+    {
+        $array = [];
+
+        $userId = $this->jwtPayload('data.id');
+
+        // User > Company > Concessions -> Developtment Unit -> Management Unit -> AAC -> AAC Inventory > TreeIDs
+
+        $values = DB::table('admin.accounts')
+            ->join('Taxonomy.Companies', 'admin.accounts.company_id', '=', 'Taxonomy.Companies.Id')
+            ->join('ForestResources.Concessions', 'ForestResources.Concessions.Company', '=', 'Taxonomy.Companies.Id')
+            ->join('ForestResources.DevelopmentUnits', 'ForestResources.Concessions.Id',"=", 'ForestResources.DevelopmentUnits.Concession')
+            ->join('ForestResources.ManagementUnits', 'ForestResources.ManagementUnits.DevelopmentUnit',"=", 'ForestResources.DevelopmentUnits.Id')
+            ->join('ForestResources.AnnualAllowableCuts', 'ForestResources.AnnualAllowableCuts.ManagementUnit',"=", 'ForestResources.ManagementUnits.Id')
+            ->join('ForestResources.AnnualAllowableCutInventory', 'ForestResources.AnnualAllowableCutInventory.AnnualAllowableCut',"=", 'ForestResources.AnnualAllowableCuts.Id')
+            ->select('ForestResources.AnnualAllowableCutInventory.Id','ForestResources.AnnualAllowableCutInventory.TreeId')
+            ->where("admin.accounts.id","=", $userId)
+            ->get();
+
+//                $values = DB::table('ForestResources.AnnualAllowableCutInventory')
+//                    ->join('ForestResources.AnnualAllowableCuts', 'ForestResources.AnnualAllowableCuts.ManagementUnit', 'ForestResources.ManagementUnits.Id')
+//                    ->join('ForestResources.ManagementUnits', 'ForestResources.ManagementUnits.DevelopmentUnit',"=", 'ForestResources.DevelopmentUnits.Id')
+//                    ->join('ForestResources.DevelopmentUnits', 'ForestResources.Concessions.Id', "",'ForestResources.DevelopmentUnits.Concession')
+//                    ->join('ForestResources.Concessions', 'ForestResources.Concessions.Company', '=', 'Taxonomy.Companies.Id')
+//                    ->join('Taxonomy.Companies', 'admin.accounts.company_id', '=', 'Taxonomy.Companies.Id')
+//                    ->join('admin.accounts', 'admin.accounts.company_id', '=', 'Taxonomy.Companies.Id')
+//                    ->select('ForestResources.AnnualAllowableCutInventory.Id','ForestResources.AnnualAllowableCutInventory.TreeId')
+//                    ->where("admin.accounts.id","=",$userId)
+//                    ->get();
+
+        $values->each(function ($value) use (&$array) {
+            $array[]= [
+                'val' => $value->TreeId,
+                'id'  => $value->Id,
+            ];
+
+        });
+
+        return array($array);
     }
 }

@@ -7,6 +7,7 @@ namespace Modules\Transport\Services;
 use App\Services\PageResults;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Modules\Admin\Entities\Company;
 use Modules\Transport\Entities\Permit as PermitEntity;
 
 class Permit extends PageResults
@@ -18,15 +19,15 @@ class Permit extends PageResults
      */
     public function getVectors($bbox)
     {
-        $collection = PermitEntity::select(['id', DB::raw('public.ST_AsGeoJSON(the_geom) as geom')])
-            ->whereRaw("public.ST_Intersects(the_geom, public.ST_MakeEnvelope($bbox))")->get();
+        $collection = PermitEntity::select(['Id', DB::raw('public.ST_AsGeoJSON(Geometry) as geom')])
+            ->whereRaw("public.ST_Intersects(Geometry, public.ST_MakeEnvelope($bbox))")->get();
 
         return $collection->map(function ($item) {
             return [
                 'type' => 'Feature',
                 'geometry' => $item->geom,
                 'properties' => [
-                    'id' => $item->id
+                    'id' => $item->Id
                 ]
             ];
         });
@@ -39,145 +40,154 @@ class Permit extends PageResults
      */
     public function getMobileForm()
     {
-        list($product_types, $destinations) = $this->productAndDestinationLists();
+        list($product_types) = $this->productTypesList();
 
-        list($client_name, $transport_comp, $harvest_name) = $this->companiesList();
+        list($aac) = $this->annualAllowableCutLists();
+        list($concession) = $this->concessionList();
+        list($developmentunit) = $this->developmentunitList();
+        list($managementunit) = $this->managementunitList();
+
+        list($client, $transport, $concessionaire) = $this->companiesList();
 
         // mobile form
+		//!!! daca nu are "fl" NU pui NotEmpty!!!!
         $formArr = [
             [
-                "f" => "obsdate",
+                "f" => "ObserveAt",
                 "fl" => "",
                 "type" => "date"
             ],
             [
-                "f" => "appuser",
+                "f" => "MobileId",
                 "fl" => "",
                 "type" => "str"
             ],
             [
-                "f" => "mobile_id",
-                "fl" => "",
-                "type" => "str"
-            ],
-            [
-                "f" => "gps_accu",
+                "f" => "GpsAccu",
                 "fl" => "",
                 "type" => "int"
             ],
             [
-                "f" => "permit_status",
-                "fl" => "",
-                "default" => "ready",
-                "type" => "str"
-            ],
-            [
-                "f" => "generated_by",
-                "fl" => "",
-                "type" => "str"
-            ],
-            [
-                "f" => "verified_by",
-                "fl" => "",
-                "type" => "str"
-            ],
-            [
-                "f" => "transport_by",
-                "fl" => "",
-                "type" => "str"
-            ],
-            [
-                "f" => "scan_lat",
+                "f" => "ScanLat",
                 "fl" => "",
                 "type" => "float"
             ],
             [
-                "f" => "scan_lon",
+                "f" => "ScanLon",
                 "fl" => "",
                 "type" => "float"
             ],
             [
-                "f" => "scan_gps_accu",
+                "f" => "ScanGpsAccu",
                 "fl" => "",
                 "type" => "int"
             ],
             [
-                "f" => "lat",
+                "f" => "Status",     //! 1- generat / 2 - in progress / 3 - finished
+                "fl" => "",          // nu trebuie sa faci nimic ... valorile vin hardcoded  1,2,3
+                "type" => "int"
+            ],
+            [
+                "f" => "Lat",
                 "fl" => "Lat",
                 "type" => "float_NotEmpty",
                 "group" => "Location"
             ],
             [
-                "f" => "lon",
-                "fl" => "Long",
+                "f" => "Lon",
+                "fl" => "Lon",
                 "type" => "float",
                 "group" => "Location"
             ],
             [
-                "f" => "permit_no",
-                "fl" => "permit_no",
+                "f" => "PermitNo",
+                "fl" => "PermitNo",
                 "type" => "str_NotEmpty"
             ],
             [
-                "f" => "harvest_name",
-                "fl" => "harvest_name",
-                "type" => "list_NotEmpty_NoLang",
-                "values" => $harvest_name
-            ],
-            [
-                "f" => "client_name",
-                "fl" => "client_name",
-                "type" => "list_NotEmpty_NoLang",
-                "values" => $client_name
-            ],
-            [
-                "f" => "concession_name",
-                "fl" => "concession_name",
+                "f" => "PermitNoMobile",   //! asta e OK ... il lasi asa - NU adauga NotEmpty!!!
+                "fl" => "",
                 "type" => "str"
             ],
             [
-                "f" => "transport_comp",
-                "fl" => "transport_comp",
+                "f" => "AnnualAllowableCut",   // AAC
+                "fl" => "AnnualAllowableCut",
                 "type" => "list_NotEmpty_NoLang",
-                "values" => $transport_comp
+                "values" => $aac         //! vezi aici ce faci
             ],
             [
-                "f" => "license_plate",
-                "fl" => "license_plate",
+                "f" => "ManagementUnit",     // UFG
+                "fl" => "ManagementUnit",
+                "type" => "list_NotEmpty_NoLang",
+                "values" => $managementunit          //! vezi aici ce faci
+            ],
+            [
+                "f" => "DevelopmentUnit",
+                "fl" => "DevelopmentUnit",
+                "type" => "str_NotEmpty",       //! aici lista
+                "values" => $developmentunit
+            ],
+            [
+                "f" => "Concession",
+                "fl" => "Concession",
+                "type" => "str_NotEmpty",         //! aici lista - FK consession
+                "values" => $concession
+            ],
+            [
+                "f" => "ConcessionaireCompany",
+                "fl" => "ConcessionaireCompany",
+                "type" => "str_NotEmpty",         //! aici lista - FK companies - type concesion?
+                "values" => $concessionaire
+            ],
+            [
+                "f" => "ClientCompany",
+                "fl" => "ClientCompany",
+                "type" => "str_NotEmpty",         //! aici lista - FK companies - type client
+                "value" => $client
+            ],
+            [
+                "f" => "TransporterCompany",
+                "fl" => "TransporterCompany",
+                "type" => "list_NotEmpty_NoLang",
+                "values" => $transport     //! aici lista - FK companies - type transporter
+            ],
+            [
+                "f" => "DriverName",
+                "fl" => "DriverName",
                 "type" => "str_NotEmpty"
             ],
             [
-                "f" => "destination",
-                "fl" => "destination",
+                "f" => "LicensePlate",
+                "fl" => "LicensePlate",
+                "type" => "str_NotEmpty"
+            ],
+            [
+                "f" => "Province",
+                "fl" => "Province",
+                "type" => "str_NotEmpty"
+            ],
+            [
+                "f" => "Destination",
+                "fl" => "Destination",
+                "type" => "str_NotEmpty",
+        //        "values" => $destinations
+            ],
+
+	   //! pentru moment e default resource = logs - facut default in DB
+            [
+                "f" => "ProductType",
+                "fl" => "ProductType",
                 "type" => "list_NotEmpty",
-                "values" => $destinations
+                "values" => $product_types    //! vezi aici ce faci
             ],
-            [
-                "f" => "management_unit",
-                "fl" => "management_unit",
-                "type" => "str"
-            ],
-            [
-                "f" => "operational_unit",
-                "fl" => "operational_unit",
-                "type" => "str"
-            ],
-            [
-                "f" => "annual_operational_unit",
-                "fl" => "annual_operational_unit",
-                "type" => "str"
-            ],
-            [
-                "f" => "product_type",
-                "fl" => "product_type",
-                "type" => "list_NotEmpty",
-                "values" => $product_types
-            ],
-            [
-                "f" => "note",
-                "fl" => "note",
-                "type" => "str"
-            ]
+
+	/*		!! not needed yet dar in viitoru apropiat ighen - ighen draga
+	        [
+				"f":"Photos",
+				"fl":"Photos",
+				"type":"photo"
+			],
+	*/
         ];
 
 
@@ -187,27 +197,19 @@ class Permit extends PageResults
     /**
      * @return string[]
      */
-    public function productAndDestinationLists(): array
+    public function productTypesList(): array
     {
-        $product_types = [];
-        $destinations = [];
 
-        $permitList = app('db')
-            ->table('transportation.permits_lists')
-            ->select('field', 'val')
-            ->get();
+        $product_types = PermitEntity::$PRODUCT_TYPES;
 
+        foreach($product_types as $k => $product_type){
+            $product_types = [
+                'id' => $product_type,
+                'val' => $k
+            ];
+        }
 
-        $permitList->each(function ($item) use (&$product_types, &$destinations) {
-            if ($item->field == 'product_type') {
-                $product_types[]['val'] = $item->val;
-            }
-
-            if ($item->field == 'destination') {
-                $destinations[]['val'] = $item->val;
-            }
-        });
-        return array($product_types, $destinations);
+        return array($product_types);
     }
 
     /**
@@ -215,28 +217,125 @@ class Permit extends PageResults
      */
     public function companiesList(): array
     {
-        $client_name = [];
-        $transport_comp = [];
-        $harvest_name = [];
+        $client = [];
+        $transport= [];
+        $concessionaire = [];
 
-        $companies = app('db')
-            ->table('transportation.companies')
-            ->select('field', 'comp_name')
+        $companies = Company::all();
+
+        $companies->each(function ($company) use (&$client, &$transport, &$concessionaire) {
+            foreach ($company->types()->get()->toArray() as $type){
+                if ("client" ==$type['Name']) {
+                    $client[] = [
+                        'id' => $company->Id,
+                        'val' => $company->Name
+                    ];
+                }
+                if ("transporter" ==$type['Name']) {
+                    $transport[]= [
+                        'id' => $company->Id,
+                        'val' => $company->Name
+                    ];
+                }
+                if ("concessionaire" ==$type['Name']) {
+                    $concessionaire[]= [
+                        'id' => $company->Id,
+                        'val' => $company->Name
+                    ];
+                }
+            }
+
+        });
+        return array($client, $transport, $concessionaire);
+    }
+
+    public function annualAllowableCutLists(): array
+    {
+        $array = [];
+
+        $values = app('db')
+            ->table('ForestResources.AnnualAllowableCuts')
+            ->select( 'Id','Name')
             ->get();
 
-        $companies->each(function ($company) use (&$client_name, &$transport_comp, &$harvest_name) {
-            if (Str::contains($company->field, 'client_name')) {
-                $client_name[]['val'] = $company->comp_name;
-            }
+        $values->each(function ($value) use (&$array) {
+            $array[]= [
+                'val' => $value->Name,
+                'id'  => $value->Id,
+            ];
 
-            if (Str::contains($company->field, 'transport_comp')) {
-                $transport_comp[]['val'] = $company->comp_name;
-            }
-
-            if (Str::contains($company->field, 'harvest_name')) {
-                $harvest_name[]['val'] = $company->comp_name;
-            }
         });
-        return array($client_name, $transport_comp, $harvest_name);
+
+        return array($array);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function concessionList(): array
+    {
+        $array = [];
+
+        $values = app('db')
+            ->table('ForestResources.Concessions')
+            ->select( 'Id','Name')
+            ->get();
+
+        $values->each(function ($value) use (&$array) {
+            $array[]= [
+                'val' => $value->Name,
+                'id'  => $value->Id,
+            ];
+
+        });
+
+        return array($array);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function developmentunitList(): array
+    {
+        $array = [];
+
+        $values = app('db')
+            ->table('ForestResources.DevelopmentUnits')
+            ->select( 'Id','Name')
+            ->get();
+
+        $values->each(function ($value) use (&$array) {
+            $array[]= [
+                'val' => $value->Name,
+                'id'  => $value->Id,
+            ];
+
+        });
+
+        return array($array);
+    }
+
+
+    /**
+     * @return string[]
+     */
+    public function managementunitList(): array
+    {
+        $array = [];
+
+        $values = app('db')
+            ->table('ForestResources.ManagementUnits')
+            ->select( 'Id','Name')
+            ->get();
+
+        $values->each(function ($value) use (&$array) {
+            $array[]= [
+                'val' => $value->Name,
+                'id'  => $value->Id,
+            ];
+
+        });
+
+        return array($array);
     }
 }
