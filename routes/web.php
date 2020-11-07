@@ -21,3 +21,6 @@ Route::get('/register', 'AuthController@register');
 Route::get('/account/confirmation/{token}', 'AuthController@emailConfirmation');
 
 Route::get('/roles', 'RoleController@index');
+
+Route::get('/nomenclatures', 'NomenclaturesController@index');
+Route::get('/companies', 'CompaniesController@index');
