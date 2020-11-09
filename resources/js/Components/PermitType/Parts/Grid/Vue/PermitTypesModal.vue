@@ -1,0 +1,68 @@
+<template>
+  <bmodal ref="permitTypesModal" size="medium" :closed="() => $emit('display', false)">
+    <div slot="title">
+      <h4 class="modal-title w-100 font-weight-bold">{{translate('add_permit_type')}}</h4>
+    </div>
+    <div slot="body">
+      <permit-types-form ref="PermitTypesForm" @done="closeModal"></permit-types-form>
+    </div>
+    <div slot="footer">
+      <button @click="submit" class="btn btn-default">Save</button>
+      <button @click="closeModal" class="btn btn-warning">Cancel</button>
+    </div>
+  </bmodal>
+</template>
+
+<script>
+import Translation from "components/Mixins/Translation";
+import bmodal from 'components/Common/BootstrapModal.vue';
+import PermitTypesForm from "./PermitTypesForm";
+import {mapGetters} from 'vuex';
+
+export default {
+  model: {
+    prop: 'state',
+    event: 'display'
+  },
+  mixins: [Translation],
+
+  props: ['state', 'typeProp'],
+
+  components: {bmodal, PermitTypesForm},
+
+  computed: {
+    ...mapGetters('permitTypes', ['permitTypes'])
+  },
+
+  methods: {
+    submit() {
+      if(this.typeProp == 'create') {
+        this.$refs.PermitTypesForm.save();
+      }else{
+        this.$refs.PermitTypesForm.update();
+      }
+    },
+    closeModal() {
+      this.$refs.permitTypesModal.close();
+      this.$emit('done');
+      Vent.$emit('grid-refresh');
+    }
+  },
+
+  watch: {
+    state(val) {
+      if(!val) return;
+      if(this.typeProp != 'create') {
+        this.$refs.PermitTypesForm.form = this.role;
+      }else{
+        this.$refs.PermitTypesForm.form = {};
+      }
+      this.$refs.PermitTypesForm.errors.clear();
+      this.$refs.permitTypesModal.open();
+    }
+  }
+}
+</script>
+
+<style scoped>
+</style>

@@ -13,6 +13,7 @@ import Pages from './Components/Pages/Pages';
 import User from './Components/User/User';
 import Role from './Components/Role/Role';
 import Company from './Components/Company/Company';
+import PermitType from './Components/PermitType/PermitType';
 
 Vue.config.devtools = true;
 window.Vent         = new Vue;
@@ -41,7 +42,7 @@ Gabon.Pages = Pages;
 Gabon.User = User;
 Gabon.Role = Role;
 Gabon.Company = Company;
-// Gabon.PermitType = PermitType;
+Gabon.PermitType = PermitType;
 
 window.Gabon = Gabon;
 if(Vue.$jwt.hasToken()) {
