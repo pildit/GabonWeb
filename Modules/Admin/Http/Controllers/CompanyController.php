@@ -9,9 +9,12 @@ use Illuminate\Routing\Controller;
 use Modules\Admin\Entities\CompanyType;
 use Modules\Admin\Entities\Company;
 use Modules\Admin\Http\Requests\CreateCompanyRequest;
+use GenTux\Jwt\GetsJwtToken;
 
 class CompanyController extends Controller
 {
+    use GetsJwtToken;
+
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +22,8 @@ class CompanyController extends Controller
      */
     public function index(Request $request, PageResults $pageResults)
     {
-        return response()->json($pageResults->getPaginator($request, Company::class , ['Name']));
+        $pageResults->setSortFields(['Id']);
+        return response()->json($pageResults->getPaginator($request, Company::class , ['Name'], ['types', 'user']));
     }
 
     /**
@@ -35,11 +39,13 @@ class CompanyController extends Controller
         $company = new Company;
 
         $company->Name = $data['name'];
-        $company->GroupName = $data['group_name'] ?? null;
+        $company->GroupName = $data['group-name'] ?? null;
+        $company->UserId = $this->jwtPayload('data.id');
+
         $company->save();
 
-        if ($request->has('type')) {
-            $company->types()->attach($data['type']);
+        if ($request->has('types')) {
+            $company->types()->attach($data['types']);
         }
 
         return response()->json([
@@ -60,11 +66,12 @@ class CompanyController extends Controller
         $data = $request->validated();
 
         $company->Name = $data['name'];
-        $company->GroupName = $data['group_name'] ?? null;
+        $company->GroupName = $data['group-name'] ?? null;
+
         $company->save();
 
-        if ($request->has('type')) {
-                $company->types()->sync($data['type']);
+        if ($request->has('types')) {
+                $company->types()->sync($data['types']);
         }
 
 
