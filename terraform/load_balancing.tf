@@ -1,5 +1,5 @@
 resource "aws_lb" "albProduction" {
-  name               = "albGabonWebProduction"
+  name               = "albProduction"
   internal           = false
   load_balancer_type = "application"
   ip_address_type    = "dualstack"
@@ -15,21 +15,7 @@ resource "aws_lb" "albProduction" {
   }
 }
 
-resource "aws_lb_target_group" "lbtgGabonProdHttps" {
-  name     = "lbtgGabonProdHttps"
-  port     = 443
-  protocol = "HTTPS"
-  vpc_id   = aws_vpc.vpcGabonSystem.id
-
-  target_type = "instance"
-}
-
-resource "aws_lb_target_group_attachment" "lbtgaGabonProdHttps" {
-  target_group_arn = aws_lb_target_group.lbtgGabonProdHttps.arn
-  target_id        = aws_instance.iProductionInstance.id
-}
-
-resource "aws_lb_listener" "alblGabonProdHttps" {
+resource "aws_lb_listener" "alblProdHttps" {
   load_balancer_arn = aws_lb.albProduction.arn
   port              = "443"
   protocol          = "HTTPS"
@@ -43,13 +29,8 @@ resource "aws_lb_listener" "alblGabonProdHttps" {
 }
 
 resource "aws_lb_listener_rule" "alblrGabonProduction" {
-  listener_arn = aws_lb_listener.alblGabonProdHttps.arn
+  listener_arn = aws_lb_listener.alblProdHttps.arn
   priority     = 100
-
-  action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.lbtgGabonProdHttps.arn
-  }
 
   condition {
     host_header {
@@ -58,4 +39,23 @@ resource "aws_lb_listener_rule" "alblrGabonProduction" {
       ]
     }
   }
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.lbtgGabonProdHttps.arn
+  }
+}
+
+resource "aws_lb_target_group" "lbtgGabonProdHttps" {
+  name     = "lbtgGabonProdHttps"
+  port     = 443
+  protocol = "HTTPS"
+  vpc_id   = aws_vpc.vpcGabonSystem.id
+
+  target_type = "instance"
+}
+
+resource "aws_lb_target_group_attachment" "lbtgaGabonProdInstance" {
+  target_group_arn = aws_lb_target_group.lbtgGabonProdHttps.arn
+  target_id        = aws_instance.iProductionInstance.id
 }
