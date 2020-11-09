@@ -2143,7 +2143,7 @@ __webpack_require__.r(__webpack_exports__);
       formType: 'create',
       pagination: {
         total: 0,
-        per_page: 5,
+        per_page: 20,
         from: 1,
         to: 0,
         current_page: 1
@@ -2685,6 +2685,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -2922,9 +2925,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var components_Common_Grid_VuePagination_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! components/Common/Grid/VuePagination.vue */ "./resources/js/Components/Common/Grid/VuePagination.vue");
 /* harmony import */ var components_Mixins_Translation__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! components/Mixins/Translation */ "./resources/js/Components/Mixins/Translation.js");
 /* harmony import */ var _RoleModal_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./RoleModal.vue */ "./resources/js/Components/Role/Parts/Grid/Vue/RoleModal.vue");
-/* harmony import */ var components_Role_Role__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! components/Role/Role */ "./resources/js/Components/Role/Role.js");
-/* harmony import */ var _grid__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../grid */ "./resources/js/Components/Role/Parts/Grid/grid.js");
-/* harmony import */ var components_Common_Grid_Grid__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! components/Common/Grid/Grid */ "./resources/js/Components/Common/Grid/Grid.vue");
+/* harmony import */ var _grid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../grid */ "./resources/js/Components/Role/Parts/Grid/grid.js");
+/* harmony import */ var components_Common_Grid_Grid__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! components/Common/Grid/Grid */ "./resources/js/Components/Common/Grid/Grid.vue");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2963,17 +2965,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-
 /* harmony default export */ __webpack_exports__["default"] = ({
   mixins: [components_Mixins_Translation__WEBPACK_IMPORTED_MODULE_2__["default"]],
   components: {
     VuePagination: components_Common_Grid_VuePagination_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     RoleModal: _RoleModal_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
-    Grid: components_Common_Grid_Grid__WEBPACK_IMPORTED_MODULE_6__["default"]
+    Grid: components_Common_Grid_Grid__WEBPACK_IMPORTED_MODULE_5__["default"]
   },
   data: function data() {
     return {
-      grid: Object(_grid__WEBPACK_IMPORTED_MODULE_5__["default"])(),
+      grid: Object(_grid__WEBPACK_IMPORTED_MODULE_4__["default"])(),
       modals: {
         form: false
       },
@@ -3107,6 +3108,17 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var components_Mixins_Translation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! components/Mixins/Translation */ "./resources/js/Components/Mixins/Translation.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var components_Common_Grid_VuePagination_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! components/Common/Grid/VuePagination.vue */ "./resources/js/Components/Common/Grid/VuePagination.vue");
+/* harmony import */ var _grid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../grid */ "./resources/js/Components/User/Parts/Grid/grid.js");
+/* harmony import */ var components_Common_Grid_Grid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! components/Common/Grid/Grid */ "./resources/js/Components/Common/Grid/Grid.vue");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -3132,31 +3144,48 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
+
+
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  methods: {}
+  mixins: [components_Mixins_Translation__WEBPACK_IMPORTED_MODULE_0__["default"]],
+  components: {
+    VuePagination: components_Common_Grid_VuePagination_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    Grid: components_Common_Grid_Grid__WEBPACK_IMPORTED_MODULE_4__["default"]
+  },
+  data: function data() {
+    return {
+      grid: Object(_grid__WEBPACK_IMPORTED_MODULE_3__["default"])(),
+      modals: {
+        form: false
+      },
+      sort: {
+        direction: "asc",
+        field: "id"
+      },
+      formType: 'create',
+      rolesPagination: {
+        total: 0,
+        per_page: 20,
+        from: 1,
+        to: 0,
+        current_page: 1
+      },
+      offset: 4,
+      search: null
+    };
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])('user', ['users'])),
+  mounted: function mounted() {},
+  methods: {
+    fetchData: function fetchData() {
+      Vent.$emit('grid-refresh', {
+        search: this.search
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -35815,7 +35844,7 @@ var render = function() {
             },
             [
               _c("i", { staticClass: "fas fa-edit" }),
-              _vm._v(" " + _vm._s(_vm.translate("Edit")))
+              _vm._v("\n        " + _vm._s(_vm.translate("Edit")) + "\n    ")
             ]
           )
         : _vm._e(),
@@ -36081,7 +36110,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container mt-40" },
+    { staticClass: "container mt-5" },
     [
       _c("h5", { staticClass: "text-center green-text mb-2" }, [
         _vm._v(_vm._s(_vm.translate("Roles")))
@@ -36283,7 +36312,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container mt-40" },
+    { staticClass: "container mt-5" },
     [
       _c("h5", { staticClass: "text-center green-text mb-2" }, [
         _vm._v(_vm._s(_vm.translate("Users")))
@@ -36293,7 +36322,14 @@ var render = function() {
         _c("div", { staticClass: "col-sm-8 d-flex align-items-center" }, [
           _c(
             "button",
-            { staticClass: "btn btn-md", on: { click: _vm.adUser } },
+            {
+              staticClass: "btn btn-md",
+              on: {
+                click: function($event) {
+                  _vm.modals.form = true
+                }
+              }
+            },
             [
               _c("i", { staticClass: "fas fa-plus-circle" }),
               _vm._v(" " + _vm._s(_vm.translate("Add User")) + "\n            ")
@@ -36358,98 +36394,8 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "table-responsive text-nowrap" },
-        [
-          _c("table", { staticClass: "table" }, [
-            _c("thead", { staticClass: "black white-text table-hover" }, [
-              _c("tr", [
-                _c("th", { attrs: { scope: "col" } }, [
-                  _vm._v(_vm._s(_vm.translate("Id")))
-                ]),
-                _vm._v(" "),
-                _c("th", { attrs: { scope: "col" } }, [
-                  _vm._v(_vm._s(_vm.translate("Role")))
-                ]),
-                _vm._v(" "),
-                _c("th", { attrs: { scope: "col" } }, [
-                  _vm._v(_vm._s(_vm.translate("Type")))
-                ]),
-                _vm._v(" "),
-                _c("th", { attrs: { scope: "col" } }, [
-                  _vm._v(_vm._s(_vm.translate("Date")))
-                ]),
-                _vm._v(" "),
-                _c(
-                  "th",
-                  { staticClass: "text-right", attrs: { scope: "col" } },
-                  [_vm._v(_vm._s(_vm.translate("Action")))]
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c(
-              "tbody",
-              _vm._l(_vm.roles, function(role) {
-                return _c("tr", [
-                  _c("th", { attrs: { scope: "row" } }, [
-                    _vm._v(_vm._s(role.id))
-                  ]),
-                  _vm._v(" "),
-                  _c("th", [_vm._v(_vm._s(role.name))]),
-                  _vm._v(" "),
-                  _c("th", [_vm._v(_vm._s(role.type))]),
-                  _vm._v(" "),
-                  _c("th", [_vm._v(_vm._s(role.created_at))]),
-                  _vm._v(" "),
-                  role.name != "admin"
-                    ? _c("th", { staticClass: "text-right" }, [
-                        _c(
-                          "span",
-                          {
-                            staticClass: "btn btn-sm btn-outline-success",
-                            on: {
-                              click: function($event) {
-                                return _vm.editRole(role.id)
-                              }
-                            }
-                          },
-                          [
-                            _c("i", { staticClass: "fas fa-edit" }),
-                            _vm._v(" " + _vm._s(_vm.translate("Edit")))
-                          ]
-                        )
-                      ])
-                    : _vm._e()
-                ])
-              }),
-              0
-            )
-          ]),
-          _vm._v(" "),
-          _c("vue-pagination", {
-            attrs: { pagination: _vm.rolesPagination, offset: _vm.offset },
-            on: {
-              paginate: function($event) {
-                return _vm.fetchData()
-              }
-            }
-          })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c("role-modal", {
-        attrs: { "type-prop": _vm.formType },
-        on: { done: _vm.fetchData },
-        model: {
-          value: _vm.modals.form,
-          callback: function($$v) {
-            _vm.$set(_vm.modals, "form", $$v)
-          },
-          expression: "modals.form"
-        }
+      _c("grid", {
+        attrs: { columns: _vm.grid.columns, options: _vm.grid.options }
       })
     ],
     1
@@ -53732,6 +53678,55 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/Components/User/Parts/Grid/grid.js":
+/*!*********************************************************!*\
+  !*** ./resources/js/Components/User/Parts/Grid/grid.js ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var components_User_User__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! components/User/User */ "./resources/js/Components/User/User.js");
+
+/* harmony default export */ __webpack_exports__["default"] = (function (options) {
+  return {
+    options: {
+      instance: "users",
+      store: {
+        getter: 'user/users',
+        action: 'user/index'
+      }
+    },
+    columns: {
+      id: {
+        header: "Id"
+      },
+      lastname: {
+        header: "Name"
+      },
+      firstname: {
+        header: "First Name"
+      },
+      email: {
+        header: "Email"
+      },
+      status: {
+        header: "Status",
+        forceRender: true,
+        render: function render(row) {
+          return "<span>".concat(components_User_User__WEBPACK_IMPORTED_MODULE_0__["default"].getStatusLabel(row.status), "</span>");
+        }
+      },
+      created_at: {
+        header: "Date"
+      }
+    }
+  };
+});
+
+/***/ }),
+
 /***/ "./resources/js/Components/User/Parts/Grid/index.js":
 /*!**********************************************************!*\
   !*** ./resources/js/Components/User/Parts/Grid/index.js ***!
@@ -54035,6 +54030,16 @@ var User = /*#__PURE__*/function (_Base) {
         "register-form": _Parts_Register__WEBPACK_IMPORTED_MODULE_5__["default"],
         "account-confirmation": _Parts_Confirmation__WEBPACK_IMPORTED_MODULE_6__["default"]
       };
+    }
+  }, {
+    key: "getStatusLabel",
+    value: function getStatusLabel(status) {
+      var statuses = {
+        0: "Disabled",
+        1: "Pending",
+        2: "Active"
+      };
+      return statuses[status] || '';
     }
   }, {
     key: "login",
@@ -54403,33 +54408,49 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   namespaced: true,
   state: {
-    user: window.user
+    user: window.user,
+    users: []
   },
   getters: {
     user: function user(state) {
       return state.user;
+    },
+    users: function users(state) {
+      return state.users;
     }
   },
   mutations: {
     user: function user(state, _user) {
       state.user = _user;
+    },
+    users: function users(state, _users) {
+      state.users = _users;
     }
   },
   actions: {
-    login: function login(_ref, payload) {
+    index: function index(_ref, payload) {
       var commit = _ref.commit;
+      return axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('api/users', {
+        params: payload
+      }).then(function (response) {
+        commit('users', response.data.data);
+        return response;
+      });
+    },
+    login: function login(_ref2, payload) {
+      var commit = _ref2.commit;
       return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('api/users/login', payload).then(function (response) {
         return response;
       });
     },
-    register: function register(_ref2, payload) {
-      var commit = _ref2.commit;
+    register: function register(_ref3, payload) {
+      var commit = _ref3.commit;
       return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('api/users/register', payload).then(function (response) {
         return response;
       });
     },
-    verify: function verify(_ref3, payload) {
-      var commit = _ref3.commit;
+    verify: function verify(_ref4, payload) {
+      var commit = _ref4.commit;
       return axios__WEBPACK_IMPORTED_MODULE_0___default.a.post('api/users/verify', payload).then(function (response) {
         return response;
       });

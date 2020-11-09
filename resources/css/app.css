@@ -103,3 +103,7 @@ table.table td, table.table th {
 .invalid-feedback {
     display: block !important;
 }
+
+.mt-40 {
+    margin-top: 40px;
+}
