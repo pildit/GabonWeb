@@ -175,8 +175,29 @@ resource "aws_eip" "eipProduction" {
   }
 }
 
+resource "aws_lb" "albProduction" {
+  name               = "albGabonWebProduction"
+  internal           = false
+  load_balancer_type = "application"
+  ip_address_type    = "dualstack"
+  security_groups = [
+    aws_security_group.sgWebAccessible.id
+  ]
+  subnets = aws_subnet.subnGabonSystemPublic.*.id
+
+  enable_deletion_protection = true
+
+  tags = {
+    Environment = "production"
+  }
+}
+
 output "vpc-id" {
-  value = "${aws_vpc.vpcGabonSystem.id}"
+  value = aws_vpc.vpcGabonSystem.id
+}
+
+output "production-alb-dns-name" {
+  value = aws_lb.albProduction.dns_name
 }
 
 output "vpc-publicsubnet" {
