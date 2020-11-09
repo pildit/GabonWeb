@@ -192,8 +192,8 @@ resource "aws_lb" "albProduction" {
   }
 }
 
-resource "aws_lb_target_group" "lbtgHttpsProductionWebsite" {
-  name     = "lbtgHttpsProductionWebsite"
+resource "aws_lb_target_group" "lbtgGabonProdHttps" {
+  name     = "lbtgGabonProdHttps"
   port     = 443
   protocol = "HTTPS"
   vpc_id   = aws_vpc.vpcGabonSystem.id
@@ -201,12 +201,12 @@ resource "aws_lb_target_group" "lbtgHttpsProductionWebsite" {
   target_type = "instance"
 }
 
-resource "aws_lb_target_group_attachment" "lbtgaHttpsToProdInstance" {
-  target_group_arn = aws_lb_target_group.lbtgHttpsProductionWebsite.arn
+resource "aws_lb_target_group_attachment" "lbtgaGabonProdHttps" {
+  target_group_arn = aws_lb_target_group.lbtgGabonProdHttps.arn
   target_id        = aws_instance.iProductionInstance.id
 }
 
-resource "aws_lb_listener" "alblHttpsFrontEnd" {
+resource "aws_lb_listener" "alblGabonProdHttps" {
   load_balancer_arn = aws_lb.albProduction.arn
   port              = "443"
   protocol          = "HTTPS"
@@ -215,17 +215,17 @@ resource "aws_lb_listener" "alblHttpsFrontEnd" {
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.lbtgHttpsProductionWebsite.arn
+    target_group_arn = aws_lb_target_group.lbtgGabonProdHttps.arn
   }
 }
 
-resource "aws_lb_listener_rule" "albProductionRule" {
-  listener_arn = aws_lb_listener.alblHttpsFrontEnd.arn
+resource "aws_lb_listener_rule" "alblrGabonProduction" {
+  listener_arn = aws_lb_listener.alblGabonProdHttps.arn
   priority     = 100
 
   action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.lbtgHttpsProductionWebsite.arn
+    target_group_arn = aws_lb_target_group.lbtgGabonProdHttps.arn
   }
 
   condition {
