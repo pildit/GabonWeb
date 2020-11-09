@@ -231,8 +231,7 @@ resource "aws_lb_listener_rule" "albProductionRule" {
   condition {
     host_header {
       values = [
-        "globalorigin.org",
-        "*.globalorigin.org"
+        "gabon.globalorigin.org"
       ]
     }
   }
