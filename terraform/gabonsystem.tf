@@ -16,13 +16,13 @@ resource "aws_vpc" "vpcGabonSystem" {
   }
 }
 
-resource "aws_subnet" "subnGabonSystempublic" {
+resource "aws_subnet" "subnGabonSystemPublic" {
   vpc_id                  = aws_vpc.vpcGabonSystem.id
   cidr_block              = "10.0.0.0/24"
   map_public_ip_on_launch = "true"
 
   tags = {
-    Name      = "subnGabonSystempublic"
+    Name      = "subnGabonSystemPublic"
     Terraform = "1"
   }
 }
@@ -48,7 +48,7 @@ resource "aws_route_table" "rtDefault" {
 }
 
 resource "aws_route_table_association" "association-subnet" {
-  subnet_id      = aws_subnet.subnGabonSystempublic.id
+  subnet_id      = aws_subnet.subnGabonSystemPublic.id
   route_table_id = aws_route_table.rtDefault.id
 }
 
@@ -113,7 +113,7 @@ resource "aws_instance" "iTestInstance" {
   vpc_security_group_ids = [
     aws_security_group.sgWebAccessible.id
   ]
-  subnet_id = aws_subnet.subnGabonSystempublic.id
+  subnet_id = aws_subnet.subnGabonSystemPublic.id
   key_name  = aws_key_pair.keyDefaultKey.key_name
   lifecycle {
     create_before_destroy = true
@@ -145,7 +145,7 @@ resource "aws_instance" "iProductionInstance" {
   vpc_security_group_ids = [
     aws_security_group.sgWebAccessible.id
   ]
-  subnet_id = aws_subnet.subnGabonSystempublic.id
+  subnet_id = aws_subnet.subnGabonSystemPublic.id
   key_name  = aws_key_pair.keyDefaultKey.key_name
   lifecycle {
     create_before_destroy = true
@@ -176,11 +176,11 @@ output "vpc-id" {
 }
 
 output "vpc-publicsubnet" {
-  value = aws_subnet.subnGabonSystempublic.cidr_block
+  value = aws_subnet.subnGabonSystemPublic.cidr_block
 }
 
 output "vpc-publicsubnet-id" {
-  value = aws_subnet.subnGabonSystempublic.id
+  value = aws_subnet.subnGabonSystemPublic.id
 }
 
 output "test_instance_public_ip" {
