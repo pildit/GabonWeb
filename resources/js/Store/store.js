@@ -4,6 +4,7 @@ import axios         from 'axios';
 import cookie        from 'vue-reactive-cookie';
 import user          from './user';
 import role         from './role';
+import company         from './company';
 
 Vue.use(Vuex);
 Vue.use(cookie)
@@ -63,6 +64,7 @@ export default new Vuex.Store({
     },
     modules: {
         user,
-        role
+        role,
+        company
     }
 });
