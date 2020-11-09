@@ -1,26 +1,26 @@
 <template>
-    <div class="container mt-5">
-        <h5 class="text-center green-text mb-2">{{translate('Roles')}}</h5>
+    <div class="container mt-40">
+        <h5 class="text-center green-text mb-2">{{translate('Companies')}}</h5>
         <div class="row">
             <div class="col-sm-8 d-flex align-items-center">
                 <button class="btn btn-md" @click="modals.form = true">
-                    <i class="fas fa-plus-circle"></i> {{translate('Add Role')}}
+                    <i class="fas fa-plus-circle"></i> {{translate('Add Company')}}
                 </button>
             </div>
             <div class="md-form col-sm-4">
                 <div class="form-row justify-content-end">
                     <div class="col-sm-10">
-                        <label for="role_name">{{translate('Search')}}</label>
-                        <input @keyup.enter="getRoles" class="form-control" v-model="search" type="text" Placeholder="" name="role_name" id="role_name" />
+                        <label for="company_name">{{translate('Search')}}</label>
+                        <input @keyup.enter="getCompanies" class="form-control" v-model="search" type="text" Placeholder="" name="company_name" id="company_name" />
                     </div>
-                    <button @click="getRoles" class="btn btn-sm btn-green  px-2" id="filter">
+                    <button @click="getCompanies" class="btn btn-sm btn-green  px-2" id="filter">
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
             </div>
         </div>
         <grid :columns="grid.columns" :options="grid.options"></grid>
-        <role-modal :type-prop="formType" v-model="modals.form" @done="getRoles"></role-modal>
+        <company-modal type-prop="create" v-model="modals.form" @done="getCompanies"></company-modal>
     </div>
 </template>
 
@@ -28,25 +28,21 @@
 import {mapGetters} from 'vuex';
 import VuePagination from "components/Common/Grid/VuePagination.vue";
 import Translation from "components/Mixins/Translation";
-import RoleModal from './RoleModal.vue';
-import grid from "../grid";
+import CompanyModal from './CompanyModal.vue';
 import Grid from "components/Common/Grid/Grid";
+import grid from "../grid";
 
 export default {
     mixins: [Translation],
-    components: {VuePagination, RoleModal, Grid},
+    components: {VuePagination, CompanyModal, Grid},
     data() {
         return {
             grid: grid(),
             modals: {
                 form: false
             },
-            sort: {
-                direction: "asc",
-                field: "id"
-            },
             formType: 'create',
-            rolesPagination: {
+            companiesPagination: {
                 total: 0,
                 per_page: 20,
                 from: 1,
@@ -58,17 +54,19 @@ export default {
         }
     },
     computed: {
-      ...mapGetters('role', ['roles']),
-
+      ...mapGetters('company', ['companies']),
     },
     mounted() {
-      this.getRoles();
-      this.$store.dispatch('role/permissions');
+      this.getCompanies();
+      // this.$store.dispatch('role/permissions');
     },
     methods: {
-        getRoles() {
-          Vent.$emit('grid-refresh', {search: this.search});
-        }
+        updateResource() {
+            console.log('UPDATE RES');
+        },
+        getCompanies() {
+            Vent.$emit('grid-refresh', {search: this.search});
+        },
     }
 }
 </script>
@@ -77,10 +75,7 @@ export default {
 .mt-40 {
     margin-top: 40px;
 }
-.sortable {
-    padding-left: 5px;
-}
-.cursor-pointer {
-    cursor: pointer;
+.mb-40 {
+    margin-bottom: 40px;
 }
 </style>

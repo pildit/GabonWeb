@@ -13,17 +13,24 @@ class Company extends Model
 
     protected $table = 'Taxonomy.Companies';
 
-    protected $with = ['types:Name'];
+    protected $with = ['types', 'user'];
 
-    public $timestamps = false;
+    const CREATED_AT = "CreatedAt";
+    const UPDATED_AT = "UpdatedAt";
+
+    protected $dateFormat = 'Y-m-d H:i:s.u';
 
     public function types () {
         return $this->belongsToMany(
             'Modules\Admin\Entities\CompanyType',
             'Taxonomy.CompanyHasTypesTable',
             'CompanyId',
-            'CompanyTypeId',
-        );
+            'CompanyTypeId'
+        )->select(['CompanyTypes.Name', 'CompanyTypes.Id']);
+    }
+
+    public function user() {
+        return $this->belongsTo('Modules\User\Entities\User', 'UserId');
     }
     protected $hidden = ['pivot'];
     protected $primaryKey = "Id";

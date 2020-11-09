@@ -51,7 +51,7 @@ export default {
             formType: 'create',
             pagination: {
                 total: 0,
-                per_page: 5,
+                per_page: 20,
                 from: 1,
                 to: 0,
                 current_page: 1
@@ -68,6 +68,10 @@ export default {
         if(!this.options.store.getter) {
             throw new Error('provide a store getter');
         }
+        if(this.options.sort) {
+            this.sort = this.options.sort;
+        }
+
         this.data = this.$store.getters[this.options.store.getter];
         this.fetchData();
         Vent.$on('grid-refresh', this.refresh.bind(this));

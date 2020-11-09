@@ -18,6 +18,16 @@ class User extends Base {
         }
     }
 
+    static getStatusLabel(status) {
+        let statuses = {
+            0: "Disabled",
+            1: "Pending",
+            2: "Active"
+        }
+
+        return statuses[status] || '';
+    }
+
     static login(email, password) {
         let data = {email, password};
         return store.dispatch('user/login', data).then((response) => response.data)

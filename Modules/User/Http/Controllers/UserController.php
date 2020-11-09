@@ -4,6 +4,7 @@
 namespace Modules\User\Http\Controllers;
 
 
+use App\Services\PageResults;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -11,12 +12,7 @@ use Modules\User\Entities\User;
 use Illuminate\Http\Request;
 use Modules\User\Http\Requests\CreateUserRequest;
 use Modules\User\Http\Requests\UpdateUserRequest;
-use Modules\User\Http\Requests\AssignRoleToUserRequest;
-use Modules\User\Services\Parcel as UserService;
 use Modules\User\Http\Requests\ForgotPasswordRequest;
-use Mail;
-use Str;
-use Auth;
 
 class UserController extends Controller
 {
@@ -27,14 +23,9 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request,UserService $userService)
+    public function index(Request $request, PageResults $pageResults)
     {
-        $userService->validateRequest($request);
-        $userService->setPage($request->get('page'));
-        $userService->setPerPage($request->get('per_page'));
-        $userService->setSearch($request->get('search'));
-
-        return response()->json($userService->getPaginator());
+        return response()->json($pageResults->getPaginator($request, User::class, ['email']));
     }
 
     /**
