@@ -14,13 +14,31 @@ class CreatePermitRequest extends FormRequest
     public function rules()
     {
         return [
-            'permit_no' => 'required',
-            'mobile_id' => 'required|unique:Modules\\Transport\\Entities\\Permit,mobile_id',
-            'obsdate' => 'required|date_format:Y-m-d H:i:s',
-            'license_plate' => 'required|alpha_num',
-            'lat' => ['required', 'regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
-            'lon' => ['required', 'regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
-            'gps_accu' => 'numeric'
+            "PermitNo" => 'required|string',
+            "PermitNoMobile" => 'required|unique:Modules\\Transport\\Entities\\Permit,PermitNoMobile',
+            "Concession" => 'exists:Modules\ForestResources\Entities\Concession,Id',
+            "ManagementUnit" => 'exists:Modules\ForestResources\Entities\ManagementUnit,Id',
+            "DevelopmentUnit" => 'exists:Modules\ForestResources\Entities\DevelopmentUnit,Id',
+            "AnnualAllowableCut" => 'exists:Modules\ForestResources\Entities\AnnualAllowableCut,Id',
+            "ClientCompany" => 'exists:Modules\Admin\Entities\Company,Id',
+            "ConcessionaireCompany" => 'exists:Modules\Admin\Entities\Company,Id',
+            "TransporterCompany" => 'exists:Modules\Admin\Entities\Company,Id',
+            "User" => 'exists:Modules\User\Entities\User,Id',
+            "ProductType" => 'integer',
+            "Status" => 'required|integer',
+            "DriverName" => 'string',
+            "LicensePlate" => 'string',
+            "Province" => 'string',
+            "Destination" => 'string',
+            "ScanLat" => 'required|real',
+            "ScanLon" => 'required|real',
+            "ScanGpsAccu" => 'integer',
+            "Lat" => ['required', 'regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
+            "Lon" => ['required', 'regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
+            "GpsAccu" => 'integer',
+            "MobileId" => 'required|unique:Modules\\Transport\\Entities\\Permit,MobileId',
+            "ObserveAt" => 'required|date',
+
         ];
     }
 

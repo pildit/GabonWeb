@@ -14,16 +14,28 @@ class UpdatePermitRequest extends FormRequest
     public function rules()
     {
         return [
-            'obsdate' => 'date_format:Y-m-d',
-            'license_plate' => 'alpha_num',
-            'destination' => 'in:depot,sawmil,local_community',
-            'management_unit' => 'in:m3,pieces',
-            'operational_unit' => 'in:m3,pieces',
-            'product_type' => 'in:logs,transformed',
-            'permit_status' => 'in:ready,verified,in_transit,transfer_load,end_transport,canceled',
-            'lat' => ['regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
-            'lon' => ['regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
-            'gps_accu' => 'numeric'
+            "PermitNo" => 'string',
+            "Concession" => 'exists:Modules\ForestResources\Entities\Concession,Id',
+            "ManagementUnit" => 'exists:Modules\ForestResources\Entities\ManagementUnit,Id',
+            "DevelopmentUnit" => 'exists:Modules\ForestResources\Entities\DevelopmentUnit,Id',
+            "AnnualAllowableCut" => 'exists:Modules\ForestResources\Entities\AnnualAllowableCut,Id',
+            "ClientCompany" => 'exists:Modules\Admin\Entities\Company,Id',
+            "ConcessionaireCompany" => 'exists:Modules\Admin\Entities\Company,Id',
+            "TransporterCompany" => 'exists:Modules\Admin\Entities\Company,Id',
+            "User" => 'exists:Modules\User\Entities\User,Id',
+            "ProductType" => 'integer',
+            "Status" => 'integer',
+            "DriverName" => 'string',
+            "LicensePlate" => 'string',
+            "Province" => 'string',
+            "Destination" => 'string',
+            "ScanLat" => 'real',
+            "ScanLon" => 'real',
+            "ScanGpsAccu" => 'integer',
+            "Lat" => [ 'regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
+            "Lon" => [ 'regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
+            "GpsAccu" => 'integer',
+            "ObserveAt" => 'date',
         ];
     }
 

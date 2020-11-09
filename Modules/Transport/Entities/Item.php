@@ -2,16 +2,22 @@
 
 namespace Modules\Transport\Entities;
 
+use App\Traits\Sortable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Item extends Model
 {
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
+
+    use Sortable, SoftDeletes;
+
+    const CREATED_AT = "CreatedAt";
+    const UPDATED_AT = "UpdatedAt";
+    const DELETED_AT = "DeletedAt";
+
+    public $timestamps = true;
+
+    protected $dateFormat = 'Y-m-d H:i:s.u';
 
     /**
      * The attributes that are mass assignable.
@@ -19,8 +25,18 @@ class Item extends Model
      * @var array
      */
     protected $fillable = [
-        "trunk_number", "lot_number", "species",
-        "diam1", "diam2", "length", "volume", "width", "height", "mobile_id",
+        "Permit",
+        "TreeId",
+        "Species",
+        "MinDiameter",
+        "MaxDiameter",
+        "AverageDiameter",
+        "Length",
+        "Volume",
+        "MobileId",
+        "CreatedAt",
+        "UpdatedAt",
+        "DeletedAt"
     ];
 
     /**
@@ -28,7 +44,9 @@ class Item extends Model
      *
      * @var string
      */
-    protected $table = 'transportation.permit_items';
+    protected $table = 'Transportation.PermitItems';
+
+    protected $primaryKey = "Id";
 
     /**
      * @param $query
@@ -46,6 +64,12 @@ class Item extends Model
      */
     public function permit()
     {
-        return $this->belongsTo(Permit::class);
+        return $this->belongsTo(Permit::class,"Permit");
+    }
+
+    public function species()
+    {
+       // return $this->belongsTo(Species::class,"Species");
+        return "NEED TO BE IMPLEMENTED";
     }
 }

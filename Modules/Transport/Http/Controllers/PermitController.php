@@ -26,11 +26,16 @@ class PermitController extends Controller
      * @param Permit $permit
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request, PageResults $pageResults)
+    public function index(Request $request, PageResults $pr)
     {
-        return response()
-            ->json($pageResults->getPaginator($request, PermitEntity::class, ["harvest_name",
-        "client_name", "concession_name"]));
+        /**
+         * Todo show only PermitNOMobile == MobileId ( this is the parent permit list )
+         * Todo also check if there are cases where we have permits where there are no parents for them.
+         */
+        $pr->setSortFields(['Id']);
+
+        return response()->json($pr->getPaginator($request, PermitEntity::class, ["PermitNo"],['annualallowablecut','clientcompany','concessionairecompany','transportercompany']));
+
     }
 
     /**
@@ -39,8 +44,12 @@ class PermitController extends Controller
      */
     public function show(PermitEntity $permit)
     {
+
+        /**
+         * Todo - when PermitNOMobile == MobileId this is the parent permit. Add also permits related to PermitNoMobile ( as childs )
+         */
         return response()->json([
-            'data' => $permit
+            'data' => $permit->with(['items','concession','managementunit','developmentunit','annualallowablecut','clientcompany','concessionairecompany','transportercompany','user'])
         ]);
     }
 
@@ -78,14 +87,17 @@ class PermitController extends Controller
      */
     public function store(CreatePermitRequest $request)
     {
-        $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$request->get('lon')}, {$request->get('lat')}),4326),3857)";
-        $permit = new PermitEntity();
-        $permit->fill($request->all());
-        $permit->the_geom = $permit->the_geom ?? DB::raw("(select $geomQuery)");
-        $permit->save();
+        $data = $request->validated();
+
+        $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$request->get('Lon')}, {$request->get('Lat')}),4326),3857)";
+
+        $data['User'] = $this->jwtPayload('data.id');
+        $data['Geometry'] = $data['Geometry'] ?? DB::raw("(select $geomQuery)");
+        $permit = PermitEntity::create($data);
 
         return response()->json([
-            'data' => $permit
+            'data' => $permit,
+            'message' => lang("permit_created_successfully")
         ], 201);
     }
 
@@ -96,11 +108,18 @@ class PermitController extends Controller
      */
     public function update(PermitEntity $permit, UpdatePermitRequest $request)
     {
-        $permit->update($request->validated());
+        $data = $request->validated();
+
+        $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$request->get('Lon')}, {$request->get('Lat')}),4326),3857)";
+
+        $data['User'] = $this->jwtPayload('data.id');
+        $data['Geometry'] = $data['Geometry'] ?? DB::raw("(select $geomQuery)");
+        $permit->update($data);
 
         return response()->json([
-            'data' => $permit
-        ]);
+            'data' => $permit,
+            'message' => lang('permit_update_successful')
+        ], 200);
     }
 
     /**
@@ -113,7 +132,9 @@ class PermitController extends Controller
 
         $permit->delete();
 
-        return response()->noContent();
+        return response()->json([
+            'message' => lang('permit_delete_successful')
+        ], 204);
     }
 
     /**
@@ -121,16 +142,18 @@ class PermitController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function storeTracking($mobile_id, Request $request)
+    public function storeTracking(Request $request)
     {
+
         $request->validate([
             'coords' => 'required',
-            'coords.*.lat' => ['required', 'regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
-            'coords.*.lon' => ['required', 'regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
-            'coords.*.obsdate' => ['required', 'date']
+            'coords.*.Lat' => ['required', 'regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
+            'coords.*.Lon' => ['required', 'regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
+            'coords.*.Obsdate' => ['required', 'date'],
+            'MobileId' => 'required'
         ]);
 
-        $permit = PermitEntity::where('mobile_id',$mobile_id)->firstOrFail();
+        $permit = PermitEntity::where('MobileId',$request->get('MobileId'))->firstOrFail();
 
         /** get the $coords from the request */
         $coords = $request->get('coords');
@@ -138,15 +161,15 @@ class PermitController extends Controller
         /** save each set of $coordinates or update if same coords are sent */
         $trackings = [];
         foreach ($coords as $k => $coordinate) {
-            $tracking = $permit->tracking()->where('Lat', $coordinate['lat'])->where('Lon', $coordinate['lon'])->first();
+            $tracking = $permit->tracking()->where('Lat', $coordinate['Lat'])->where('Lon', $coordinate['Lon'])->first();
 
-            $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$coordinate['lon']}, {$coordinate['lat']}),4326),3857)";
+            $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$coordinate['Lon']}, {$coordinate['Lat']}),4326),3857)";
             $trackings[$k] = (!is_null($tracking)) ? $tracking : new Tracking();
             $trackings[$k]->User = $this->jwtPayload('data.id');
-            $trackings[$k]->Lat = $coordinate['lat'];
-            $trackings[$k]->Lon = $coordinate['lon'];
-            $trackings[$k]->GPSAccuracy = $coordinate['gps_acu'] ?? 0;
-            $trackings[$k]->ObserveAt = $coordinate['obsdate'];
+            $trackings[$k]->Lat = $coordinate['Lat'];
+            $trackings[$k]->Lon = $coordinate['Lon'];
+            $trackings[$k]->GPSAccuracy = $coordinate['GpsAccu'] ?? 0;
+            $trackings[$k]->ObserveAt = $coordinate['Obsdate'];
             $trackings[$k]->Geometry = DB::raw("(select $geomQuery)");
         }
 

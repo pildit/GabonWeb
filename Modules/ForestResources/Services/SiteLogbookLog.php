@@ -19,6 +19,32 @@ class SiteLogbookLog extends PageResults
         list($species) = $this->speciesLists();
         // mobile form
         $formArr = [
+
+            [
+                "f" => "ObserveAt",
+                "fl" => "",
+                "type" => "str"
+            ],
+            [
+                "f" => "MobileId",
+                "fl" => "",
+                "type" => "str"
+            ],
+            [
+                "f" => "GPSAccu",
+                "fl" => "GPSAccu",
+                "type" => "int"
+            ],
+            [
+                "f" => "Lat",
+                "fl" => "Lat",
+                "type" => "str"
+            ],
+            [
+                "f" => "Lon",
+                "fl" => "Lon",
+                "type" => "str"
+            ],
             [
                 "f" => "SiteLogbookItem",
                 "fl" => "",
@@ -71,31 +97,8 @@ class SiteLogbookLog extends PageResults
                 "fl" => "EvacuationDate",
                 "type" => "date"
             ],
-            [
-                "f" => "Lat",
-                "fl" => "Lat",
-                "type" => "str"
-            ],
-            [
-                "f" => "Lon",
-                "fl" => "Lon",
-                "type" => "str"
-            ],
-            [
-                "f" => "GPSAccuracy",
-                "fl" => "GPSAccuracy",
-                "type" => "int"
-            ],
-            [
-                "f" => "ObserveAt",
-                "fl" => "ObserveAt",
-                "type" => "str"
-            ],
-            [
-                "f" => "MobileId",
-                "fl" => "",
-                "type" => "str"
-            ],
+
+
 
         ];
 

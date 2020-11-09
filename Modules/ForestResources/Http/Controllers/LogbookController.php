@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\Logbook;
 use Modules\ForestResources\Http\Requests\CreateLogbookRequest;
 use Modules\ForestResources\Http\Requests\UpdateLogbookRequest;
+use Modules\ForestResources\Services\Logbook as LogbookService;
 
 
 class LogbookController extends Controller

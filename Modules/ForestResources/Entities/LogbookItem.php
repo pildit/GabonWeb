@@ -26,7 +26,7 @@ class LogbookItem extends Model
      *
      * @var array
      */
-    protected $fillable = ['Logbook','AnnualAllowableCutInventory','HewingId','Species','MaxDiameter','MinDiameter','Length','Volume','Latitude','Longitude','GPSAccuracy','Note','ObserveAt','Approved'];
+    protected $fillable = ['Logbook','AnnualAllowableCutInventory','HewingId','Species','MaxDiameter','MinDiameter','Length','Volume','Lat','Lon','GPSAccu','Note','ObserveAt','Approved'];
 
     /**
      * The table associated with the model.
