@@ -132,7 +132,7 @@ class LogbookItem extends PageResults
 
         $values = app('db')
             ->table('ForestResources.AnnualAllowableCutInventory')
-            ->select( 'Id','Name')
+            ->select( 'Id','TreeId')
             ->get();
 
         $values->each(function ($value) use (&$array) {
