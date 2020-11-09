@@ -4,10 +4,11 @@
             <h4 class="modal-title w-100 font-weight-bold">{{translate('add_role')}}</h4>
         </div>
         <div slot="body">
-            <role-form :type-prop="typeProp" ref="roleForm" @done="closeModal"></role-form>
+            <role-form ref="roleForm" @done="closeModal"></role-form>
         </div>
         <div slot="footer">
             <button @click="submit" class="btn btn-default">Save</button>
+            <button @click="closeModal"class="btn btn-warning">Cancel</button>
         </div>
     </bmodal>
 </template>
@@ -31,7 +32,7 @@ export default {
     components: {bmodal, RoleForm},
 
     computed: {
-       ...mapGetters('role', ['role', 'permissions'])
+       ...mapGetters('role', ['role'])
     },
 
     methods: {
@@ -45,6 +46,7 @@ export default {
         closeModal() {
             this.$refs.roleModal.close();
             this.$emit('done');
+            Vent.$emit('grid-refresh');
         }
     },
 

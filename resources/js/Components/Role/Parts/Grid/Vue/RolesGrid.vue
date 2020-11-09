@@ -3,7 +3,7 @@
         <h5 class="text-center green-text mb-2">{{translate('Roles')}}</h5>
         <div class="row">
             <div class="col-sm-8 d-flex align-items-center">
-                <button class="btn btn-md" @click="addRole">
+                <button class="btn btn-md" @click="modals.form = true">
                     <i class="fas fa-plus-circle"></i> {{translate('Add Role')}}
                 </button>
             </div>
@@ -19,47 +19,32 @@
                 </div>
             </div>
         </div>
-        <div class="table-responsive text-nowrap">
-            <table class="table">
-                <thead class="black white-text table-hover">
-                <tr>
-                    <th scope="col">{{translate('Id')}}</th>
-                    <th scope="col">{{translate('Role')}}</th>
-                    <th scope="col">{{translate('Type')}}</th>
-                    <th scope="col">{{translate('Date')}}</th>
-                    <th scope="col" class="text-right">{{translate('Action')}}</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="role in roles">
-                    <th scope="row">{{role.id}}</th>
-                    <th>{{role.name}}</th>
-                    <th>{{role.type}}</th>
-                    <th>{{role.created_at}}</th>
-                    <th class="text-right" v-if="role.name != 'admin'"><span class="btn btn-sm btn-outline-success" @click="editRole(role.id)"><i class="fas fa-edit"></i> {{translate('Edit')}}</span></th>
-                </tr>
-                </tbody>
-            </table>
-            <vue-pagination :pagination="rolesPagination" @paginate="getRoles()" :offset="offset"></vue-pagination>
-        </div>
+        <grid :columns="grid.columns" :options="grid.options"></grid>
         <role-modal :type-prop="formType" v-model="modals.form" @done="getRoles"></role-modal>
     </div>
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
+import {mapGetters, mapState, mapActions} from 'vuex';
 import VuePagination from "components/Common/Grid/VuePagination.vue";
 import Translation from "components/Mixins/Translation";
 import RoleModal from './RoleModal.vue';
 import Role from "components/Role/Role";
+import grid from "../grid";
+import Grid from "components/Common/Grid/Grid";
 
 export default {
     mixins: [Translation],
-    components: {VuePagination, RoleModal},
+    components: {VuePagination, RoleModal, Grid},
     data() {
         return {
+            grid: grid(),
             modals: {
                 form: false
+            },
+            sort: {
+                direction: "asc",
+                field: "id"
             },
             formType: 'create',
             rolesPagination: {
@@ -74,30 +59,17 @@ export default {
         }
     },
     computed: {
-      ...mapGetters('role', ['roles'])
+      ...mapGetters('role', ['roles']),
+
     },
     mounted() {
       this.getRoles();
       this.$store.dispatch('role/permissions');
     },
     methods: {
-        updateResource() {
-            console.log('UPDATE RES');
-        },
         getRoles() {
-            Role.index({page: this.rolesPagination.current_page, per_page: this.rolesPagination.per_page, sort: 'asc', search: this.search})
-                .then((pagination) => {
-                    this.rolesPagination = pagination;
-                })
-        },
-        addRole() {
-            this.formType = 'create';
-            this.modals.form = true
-        },
-        editRole(id) {
-            this.formType = 'edit';
-            Role.get(id).then(() => this.modals.form = true);
-        },
+          Vent.$emit('grid-refresh', {search: this.search});
+        }
     }
 }
 </script>
@@ -106,7 +78,10 @@ export default {
 .mt-40 {
     margin-top: 40px;
 }
-.mb-40 {
-    margin-bottom: 40px;
+.sortable {
+    padding-left: 5px;
+}
+.cursor-pointer {
+    cursor: pointer;
 }
 </style>

@@ -1,5 +1,6 @@
 import Base from "../Base";
 import store from "store/store"
+import vueGrid from "./Parts/Grid";
 import vueDetails from "./Parts/Details"
 import vueLogin from "./Parts/Login";
 import vueRegister from "./Parts/Register";
@@ -9,6 +10,7 @@ class User extends Base {
 
     static getComponents() {
         return {
+            "users-grid" : vueGrid,
             "user-details" : vueDetails,
             "login-form" : vueLogin,
             "register-form" : vueRegister,
