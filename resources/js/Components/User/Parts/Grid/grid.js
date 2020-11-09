@@ -22,6 +22,9 @@ export default (options) => {
             email: {
                 header: "Email"
             },
+            company_name: {
+                header: "Company"
+            },
             status: {
                 header: "Status",
                 forceRender: true,

@@ -5,6 +5,7 @@ namespace Modules\User\Entities;
 use App\Traits\Sortable;
 use GenTux\Jwt\JwtPayloadInterface;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Admin\Entities\Company;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Model implements JwtPayloadInterface
@@ -36,7 +37,28 @@ class User extends Model implements JwtPayloadInterface
      *
      * @var array
      */
-    protected $hidden = ['password'];
+    protected $hidden = ['password', 'company'];
+
+    /**
+     * @var string[]
+     */
+    protected $appends = ['company_name'];
+
+    /**
+     * @return mixed
+     */
+    public function getCompanyNameAttribute()
+    {
+        return $this->attributes['company_name'] = $this->company->Name;
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'company_id');
+    }
 
 
     /**

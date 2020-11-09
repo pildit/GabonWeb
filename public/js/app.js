@@ -2864,6 +2864,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var components_Mixins_Translation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! components/Mixins/Translation */ "./resources/js/Components/Mixins/Translation.js");
 //
 //
 //
@@ -2882,7 +2883,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  mixins: [components_Mixins_Translation__WEBPACK_IMPORTED_MODULE_0__["default"]],
   name: 'menu-item',
   props: {
     model: Object
@@ -36405,7 +36408,15 @@ var render = function() {
             "aria-expanded": "false"
           }
         },
-        [_vm._v(_vm._s(_vm.model.menu ? _vm.model.menu : _vm.model.submenu))]
+        [
+          _vm._v(
+            _vm._s(
+              _vm.model.menu
+                ? _vm.translate(_vm.model.menu)
+                : _vm.translate(_vm.model.submenu)
+            )
+          )
+        ]
       ),
       _vm._v(" "),
       _c(
@@ -55219,6 +55230,9 @@ __webpack_require__.r(__webpack_exports__);
       },
       email: {
         header: "Email"
+      },
+      company_name: {
+        header: "Company"
       },
       status: {
         header: "Status",
