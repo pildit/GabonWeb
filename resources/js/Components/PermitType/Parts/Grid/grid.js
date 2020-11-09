@@ -5,18 +5,22 @@ export default (options) => {
         options: {
             instance: "permit-types",
             store: {
-                getter: 'permit-type/permit-types',
-                action: 'permit-type/index'
+                getter: 'permitType/permitTypes',
+                action: 'permitType/index'
             },
+            sort: {
+                direction: "desc",
+                field: "Id"
+            }
         },
         columns: {
-            id: {
+            Id: {
                 header: "Id"
             },
-            name: {
-                header: "Permit Type"
+            Name: {
+                header: "Name"
             },
-            abbreviation: {
+            Abbreviation: {
                 header: "Abbreviation"
             },
             email: {
