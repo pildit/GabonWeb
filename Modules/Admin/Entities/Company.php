@@ -25,7 +25,7 @@ class Company extends Model
             'Modules\Admin\Entities\CompanyType',
             'Taxonomy.CompanyHasTypesTable',
             'CompanyId',
-            'CompanyTypeId',
+            'CompanyTypeId'
         )->select(['CompanyTypes.Name', 'CompanyTypes.Id']);
     }
 
