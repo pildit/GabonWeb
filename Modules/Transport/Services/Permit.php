@@ -68,6 +68,19 @@ class Permit extends PageResults
                 "type" => "int"
             ],
             [
+                "f" => "Lat",
+                "fl" => "Lat",
+                "type" => "float_NotEmpty",
+                "group" => "Location"
+            ],
+            [
+                "f" => "Lon",
+                "fl" => "Lon",
+                "type" => "float",
+                "group" => "Location"
+            ],
+
+            [
                 "f" => "ScanLat",
                 "fl" => "",
                 "type" => "float"
@@ -87,18 +100,7 @@ class Permit extends PageResults
                 "fl" => "",          // nu trebuie sa faci nimic ... valorile vin hardcoded  1,2,3
                 "type" => "int"
             ],
-            [
-                "f" => "Lat",
-                "fl" => "Lat",
-                "type" => "float_NotEmpty",
-                "group" => "Location"
-            ],
-            [
-                "f" => "Lon",
-                "fl" => "Lon",
-                "type" => "float",
-                "group" => "Location"
-            ],
+
             [
                 "f" => "PermitNo",
                 "fl" => "PermitNo",

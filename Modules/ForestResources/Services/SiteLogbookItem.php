@@ -19,6 +19,17 @@ class SiteLogbookItem extends PageResults
 
         // mobile form
         $formArr = [
+
+            [
+                "f" => "ObserveAt",
+                "fl" => "",
+                "type" => "str"
+            ],
+            [
+                "f" => "MobileId",
+                "fl" => "",
+                "type" => "str"
+            ],
             [
                 "f" => "SiteLogbook",
                 "fl" => "",
@@ -61,16 +72,7 @@ class SiteLogbookItem extends PageResults
                 "type" => "int"
             ],
 
-            [
-                "f" => "ObserveAt",
-                "fl" => "ObserveAt",
-                "type" => "str"
-            ],
-            [
-                "f" => "MobileId",
-                "fl" => "",
-                "type" => "str"
-            ],
+
 
         ];
 
