@@ -124,8 +124,9 @@ resource "aws_instance" "iTestInstance" {
   }
 
   tags = {
-    Name      = "iTestInstance"
-    Terraform = "1"
+    Name        = "iTestInstance"
+    Environment = "test"
+    Terraform   = "1"
   }
 }
 
@@ -134,8 +135,9 @@ resource "aws_eip" "eipTest" {
   vpc      = "true"
 
   tags = {
-    Name      = "eipTest"
-    Terraform = "1"
+    Name        = "eipTest"
+    Environment = "test"
+    Terraform   = "1"
   }
 }
 
@@ -156,8 +158,9 @@ resource "aws_instance" "iProductionInstance" {
   }
 
   tags = {
-    Name      = "iProductionInstance"
-    Terraform = "1"
+    Name        = "iProductionInstance"
+    Environment = "production"
+    Terraform   = "1"
   }
 }
 
@@ -166,8 +169,9 @@ resource "aws_eip" "eipProduction" {
   vpc      = "true"
 
   tags = {
-    Name      = "eipProduction"
-    Terraform = "1"
+    Name        = "eipProduction"
+    Environment = "production"
+    Terraform   = "1"
   }
 }
 
