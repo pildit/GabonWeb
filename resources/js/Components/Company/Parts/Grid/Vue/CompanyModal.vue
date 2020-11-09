@@ -8,6 +8,7 @@
         </div>
         <div slot="footer">
             <button @click="submit" class="btn btn-default">Save</button>
+            <button @click="closeModal"class="btn btn-warning">Cancel</button>
         </div>
     </bmodal>
 </template>

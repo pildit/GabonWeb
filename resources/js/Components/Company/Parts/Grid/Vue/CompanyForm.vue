@@ -2,13 +2,13 @@
    <div>
        <div class="md-form mb-5">
            <input type="text" v-model="form.Name" name="name" class="form-control" v-validate="'required'">
-           <label data-error="wrong" data-success="right" for="name" :class="{'active': form.name}">{{ translate('name') }}</label>
+           <label data-error="wrong" data-success="right" for="name" :class="{'active': form.Name}">{{ translate('name') }}</label>
            <div v-show="errors.has('name')" class="invalid-feedback">{{ errors.first('name') }}</div>
        </div>
 
        <div class="md-form mb-5">
            <input type="text" v-model="form.GroupName" name="groupName" class="form-control" >
-           <label data-error="wrong" data-success="right" for="groupName" :class="{'active': form.groupName}">{{ translate('groupName') }}</label>
+           <label data-error="wrong" data-success="right" for="groupName" :class="{'active': form.GroupName}">{{ translate('groupName') }}</label>
            <div v-show="errors.has('groupName')" class="invalid-feedback">{{ errors.first('groupName') }}</div>
        </div>
 
@@ -35,7 +35,6 @@ import Company from "components/Company/Company";
 
 
 export default {
-    props: ['typeProp'],
 
     mixins: [Translation],
 
@@ -49,9 +48,6 @@ export default {
 
     computed: {
         ...mapGetters('company', ['types']),
-        isCreateType() {
-            return this.typeProp == 'create'
-        },
     },
 
     methods: {

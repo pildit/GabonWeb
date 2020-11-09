@@ -41,7 +41,7 @@ Gabon.Pages = Pages;
 Gabon.User = User;
 Gabon.Role = Role;
 Gabon.Company = Company;
-Gabon.PermitType = PermitType;
+// Gabon.PermitType = PermitType;
 
 window.Gabon = Gabon;
 if(Vue.$jwt.hasToken()) {

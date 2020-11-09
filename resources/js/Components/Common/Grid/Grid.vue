@@ -68,6 +68,10 @@ export default {
         if(!this.options.store.getter) {
             throw new Error('provide a store getter');
         }
+        if(this.options.sort) {
+            this.sort = this.options.sort;
+        }
+
         this.data = this.$store.getters[this.options.store.getter];
         this.fetchData();
         Vent.$on('grid-refresh', this.refresh.bind(this));
