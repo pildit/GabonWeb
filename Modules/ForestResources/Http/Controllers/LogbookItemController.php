@@ -10,12 +10,9 @@ use Modules\ForestResources\Entities\LogbookItem;
 use Modules\ForestResources\Http\Requests\CreateLogbookItemRequest;
 use Modules\ForestResources\Http\Requests\UpdateLogbookItemRequest;
 use Modules\ForestResources\Services\Logbook as LogbookService;
-use ShapeFile\Shapefile;
-use Shapefile\ShapefileException;
-use Shapefile\ShapefileReader;
 use Modules\ForestResources\Services\LogbookItem as LogbookItemService;
-use Shapefile\Geometry\Polygon;
-use Illuminate\Support\Facades\File;
+use Modules\ForestResources\Entities\Logbook;
+use Illuminate\Validation\ValidationException;
 
 class LogbookItemController extends Controller
 {
@@ -35,12 +32,17 @@ class LogbookItemController extends Controller
      * Store logbookitem
      * @param CreateLogbookItemRequest $request
      * @return \Illuminate\Http\JsonResponse
+     * @throws ValidationException
      */
     public function store(CreateLogbookItemRequest $request)
     {
 
         $data = $request->validated();
-
+        $logbook = Logbook::where('Id', (int)$data['Logbook'])->orWhere('MobileId', $data['Logbook'])->first();
+        if(!$logbook){
+            throw ValidationException::withMessages(['Logbook' => 'validation.exists']);
+        }
+        $data['Logbook'] = $logbook->Id;
         $logbookitem = LogbookItem::create($data);
 
         return response()->json([
@@ -68,9 +70,14 @@ class LogbookItemController extends Controller
      */
     public function update(UpdateLogbookItemRequest $request, LogbookItem $logbookitem)
     {
-
         $data = $request->validated();
-
+        if(isset($data['Logbook'])){
+            $logbook = Logbook::where('Id', (int)$data['Logbook'])->orWhere('MobileId', $data['Logbook'])->first();
+            if(!$logbook){
+                throw ValidationException::withMessages(['Logbook' => 'validation.exists']);
+            }
+            $data['Logbook'] = $logbook->Id;
+        }
         $logbookitem->update($data);
 
         return response()->json([

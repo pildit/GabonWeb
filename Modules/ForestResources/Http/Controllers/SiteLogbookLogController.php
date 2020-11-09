@@ -2,20 +2,15 @@
 
 namespace Modules\ForestResources\Http\Controllers;
 
-use App\Services\PageResults;
+
 use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\SiteLogbookLog;
 use Modules\ForestResources\Http\Requests\CreateSiteLogbookLogRequest;
 use Modules\ForestResources\Http\Requests\UpdateSiteLogbookLogRequest;
-use Modules\ForestResources\Services\SiteLogbookItem as SiteLogbookItemService;
-use ShapeFile\Shapefile;
-use Shapefile\ShapefileException;
-use Shapefile\ShapefileReader;
 use Modules\ForestResources\Services\SiteLogbookLog as SiteLogbookLogService;
-use Shapefile\Geometry\Polygon;
-use Illuminate\Support\Facades\File;
+use Modules\ForestResources\Entities\SiteLogbookItem;
+use Illuminate\Validation\ValidationException;
 
 class SiteLogbookLogController extends Controller
 {
@@ -28,7 +23,11 @@ class SiteLogbookLogController extends Controller
     {
 
         $data = $request->validated();
-
+        $sitelogbookitem = SiteLogbookItem::where('Id', (int)$data['SiteLogbookItem'])->orWhere('MobileId', $data['SiteLogbookItem'])->first();
+        if(!$sitelogbookitem){
+            throw ValidationException::withMessages(['SiteLogbookItem' => 'validation.exists']);
+        }
+        $data['SiteLogbookItem'] = $sitelogbookitem->Id;
         $sitelogbooklog = SiteLogbookLog::create($data);
 
         return response()->json([
@@ -56,8 +55,14 @@ class SiteLogbookLogController extends Controller
      */
     public function update(UpdateSiteLogbookLogRequest $request, SiteLogbookLog $sitelogbooklog)
     {
-
         $data = $request->validated();
+        if(isset($data['SiteLogbookItem'])){
+            $sitelogbookitem = SiteLogbookItem::where('Id', (int)$data['SiteLogbookItem'])->orWhere('MobileId', $data['SiteLogbookItem'])->first();
+            if(!$sitelogbookitem){
+                throw ValidationException::withMessages(['SiteLogbookItem' => 'validation.exists']);
+            }
+            $data['SiteLogbookItem'] = $sitelogbookitem->Id;
+        }
 
         $sitelogbooklog->update($data);
 

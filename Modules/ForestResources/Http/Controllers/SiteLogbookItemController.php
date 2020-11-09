@@ -9,13 +9,9 @@ use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\SiteLogbookItem;
 use Modules\ForestResources\Http\Requests\CreateSiteLogbookItemRequest;
 use Modules\ForestResources\Http\Requests\UpdateSiteLogbookItemRequest;
-use Modules\ForestResources\Services\SiteLogbook as SiteLogbookService;
-use ShapeFile\Shapefile;
-use Shapefile\ShapefileException;
-use Shapefile\ShapefileReader;
 use Modules\ForestResources\Services\SiteLogbookItem as SiteLogbookItemService;
-use Shapefile\Geometry\Polygon;
-use Illuminate\Support\Facades\File;
+use Modules\ForestResources\Entities\SiteLogbook;
+use Illuminate\Validation\ValidationException;
 
 class SiteLogbookItemController extends Controller
 {
@@ -40,7 +36,11 @@ class SiteLogbookItemController extends Controller
     {
 
         $data = $request->validated();
-
+        $sitelogbook = SiteLogbook::where('Id', (int)$data['SiteLogbook'])->orWhere('MobileId', $data['SiteLogbook'])->first();
+        if(!$sitelogbook){
+            throw ValidationException::withMessages(['SiteLogbook' => 'validation.exists']);
+        }
+        $data['SiteLogbook'] = $sitelogbook->Id;
         $sitelogbookitem = SiteLogbookItem::create($data);
 
         return response()->json([
@@ -70,6 +70,13 @@ class SiteLogbookItemController extends Controller
     {
 
         $data = $request->validated();
+        if(isset($data['SiteLogbook'])){
+            $sitelogbook = SiteLogbook::where('Id', (int)$data['SiteLogbook'])->orWhere('MobileId', $data['SiteLogbook'])->first();
+            if(!$sitelogbook){
+                throw ValidationException::withMessages(['SiteLogbook' => 'validation.exists']);
+            }
+            $data['SiteLogbook'] = $sitelogbook->Id;
+        }
 
         $sitelogbookitem->update($data);
 

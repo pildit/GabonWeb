@@ -14,7 +14,7 @@ class CreateLogbookItemRequest extends FormRequest
     public function rules()
     {
         return [
-            'Logbook' => 'required|exists:Modules\ForestResources\Entities\Logbook,Id',
+            'Logbook' => 'required',
             'AnnualAllowableCutInventory' => 'required|exists:Modules\ForestResources\Entities\AnnualAllowableCutInventory,Id',
             'HewingId' => 'required|integer',
             'Species' => 'required|integer',

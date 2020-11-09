@@ -14,7 +14,6 @@ class UpdatePermitItemRequest extends FormRequest
     public function rules()
     {
         return [
-            "Permit" => "exists:Modules\Transport\Entities\Permit,Id,MobileId",
             "TreeId" =>"string",
             "Species" => "required", // Todo - add Species validation;
             "MinDiameter" => "float",

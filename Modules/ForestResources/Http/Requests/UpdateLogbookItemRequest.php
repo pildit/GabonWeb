@@ -14,7 +14,6 @@ class UpdateLogbookItemRequest extends FormRequest
     public function rules()
     {
         return [
-            'Logbook' => 'exists:Modules\ForestResources\Entities\Logbook,Id',
             'AnnualAllowableCutInventory' => 'exists:Modules\ForestResources\Entities\AnnualAllowableCutInventory,Id',
             'HewingId' => 'integer',
             'Species' => 'integer',
