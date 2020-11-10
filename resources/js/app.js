@@ -14,6 +14,7 @@ import User from './Components/User/User';
 import Role from './Components/Role/Role';
 import Company from './Components/Company/Company';
 import PermitType from './Components/PermitType/PermitType';
+import Species from './Components/Species/Species';
 
 Vue.config.devtools = true;
 window.Vent         = new Vue;
@@ -43,6 +44,7 @@ Gabon.User = User;
 Gabon.Role = Role;
 Gabon.Company = Company;
 Gabon.PermitType = PermitType;
+Gabon.Species = Species;
 
 window.Gabon = Gabon;
 if(Vue.$jwt.hasToken()) {
