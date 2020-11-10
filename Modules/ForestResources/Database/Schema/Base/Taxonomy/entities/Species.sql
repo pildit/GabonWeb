@@ -2,8 +2,8 @@ create table "Taxonomy"."SpeciesTable"
 (
     "Id" int not null,
     "Code" text not null,
-    "LatinName" text not null,
-    "CommonName" text not null,
+    "LatinName" text,
+    "CommonName" text,
     constraint "PK_SpeciesTable" primary key ("Id"),
     constraint "CHK_SpeciesTable_Code" check (length("Code") > 0),
     constraint "CHK_SpeciesTable_LatinName" check (length("LatinName") > 0),

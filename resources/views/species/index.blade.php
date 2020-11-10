@@ -3,7 +3,7 @@
 @section('title', 'Species')
 
 @section('content')
-<div id="permit-types-grid">
+<div id="species-grid">
     <species-grid></species-grid>
 </div>
 @endsection
