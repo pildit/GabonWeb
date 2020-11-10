@@ -2,22 +2,22 @@
     <div class="text-right">
         <a :href="editRoute()" class="text-success aligned fz-16"
            :title="translate('Edit')"
-           data-placement="left"
            v-tooltip>
             <i class="fas fa-edit"></i>
         </a>
         <a class="text-success aligned fz-16"
            :title="translate('Resend Confirmation Email')"
-           data-placement="left"
            v-tooltip >
             <i class="far fa-envelope"></i>
         </a>
+        <switches v-model="enabled" color="green" title="Approve User" v-tooltip></switches>
     </div>
 </template>
 
 <script>
 import User from "components/User/User";
 import Translation from "components/Mixins/Translation";
+import Switches from 'vue-switches';
 
 export default {
 
@@ -25,9 +25,11 @@ export default {
 
     props: ["rowProp", "optionsProp"],
 
+    components: {Switches},
+
     data() {
         return {
-            boolean: false
+            enabled: false
         }
     },
 
@@ -46,6 +48,13 @@ export default {
 }
 .fz-16 {
     font-size: 16px;
+}
+.vue-switcher {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 0;
+    vertical-align: middle;
+    margin-left: 0.2em;
 }
 
 </style>
