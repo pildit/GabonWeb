@@ -21,7 +21,7 @@ class User extends Base {
     static getStatusLabel(status) {
         let statuses = {
             0: "Disabled",
-            1: "Pending",
+            1: "Not Confirmed",
             2: "Active"
         }
 
@@ -39,6 +39,10 @@ class User extends Base {
 
     static verify(data) {
         return store.dispatch('user/verify', data).then((response) => response.data);
+    }
+
+    static add(data) {
+        return store.dispatch('user/add', data).then((response) => response.data);
     }
 
 }

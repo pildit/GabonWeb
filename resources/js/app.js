@@ -1,4 +1,3 @@
-// require('./bootstrap');
 
 import Vue from 'vue';
 import VueReactiveCookie from 'vue-reactive-cookie';
@@ -7,6 +6,7 @@ import Notifications from 'vue-notification'
 import VueJwt from 'vuejs-jwt';
 import store from "store/store"
 import config from './Components/_config/index';
+import directives from './Components/_config/Directives/index';
 
 import Base from './Components/Base';
 import Pages from './Components/Pages/Pages';
@@ -18,7 +18,6 @@ import PermitType from './Components/PermitType/PermitType';
 Vue.config.devtools = true;
 window.Vent         = new Vue;
 
-// Vue.use(VueCookie);
 Vue.use(VueReactiveCookie);
 Vue.use(VeeValidate, {
     events: 'blur'

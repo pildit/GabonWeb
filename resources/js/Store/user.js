@@ -30,23 +30,29 @@ export default {
                     return response
                 });
         },
-        login({commit}, payload) {
+        login({}, payload) {
             return axios.post('api/users/login', payload)
                 .then((response) => {
                     return response;
                 })
         },
-        register({commit}, payload) {
+        register({}, payload) {
             return axios.post('api/users/register', payload)
                 .then((response) => {
                     return response;
                 })
         },
-        verify({commit}, payload) {
+        verify({}, payload) {
             return axios.post('api/users/verify', payload)
                 .then((response) => {
                     return response;
                 });
+        },
+        add({}, payload) {
+            return axios.post('api/users/registerAdmin', payload)
+                .then((response) => {
+                    return response;
+                })
         }
     }
 }

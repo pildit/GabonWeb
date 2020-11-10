@@ -1,4 +1,5 @@
 import User from "components/User/User";
+import ActionColumn from "./Vue/ActionColumn";
 
 export default (options) => {
     return {
@@ -34,8 +35,15 @@ export default (options) => {
             },
             created_at: {
                 header: "Date"
+            },
+            actions: {
+                header: "Actions",
+                sort: false,
+                css: {
+                    textAlign: "right"
+                },
+                component: ActionColumn
             }
-
         }
     }
 }
