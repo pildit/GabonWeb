@@ -2,6 +2,11 @@
 # tasks file for website
 - name: Load Vault
   include_vars: vars/vault.yml
+- name: "Register the Repository for NodeJS"
+  become: yes
+  apt_repository:
+    filename: "nodesource"
+    repo: "deb https://deb.nodesource.com/node_14.x bionic main"
 - name: Baseline installation
   become: yes
   apt:
@@ -41,8 +46,7 @@
         Host {{ gitlab_host }}
             Hostname gitlab.com
             IdentityFile {{ gitlab_ssh_key_file }}
-            IdentitiesOnly yes
-            User git
+          S  User git
     when: gitlab_host_in_ssh_config.stdout == "0"
 - name: "Create the local repository"
   block:
@@ -62,6 +66,7 @@
       force: yes
       version: "{{ WEBSITE_DEPLOYMENT_COMMIT }}"
   - name: "Template the .env file"
+    become: yes
     template:
       src: "dotEnv.j2"
       dest: "{{ www_document_root }}/../.env"
@@ -73,13 +78,13 @@
       working_dir: "{{ www_document_root }}/../"  # Same directory as the composer.json file
       prefer_dist: yes
       no_dev: yes
-  - name: "Install node dependencies"
-    npm:
-      path: "{{ www_document_root }}/../"  # Same directory as the package.json file
-  - name: "Compile the javascript"
-    command: npm run dev
-    args:
-      chdir: "{{ www_document_root }}/../"  # Same directory as the package.json file
+  # - name: "Install node dependencies"
+  #   npm:
+  #     path: "{{ www_document_root }}/../"  # Same directory as the package.json file
+  # - name: "Compile the javascript"
+  #   command: npm run dev
+  #   args:
+  #     chdir: "{{ www_document_root }}/../"  # Same directory as the package.json file
   - name: "Set permissions and ownership on the local repo"
     become: yes
     file:
