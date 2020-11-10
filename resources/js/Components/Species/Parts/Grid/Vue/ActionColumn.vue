@@ -27,10 +27,7 @@ export default {
 
     methods: {
         edit(id) {
-          Species.get(id).then(() => {
             this.modals.form = this.rowProp;
-            console.log(this.rowProp);
-        })
         }
     }
 }
