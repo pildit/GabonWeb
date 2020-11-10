@@ -21,7 +21,7 @@ class UpdateLogbookItemRequest extends FormRequest
             'MinDiameter' => 'numeric',
             'Length' => 'numeric',
             'Volume' => 'numeric',
-            'GPSAccu' => 'numeric',
+            'GpsAccu' => 'numeric',
             'Note' => 'string',
             'ObserveAt' => 'date',
             'Approved' => 'bool',

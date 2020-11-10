@@ -14,7 +14,7 @@ class Tracking extends Model
     public $timestamps = true;
     protected $dateFormat = 'Y-m-d H:i:s.u';
 
-    protected $fillable = ['User', 'Lat', 'Lon','GPSAccuracy', 'ObserveAt'];
+    protected $fillable = ['User', 'Lat', 'Lon','GpsAccu', 'ObserveAt'];
 
     protected $table = 'transportation.PermitTracking';
 

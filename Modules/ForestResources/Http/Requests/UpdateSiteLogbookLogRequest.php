@@ -25,7 +25,7 @@ class UpdateSiteLogbookLogRequest extends FormRequest
             'EvacuationDate' => 'date',
             'Lat' => 'numeric',
             'Lon' => 'numeric',
-            'GPSAccu' => 'numeric',
+            'GpsAccu' => 'numeric',
             'ObserveAt' => 'date',
             'Approved' => 'bool',
         ];

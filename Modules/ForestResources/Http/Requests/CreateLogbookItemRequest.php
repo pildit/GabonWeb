@@ -24,7 +24,7 @@ class CreateLogbookItemRequest extends FormRequest
             'Volume' => 'required|numeric',
             'Lat' => 'required',
             'Lon' => 'required',
-            'GPSAccu' => 'required|numeric',
+            'GpsAccu' => 'required|numeric',
             'Note' => 'required|string',
             'ObserveAt' => 'required|date',
             'Approved' => 'bool',

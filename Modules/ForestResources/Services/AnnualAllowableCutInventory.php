@@ -20,13 +20,57 @@ class AnnualAllowableCutInventory extends PageResults
         list($species) = $this->speciesLists();
         list($parcel) = $this->parcelList();
         list($quality) = $this->qualityList();
+        list($annualallowablecut) = $this->annualallowablecutList();
 
         // mobile form
         $formArr = [
             [
-                "f" => "AnnualAllowableCut",
+                "f" => "ObserveAt",
+                "fl" => "",
+                "type" => "date"
+            ],
+            [
+                "f" => "MobileId",
+                "fl" => "",
+                "type" => "str"
+            ],
+            [
+                "f" => "GpsAccu",
                 "fl" => "",
                 "type" => "int"
+            ],
+            [
+                "f" => "Lat",
+                "fl" => "Lat",
+                "type" => "float_NotEmpty",
+                "group" => "Location"
+            ],
+            [
+                "f" => "Lon",
+                "fl" => "Lon",
+                "type" => "float",
+                "group" => "Location"
+            ],
+            [
+                "f" => "ScanLat",
+                "fl" => "",
+                "type" => "float"
+            ],
+            [
+                "f" => "ScanLon",
+                "fl" => "",
+                "type" => "float"
+            ],
+            [
+                "f" => "ScanGpsAccu",
+                "fl" => "",
+                "type" => "int"
+            ],
+            [
+                "f" => "AnnualAllowableCut",
+                "fl" => "AnnualAllowableCut",
+                "type" => "list_NotEmpty_NoLang",
+                "values" => $annualallowablecut
             ],
             [
                 "f" => "Species",
@@ -55,16 +99,6 @@ class AnnualAllowableCutInventory extends PageResults
                 "f" => "DiameterBreastHeight",
                 "fl" => "DiameterBreastHeight",
                 "type" => "int"
-            ],
-            [
-                "f" => "Geometry",
-                "fl" => "Geometry",
-                "type" => "str"
-            ],
-            [
-                "f" => "MobileId",
-                "fl" => "",
-                "type" => "str"
             ],
 
         ];
@@ -142,5 +176,28 @@ class AnnualAllowableCutInventory extends PageResults
         });
 
         return array($qualities_array);
+    }
+
+    /**
+     * @return string[]
+     */
+    public function annualallowablecutList(): array
+    {
+        $array = [];
+
+        $values = app('db')
+            ->table('ForestResources.AnnualAllowableCuts')
+            ->select( 'Id','Name')
+            ->get();
+
+        $values->each(function ($value) use (&$array) {
+            $array[]= [
+                'val' => $value->Name,
+                'id'  => $value->Id,
+            ];
+
+        });
+
+        return array($array);
     }
 }

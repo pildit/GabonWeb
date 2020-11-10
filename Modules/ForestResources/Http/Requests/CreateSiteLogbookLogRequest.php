@@ -26,7 +26,7 @@ class CreateSiteLogbookLogRequest extends FormRequest
             'EvacuationDate' => 'required|date',
             'Lat' => 'required|numeric',
             'Lon' => 'required|numeric',
-            'GPSAccu' => 'required|numeric',
+            'GpsAccu' => 'required|numeric',
             'ObserveAt' => 'required|date',
             'Approved' => 'bool',
         ];
