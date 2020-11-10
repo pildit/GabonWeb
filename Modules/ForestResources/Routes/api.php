@@ -35,3 +35,4 @@ Route::middleware('jwt:api')->resource('/site_logbook_items', SiteLogbookItemCon
 Route::middleware('jwt:api')->get('/site_logbook_logs/mobile', 'SiteLogbookLogController@mobile');
 Route::middleware('jwt:api')->resource('/site_logbook_logs', SiteLogbookLogController::class)->except(['edit', 'create']);
 Route::middleware('jwt:api')->resource('/permit_types', PermitTypesController::class)->except(['edit', 'create']);
+Route::middleware('jwt:api')->resource('/species', SpeciesController::class)->except(['edit', 'create']);
