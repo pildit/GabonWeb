@@ -28,13 +28,28 @@ class SiteLogbook extends PageResults
             [
                 "f" => "ObserveAt",
                 "fl" => "",
-                "type" => "str"
+                "type" => "date"
             ],
             [
                 "f" => "MobileId",
                 "fl" => "",
                 "type" => "str"
             ],
+            [
+                "f" => "ScanLat",
+                "fl" => "",
+                "type" => "float"
+            ],
+            [
+                "f" => "ScanLon",
+                "fl" => "",
+                "type" => "float"
+            ],
+            [
+                "f" => "ScanGpsAccu",
+                "fl" => "",
+                "type" => "int"
+            ],	
             [
                 "f" => "AnnualAllowableCut",
                 "fl" => "AnnualAllowableCut",

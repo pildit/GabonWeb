@@ -67,9 +67,9 @@ class Item extends Model
         return $this->belongsTo(Permit::class,"Permit");
     }
 
-    public function species()
-    {
-       // return $this->belongsTo(Species::class,"Species");
-        return "NEED TO BE IMPLEMENTED";
-    }
+//    public function species()
+//    {
+// TODO: add relation for Species
+//       // return $this->belongsTo(Species::class,"Species");
+//    }
 }

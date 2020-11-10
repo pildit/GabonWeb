@@ -14,14 +14,14 @@ class CreatePermitItemRequest extends FormRequest
     public function rules()
     {
         return [
-            "Permit" => "required|exists:Modules\Transport\Entities\Permit,Id,MobileId",
+            "Permit" => "required",
             "TreeId" =>"required:string",
             "Species" => "required", // Todo - add Species validation;
-            "MinDiameter" => "required:float",
-            "MaxDiameter" => "required:float",
-            "AverageDiameter" => "required:float",
-            "Length" => "required:float",
-            "Volume" => "required:float",
+            "MinDiameter" => "required",
+            "MaxDiameter" => "required",
+            "AverageDiameter" => "required",
+            "Length" => "required",
+            "Volume" => "required",
             "MobileId" => "required:string"
         ];
     }

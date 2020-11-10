@@ -8,8 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Transport\Entities\Permit as PermitEntity;
 use Modules\Transport\Entities\Item as ItemEntity;
-
 use Modules\Transport\Http\Requests\CreatePermitItemRequest;
+use Modules\Transport\Http\Requests\UpdatePermitItemRequest;
 use Modules\Transport\Services\Item;
 
 class PermitItemController extends Controller
@@ -25,7 +25,7 @@ class PermitItemController extends Controller
     {
         $pr->setSortFields(['Id']);
 
-        return response()->json($pr->getPaginator($request, PermitEntity::class, ["TreeId"],['species']));
+        return response()->json($pr->getPaginator($request, PermitEntity::class, ["TreeId"]));
 
     }
 
@@ -39,7 +39,10 @@ class PermitItemController extends Controller
     {
         $data = $request->validated();
 
-        $permit = PermitEntity::where('Id', (int)$data['Permit'])->orWhere('MobileId', $data['Permit'])->firstOrFail();
+        $permit = PermitEntity::where('Id', (int)$data['Permit'])->orWhere('MobileId', $data['Permit'])->first();
+        if(!$permit){
+            throw \ValidationException::withMessages(['Permit' => 'validation.exists']);
+        }
         $data['Permit'] = $permit->Id;
         $item = ItemEntity::create($data);
 
@@ -58,8 +61,13 @@ class PermitItemController extends Controller
     public function update(ItemEntity $item, UpdatePermitItemRequest $request)
     {
         $data = $request->validated();
-        $permit = PermitEntity::where('Id', (int)$data['Permit'])->orWhere('MobileId', $data['Permit'])->firstOrFail();
-        $data['Permit'] = $permit->Id;
+        if(isset($data['Permit'])){
+            $permit = PermitEntity::where('Id', (int)$data['Permit'])->orWhere('MobileId', $data['Permit'])->first();
+            if(!$permit){
+                throw \ValidationException::withMessages(['Permit' => 'validation.exists']);
+            }
+            $data['Permit'] = $permit->Id;
+        }
         $item->update($data);
 
         return response()->json([

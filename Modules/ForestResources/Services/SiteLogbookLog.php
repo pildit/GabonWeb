@@ -31,19 +31,21 @@ class SiteLogbookLog extends PageResults
                 "type" => "str"
             ],
             [
-                "f" => "GPSAccu",
-                "fl" => "GPSAccu",
+                "f" => "GpsAccu",
+                "fl" => "",
                 "type" => "int"
             ],
             [
                 "f" => "Lat",
                 "fl" => "Lat",
-                "type" => "str"
+                "type" => "float_NotEmpty",
+                "group" => "Location"
             ],
             [
                 "f" => "Lon",
                 "fl" => "Lon",
-                "type" => "str"
+                "type" => "float",
+                "group" => "Location"
             ],
             [
                 "f" => "SiteLogbookItem",
@@ -88,16 +90,15 @@ class SiteLogbookLog extends PageResults
                 "type" => "int"
             ],
             [
-                "f" => "Note",
-                "fl" => "Note",
-                "type" => "str"
-            ],
-            [
                 "f" => "EvacuationDate",
                 "fl" => "EvacuationDate",
                 "type" => "date"
             ],
-
+            [
+                "f" => "Note",
+                "fl" => "Note",
+                "type" => "str"
+            ],
 
 
         ];

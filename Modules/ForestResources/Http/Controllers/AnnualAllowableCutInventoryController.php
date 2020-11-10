@@ -32,7 +32,7 @@ class AnnualAllowableCutInventoryController extends Controller
     }
 
     /**
-     * Store annualallowablecutinventory
+     * Store annual_allowable_cut_inventory
      * @param CreateAnnualAllowableCutInventoryRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -40,10 +40,10 @@ class AnnualAllowableCutInventoryController extends Controller
     {
         $data = $request->validated();
 
-        $annualallowablecutinventory = AnnualAllowableCutInventory::create($data);
+        $annual_allowable_cut_inventory = AnnualAllowableCutInventory::create($data);
 
         return response()->json([
-            'message' => lang("annualallowablecutinventory_created_successfully")
+            'message' => lang("annual_allowable_cut_inventory_created_successfully")
         ], 201);
     }
 
@@ -53,25 +53,25 @@ class AnnualAllowableCutInventoryController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(AnnualAllowableCutInventory $annualallowablecutinventory)
+    public function show(AnnualAllowableCutInventory $annual_allowable_cut_inventory)
     {
-        return response()->json(['data' => $annualallowablecutinventory]);
+        return response()->json(['data' => $annual_allowable_cut_inventory]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param UpdateAnnualAllowableCutInventoryRequest $request
-     * @param AnnualAllowableCutInventory $annualallowablecutinventory
+     * @param AnnualAllowableCutInventory $annual_allowable_cut_inventory
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateAnnualAllowableCutInventoryRequest $request, AnnualAllowableCutInventory $annualallowablecutinventory)
+    public function update(UpdateAnnualAllowableCutInventoryRequest $request, AnnualAllowableCutInventory $annual_allowable_cut_inventory)
     {
         $data = $request->validated();
-        $annualallowablecutinventory->update($data);
+        $annual_allowable_cut_inventory->update($data);
 
         return response()->json([
-            'message' => lang('annualallowablecutinventory_update_successful')
+            'message' => lang('annual_allowable_cut_inventory_update_successful')
         ], 200);
 
     }
@@ -82,12 +82,12 @@ class AnnualAllowableCutInventoryController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function destroy(AnnualAllowableCutInventory $annualallowablecutinventory)
+    public function destroy(AnnualAllowableCutInventory $annual_allowable_cut_inventory)
     {
-        $annualallowablecutinventory->delete();
+        $annual_allowable_cut_inventory->delete();
 
         return response()->json([
-            'message' => lang('annualallowablecutinventory_delete_successful')
+            'message' => lang('annual_allowable_cut_inventory_delete_successful')
         ], 204);
 
 
