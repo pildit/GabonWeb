@@ -18,6 +18,7 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        return view('users.edit', ['user' => $user]);
+        return abort(404);
+//        return view('users.edit', ['user' => $user]);
     }
 }
