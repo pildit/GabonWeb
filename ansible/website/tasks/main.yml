@@ -60,6 +60,7 @@
     file:
       path: "{{ local_repo }}"
       state: directory
+      recurse: yes
       group: adm
       mode: 0775
   - name: "Ensure the local repo"
