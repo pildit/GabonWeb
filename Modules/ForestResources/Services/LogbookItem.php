@@ -24,6 +24,32 @@ class LogbookItem extends PageResults
         // mobile form
         $formArr = [
             [
+                "f" => "ObserveAt",
+                "fl" => "",
+                "type" => "date"
+            ],
+            [
+                "f" => "MobileId",
+                "fl" => "",
+                "type" => "str"
+            ],
+            [
+                "f" => "GPSAccu",
+                "fl" => "GPSAccu",
+                "type" => "str"
+            ],
+            [
+                "f" => "Lat",
+                "fl" => "Lat",
+                "type" => "str"
+            ],
+            [
+                "f" => "Lon",
+                "fl" => "Lon",
+                "type" => "str"
+            ],
+
+            [
                 "f" => "Logbook",
                 "fl" => "",
                 "type" => "int"
@@ -66,35 +92,12 @@ class LogbookItem extends PageResults
                 "type" => "int"
             ],
             [
-                "f" => "Latitude",
-                "fl" => "Latitude",
-                "type" => "str"
-            ],
-            [
-                "f" => "Longitude",
-                "fl" => "Longitude",
-                "type" => "str"
-            ],
-            [
-                "f" => "GPSAccuracy",
-                "fl" => "GPSAccuracy",
-                "type" => "str"
-            ],
-            [
                 "f" => "Note",
                 "fl" => "Note",
                 "type" => "str"
             ],
-            [
-                "f" => "ObserveAt",
-                "fl" => "ObserveAt",
-                "type" => "date"
-            ],
-            [
-                "f" => "MobileId",
-                "fl" => "",
-                "type" => "str"
-            ],
+
+
         ];
 
 
@@ -132,7 +135,7 @@ class LogbookItem extends PageResults
 
         $values = app('db')
             ->table('ForestResources.AnnualAllowableCutInventory')
-            ->select( 'Id','Name')
+            ->select( 'Id','TreeId')
             ->get();
 
         $values->each(function ($value) use (&$array) {

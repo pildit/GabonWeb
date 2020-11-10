@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+CMD=${1}
+shift;
+
+function usage() {
+    echo "usage: ${0} {apply|destroy|plan|graph|...}";
+    echo "";
+    echo "  The provided argument must be a valid terraform command"
+}
+
+case "${CMD}" in
+    "")
+        usage;
+        ;;
+    "graph")
+        terraform "graph" --draw-cycles $*;
+        ;;
+    *)
+        terraform "${CMD}" --var-file "${HOME}/.terraform-secrets/gabontransportapp.secrets.tfvars" $*;
+        ;;
+esac;

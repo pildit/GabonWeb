@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-40">
+    <div class="container mt-5">
         <h5 class="text-center green-text mb-2">{{translate('Roles')}}</h5>
         <div class="row">
             <div class="col-sm-8 d-flex align-items-center">
@@ -25,11 +25,10 @@
 </template>
 
 <script>
-import {mapGetters, mapState, mapActions} from 'vuex';
+import {mapGetters} from 'vuex';
 import VuePagination from "components/Common/Grid/VuePagination.vue";
 import Translation from "components/Mixins/Translation";
 import RoleModal from './RoleModal.vue';
-import Role from "components/Role/Role";
 import grid from "../grid";
 import Grid from "components/Common/Grid/Grid";
 

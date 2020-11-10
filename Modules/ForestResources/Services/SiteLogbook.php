@@ -25,7 +25,16 @@ class SiteLogbook extends PageResults
 
         // mobile form
         $formArr = [
-
+            [
+                "f" => "ObserveAt",
+                "fl" => "",
+                "type" => "str"
+            ],
+            [
+                "f" => "MobileId",
+                "fl" => "",
+                "type" => "str"
+            ],
             [
                 "f" => "AnnualAllowableCut",
                 "fl" => "AnnualAllowableCut",
@@ -76,16 +85,7 @@ class SiteLogbook extends PageResults
                 "fl" => "ReportNote",
                 "type" => "str"
             ],
-            [
-                "f" => "ObserveAt",
-                "fl" => "ObserveAt",
-                "type" => "str"
-            ],
-            [
-                "f" => "MobileId",
-                "fl" => "",
-                "type" => "str"
-            ],
+
 
         ];
 

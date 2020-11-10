@@ -6,7 +6,7 @@
         :data-toggle="isFolder ? 'dropdown' : false"
         role="button"
         aria-haspopup="true"
-        aria-expanded="false">{{ model.menu ? model.menu : model.submenu }}</a>
+        aria-expanded="false">{{ model.menu ? translate(model.menu) : translate(model.submenu) }}</a>
   <ul class="nav-item dropdown-menu dropdown-default">
     <menu-item
         v-for="(model, index) in model.children"
@@ -17,7 +17,9 @@
   </li>
 </template>
 <script>
+import Translation from "components/Mixins/Translation";
 export default {
+  mixins: [Translation],
   name: 'menu-item',
   props: {
     model: Object

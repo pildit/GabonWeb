@@ -24,7 +24,11 @@ class Logbook extends PageResults
 
         // mobile form
         $formArr = [
-
+            [
+                "f" => "ObserveAt",
+                "fl" => "",
+                "type" => "date"
+            ],
             [
                 "f" => "Concession",
                 "fl" => "Concession",
@@ -48,11 +52,6 @@ class Logbook extends PageResults
                 "fl" => "AnnualAllowableCut",
                 "type" => "list_NotEmpty_NoLang",
                 "values" => $annualallowablecut
-            ],
-            [
-                "f" => "ObserveAt",
-                "fl" => "ObserveAt",
-                "type" => "date"
             ],
             [
                 "f" => "MobileId",
