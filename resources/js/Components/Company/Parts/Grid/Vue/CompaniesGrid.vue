@@ -61,9 +61,6 @@ export default {
       // this.$store.dispatch('role/permissions');
     },
     methods: {
-        updateResource() {
-            console.log('UPDATE RES');
-        },
         getCompanies() {
             Vent.$emit('grid-refresh', {search: this.search});
         },

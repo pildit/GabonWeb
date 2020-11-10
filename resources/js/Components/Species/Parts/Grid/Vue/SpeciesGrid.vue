@@ -62,25 +62,7 @@ export default {
   },
   methods: {
     getSpecies() {
-      Species.index({page: this.speciesPagination.current_page, per_page: this.speciesPagination.per_page, sort: 'asc', search: this.search})
-          .then((pagination) => {
-            this.speciesPagination = pagination;
-          })
-    },
-    save() {
-        this.$validator.validate().then((valid) => {
-          if(valid) {
-            Species.add({
-              Name: this.form.name
-            }).then((response) => {
-              this.$emit('done');
-            }).catch((error) => {
-              if(error) {
-                this.$setErrorsFromResponse(error.data);
-              }
-            })
-          }
-        });
+        Vent.$emit('grid-refresh', {search: this.search});
     },
   }
 }

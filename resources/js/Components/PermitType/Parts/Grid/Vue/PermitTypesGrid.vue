@@ -62,25 +62,7 @@ export default {
   },
   methods: {
     getPermitTypes() {
-      PermitType.index({page: this.permitTypesPagination.current_page, per_page: this.permitTypesPagination.per_page, sort: 'asc', search: this.search})
-          .then((pagination) => {
-            this.permitTypesPagination = pagination;
-          })
-    },
-    save() {
-        this.$validator.validate().then((valid) => {
-          if(valid) {
-            PermitType.add({
-              Name: this.form.name
-            }).then((response) => {
-              this.$emit('done');
-            }).catch((error) => {
-              if(error) {
-                this.$setErrorsFromResponse(error.data);
-              }
-            })
-          }
-        });
+        Vent.$emit('grid-refresh', {search: this.search});
     },
   }
 }
