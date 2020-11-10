@@ -18,7 +18,7 @@ class UpdateAnnualAllowableCutInventoryRequest extends FormRequest
             'Species' => 'integer',
             'Quality' => 'integer',
             'Parcel' => 'exists:Modules\ForestResources\Entities\Parcel,Id',
-            'TreeId' => 'text',
+            'TreeId' => 'string',
             'DiameterBreastHeight' => 'numeric',
         ];
     }

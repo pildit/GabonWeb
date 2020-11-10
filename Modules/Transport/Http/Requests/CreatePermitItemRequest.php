@@ -17,11 +17,11 @@ class CreatePermitItemRequest extends FormRequest
             "Permit" => "required",
             "TreeId" =>"required:string",
             "Species" => "required", // Todo - add Species validation;
-            "MinDiameter" => "required:float",
-            "MaxDiameter" => "required:float",
-            "AverageDiameter" => "required:float",
-            "Length" => "required:float",
-            "Volume" => "required:float",
+            "MinDiameter" => "required",
+            "MaxDiameter" => "required",
+            "AverageDiameter" => "required",
+            "Length" => "required",
+            "Volume" => "required",
             "MobileId" => "required:string"
         ];
     }

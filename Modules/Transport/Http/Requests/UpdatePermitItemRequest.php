@@ -16,11 +16,6 @@ class UpdatePermitItemRequest extends FormRequest
         return [
             "TreeId" =>"string",
             "Species" => "required", // Todo - add Species validation;
-            "MinDiameter" => "float",
-            "MaxDiameter" => "float",
-            "AverageDiameter" => "float",
-            "Length" => "float",
-            "Volume" => "float",
             "MobileId" => "string"
         ];
     }

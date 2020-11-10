@@ -28,7 +28,7 @@ class SiteLogbookItemController extends Controller
     }
 
     /**
-     * Store sitelogbookitem
+     * Store site_logbook_item
      * @param CreateSiteLogbookItemRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -41,10 +41,10 @@ class SiteLogbookItemController extends Controller
             throw ValidationException::withMessages(['SiteLogbook' => 'validation.exists']);
         }
         $data['SiteLogbook'] = $sitelogbook->Id;
-        $sitelogbookitem = SiteLogbookItem::create($data);
+        $site_logbook_item = SiteLogbookItem::create($data);
 
         return response()->json([
-            'message' => lang("sitelogbookitem_created_successfully")
+            'message' => lang("site_logbook_item_created_successfully")
         ], 201);
     }
 
@@ -54,19 +54,19 @@ class SiteLogbookItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(SiteLogbookItem $sitelogbookitem)
+    public function show(SiteLogbookItem $site_logbook_item)
     {
-        return response()->json(['data' => $sitelogbookitem]);
+        return response()->json(['data' => $site_logbook_item]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  SiteLogbookItem $sitelogbookitem
+     * @param  SiteLogbookItem $site_logbook_item
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateSiteLogbookItemRequest $request, SiteLogbookItem $sitelogbookitem)
+    public function update(UpdateSiteLogbookItemRequest $request, SiteLogbookItem $site_logbook_item)
     {
 
         $data = $request->validated();
@@ -78,10 +78,10 @@ class SiteLogbookItemController extends Controller
             $data['SiteLogbook'] = $sitelogbook->Id;
         }
 
-        $sitelogbookitem->update($data);
+        $site_logbook_item->update($data);
 
         return response()->json([
-            'message' => lang('sitelogbookitem_update_successful')
+            'message' => lang('site_logbook_item_update_successful')
         ], 200);
 
     }
@@ -92,22 +92,22 @@ class SiteLogbookItemController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function destroy(SiteLogbookItem $sitelogbookitem)
+    public function destroy(SiteLogbookItem $site_logbook_item)
     {
-        $sitelogbookitem->delete();
+        $site_logbook_item->delete();
 
         return response()->json([
-            'message' => lang('sitelogbookitem_delete_successful')
+            'message' => lang('site_logbook_item_delete_successful')
         ], 204);
     }
 
     /**
-     * @param SiteLogbookItemService $sitelogbookitemService
+     * @param SiteLogbookItemService $site_logbook_itemService
      * @return \Illuminate\Http\JsonResponse
      */
-    public function mobile(SiteLogbookItemService $sitelogbookitemService)
+    public function mobile(SiteLogbookItemService $site_logbook_itemService)
     {
-        $form = $sitelogbookitemService->getMobileForm();
+        $form = $site_logbook_itemService->getMobileForm();
 
         return response()->json([
             "data" => $form

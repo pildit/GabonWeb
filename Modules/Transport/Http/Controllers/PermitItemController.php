@@ -8,8 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Transport\Entities\Permit as PermitEntity;
 use Modules\Transport\Entities\Item as ItemEntity;
-
 use Modules\Transport\Http\Requests\CreatePermitItemRequest;
+use Modules\Transport\Http\Requests\UpdatePermitItemRequest;
 use Modules\Transport\Services\Item;
 
 class PermitItemController extends Controller
@@ -25,7 +25,7 @@ class PermitItemController extends Controller
     {
         $pr->setSortFields(['Id']);
 
-        return response()->json($pr->getPaginator($request, PermitEntity::class, ["TreeId"],['species']));
+        return response()->json($pr->getPaginator($request, PermitEntity::class, ["TreeId"]));
 
     }
 

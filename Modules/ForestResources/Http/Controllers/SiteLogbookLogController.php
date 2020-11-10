@@ -15,7 +15,7 @@ use Illuminate\Validation\ValidationException;
 class SiteLogbookLogController extends Controller
 {
     /**
-     * Store sitelogbooklog
+     * Store site_logbook_log
      * @param CreateSiteLogbookLogRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -28,10 +28,10 @@ class SiteLogbookLogController extends Controller
             throw ValidationException::withMessages(['SiteLogbookItem' => 'validation.exists']);
         }
         $data['SiteLogbookItem'] = $sitelogbookitem->Id;
-        $sitelogbooklog = SiteLogbookLog::create($data);
+        $site_logbook_log = SiteLogbookLog::create($data);
 
         return response()->json([
-            'message' => lang("sitelogbooklog_created_successfully")
+            'message' => lang("site_logbook_log_created_successfully")
         ], 201);
     }
 
@@ -41,19 +41,19 @@ class SiteLogbookLogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(SiteLogbookLog $sitelogbooklog)
+    public function show(SiteLogbookLog $site_logbook_log)
     {
-        return response()->json(['data' => $sitelogbooklog]);
+        return response()->json(['data' => $site_logbook_log]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  SiteLogbookLog $sitelogbooklog
+     * @param  SiteLogbookLog $site_logbook_log
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateSiteLogbookLogRequest $request, SiteLogbookLog $sitelogbooklog)
+    public function update(UpdateSiteLogbookLogRequest $request, SiteLogbookLog $site_logbook_log)
     {
         $data = $request->validated();
         if(isset($data['SiteLogbookItem'])){
@@ -64,10 +64,10 @@ class SiteLogbookLogController extends Controller
             $data['SiteLogbookItem'] = $sitelogbookitem->Id;
         }
 
-        $sitelogbooklog->update($data);
+        $site_logbook_log->update($data);
 
         return response()->json([
-            'message' => lang('sitelogbooklog_update_successful')
+            'message' => lang('site_logbook_log_update_successful')
         ], 200);
 
     }
@@ -78,23 +78,23 @@ class SiteLogbookLogController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function destroy(SiteLogbookLog $sitelogbooklog)
+    public function destroy(SiteLogbookLog $site_logbook_log)
     {
-        $sitelogbooklog->delete();
+        $site_logbook_log->delete();
 
         return response()->json([
-            'message' => lang('sitelogbooklog_delete_successful')
+            'message' => lang('site_logbook_log_delete_successful')
         ], 204);
     }
 
 
     /**
-     * @param SiteLogbookLogService $sitelogbooklogService
+     * @param SiteLogbookLogService $site_logbook_logService
      * @return \Illuminate\Http\JsonResponse
      */
-    public function mobile(SiteLogbookLogService $sitelogbooklogService)
+    public function mobile(SiteLogbookLogService $site_logbook_logService)
     {
-        $form = $sitelogbooklogService->getMobileForm();
+        $form = $site_logbook_logService->getMobileForm();
 
         return response()->json([
             "data" => $form
