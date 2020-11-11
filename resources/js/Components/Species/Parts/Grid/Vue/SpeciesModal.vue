@@ -26,7 +26,7 @@ export default {
   },
   mixins: [Translation],
 
-  props: ['state', 'typeProp'],
+  props: ['state', 'typeProp', 'speciesProp'],
 
   components: {bmodal, SpeciesForm},
 
@@ -53,7 +53,7 @@ export default {
     state(val) {
       if(!val) return;
       if(this.typeProp != 'create') {
-        this.$refs.SpeciesForm.form = val;
+        this.$refs.SpeciesForm.form = this.speciesProp;
       }else{
         this.$refs.SpeciesForm.form = {};
       }

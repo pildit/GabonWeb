@@ -1,7 +1,7 @@
 <template>
     <div class="text-right">
         <span class="btn btn-sm btn-outline-success" @click="edit(rowProp.id)" ><i class="fas fa-edit"></i> {{translate('Edit')}}</span>
-        <species-modal type-prop="edit" v-model="modals.form"></species-modal>
+        <species-modal :species-prop="rowProp" type-prop="edit" v-model="modals.form"></species-modal>
     </div>
 </template>
 
