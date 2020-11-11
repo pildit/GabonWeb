@@ -16,7 +16,7 @@
 <script>
 import Translation from "components/Mixins/Translation";
 import bmodal from 'components/Common/BootstrapModal.vue';
-import UserForm from "./UserForm";
+import UserForm from "components/User/Parts/Form/Vue/UserForm.vue";
 
 export default {
     model: {

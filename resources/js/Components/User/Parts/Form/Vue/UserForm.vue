@@ -45,7 +45,6 @@
                    id="password"  />
             <div v-show="errors.has('password')" class="invalid-feedback">{{ errors.first('password') }}</div>
         </div>
-
         <div class="md-form mb-5">
             <label for="confirm_password">{{translate('Confirm password')}}</label>
             <input type="password"
@@ -63,13 +62,29 @@
 <script>
 import Translation from "components/Mixins/Translation";
 import User from "components/User/User";
+import {mapState} from 'vuex';
 
 export default {
     mixins: [Translation],
 
+    props: ['typeProp'],
+
     data() {
         return {
             form: {}
+        }
+    },
+
+    computed: {
+        ...mapState('user', ['user']),
+      isEditType() {
+          return this.typeProp == 'edit';
+      }
+    },
+
+    mounted() {
+        if(this.isEditType) {
+            this.form = this.user;
         }
     },
 
