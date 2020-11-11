@@ -47,5 +47,5 @@ Gabon.Species = Species;
 
 window.Gabon = Gabon;
 if(Vue.$jwt.hasToken()) {
-    store.commit('user/user', Vue.$jwt.decode()['data']);
+    store.commit('loggedUser', Vue.$jwt.decode()['data']);
 }
