@@ -5,11 +5,12 @@
            v-tooltip>
             <i class="fas fa-edit"></i>
         </a>
-        <a class="text-success aligned fz-16"
+        <a v-if="rowProp.status == 1" class="text-success aligned fz-16"
            :title="translate('Resend Confirmation Email')"
            @click="resendConfirmation"
            v-tooltip >
-            <i class="far fa-envelope"></i>
+            <span v-if="resendLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <i v-else class="far fa-envelope"></i>
         </a>
         <switches v-model="isApproved" color="green" title="Approve User" @input="approve" :emit-on-mount="false" v-tooltip></switches>
     </div>
@@ -30,7 +31,8 @@ export default {
 
     data() {
         return {
-            isApproved: this.rowProp.status == 2
+            isApproved: this.rowProp.status == 2,
+            resendLoading: false
         }
     },
 
@@ -44,7 +46,8 @@ export default {
             return promise.finally(() => this.rowProp.status = val ? 2 : 0);
         },
         resendConfirmation() {
-            User.resendConfirmation()
+            this.resendLoading = true;
+            User.resendConfirmation(this.rowProp.id).finally(() => this.resendLoading = false);
         }
     },
 

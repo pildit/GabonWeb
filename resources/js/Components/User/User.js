@@ -42,14 +42,17 @@ class User extends Base {
     static login(email, password) {
         let data = {email, password};
         return store.dispatch('user/login', data).then((response) => response.data)
+            .then((data) => Notification.success('User', data.message))
     }
 
     static register(data) {
-        return store.dispatch('user/register', data).then((response) => response.data);
+        return store.dispatch('user/register', data).then((response) => response.data)
+            .then((data) => Notification.success('User', data.message))
     }
 
     static verify(data) {
-        return store.dispatch('user/verify', data).then((response) => response.data);
+        return store.dispatch('user/verify', data).then((response) => response.data)
+            .then((data) => Notification.success('User', data.message))
     }
 
     static add(data) {
