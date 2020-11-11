@@ -149,9 +149,9 @@ SELECT lbi."Id",
        lbi."MinDiameter",
        lbi."Length",
        lbi."Volume",
-       lbi."Latitude",
-       lbi."Longitude",
-       lbi."GPSAccuracy",
+       lbi."Lat",
+       lbi."Lon",
+       lbi."GPSAccu",
        lbi."Note",
        lbi."ObserveAt",
        lbi."Approved",
@@ -162,8 +162,8 @@ SELECT lbi."Id",
 FROM "ForestResources"."LogbookItemsTable" lbi;
 
 CREATE RULE "LogbookItems_instead_of_insert" AS
-    ON INSERT TO "ForestResources"."LogbookItems" DO INSTEAD  INSERT INTO "ForestResources"."LogbookItemsTable" ("Id", "Logbook", "AnnualAllowableCutInventory", "HewingId", "Species", "MaxDiameter", "MinDiameter", "Length", "Volume", "Latitude", "Longitude", "GPSAccuracy", "Note", "ObserveAt", "Approved", "MobileId", "CreatedAt", "UpdatedAt", "DeletedAt")
-                                                              VALUES (nextval('"ForestResources"."SEQ_LogbookItemsTable"'::regclass), new."Logbook", new."AnnualAllowableCutInventory", new."HewingId", new."Species", new."MaxDiameter", new."MinDiameter", new."Length", new."Volume", new."Latitude", new."Longitude", new."GPSAccuracy", new."Note", new."ObserveAt", new."Approved", new."MobileId", new."CreatedAt", new."UpdatedAt", new."DeletedAt")
+    ON INSERT TO "ForestResources"."LogbookItems" DO INSTEAD  INSERT INTO "ForestResources"."LogbookItemsTable" ("Id", "Logbook", "AnnualAllowableCutInventory", "HewingId", "Species", "MaxDiameter", "MinDiameter", "Length", "Volume", "Lat", "Lon", "GPSAccu", "Note", "ObserveAt", "Approved", "MobileId", "CreatedAt", "UpdatedAt", "DeletedAt")
+                                                              VALUES (nextval('"ForestResources"."SEQ_LogbookItemsTable"'::regclass), new."Logbook", new."AnnualAllowableCutInventory", new."HewingId", new."Species", new."MaxDiameter", new."MinDiameter", new."Length", new."Volume", new."Lat", new."Lon", new."GPSAccu", new."Note", new."ObserveAt", new."Approved", new."MobileId", new."CreatedAt", new."UpdatedAt", new."DeletedAt")
                                                               RETURNING "ForestResources"."LogbookItemsTable"."Id",
                                                                   "ForestResources"."LogbookItemsTable"."Logbook",
                                                                   "ForestResources"."LogbookItemsTable"."AnnualAllowableCutInventory",
@@ -173,9 +173,9 @@ CREATE RULE "LogbookItems_instead_of_insert" AS
                                                                   "ForestResources"."LogbookItemsTable"."MinDiameter",
                                                                   "ForestResources"."LogbookItemsTable"."Length",
                                                                   "ForestResources"."LogbookItemsTable"."Volume",
-                                                                  "ForestResources"."LogbookItemsTable"."Latitude",
-                                                                  "ForestResources"."LogbookItemsTable"."Longitude",
-                                                                  "ForestResources"."LogbookItemsTable"."GPSAccuracy",
+                                                                  "ForestResources"."LogbookItemsTable"."Lat",
+                                                                  "ForestResources"."LogbookItemsTable"."Lon",
+                                                                  "ForestResources"."LogbookItemsTable"."GPSAccu",
                                                                   "ForestResources"."LogbookItemsTable"."Note",
                                                                   "ForestResources"."LogbookItemsTable"."ObserveAt",
                                                                   "ForestResources"."LogbookItemsTable"."Approved",
@@ -185,7 +185,7 @@ CREATE RULE "LogbookItems_instead_of_insert" AS
                                                                   "ForestResources"."LogbookItemsTable"."DeletedAt";
 
 CREATE RULE "LogbookItems_instead_of_update" AS
-    ON UPDATE TO "ForestResources"."LogbookItems" DO INSTEAD  UPDATE "ForestResources"."LogbookItemsTable" SET "AnnualAllowableCutInventory" = new."AnnualAllowableCutInventory", "HewingId" = new."HewingId", "Species" = new."Species", "MaxDiameter" = new."MaxDiameter", "MinDiameter" = new."MinDiameter", "Length" = new."Length", "Volume" = new."Volume", "Latitude" = new."Latitude", "Longitude" = new."Longitude", "GPSAccuracy" = new."GPSAccuracy", "Note" = new."Note", "ObserveAt" = new."ObserveAt", "Approved" = new."Approved", "MobileId" = new."MobileId", "UpdatedAt" = new."UpdatedAt", "DeletedAt" = new."DeletedAt"
+    ON UPDATE TO "ForestResources"."LogbookItems" DO INSTEAD  UPDATE "ForestResources"."LogbookItemsTable" SET "AnnualAllowableCutInventory" = new."AnnualAllowableCutInventory", "HewingId" = new."HewingId", "Species" = new."Species", "MaxDiameter" = new."MaxDiameter", "MinDiameter" = new."MinDiameter", "Length" = new."Length", "Volume" = new."Volume", "Lat" = new."Lat", "Lon" = new."Lon", "GPSAccu" = new."GPSAccu", "Note" = new."Note", "ObserveAt" = new."ObserveAt", "Approved" = new."Approved", "MobileId" = new."MobileId", "UpdatedAt" = new."UpdatedAt", "DeletedAt" = new."DeletedAt"
                                                               WHERE (old."Id" = new."Id")
                                                               RETURNING "ForestResources"."LogbookItemsTable"."Id",
                                                                   "ForestResources"."LogbookItemsTable"."Logbook",
@@ -196,9 +196,9 @@ CREATE RULE "LogbookItems_instead_of_update" AS
                                                                   "ForestResources"."LogbookItemsTable"."MinDiameter",
                                                                   "ForestResources"."LogbookItemsTable"."Length",
                                                                   "ForestResources"."LogbookItemsTable"."Volume",
-                                                                  "ForestResources"."LogbookItemsTable"."Latitude",
-                                                                  "ForestResources"."LogbookItemsTable"."Longitude",
-                                                                  "ForestResources"."LogbookItemsTable"."GPSAccuracy",
+                                                                  "ForestResources"."LogbookItemsTable"."Lat",
+                                                                  "ForestResources"."LogbookItemsTable"."Lon",
+                                                                  "ForestResources"."LogbookItemsTable"."GPSAccu",
                                                                   "ForestResources"."LogbookItemsTable"."Note",
                                                                   "ForestResources"."LogbookItemsTable"."ObserveAt",
                                                                   "ForestResources"."LogbookItemsTable"."Approved",
@@ -294,7 +294,7 @@ SELECT slbl."Id",
        slbl."EvacuationDate",
        slbl."Lat",
        slbl."Lon",
-       slbl."GPSAccuracy",
+       slbl."GPSAccu",
        slbl."ObserveAt",
        slbl."Approved",
        slbl."MobileId",
@@ -305,8 +305,8 @@ FROM "ForestResources"."SiteLogbookLogsTable" slbl;
 
 
 CREATE RULE "SiteLogbookLogs_instead_of_insert" AS
-    ON INSERT TO "ForestResources"."SiteLogbookLogs" DO INSTEAD  INSERT INTO "ForestResources"."SiteLogbookLogsTable" ("Id", "SiteLogbookItem", "HewingId", "Species", "MaxDiameter", "MinDiameter", "AverageDiameter", "Length", "Volume", "Note", "EvacuationDate", "Lat", "Lon", "GPSAccuracy", "ObserveAt", "Approved", "MobileId", "CreatedAt", "UpdatedAt")
-                                                                 VALUES (nextval('"ForestResources"."SEQ_SiteLogbookLogsTable"'::regclass), new."SiteLogbookItem", new."HewingId", new."Species", new."MaxDiameter", new."MinDiameter", new."AverageDiameter", new."Length", new."Volume", new."Note", new."EvacuationDate", new."Lat", new."Lon", new."GPSAccuracy", new."ObserveAt", new."Approved", new."MobileId", new."CreatedAt", new."UpdatedAt")
+    ON INSERT TO "ForestResources"."SiteLogbookLogs" DO INSTEAD  INSERT INTO "ForestResources"."SiteLogbookLogsTable" ("Id", "SiteLogbookItem", "HewingId", "Species", "MaxDiameter", "MinDiameter", "AverageDiameter", "Length", "Volume", "Note", "EvacuationDate", "Lat", "Lon", "GPSAccu", "ObserveAt", "Approved", "MobileId", "CreatedAt", "UpdatedAt")
+                                                                 VALUES (nextval('"ForestResources"."SEQ_SiteLogbookLogsTable"'::regclass), new."SiteLogbookItem", new."HewingId", new."Species", new."MaxDiameter", new."MinDiameter", new."AverageDiameter", new."Length", new."Volume", new."Note", new."EvacuationDate", new."Lat", new."Lon", new."GPSAccu", new."ObserveAt", new."Approved", new."MobileId", new."CreatedAt", new."UpdatedAt")
                                                                  RETURNING "ForestResources"."SiteLogbookLogsTable"."Id",
                                                                      "ForestResources"."SiteLogbookLogsTable"."SiteLogbookItem",
                                                                      "ForestResources"."SiteLogbookLogsTable"."HewingId",
@@ -320,7 +320,7 @@ CREATE RULE "SiteLogbookLogs_instead_of_insert" AS
                                                                      "ForestResources"."SiteLogbookLogsTable"."EvacuationDate",
                                                                      "ForestResources"."SiteLogbookLogsTable"."Lat",
                                                                      "ForestResources"."SiteLogbookLogsTable"."Lon",
-                                                                     "ForestResources"."SiteLogbookLogsTable"."GPSAccuracy",
+                                                                     "ForestResources"."SiteLogbookLogsTable"."GPSAccu",
                                                                      "ForestResources"."SiteLogbookLogsTable"."ObserveAt",
                                                                      "ForestResources"."SiteLogbookLogsTable"."Approved",
                                                                      "ForestResources"."SiteLogbookLogsTable"."MobileId",
@@ -329,7 +329,7 @@ CREATE RULE "SiteLogbookLogs_instead_of_insert" AS
                                                                      "ForestResources"."SiteLogbookLogsTable"."DeletedAt";
 
 CREATE RULE "SiteLogbookLogs_instead_of_update" AS
-    ON UPDATE TO "ForestResources"."SiteLogbookLogs" DO INSTEAD  UPDATE "ForestResources"."SiteLogbookLogsTable" SET "SiteLogbookItem" = new."SiteLogbookItem", "HewingId" = new."HewingId", "Species" = new."Species", "MaxDiameter" = new."MaxDiameter", "MinDiameter" = new."MinDiameter", "AverageDiameter" = new."AverageDiameter", "Length" = new."Length", "Volume" = new."Volume", "Note" = new."Note", "EvacuationDate" = new."EvacuationDate", "Lat" = new."Lat", "Lon" = new."Lon", "GPSAccuracy" = new."GPSAccuracy", "ObserveAt" = new."ObserveAt", "Approved" = new."Approved", "MobileId" = new."MobileId", "UpdatedAt" = new."UpdatedAt", "DeletedAt" = new."DeletedAt"
+    ON UPDATE TO "ForestResources"."SiteLogbookLogs" DO INSTEAD  UPDATE "ForestResources"."SiteLogbookLogsTable" SET "SiteLogbookItem" = new."SiteLogbookItem", "HewingId" = new."HewingId", "Species" = new."Species", "MaxDiameter" = new."MaxDiameter", "MinDiameter" = new."MinDiameter", "AverageDiameter" = new."AverageDiameter", "Length" = new."Length", "Volume" = new."Volume", "Note" = new."Note", "EvacuationDate" = new."EvacuationDate", "Lat" = new."Lat", "Lon" = new."Lon", "GPSAccu" = new."GPSAccu", "ObserveAt" = new."ObserveAt", "Approved" = new."Approved", "MobileId" = new."MobileId", "UpdatedAt" = new."UpdatedAt", "DeletedAt" = new."DeletedAt"
                                                                  WHERE (old."Id" = new."Id")
                                                                  RETURNING "ForestResources"."SiteLogbookLogsTable"."Id",
                                                                      "ForestResources"."SiteLogbookLogsTable"."SiteLogbookItem",
@@ -344,7 +344,7 @@ CREATE RULE "SiteLogbookLogs_instead_of_update" AS
                                                                      "ForestResources"."SiteLogbookLogsTable"."EvacuationDate",
                                                                      "ForestResources"."SiteLogbookLogsTable"."Lat",
                                                                      "ForestResources"."SiteLogbookLogsTable"."Lon",
-                                                                     "ForestResources"."SiteLogbookLogsTable"."GPSAccuracy",
+                                                                     "ForestResources"."SiteLogbookLogsTable"."GPSAccu",
                                                                      "ForestResources"."SiteLogbookLogsTable"."ObserveAt",
                                                                      "ForestResources"."SiteLogbookLogsTable"."Approved",
                                                                      "ForestResources"."SiteLogbookLogsTable"."MobileId",

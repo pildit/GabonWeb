@@ -32,6 +32,11 @@ class Company extends Model
     public function user() {
         return $this->belongsTo('Modules\User\Entities\User', 'UserId');
     }
+
+    public function getUserEmailAttribute() {
+         return  $this->user->email;
+    }
+
     protected $hidden = ['pivot'];
     protected $primaryKey = "Id";
 }

@@ -121,7 +121,7 @@ export default {
                 });
         },
         refresh(payload) {
-            if(payload.hasOwnProperty('search')) {
+            if(payload && payload.hasOwnProperty('search')) {
                 this.search = payload.search;
                 this.pagination.current_page = 1;
             }

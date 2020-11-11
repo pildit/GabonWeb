@@ -9,6 +9,7 @@ local_repo: "/var/www/{{ WEBSITE_DOMAIN }}" # TODO: Change this
 # www_document_root: # defined in inventory
 baseline_packages:
   - composer
+  - nodejs
   - php
   - php-cli
   - php-common

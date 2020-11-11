@@ -32,7 +32,7 @@ class SiteLogbookController extends Controller
     }
 
     /**
-     * Store sitelogbook
+     * Store site_logbook
      * @param CreateSiteLogbookRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -41,10 +41,10 @@ class SiteLogbookController extends Controller
 
         $data = $request->validated();
 
-        $sitelogbook = SiteLogbook::create($data);
+        $site_logbook = SiteLogbook::create($data);
 
         return response()->json([
-            'message' => lang("sitelogbook_created_successfully")
+            'message' => lang("site_logbook_created_successfully")
         ], 201);
     }
 
@@ -54,27 +54,27 @@ class SiteLogbookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(SiteLogbook $sitelogbook)
+    public function show(SiteLogbook $site_logbook)
     {
-        return response()->json(['data' => $sitelogbook]);
+        return response()->json(['data' => $site_logbook]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  SiteLogbook $sitelogbook
+     * @param  SiteLogbook $site_logbook
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateSiteLogbookRequest $request, SiteLogbook $sitelogbook)
+    public function update(UpdateSiteLogbookRequest $request, SiteLogbook $site_logbook)
     {
 
         $data = $request->validated();
 
-        $sitelogbook->update($data);
+        $site_logbook->update($data);
 
         return response()->json([
-            'message' => lang('sitelogbook_update_successful')
+            'message' => lang('site_logbook_update_successful')
         ], 200);
 
     }
@@ -85,22 +85,22 @@ class SiteLogbookController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function destroy(SiteLogbook $sitelogbook)
+    public function destroy(SiteLogbook $site_logbook)
     {
-        $sitelogbook->delete();
+        $site_logbook->delete();
 
         return response()->json([
-            'message' => lang('sitelogbook_delete_successful')
+            'message' => lang('site_logbook_delete_successful')
         ], 204);
     }
 
     /**
-     * @param SiteLogbookService $sitelogbookService
+     * @param SiteLogbookService $site_logbookService
      * @return \Illuminate\Http\JsonResponse
      */
-    public function mobile(SiteLogbookService $sitelogbookService)
+    public function mobile(SiteLogbookService $site_logbookService)
     {
-        $form = $sitelogbookService->getMobileForm();
+        $form = $site_logbookService->getMobileForm();
 
         return response()->json([
             "data" => $form

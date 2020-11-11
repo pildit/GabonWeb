@@ -79,6 +79,7 @@ export default {
                             window.location.href = '/';
                         })
                         .catch((error) => {
+                            console.log(error);
                             if(error) {
                                 if([401,404].includes(error.status)) {
                                     this.failed = error.data.message;

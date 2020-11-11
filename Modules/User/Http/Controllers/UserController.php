@@ -10,6 +10,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Modules\User\Entities\EmployeeType;
 use Modules\User\Entities\User;
 use Illuminate\Http\Request;
 use Modules\User\Http\Requests\CreateUserRequest;
@@ -279,5 +280,10 @@ class UserController extends Controller
         return response()->json([
             'message' => lang('Assign role succesful')
         ], 200);
+    }
+
+    public function listTypes()
+    {
+        return response()->json(['data' => EmployeeType::all()]);
     }
 }

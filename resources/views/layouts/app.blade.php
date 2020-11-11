@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>App Name - @yield('title')</title>
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons">
     <link href="/css/all.css" rel="stylesheet">
     <!--Project styles -->
 {{--    <link href="zenith_src/css/app.css" rel="stylesheet">--}}

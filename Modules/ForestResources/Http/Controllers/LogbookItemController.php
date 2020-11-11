@@ -10,12 +10,9 @@ use Modules\ForestResources\Entities\LogbookItem;
 use Modules\ForestResources\Http\Requests\CreateLogbookItemRequest;
 use Modules\ForestResources\Http\Requests\UpdateLogbookItemRequest;
 use Modules\ForestResources\Services\Logbook as LogbookService;
-use ShapeFile\Shapefile;
-use Shapefile\ShapefileException;
-use Shapefile\ShapefileReader;
 use Modules\ForestResources\Services\LogbookItem as LogbookItemService;
-use Shapefile\Geometry\Polygon;
-use Illuminate\Support\Facades\File;
+use Modules\ForestResources\Entities\Logbook;
+use Illuminate\Validation\ValidationException;
 
 class LogbookItemController extends Controller
 {
@@ -32,19 +29,24 @@ class LogbookItemController extends Controller
     }
 
     /**
-     * Store logbookitem
+     * Store logbook_item
      * @param CreateLogbookItemRequest $request
      * @return \Illuminate\Http\JsonResponse
+     * @throws ValidationException
      */
     public function store(CreateLogbookItemRequest $request)
     {
 
         $data = $request->validated();
-
-        $logbookitem = LogbookItem::create($data);
+        $logbook = Logbook::where('Id', (int)$data['Logbook'])->orWhere('MobileId', $data['Logbook'])->first();
+        if(!$logbook){
+            throw ValidationException::withMessages(['Logbook' => 'validation.exists']);
+        }
+        $data['Logbook'] = $logbook->Id;
+        $logbook_item = LogbookItem::create($data);
 
         return response()->json([
-            'message' => lang("logbookitem_created_successfully")
+            'message' => lang("logbook_item_created_successfully")
         ], 201);
     }
 
@@ -54,27 +56,32 @@ class LogbookItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(LogbookItem $logbookitem)
+    public function show(LogbookItem $logbook_item)
     {
-        return response()->json(['data' => $logbookitem]);
+        return response()->json(['data' => $logbook_item]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  LogbookItem $logbookitem
+     * @param  LogbookItem $logbook_item
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateLogbookItemRequest $request, LogbookItem $logbookitem)
+    public function update(UpdateLogbookItemRequest $request, LogbookItem $logbook_item)
     {
-
         $data = $request->validated();
-
-        $logbookitem->update($data);
+        if(isset($data['Logbook'])){
+            $logbook = Logbook::where('Id', (int)$data['Logbook'])->orWhere('MobileId', $data['Logbook'])->first();
+            if(!$logbook){
+                throw ValidationException::withMessages(['Logbook' => 'validation.exists']);
+            }
+            $data['Logbook'] = $logbook->Id;
+        }
+        $logbook_item->update($data);
 
         return response()->json([
-            'message' => lang('logbookitem_update_successful')
+            'message' => lang('logbook_item_update_successful')
         ], 200);
 
     }
@@ -85,22 +92,22 @@ class LogbookItemController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function destroy(LogbookItem $logbookitem)
+    public function destroy(LogbookItem $logbook_item)
     {
-        $logbookitem->delete();
+        $logbook_item->delete();
 
         return response()->json([
-            'message' => lang('logbookitem_delete_successful')
+            'message' => lang('logbook_item_delete_successful')
         ], 204);
     }
 
     /**
-     * @param LogbookService $logbookitemService
+     * @param LogbookService $logbook_itemService
      * @return \Illuminate\Http\JsonResponse
      */
-    public function mobile(LogbookItemService $logbookitemService)
+    public function mobile(LogbookItemService $logbook_itemService)
     {
-        $form = $logbookitemService->getMobileForm();
+        $form = $logbook_itemService->getMobileForm();
 
         return response()->json([
             "data" => $form

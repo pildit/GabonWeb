@@ -34,21 +34,22 @@ class LogbookItem extends PageResults
                 "type" => "str"
             ],
             [
-                "f" => "GPSAccu",
-                "fl" => "GPSAccu",
-                "type" => "str"
+                "f" => "GpsAccu",
+                "fl" => "",
+                "type" => "int"
             ],
             [
                 "f" => "Lat",
                 "fl" => "Lat",
-                "type" => "str"
+                "type" => "float_NotEmpty",
+                "group" => "Location"
             ],
             [
                 "f" => "Lon",
                 "fl" => "Lon",
-                "type" => "str"
+                "type" => "float",
+                "group" => "Location"
             ],
-
             [
                 "f" => "Logbook",
                 "fl" => "",

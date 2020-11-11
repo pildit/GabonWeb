@@ -149,7 +149,7 @@ class PermitController extends Controller
             'coords' => 'required',
             'coords.*.Lat' => ['required', 'regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
             'coords.*.Lon' => ['required', 'regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
-            'coords.*.Obsdate' => ['required', 'date'],
+            'coords.*.ObserveAt' => ['required', 'date'],
             'MobileId' => 'required'
         ]);
 
@@ -168,8 +168,7 @@ class PermitController extends Controller
             $trackings[$k]->User = $this->jwtPayload('data.id');
             $trackings[$k]->Lat = $coordinate['Lat'];
             $trackings[$k]->Lon = $coordinate['Lon'];
-            $trackings[$k]->GPSAccuracy = $coordinate['GpsAccu'] ?? 0;
-            $trackings[$k]->ObserveAt = $coordinate['Obsdate'];
+            $trackings[$k]->GpsAccu = $coordinate['GpsAccu'] ?? 0;
             $trackings[$k]->Geometry = DB::raw("(select $geomQuery)");
         }
 

@@ -30,6 +30,26 @@ class Logbook extends PageResults
                 "type" => "date"
             ],
             [
+                "f" => "MobileId",
+                "fl" => "",
+                "type" => "str"
+            ],
+            [
+                "f" => "ScanLat",
+                "fl" => "",
+                "type" => "float"
+            ],
+            [
+                "f" => "ScanLon",
+                "fl" => "",
+                "type" => "float"
+            ],
+            [
+                "f" => "ScanGpsAccu",
+                "fl" => "",
+                "type" => "int"
+            ],	
+            [
                 "f" => "Concession",
                 "fl" => "Concession",
                 "type" => "list_NotEmpty_NoLang",
@@ -52,11 +72,6 @@ class Logbook extends PageResults
                 "fl" => "AnnualAllowableCut",
                 "type" => "list_NotEmpty_NoLang",
                 "values" => $annualallowablecut
-            ],
-            [
-                "f" => "MobileId",
-                "fl" => "",
-                "type" => "str"
             ],
         ];
 

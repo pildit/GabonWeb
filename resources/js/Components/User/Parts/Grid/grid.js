@@ -1,4 +1,5 @@
 import User from "components/User/User";
+import ActionColumn from "./Vue/ActionColumn";
 
 export default (options) => {
     return {
@@ -8,6 +9,10 @@ export default (options) => {
                 getter: 'user/users',
                 action: 'user/index'
             },
+            sort: {
+                direction: "asc",
+                field: "status"
+            }
         },
         columns: {
             id: {
@@ -29,13 +34,20 @@ export default (options) => {
                 header: "Status",
                 forceRender: true,
                 render: (row) => {
-                    return `<span>${User.getStatusLabel(row.status)}</span>`
+                    return `<span class="badge ${User.getStatusClass(row.status)}">${User.getStatusLabel(row.status)}</span>`
                 }
             },
             created_at: {
                 header: "Date"
+            },
+            actions: {
+                header: "Actions",
+                sort: false,
+                css: {
+                    textAlign: "right"
+                },
+                component: ActionColumn
             }
-
         }
     }
 }

@@ -27,7 +27,7 @@ class SiteLogbookLog extends Model
      *
      * @var array
      */
-    protected $fillable = ['SiteLogbookItem','HewingId','Species','MaxDiameter','MinDiameter','AverageDiameter','Length','Volume','Note','EvacuationDate','Lat','Lon','GPSAccu','ObserveAt','Approved'];
+    protected $fillable = ['SiteLogbookItem','HewingId','Species','MaxDiameter','MinDiameter','AverageDiameter','Length','Volume','Note','EvacuationDate','Lat','Lon','GpsAccu','ObserveAt','Approved'];
 
     /**
      * The table associated with the model.
