@@ -10,7 +10,7 @@
            v-tooltip >
             <i class="far fa-envelope"></i>
         </a>
-        <switches v-model="enabled" color="green" title="Approve User" v-tooltip></switches>
+        <switches v-model="isApproved" color="green" title="Approve User" @input="approve" :emit-on-mount="false" v-tooltip></switches>
     </div>
 </template>
 
@@ -29,15 +29,20 @@ export default {
 
     data() {
         return {
-            enabled: false
+            isApproved: this.rowProp.status == 2
         }
     },
 
     methods: {
         editRoute() {
             return User.buildRoute('users.edit', {id: this.rowProp.id});
-        }
-    }
+        },
+        approve(val) {
+            let promise = val ? User.approve(this.rowProp.id) : User.update({id: this.rowProp.id, status: 0});
+
+            return promise.finally(() => this.rowProp.status = val ? 2 : 0);
+        },
+    },
 
 }
 </script>

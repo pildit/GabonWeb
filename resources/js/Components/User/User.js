@@ -28,6 +28,16 @@ class User extends Base {
         return statuses[status] || '';
     }
 
+    static getStatusClass(status) {
+        let statuses = {
+            0: "badge-light",
+            1: "badge-warning",
+            2: "badge-success"
+        }
+
+        return statuses[status] || 'badge-dark'
+    }
+
     static login(email, password) {
         let data = {email, password};
         return store.dispatch('user/login', data).then((response) => response.data)
@@ -43,6 +53,14 @@ class User extends Base {
 
     static add(data) {
         return store.dispatch('user/add', data).then((response) => response.data);
+    }
+
+    static update(data) {
+        return store.dispatch('user/update', data).then((response) => response.data);
+    }
+
+    static approve(id) {
+        return store.dispatch('user/approve', {id}).then((response) => response.data);
     }
 
 }

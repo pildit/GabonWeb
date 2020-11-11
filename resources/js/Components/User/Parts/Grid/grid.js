@@ -9,6 +9,10 @@ export default (options) => {
                 getter: 'user/users',
                 action: 'user/index'
             },
+            sort: {
+                direction: "asc",
+                field: "status"
+            }
         },
         columns: {
             id: {
@@ -30,7 +34,7 @@ export default (options) => {
                 header: "Status",
                 forceRender: true,
                 render: (row) => {
-                    return `<span>${User.getStatusLabel(row.status)}</span>`
+                    return `<span class="badge ${User.getStatusClass(row.status)}">${User.getStatusLabel(row.status)}</span>`
                 }
             },
             created_at: {
