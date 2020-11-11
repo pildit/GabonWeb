@@ -7,6 +7,7 @@ import role         from './role';
 import company         from './company';
 import permitType         from './permittype';
 import species         from './species';
+import geoportal from './geoportal';
 
 Vue.use(Vuex);
 Vue.use(cookie)
@@ -73,6 +74,7 @@ export default new Vuex.Store({
         role,
         company,
         permitType,
-        species
+        species,
+        geoportal
     }
 });
