@@ -58,5 +58,9 @@ export default {
                 .then((response) => response);
         },
 
+        listSearch({}, payload) {
+            return axios.get(`api/companies/list?name=${payload.name}&limit=${payload.limit}`)
+                .then((response) => response);
+        }
     }
 }

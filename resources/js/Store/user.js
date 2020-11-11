@@ -5,6 +5,7 @@ export default {
     state: {
         user: {},
         users: [],
+        employeeTypes: []
     },
     getters: {
         user(state) {
@@ -20,6 +21,9 @@ export default {
         },
         users(state, users) {
             state.users = users;
+        },
+        employeeTypes(state, employeeTypes) {
+            state.employeeTypes = employeeTypes;
         }
     },
     actions: {
@@ -59,6 +63,13 @@ export default {
         resendConfirmation({}, payload) {
             return axios.post(`api/users/${payload.id}/confirmation`, {})
                 .then((response) => response);
+        },
+        types({commit}) {
+            return axios.get(`api/users/types`)
+                .then((response) => response.data)
+                .then((responseData) => {
+                    commit('employeeTypes', responseData.data);
+                })
         }
     }
 }

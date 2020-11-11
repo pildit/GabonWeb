@@ -7,10 +7,7 @@ export default (selector, options) => {
     let vueOptions = {
         store,
         el: selector,
-        components: {UserForm},
-        mounted() {
-
-        }
+        components: {UserForm}
     }
 
     return new Vue(_.merge(options, vueOptions));
