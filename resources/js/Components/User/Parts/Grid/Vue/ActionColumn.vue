@@ -7,6 +7,7 @@
         </a>
         <a class="text-success aligned fz-16"
            :title="translate('Resend Confirmation Email')"
+           @click="resendConfirmation"
            v-tooltip >
             <i class="far fa-envelope"></i>
         </a>
@@ -42,6 +43,9 @@ export default {
 
             return promise.finally(() => this.rowProp.status = val ? 2 : 0);
         },
+        resendConfirmation() {
+            User.resendConfirmation()
+        }
     },
 
 }

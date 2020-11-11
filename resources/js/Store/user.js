@@ -47,12 +47,17 @@ export default {
                 .then((response) => response)
         },
         approve({}, payload) {
-            return axios.post(`api/users/${payload.id}/approve`, {}).then((response) => response);
+            return axios.post(`api/users/${payload.id}/approve`, {})
+                .then((response) => response);
         },
         update({}, payload) {
             let id = payload.id;
             delete payload.id;
             return axios.patch(`api/users/${id}`, payload)
+                .then((response) => response);
+        },
+        resendConfirmation({}, payload) {
+            return axios.post(`api/users/${payload.id}/confirmation`, {})
                 .then((response) => response);
         }
     }

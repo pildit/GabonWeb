@@ -5,6 +5,7 @@ import vueDetails from "./Parts/Details"
 import vueLogin from "./Parts/Login";
 import vueRegister from "./Parts/Register";
 import vueAccountConfirmation from "./Parts/Confirmation";
+import Notification from "components/Common/Notifications/Notification";
 
 class User extends Base {
 
@@ -56,11 +57,18 @@ class User extends Base {
     }
 
     static update(data) {
-        return store.dispatch('user/update', data).then((response) => response.data);
+        return store.dispatch('user/update', data).then((response) => response.data)
+            .then((data) => Notification.success('User', data.message))
     }
 
     static approve(id) {
-        return store.dispatch('user/approve', {id}).then((response) => response.data);
+        return store.dispatch('user/approve', {id}).then((response) => response.data)
+            .then((data) => Notification.success('User', data.message))
+    }
+
+    static resendConfirmation(id) {
+        return store.dispatch('user/resendConfirmation', {id}).then((response) => response.data)
+            .then((data) => Notification.success('User', data.message))
     }
 
 }
