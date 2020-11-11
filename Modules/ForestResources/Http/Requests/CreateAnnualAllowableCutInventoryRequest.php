@@ -20,7 +20,6 @@ class CreateAnnualAllowableCutInventoryRequest extends FormRequest
             'Parcel' => 'required|exists:Modules\ForestResources\Entities\Parcel,Id',
             'TreeId' => 'required|string',
             'DiameterBreastHeight' => 'required|numeric',
-            'Geometry' => 'required',
         ];
     }
 
