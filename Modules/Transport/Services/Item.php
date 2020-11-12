@@ -40,9 +40,9 @@ class Item extends PageResults
                 "type" => "str"
             ],
             [
-                "f" => "TreeId",
-                "fl" => "TreeId",
-                "type" => "list_ed_NotEmpty_NoLang",     //!!! TreeId se transformă in LogID doar cu val... fără id din lista de LogId
+                "f" => "LogId",
+                "fl" => "LogId",
+                "type" => "list_ed_NotEmpty_NoLang",     //!!! LogId se transformă in LogID doar cu val... fără id din lista de LogId
                 "values" => $treeID
            //     "condition" => "product_type=logs"
             ],
@@ -107,7 +107,7 @@ class Item extends PageResults
             ->join('ForestResources.ManagementUnits', 'ForestResources.ManagementUnits.DevelopmentUnit',"=", 'ForestResources.DevelopmentUnits.Id')
             ->join('ForestResources.AnnualAllowableCuts', 'ForestResources.AnnualAllowableCuts.ManagementUnit',"=", 'ForestResources.ManagementUnits.Id')
             ->join('ForestResources.AnnualAllowableCutInventory', 'ForestResources.AnnualAllowableCutInventory.AnnualAllowableCut',"=", 'ForestResources.AnnualAllowableCuts.Id')
-            ->select('ForestResources.AnnualAllowableCutInventory.Id','ForestResources.AnnualAllowableCutInventory.TreeId')
+            ->select('ForestResources.AnnualAllowableCutInventory.Id','ForestResources.AnnualAllowableCutInventory.LogId')
             ->where("admin.accounts.id","=", $userId)
             ->get();
 
@@ -118,13 +118,13 @@ class Item extends PageResults
 //                    ->join('ForestResources.Concessions', 'ForestResources.Concessions.Company', '=', 'Taxonomy.Companies.Id')
 //                    ->join('Taxonomy.Companies', 'admin.accounts.company_id', '=', 'Taxonomy.Companies.Id')
 //                    ->join('admin.accounts', 'admin.accounts.company_id', '=', 'Taxonomy.Companies.Id')
-//                    ->select('ForestResources.AnnualAllowableCutInventory.Id','ForestResources.AnnualAllowableCutInventory.TreeId')
+//                    ->select('ForestResources.AnnualAllowableCutInventory.Id','ForestResources.AnnualAllowableCutInventory.LogId')
 //                    ->where("admin.accounts.id","=",$userId)
 //                    ->get();
 
         $values->each(function ($value) use (&$array) {
             $array[]= [
-                'val' => $value->TreeId,
+                'val' => $value->LogId,
                 'id'  => $value->Id,
             ];
 

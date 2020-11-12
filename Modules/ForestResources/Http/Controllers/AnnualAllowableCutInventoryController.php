@@ -40,6 +40,9 @@ class AnnualAllowableCutInventoryController extends Controller
     {
         $data = $request->validated();
 
+        $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$request->get('Lon')}, {$request->get('Lat')}),4326),3857)";
+        $data['Geometry'] = $data['Geometry'] ?? DB::raw("(select $geomQuery)");
+
         $annual_allowable_cut_inventory = AnnualAllowableCutInventory::create($data);
 
         return response()->json([
@@ -68,6 +71,8 @@ class AnnualAllowableCutInventoryController extends Controller
     public function update(UpdateAnnualAllowableCutInventoryRequest $request, AnnualAllowableCutInventory $annual_allowable_cut_inventory)
     {
         $data = $request->validated();
+        $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$request->get('Lon')}, {$request->get('Lat')}),4326),3857)";
+        $data['Geometry'] = $data['Geometry'] ?? DB::raw("(select $geomQuery)");
         $annual_allowable_cut_inventory->update($data);
 
         return response()->json([
