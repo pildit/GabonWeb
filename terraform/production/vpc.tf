@@ -15,8 +15,11 @@ resource "aws_vpc" "vpcGabonProduction" {
 
 resource "aws_subnet" "subnProductionPublic_1a" {
   vpc_id                          = aws_vpc.vpcGabonProduction.id
-  cidr_block                      = "10.0.1.0/24"
   availability_zone               = "af-south-1a"
+
+  cidr_block                      = "10.0.1.0/24"
+  map_public_ip_on_launch         = "true"
+
   assign_ipv6_address_on_creation = "true"
   ipv6_cidr_block                 = cidrsubnet(aws_vpc.vpcGabonProduction.ipv6_cidr_block, 8, 1)
 
@@ -29,9 +32,11 @@ resource "aws_subnet" "subnProductionPublic_1a" {
 
 resource "aws_subnet" "subnProductionPublic_1b" {
   vpc_id                          = aws_vpc.vpcGabonProduction.id
+  availability_zone               = "af-south-1b"
+
   cidr_block                      = "10.0.2.0/24"
   map_public_ip_on_launch         = "true"
-  availability_zone               = "af-south-1b"
+
   assign_ipv6_address_on_creation = "true"
   ipv6_cidr_block                 = cidrsubnet(aws_vpc.vpcGabonProduction.ipv6_cidr_block, 8, 2)
 
