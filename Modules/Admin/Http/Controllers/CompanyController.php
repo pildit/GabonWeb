@@ -18,12 +18,14 @@ class CompanyController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @param Request $request
+     * @param PageResults $pageResults
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request, PageResults $pageResults)
     {
         $pageResults->setSortFields(['Id']);
-        return response()->json($pageResults->getPaginator($request, Company::class , ['Name'], ['types', 'user']));
+        return response()->json($pageResults->getPaginator($request, Company::class , ['Name']));
     }
 
     /**
@@ -84,6 +86,26 @@ class CompanyController extends Controller
     {
         return response()->json([
            'data' => $company
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function listCompanies(Request $request)
+    {
+        $companies = Company::where('Name', 'like', "%{$request->get('name')}%")
+            ->take($request->get('limit', 100))
+            ->get(['Id', 'Name']);
+
+        return response()->json([
+           'data' => $companies->map(function ($company) {
+               return [
+                   'Id' => $company->Id,
+                   'Name' => $company->Name
+               ];
+           })
         ]);
     }
 }

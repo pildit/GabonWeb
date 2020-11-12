@@ -18,12 +18,12 @@
 
 <script>
 import User from "components/User/User";
-import Translation from "components/Mixins/Translation";
+
 import Switches from 'vue-switches';
 
 export default {
 
-    mixins: [Translation],
+
 
     props: ["rowProp", "optionsProp"],
 
@@ -41,7 +41,7 @@ export default {
             return User.buildRoute('users.edit', {id: this.rowProp.id});
         },
         approve(val) {
-            let promise = val ? User.approve(this.rowProp.id) : User.update({id: this.rowProp.id, status: 0});
+            let promise = val ? User.approve(this.rowProp.id) : User.update(this.rowProp.id, {status: 0});
 
             return promise.finally(() => this.rowProp.status = val ? 2 : 0);
         },

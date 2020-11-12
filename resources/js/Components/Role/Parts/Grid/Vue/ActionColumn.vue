@@ -10,11 +10,9 @@
 
 <script>
 import RoleModal from "./RoleModal";
-import Translation from "components/Mixins/Translation";
 import Role from "components/Role/Role";
 
 export default {
-    mixins: [Translation],
 
     props: ["rowProp", "optionsProp"],
 

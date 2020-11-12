@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import Translation from "components/Mixins/Translation";
+
 import User from "components/User/User";
 
 export default {
@@ -87,7 +87,7 @@ export default {
             success: null
         }
     },
-    mixins: [Translation],
+
     methods: {
         onSubmit() {
             this.$validator.validate().then((valid) => {

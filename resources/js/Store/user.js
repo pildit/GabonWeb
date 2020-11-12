@@ -3,8 +3,9 @@ import axios         from 'axios';
 export default {
     namespaced: true,
     state: {
-        user: window.user,
+        user: {},
         users: [],
+        employeeTypes: []
     },
     getters: {
         user(state) {
@@ -20,6 +21,9 @@ export default {
         },
         users(state, users) {
             state.users = users;
+        },
+        employeeTypes(state, employeeTypes) {
+            state.employeeTypes = employeeTypes;
         }
     },
     actions: {
@@ -52,13 +56,20 @@ export default {
         },
         update({}, payload) {
             let id = payload.id;
-            delete payload.id;
-            return axios.patch(`api/users/${id}`, payload)
+            let data = payload.data;
+            return axios.patch(`api/users/${id}`, data)
                 .then((response) => response);
         },
         resendConfirmation({}, payload) {
             return axios.post(`api/users/${payload.id}/confirmation`, {})
                 .then((response) => response);
+        },
+        types({commit}) {
+            return axios.get(`api/users/types`)
+                .then((response) => response.data)
+                .then((responseData) => {
+                    commit('employeeTypes', responseData.data);
+                })
         }
     }
 }

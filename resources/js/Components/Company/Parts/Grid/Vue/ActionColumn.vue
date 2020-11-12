@@ -4,17 +4,15 @@
             <i class="fas fa-edit"></i>
             {{translate('Edit')}}
         </span>
-        <company-modal type-prop="edit" v-model="modals.form"></company-modal>
+        <company-modal :row-prop="rowProp" type-prop="edit" v-model="modals.form"></company-modal>
     </div>
 </template>
 
 <script>
-import Translation from "components/Mixins/Translation";
 import Company from "components/Company/Company";
 import CompanyModal from "./CompanyModal";
 
 export default {
-    mixins: [Translation],
 
     props: ["rowProp", "optionsProp"],
 
@@ -30,7 +28,7 @@ export default {
 
     methods: {
         editCompany(id) {
-            Company.get(id).then(() => this.modals.form = true);
+          this.modals.form = true;
         },
     }
 }

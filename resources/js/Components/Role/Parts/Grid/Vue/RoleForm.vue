@@ -28,14 +28,12 @@
 </template>
 
 <script>
-import Translation from "components/Mixins/Translation";
 import Multiselect from "vue-multiselect";
 import {mapGetters} from 'vuex';
 import Role from "components/Role/Role";
 
 
 export default {
-    mixins: [Translation],
 
     components: {Multiselect},
 

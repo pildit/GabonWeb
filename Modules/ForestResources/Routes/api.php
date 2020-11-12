@@ -37,3 +37,4 @@ Route::middleware('jwt:api')->resource('/site_logbook_logs', SiteLogbookLogContr
 Route::middleware('jwt:api')->resource('/permit_types', PermitTypesController::class)->except(['edit', 'create']);
 Route::middleware('jwt:api')->resource('/species', SpeciesController::class)->except(['edit', 'create']);
 Route::middleware('jwt:api')->resource('/quality', QualityController::class)->except(['edit', 'create']);
+Route::middleware('jwt:api')->resource('/product_type', ProductTypeController::class)->except(['edit', 'create']);
