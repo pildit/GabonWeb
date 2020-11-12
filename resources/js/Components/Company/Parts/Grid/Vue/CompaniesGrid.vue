@@ -27,13 +27,11 @@
 <script>
 import {mapGetters} from 'vuex';
 import VuePagination from "components/Common/Grid/VuePagination.vue";
-import Translation from "components/Mixins/Translation";
 import CompanyModal from './CompanyModal.vue';
 import Grid from "components/Common/Grid/Grid";
 import grid from "../grid";
 
 export default {
-    mixins: [Translation],
     components: {VuePagination, CompanyModal, Grid},
     data() {
         return {

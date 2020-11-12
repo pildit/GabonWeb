@@ -27,7 +27,6 @@
 <script>
 import {mapGetters, mapState, mapActions} from 'vuex';
 import VuePagination from "components/Common/Grid/VuePagination.vue";
-import Translation from "components/Mixins/Translation";
 import PermitType from "components/PermitType/PermitType";
 import PermitTypesModal from './PermitTypesModal.vue';
 
@@ -35,7 +34,6 @@ import grid from "../grid";
 import Grid from "components/Common/Grid/Grid";
 
 export default {
-  mixins: [Translation],
   components: {PermitTypesModal, VuePagination, Grid},
   data() {
     return {

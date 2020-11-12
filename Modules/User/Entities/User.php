@@ -18,6 +18,8 @@ class User extends Model implements JwtPayloadInterface
 
     protected $guard_name = 'api';
 
+    protected $with = ['roles:id,name'];
+
     /**
      * The attributes that are mass assignable.
      *

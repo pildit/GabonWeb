@@ -13,6 +13,11 @@
     @yield('styles')
 </head>
 <body style="height: 100vh">
+<div class="page-loader d-flex justify-content-center" id="page-loader">
+    <div class="spinner-border text-success" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
 <div id="notification">
     <notifications group="server" position="bottom right" />
 </div>

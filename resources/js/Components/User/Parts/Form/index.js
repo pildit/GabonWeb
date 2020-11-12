@@ -8,8 +8,10 @@ export default (selector, options) => {
         store,
         el: selector,
         components: {UserForm},
-        mounted() {
-
+        created() {
+            this.$store.dispatch('user/types');
+            this.$store.dispatch('role/permissions');
+            this.$store.dispatch('role/roles');
         }
     }
 

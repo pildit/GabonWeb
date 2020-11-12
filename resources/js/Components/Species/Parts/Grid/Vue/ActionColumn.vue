@@ -7,11 +7,9 @@
 
 <script>
 import speciesModal from "./SpeciesModal";
-import Translation from "components/Mixins/Translation";
 import Species from "components/Species/Species";
 
 export default {
-    mixins: [Translation],
 
     props: ["rowProp", "optionsProp"],
 

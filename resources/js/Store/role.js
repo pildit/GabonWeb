@@ -54,6 +54,12 @@ export default {
                 .then((response) => response);
         },
 
+        roles({commit}) {
+            return axios.get('api/roles/list')
+                .then((response) => response.data.data)
+                .then((roles) => commit('roles', roles));
+        },
+
         permissions({commit}) {
             return axios.get('api/permissions')
                 .then((response) => response.data.data)
