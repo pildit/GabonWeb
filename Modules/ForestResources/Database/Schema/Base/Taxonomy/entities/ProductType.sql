@@ -1,9 +1,7 @@
 
-create table "ProductTypeTable"
+create table "Taxonomy"."ProductTypeTable"
 (
-    "Id"        serial not null
-        constraint producttypetable_pk
-            primary key,
+    "Id"        serial not null primary key,
     "Name"      varchar,
     "CreatedAt" timestamp,
     "UpdatedAt" timestamp,
@@ -11,29 +9,29 @@ create table "ProductTypeTable"
 );
 
 
-create view "ProductType"("Id", "Name", "CreatedAt", "UpdatedAt", "UserId") as
-SELECT "ProductTypeTable"."Id",
-       "ProductTypeTable"."Name",
-       "ProductTypeTable"."CreatedAt",
-       "ProductTypeTable"."UpdatedAt",
-       "ProductTypeTable"."UserId"
+create view "Taxonomy"."ProductType"("Id", "Name", "CreatedAt", "UpdatedAt", "UserId") as
+SELECT "Taxonomy"."ProductTypeTable"."Id",
+       "Taxonomy"."ProductTypeTable"."Name",
+       "Taxonomy"."ProductTypeTable"."CreatedAt",
+       "Taxonomy"."ProductTypeTable"."UpdatedAt",
+       "Taxonomy"."ProductTypeTable"."UserId"
 FROM "Taxonomy"."ProductTypeTable";
 
 
 CREATE RULE "ProductType_instead_of_delete" AS
     ON DELETE TO "Taxonomy"."ProductType" DO INSTEAD  DELETE FROM "Taxonomy"."ProductTypeTable"
-  WHERE "ProductTypeTable"."Id" = old."Id";
+  WHERE "Taxonomy"."ProductTypeTable"."Id" = old."Id";
 
 
 CREATE RULE "ProductType_instead_of_insert" AS
     ON INSERT TO "Taxonomy"."ProductType" DO INSTEAD
     INSERT INTO "Taxonomy"."ProductTypeTable" ("Name", "UserId")
       VALUES (new."Name",  new."UserId")
-      RETURNING "ProductTypeTable"."Id",
-          "ProductTypeTable"."Name",
-          "ProductTypeTable"."CreatedAt",
-          "ProductTypeTable"."UpdatedAt",
-          "ProductTypeTable"."UserId";
+      RETURNING "Taxonomy"."ProductTypeTable"."Id",
+          "Taxonomy"."ProductTypeTable"."Name",
+          "Taxonomy"."ProductTypeTable"."CreatedAt",
+          "Taxonomy"."ProductTypeTable"."UpdatedAt",
+          "Taxonomy"."ProductTypeTable"."UserId";
 
 
 CREATE RULE "ProductType_instead_of_update" AS
@@ -41,8 +39,8 @@ CREATE RULE "ProductType_instead_of_update" AS
     DO INSTEAD  UPDATE "Taxonomy"."ProductTypeTable"
     SET "Name" = new."Name"
   WHERE "ProductTypeTable"."Id" = old."Id"
-  RETURNING "ProductTypeTable"."Id",
-      "ProductTypeTable"."Name",
-      "ProductTypeTable"."CreatedAt",
-      "ProductTypeTable"."UpdatedAt",
-      "ProductTypeTable"."UserId";
+  RETURNING "Taxonomy"."ProductTypeTable"."Id",
+      "Taxonomy"."ProductTypeTable"."Name",
+      "Taxonomy"."ProductTypeTable"."CreatedAt",
+      "Taxonomy"."ProductTypeTable"."UpdatedAt",
+      "Taxonomy"."ProductTypeTable"."UserId";
