@@ -16,7 +16,7 @@ variable "ubuntu_20_04" {
 }
 
 # set this value in secrets.tfvars (but do NOT commit that file)
-variable "sshPubKey" {
+variable "sshGabonDeploymentKey" {
     type = string
     default = ""
 }

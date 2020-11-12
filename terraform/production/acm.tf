@@ -6,3 +6,8 @@ resource "aws_acm_certificate" "certGabonHttps" {
     create_before_destroy = true
   }
 }
+
+resource "aws_key_pair" "keyGabonDeploymentKey" {
+  key_name   = "gabon-deployment-key"
+  public_key = var.sshGabonDeploymentKey
+}
