@@ -54,8 +54,8 @@ resource "aws_lb_listener_rule" "alblrProductionGabonGlobalOriginOrg" {
 
 resource "aws_lb_target_group" "lbtgProductionGabonHttps" {
   name     = "lbtgProductionGabonHttps"
-  port     = 443
-  protocol = "HTTPS"
+  port     = 80
+  protocol = "HTTP"
   vpc_id   = aws_vpc.vpcGabonProduction.id
 
   target_type = "instance"
@@ -116,12 +116,10 @@ resource "aws_instance" "iProduction_2" {
 resource "aws_lb_target_group_attachment" "lbtgaGabonProdInstance_1" {
   target_group_arn = aws_lb_target_group.lbtgProductionGabonHttps.arn
   target_id        = aws_instance.iProduction_1.id
-  port             = 80
 }
 resource "aws_lb_target_group_attachment" "lbtgaGabonProdInstance_2" {
   target_group_arn = aws_lb_target_group.lbtgProductionGabonHttps.arn
   target_id        = aws_instance.iProduction_2.id
-  port             = 80
 }
 
 output "production-alb-dns-name" {
