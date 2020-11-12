@@ -33,7 +33,7 @@ class PermitTypesController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'abbreviation' => 'string|required',
+            'abbreviation' => 'string|required|unique:\Modules\ForestResources\Entities\PermitType,Abbreviation',
             'name' => 'string'
         ]);
 

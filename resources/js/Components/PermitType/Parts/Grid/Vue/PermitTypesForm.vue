@@ -3,7 +3,7 @@
     <div class="md-form mb-5">
       <input type="text" v-model="form.Abbreviation" name="Abbreviation" class="form-control" v-validate="'required'">
       <label data-error="wrong" data-success="right" for="Abbreviation" :class="{'active': form.Abbreviation}">{{ translate('Abbreviation') }}</label>
-      <div v-show="errors.has('Abbreviation')" class="invalid-feedback">{{ errors.first('Abbreviation') }}</div>
+      <div v-show="errors.has('abbreviation')" class="invalid-feedback">{{ errors.first('abbreviation') }}</div>
     </div>
 
     <div class="md-form mb-5">
