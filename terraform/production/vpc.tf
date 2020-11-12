@@ -1,9 +1,10 @@
 resource "aws_vpc" "vpcGabonProduction" {
-  cidr_block           = "10.0.0.0/16"
-  instance_tenancy     = "default"
-  enable_dns_support   = "true"
-  enable_dns_hostnames = "true"
-  enable_classiclink   = "false"
+  cidr_block                       = "10.0.0.0/16"
+  instance_tenancy                 = "default"
+  enable_dns_support               = "true"
+  enable_dns_hostnames             = "true"
+  enable_classiclink               = "false"
+  assign_generated_ipv6_cidr_block = "true"
 
   tags = {
     Name        = "vpcGabonProduction"
@@ -13,9 +14,11 @@ resource "aws_vpc" "vpcGabonProduction" {
 }
 
 resource "aws_subnet" "subnProductionPublic_1a" {
-  vpc_id            = aws_vpc.vpcGabonProduction.id
-  cidr_block        = "10.0.1.0/24"
-  availability_zone = "af-south-1a"
+  vpc_id                          = aws_vpc.vpcGabonProduction.id
+  cidr_block                      = "10.0.1.0/24"
+  availability_zone               = "af-south-1a"
+  assign_ipv6_address_on_creation = "true"
+  ipv6_cidr_block                 = cidrsubnet(aws_vpc.vpcGabonProduction.ipv6_cidr_block, 8, 1)
 
   tags = {
     Name        = "subnProductionPublic_1a"
@@ -25,10 +28,12 @@ resource "aws_subnet" "subnProductionPublic_1a" {
 }
 
 resource "aws_subnet" "subnProductionPublic_1b" {
-  vpc_id                  = aws_vpc.vpcGabonProduction.id
-  cidr_block              = "10.0.2.0/24"
-  map_public_ip_on_launch = "true"
-  availability_zone       = "af-south-1b"
+  vpc_id                          = aws_vpc.vpcGabonProduction.id
+  cidr_block                      = "10.0.2.0/24"
+  map_public_ip_on_launch         = "true"
+  availability_zone               = "af-south-1b"
+  assign_ipv6_address_on_creation = "true"
+  ipv6_cidr_block                 = cidrsubnet(aws_vpc.vpcGabonProduction.ipv6_cidr_block, 8, 2)
 
   tags = {
     Name        = "subnProductionPublic_1b"
@@ -101,7 +106,7 @@ resource "aws_security_group_rule" "sgrProductionHttpsToWebServersFromEverywhere
   from_port         = 443
   to_port           = 443
   protocol          = "tcp"
-  cidr_blocks       = [
+  cidr_blocks = [
     "0.0.0.0/0"
   ]
 }
@@ -112,7 +117,7 @@ resource "aws_security_group_rule" "sgrProductionOutboundFromWebServersToEverywh
   from_port         = 0
   to_port           = 0
   protocol          = "all"
-  cidr_blocks       = [
+  cidr_blocks = [
     "0.0.0.0/0"
   ]
 }
