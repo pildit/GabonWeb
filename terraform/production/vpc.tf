@@ -116,6 +116,17 @@ resource "aws_security_group_rule" "sgrProductionHttpsToWebServersFromEverywhere
   ]
 }
 
+resource "aws_security_group_rule" "sgrProductionHttpToWebServersFromEverywhere" {
+  security_group_id = aws_security_group.sgProductionWebservers.id
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  cidr_blocks = [
+    "0.0.0.0/0"
+  ]
+}
+
 resource "aws_security_group_rule" "sgrProductionOutboundFromWebServersToEverywhere" {
   security_group_id = aws_security_group.sgProductionWebservers.id
   type              = "egress"
