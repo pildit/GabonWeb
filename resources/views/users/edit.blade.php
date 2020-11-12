@@ -6,7 +6,7 @@
     <div class="container mt-5" id="user-form">
        <div class="card">
            <div class="card-body">
-               <h5 class="card-title">Edit User: {{$user->email}}</h5>
+               <h5 class="card-title">Edit User: {{json_decode($user)->email}}</h5>
                <user-form type-prop="edit" :user-prop="{{$user}}"></user-form>
            </div>
        </div>

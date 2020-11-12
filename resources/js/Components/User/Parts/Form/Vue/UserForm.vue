@@ -49,6 +49,56 @@
                 @search-change="asyncFindCompany"
             ></multiselect>
         </div>
+        <div v-if="isEditType" class="md-form mb-5">
+            <label>{{translate('Employee Type')}}</label>
+            <multiselect
+                v-model="form.employee_type"
+                :options="employeeTypes"
+                :placeholder="translate('Employee Type')"
+                track-by="id"
+                label="name"
+                :allow-empty="false"
+            ></multiselect>
+        </div>
+        <div v-if="isEditType" class="md-form mb-5">
+            <label>{{translate('Roles')}}</label>
+            <multiselect
+                v-model="form.roles"
+                :options="roles"
+                placeholder="Roles"
+                track-by="id"
+                label="name"
+                :allow-empty="true"
+                :multiple="true"
+                :taggable="true"
+            ></multiselect>
+        </div>
+        <div v-if="isEditType" class="md-form mb-5">
+            <label>{{translate('Permissions')}}</label>
+            <multiselect
+                v-model="form.permissions"
+                :options="permissionList"
+                placeholder="Permissions"
+                track-by="id"
+                label="name"
+                :allow-empty="true"
+                :multiple="true"
+                :taggable="true"
+            ></multiselect>
+            <div class="text-muted">{{translate('additional_permissions')}}</div>
+        </div>
+        <div v-if="showRoleName" class="md-form mb-5 ">
+            <label for="role" :class="{'active': form.role}">{{translate('Role')}}</label>
+            <input type="text"
+                   v-model="form.role"
+                   v-validate="{required: this.form.permissions.length > 0}"
+                   :data-vv-as="translate('Role')"
+                   class="form-control notempty"
+                   name="role"
+                   id="role"/>
+            <div class="text-muted">{{translate('additional_role_info')}}</div>
+            <div v-show="errors.has('role')" class="invalid-feedback">{{ errors.first('role') }}</div>
+        </div>
         <div class="md-form mb-5">
             <label for="password" :class="{'active': form.password}">{{translate('Password')}}</label>
             <input type="password"
@@ -65,49 +115,12 @@
             <label for="confirm_password" :class="{'active': form.confirm_password}">{{translate('Confirm password')}}</label>
             <input type="password"
                    v-model="form.password_confirmation"
-                   v-validate="{required: !this.isEditType, confirmed: {target: 'password'}}"
+                   v-validate="{required: !this.isEditType || this.form.password, confirmed: {target: 'password'}}"
                    :data-vv-as="translate('password_confirmation')"
                    class="form-control"
                    name="confirm_password"
                    id="confirm_password"  />
             <div v-show="errors.has('confirm_password')" class="invalid-feedback">{{ errors.first('confirm_password') }}</div>
-        </div>
-        <div v-if="isEditType" class="md-form mb-5">
-            <label>{{translate('Employee Type')}}</label>
-            <multiselect
-                v-model="form.employee_type"
-                :options="employeeTypes"
-                :placeholder="translate('Employee Type')"
-                track-by="id"
-                label="name"
-                :allow-empty="false"
-            ></multiselect>
-        </div>
-        <div v-if="isEditType" class="md-form mb-5">
-            <label>{{translate('Roles')}}</label>
-            <multiselect
-                v-model="form.roles"
-                :options="rolesList"
-                placeholder="Roles"
-                track-by="id"
-                label="name"
-                :allow-empty="true"
-                :multiple="true"
-                :taggable="true"
-            ></multiselect>
-        </div>
-        <div v-if="isEditType" class="md-form mb-5">
-            <label>{{translate('Permissions')}}</label>
-            <multiselect
-                v-model="form.permissions"
-                :options="permissions"
-                placeholder="Permissions"
-                track-by="id"
-                label="name"
-                :allow-empty="true"
-                :multiple="true"
-                :taggable="true"
-            ></multiselect>
         </div>
         <div v-if="isEditType" class="text-right">
             <button @click="update()" class="btn btn-default">{{ translate('Save') }}</button>
@@ -138,24 +151,27 @@ export default {
                 isLoading: false,
                 limit: 50
             },
-            rolesList: [],
+            showRoleName: false
         }
     },
 
     computed: {
         ...mapState('user', ['employeeTypes']),
-        ...mapState('role', ['permissions']),
+        ...mapState('role', ['permissions', 'roles']),
         isEditType() {
             return this.typeProp == 'edit';
+        },
+        permissionList() {
+            return _.filter(this.$diffObj(this.permissions, this.userProp.permissions));
         }
     },
 
     mounted() {
         if(this.isEditType) {
-            this.form = this.userProp;
+            let user = Object.assign({}, this.userProp);
+            delete user.permissions;
+            this.form = user;
             this.asyncFindCompany('');
-            this.$store.dispatch('user/types');
-            this.$store.dispatch('role/permissions');
         }
     },
 
@@ -191,7 +207,15 @@ export default {
             })
         }
 
+    },
 
+    watch: {
+        "form.permissions": {
+            deep: true,
+            handler(val) {
+                this.showRoleName = (val && val.length) ? true : false;
+            }
+        },
     }
 
 }
