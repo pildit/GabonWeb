@@ -115,7 +115,7 @@
             <label for="confirm_password" :class="{'active': form.confirm_password}">{{translate('Confirm password')}}</label>
             <input type="password"
                    v-model="form.password_confirmation"
-                   v-validate="{required: !this.isEditType || this.form.password, confirmed: {target: 'password'}}"
+                   v-validate="form.password ? 'required|confirmed:password' : 'confirmed:password'"
                    :data-vv-as="translate('password_confirmation')"
                    class="form-control"
                    name="confirm_password"
