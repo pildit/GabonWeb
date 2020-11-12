@@ -123,7 +123,10 @@
             <div v-show="errors.has('confirm_password')" class="invalid-feedback">{{ errors.first('confirm_password') }}</div>
         </div>
         <div v-if="isEditType" class="text-right">
-            <button @click="update()" class="btn btn-default">{{ translate('Save') }}</button>
+            <button @click="update()" class="btn btn-default" :disabled="saveLoading">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="saveLoading"></span>
+                {{ translate('Save') }}
+            </button>
             <a :href="usersRoute()"class="btn btn-warning">{{ translate('Cancel') }}</a>
         </div>
     </div>
@@ -152,7 +155,8 @@ export default {
                 isLoading: false,
                 limit: 50
             },
-            showRoleName: false
+            showRoleName: false,
+            saveLoading: false
         }
     },
 
@@ -194,6 +198,7 @@ export default {
         update() {
             this.$validator.validate().then((valid) => {
                 if(valid) {
+                    this.saveLoading = true;
                     let data = User.buildForm(this.form);
                     User.update(this.userProp.id, data).then((response) => {
                        window.location.href = this.usersRoute();
@@ -201,7 +206,7 @@ export default {
                         if(error) {
                             this.$setErrorsFromResponse(error.data);
                         }
-                    })
+                    }).finally(() => this.saveLoading = false);
                 }
             })
 

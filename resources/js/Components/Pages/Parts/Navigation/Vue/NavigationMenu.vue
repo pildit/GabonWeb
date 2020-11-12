@@ -78,7 +78,7 @@ export default {
         }
     },
     created() {
-      this.$store.dispatch('$fetchMenu');
+      this.$store.dispatch('$fetchMenu').then(() =>this.$hideLoading());
     },
     components : {MenuItem}
 }

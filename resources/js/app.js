@@ -50,7 +50,7 @@ if(Vue.$jwt.hasToken()) {
     store.commit('loggedUser', Vue.$jwt.decode()['data']);
 }
 
-Vue.prototype.$diffObj = function difference(object, base) {
+Vue.prototype.$diffObj = function (object, base) {
     function changes(object, base) {
         return _.transform(object, function(result, value, key) {
             if (!_.isEqual(value, base[key])) {
@@ -60,3 +60,11 @@ Vue.prototype.$diffObj = function difference(object, base) {
     }
     return changes(object, base);
 }
+Vue.prototype.$showLoading = function() {
+    document.querySelector('#page-loader').classList.add('page-loader')
+}
+
+Vue.prototype.$hideLoading = function () {
+    document.querySelector('#page-loader').classList.remove('page-loader')
+}
+Vue.prototype.$showLoading();
