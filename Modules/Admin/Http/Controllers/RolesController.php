@@ -24,6 +24,22 @@ class RolesController extends Controller
     }
 
     /**
+     * @return JsonResponse
+     */
+    public function listRoles()
+    {
+        $roles = RoleEntity::all();
+        return response()->json([
+            "data" => $roles->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'name' => $item->name
+                ];
+            })
+        ]);
+    }
+
+    /**
      * Store a newly created resource in storage.
      * @param Request $request
      * @return JsonResponse

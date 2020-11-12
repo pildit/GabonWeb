@@ -22,12 +22,9 @@
 </template>
 
 <script>
-import Translation from "components/Mixins/Translation";
 import Species from "components/Species/Species";
 
-
 export default {
-  mixins: [Translation],
   data() {
     return {
       form : {},

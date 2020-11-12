@@ -17,9 +17,7 @@
   </li>
 </template>
 <script>
-import Translation from "components/Mixins/Translation";
 export default {
-  mixins: [Translation],
   name: 'menu-item',
   props: {
     model: Object

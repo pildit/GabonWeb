@@ -81,7 +81,7 @@ class AnnualAllowableCutInventory extends PageResults
             [
                 "f" => "Quality",
                 "fl" => "Quality",
-                "type" => "list_NotEmpty",
+                "type" => "list_NotEmpty_NoLang",
                 "values" => $quality
             ],
             [
@@ -93,12 +93,12 @@ class AnnualAllowableCutInventory extends PageResults
             [
                 "f" => "TreeId",
                 "fl" => "TreeId",
-                "type" => "str"
+                "type" => "str_NotEmpty"
             ],
             [
                 "f" => "DiameterBreastHeight",
                 "fl" => "DiameterBreastHeight",
-                "type" => "int"
+                "type" => "int_NotEmpty"
             ],
 
         ];
@@ -169,7 +169,7 @@ class AnnualAllowableCutInventory extends PageResults
 
         $qualities->each(function ($quality) use (&$qualities_array) {
             $qualities_array[]= [
-                'val' => $quality->Value,
+                'val' => strval($quality->Value),
                 'id'  => $quality->Id,
             ];
 

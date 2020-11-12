@@ -42,7 +42,7 @@ class Item extends PageResults
             [
                 "f" => "TreeId",
                 "fl" => "TreeId",
-                "type" => "str_NotEmpty",     //! sau listă editabilă  (type=list_ed_Not_Empty) - intorc id sau val
+                "type" => "list_ed_NotEmpty_NoLang",     //!!! TreeId se transformă in LogID doar cu val... fără id din lista de LogId
                 "values" => $treeID
            //     "condition" => "product_type=logs"
             ],
@@ -54,13 +54,13 @@ class Item extends PageResults
             ],
             [
                 "f" => "MinDiameter",
-                "fl" => "Diam1",
+                "fl" => "MinDiameter",
                 "type" => "float_NotEmpty",
             //    "condition" => "product_type=logs"
             ],
             [
                 "f" => "MaxDiameter",
-                "fl" => "Diam2",
+                "fl" => "MaxDiameter",
                 "type" => "float_NotEmpty",
            //     "condition" => "product_type=logs"
             ],

@@ -54,7 +54,6 @@
 
 <script>
 import {mapGetters, mapState} from 'vuex';
-import Translation from "components/Mixins/Translation";
 
 import MenuItem from './MenuItem.vue';
 
@@ -62,7 +61,6 @@ export default {
     data() {
         return {}
     },
-    mixins:[Translation],
     computed: {
         ...mapGetters(['translations', 'languages', 'lang', 'menu', 'logged_in']),
         ...mapState(['loggedUser']),
@@ -78,7 +76,7 @@ export default {
         }
     },
     created() {
-      this.$store.dispatch('$fetchMenu');
+      this.$store.dispatch('$fetchMenu').then(() =>this.$hideLoading());
     },
     components : {MenuItem}
 }

@@ -17,12 +17,10 @@
 </template>
 
 <script>
-import Translation from "components/Mixins/Translation";
 import PermitType from "../../../PermitType";
 
 
 export default {
-  mixins: [Translation],
   data() {
     return {
       form : {},

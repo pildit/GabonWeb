@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import Translation from "components/Mixins/Translation";
 import bmodal from 'components/Common/BootstrapModal.vue';
 import CompanyForm from "./CompanyForm";
 import {mapGetters} from 'vuex';

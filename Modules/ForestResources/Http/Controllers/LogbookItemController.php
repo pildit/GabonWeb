@@ -24,8 +24,13 @@ class LogbookItemController extends Controller
     public function index(Request $request, PageResults $pr)
     {
         $pr->setSortFields(['Id']);
+        $logbook = Logbook::where('Id', (int)$request->get("Logbook"))->first();
+        if(!$logbook){
+            throw ValidationException::withMessages(['Logbook' => 'validation.exists']);
+        }
+        $request->merge(['search'=>$request->get("Logbook")]);
 
-        return response()->json($pr->getPaginator($request, LogbookItem::class,[]));
+        return response()->json($pr->getPaginator($request, LogbookItem::class,['Logbook']));
     }
 
     /**
