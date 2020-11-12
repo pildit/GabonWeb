@@ -8,7 +8,7 @@
         </div>
         <div slot="footer">
             <button @click="submit" class="btn btn-default">Save</button>
-            <button @click="closeModal"class="btn btn-warning">Cancel</button>
+            <button @click="closeModal" class="btn btn-warning">Cancel</button>
         </div>
     </bmodal>
 </template>
@@ -27,7 +27,7 @@ export default {
 
     mixins: [Translation],
 
-    props: ['state', 'typeProp'],
+    props: ['state', 'typeProp', 'rowProp'],
 
     components: {bmodal, CompanyForm},
 
@@ -53,7 +53,7 @@ export default {
         state(val) {
             if(!val) return;
             if(this.typeProp != 'create') {
-                this.$refs.companyForm.form = this.company;
+                this.$refs.companyForm.form = this.rowProp;
             }else{
                 this.$refs.companyForm.form = {};
             }

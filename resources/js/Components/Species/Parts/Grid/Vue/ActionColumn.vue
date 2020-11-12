@@ -1,7 +1,7 @@
 <template>
     <div class="text-right">
         <span class="btn btn-sm btn-outline-success" @click="edit(rowProp.id)" ><i class="fas fa-edit"></i> {{translate('Edit')}}</span>
-        <species-modal type-prop="edit" v-model="modals.form"></species-modal>
+        <species-modal :row-prop="rowProp" type-prop="edit" v-model="modals.form"></species-modal>
     </div>
 </template>
 
@@ -27,10 +27,7 @@ export default {
 
     methods: {
         edit(id) {
-          Species.get(id).then(() => {
-            this.modals.form = this.rowProp;
-            console.log(this.rowProp);
-        })
+            this.modals.form = true;
         }
     }
 }
