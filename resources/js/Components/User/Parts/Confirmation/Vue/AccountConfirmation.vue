@@ -18,12 +18,12 @@
 </template>
 
 <script>
-import Translation from "components/Mixins/Translation";
+
 import User from "components/User/User";
 
 export default {
     props: ['tokenProp'],
-    mixins: [Translation],
+
     data() {
         return {
             loading: true,

@@ -133,7 +133,7 @@
 </template>
 
 <script>
-import Translation from "components/Mixins/Translation";
+
 import User from "components/User/User";
 import Company from "components/Company/Company";
 import {mapState} from 'vuex';
@@ -141,7 +141,7 @@ import Multiselect from 'vue-multiselect'
 import Notification from "components/Common/Notifications/Notification";
 
 export default {
-    mixins: [Translation],
+
 
     props: ['typeProp', 'userProp'],
 

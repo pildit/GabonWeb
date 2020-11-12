@@ -18,12 +18,12 @@
 
 <script>
 import User from "components/User/User";
-import Translation from "components/Mixins/Translation";
+
 import Switches from 'vue-switches';
 
 export default {
 
-    mixins: [Translation],
+
 
     props: ["rowProp", "optionsProp"],
 

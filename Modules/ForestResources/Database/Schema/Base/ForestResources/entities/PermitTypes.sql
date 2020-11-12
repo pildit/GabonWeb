@@ -34,7 +34,7 @@ on "ForestResources"."PermitTypesTable"
     )
 ;
 
-create view "PermitTypes"("Id", "Name", "Abbreviation", "UserId", "CreatedAt", "UpdatedAt") as
+create view "ForestResources"."PermitTypes"("Id", "Name", "Abbreviation", "UserId", "CreatedAt", "UpdatedAt") as
 SELECT pt."Id",
        pt."Name",
        pt."Abbreviation",
@@ -46,12 +46,12 @@ FROM "ForestResources"."PermitTypesTable" pt;
 CREATE RULE "PermitTypes_instead_of_insert" AS
     ON INSERT TO "ForestResources"."PermitTypes" DO INSTEAD  INSERT INTO "ForestResources"."PermitTypesTable" ("Id", "Name", "Abbreviation", "UserId", "CreatedAt", "UpdatedAt")
   VALUES (nextval('"ForestResources"."SEQ_PermitTypes"'::regclass), new."Name", new."Abbreviation", new."UserId", new."CreatedAt", new."UpdatedAt")
-  RETURNING "PermitTypesTable"."Id",
-    "PermitTypesTable"."Name",
-    "PermitTypesTable"."Abbreviation",
-    "PermitTypesTable"."UserId",
-    "PermitTypesTable"."CreatedAt",
-    "PermitTypesTable"."UpdatedAt";
+  RETURNING "ForestResources"."PermitTypesTable"."Id",
+    "ForestResources"."PermitTypesTable"."Name",
+    "ForestResources"."PermitTypesTable"."Abbreviation",
+    "ForestResources"."PermitTypesTable"."UserId",
+    "ForestResources"."PermitTypesTable"."CreatedAt",
+    "ForestResources"."PermitTypesTable"."UpdatedAt";
 
 
 
@@ -59,17 +59,17 @@ CREATE RULE "PermitTypes_instead_of_insert" AS
 CREATE RULE "PermitTypes_instead_of_update" AS
     ON UPDATE TO "ForestResources"."PermitTypes" DO INSTEAD  UPDATE "ForestResources"."PermitTypesTable" SET "Name" = new."Name", "Abbreviation" = new."Abbreviation"
   WHERE "PermitTypesTable"."Id" = old."Id"
-  RETURNING "PermitTypesTable"."Id",
-    "PermitTypesTable"."Name",
-    "PermitTypesTable"."Abbreviation",
-        "PermitTypesTable"."UserId",
-    "PermitTypesTable"."CreatedAt",
-    "PermitTypesTable"."UpdatedAt";
+  RETURNING "ForestResources"."PermitTypesTable"."Id",
+    "ForestResources"."PermitTypesTable"."Name",
+    "ForestResources"."PermitTypesTable"."Abbreviation",
+    "ForestResources"."PermitTypesTable"."UserId",
+    "ForestResources"."PermitTypesTable"."CreatedAt",
+    "ForestResources"."PermitTypesTable"."UpdatedAt";
 
 
 
 CREATE RULE "PermitTypes_instead_of_delete" AS
     ON DELETE TO "ForestResources"."PermitTypes" DO INSTEAD  DELETE FROM "ForestResources"."PermitTypesTable"
-  WHERE "PermitTypesTable"."Id" = old."Id";
+  WHERE "ForestResources"."PermitTypesTable"."Id" = old."Id";
 
 

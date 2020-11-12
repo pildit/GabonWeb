@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import Translation from "components/Mixins/Translation";
+
 import bmodal from 'components/Common/BootstrapModal.vue';
 import SpeciesForm from "./SpeciesForm";
 import {mapGetters} from 'vuex';
@@ -24,9 +24,9 @@ export default {
     prop: 'state',
     event: 'display'
   },
-  mixins: [Translation],
 
-  props: ['state', 'typeProp'],
+
+  props: ['state', 'typeProp', 'rowProp'],
 
   components: {bmodal, SpeciesForm},
 
@@ -53,7 +53,7 @@ export default {
     state(val) {
       if(!val) return;
       if(this.typeProp != 'create') {
-        this.$refs.SpeciesForm.form = val;
+        this.$refs.SpeciesForm.form = this.rowProp;
       }else{
         this.$refs.SpeciesForm.form = {};
       }

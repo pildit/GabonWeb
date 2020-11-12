@@ -4,6 +4,7 @@ import VueReactiveCookie from 'vue-reactive-cookie';
 import VeeValidate from 'vee-validate';
 import Notifications from 'vue-notification'
 import VueJwt from 'vuejs-jwt';
+import Translation from "./Components/Mixins/Translation";
 import store from "store/store"
 import config from './Components/_config/index';
 import directives from './Components/_config/Directives/index';
@@ -15,6 +16,7 @@ import Role from './Components/Role/Role';
 import Company from './Components/Company/Company';
 import PermitType from './Components/PermitType/PermitType';
 import Species from './Components/Species/Species';
+import ProductType from './Components/ProductType/ProductType';
 
 Vue.config.devtools = true;
 window.Vent         = new Vue;
@@ -30,6 +32,8 @@ Vue.use(VueJwt, {
     storage: 'cookie'
 })
 
+Vue.mixin(Translation);
+
 new Vue({
     el: '#notification'
 })
@@ -44,6 +48,7 @@ Gabon.Role = Role;
 Gabon.Company = Company;
 Gabon.PermitType = PermitType;
 Gabon.Species = Species;
+Gabon.ProductType = ProductType;
 
 window.Gabon = Gabon;
 if(Vue.$jwt.hasToken()) {
