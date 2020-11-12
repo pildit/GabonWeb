@@ -105,6 +105,9 @@ resource "aws_security_group_rule" "sgrProductionSshToWebServersFromSecuredOrigi
   cidr_blocks       = var.securedOrigins
 }
 
+
+# TODO: this needs to be better defined: currently both the ALB and the Web Server allows incoming HTTP(S) from anywhere
+#       I would like this to be so that the ALB allows incoming connections, and that the web FE's only allow 80 from the ALB and from nowhere else
 resource "aws_security_group_rule" "sgrProductionHttpsToWebServersFromEverywhere" {
   security_group_id = aws_security_group.sgProductionWebservers.id
   type              = "ingress"
