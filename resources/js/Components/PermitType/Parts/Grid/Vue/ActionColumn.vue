@@ -1,7 +1,7 @@
 <template>
     <div class="text-right">
-        <span class="btn btn-sm btn-outline-success" @click="edit(rowProp.id)" ><i class="fas fa-edit"></i> {{translate('Edit')}}</span>
-        <permit-types-modal type-prop="edit" v-model="modals.form"></permit-types-modal>
+        <span class="btn btn-sm btn-outline-success" @click="edit()" ><i class="fas fa-edit"></i> {{translate('Edit')}}</span>
+        <permit-types-modal :row-prop="rowProp" type-prop="edit" v-model="modals.form"></permit-types-modal>
     </div>
 </template>
 
@@ -21,7 +21,14 @@ export default {
             }
         }
     },
+
+    methods: {
+        edit() {
+            this.modals.form = true;
+        }
+    }
 }
+
 </script>
 
 <style scoped>
