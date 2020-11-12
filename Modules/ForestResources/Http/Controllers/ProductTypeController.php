@@ -36,22 +36,13 @@ class ProductTypeController extends Controller
         ]);
 
         ProductType::create([
-            'Name' => $data['name']
+            'Name' => $data['name'],
+            'UserId' => $this->jwtPayload('data.id')
         ]);
 
         return \response()->json([
             'message' => lang('created_successfully')
         ], 201);
-    }
-
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function show($id)
-    {
-        return view('forestresources::show');
     }
 
 

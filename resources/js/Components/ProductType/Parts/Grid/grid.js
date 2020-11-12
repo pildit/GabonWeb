@@ -20,10 +20,10 @@ export default (options) => {
             Name: {
                 header: "Name"
             },
-            email: {
+            Email: {
                 header: "Email",
             },
-            created_at: {
+            CreatedAt: {
                 header: "Created At",
             },
             actions: {
