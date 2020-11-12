@@ -85,13 +85,41 @@ resource "aws_instance" "iProduction_1" {
   }
 }
 
+resource "aws_instance" "iProduction_2" {
+  ami           = var.ubuntu_20_04
+  instance_type = "t3.nano"
+
+  vpc_security_group_ids = [
+    aws_security_group.sgProductionWebservers.id
+  ]
+  subnet_id = aws_subnet.subnProductionPublic_1a.id
+  key_name  = aws_key_pair.keyGabonDeploymentKey.key_name
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  root_block_device {
+    volume_size = "50"
+  }
+
+  tags = {
+    Name        = "iProduction_2"
+    Environment = "production"
+    Terraform   = "1"
+  }
+}
+
 
 # NOTE: Attach additional hosts to the lbtgProduction_Https target group (just like below) to
 # scale horizontally the load balancer's job is to rotate requests around to the instances
 # in the target group
-resource "aws_lb_target_group_attachment" "lbtgaGabonProdInstance" {
+resource "aws_lb_target_group_attachment" "lbtgaGabonProdInstance_1" {
   target_group_arn = aws_lb_target_group.lbtgProductionGabonHttps.arn
   target_id        = aws_instance.iProduction_1.id
+}
+resource "aws_lb_target_group_attachment" "lbtgaGabonProdInstance_2" {
+  target_group_arn = aws_lb_target_group.lbtgProductionGabonHttps.arn
+  target_id        = aws_instance.iProduction_2.id
 }
 
 output "production-alb-dns-name" {
