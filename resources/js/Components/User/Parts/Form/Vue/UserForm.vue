@@ -135,6 +135,7 @@ import User from "components/User/User";
 import Company from "components/Company/Company";
 import {mapState} from 'vuex';
 import Multiselect from 'vue-multiselect'
+import Notification from "components/Common/Notifications/Notification";
 
 export default {
     mixins: [Translation],
@@ -191,7 +192,18 @@ export default {
         },
 
         update() {
-            this.$validator.validate();
+            this.$validator.validate().then((valid) => {
+                if(valid) {
+                    let data = User.buildForm(this.form);
+                    User.update(this.userProp.id, data).then((response) => {
+                       window.location.href = this.usersRoute();
+                    }).catch((error) => {
+                        if(error) {
+                            this.$setErrorsFromResponse(error.data);
+                        }
+                    })
+                }
+            })
 
         },
 
@@ -204,6 +216,7 @@ export default {
             Company.listSearch(query, this.companyList.limit).then((response) => {
                 this.companyList.data= response.data;
                 this.companyList.isLoading = false;
+                this.form.company = this.companyList.data.find((x) => x['Id'] == this.form.company_id);
             })
         }
 

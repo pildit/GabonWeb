@@ -10,6 +10,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Modules\Admin\Entities\Role;
 use Modules\User\Entities\EmployeeType;
 use Modules\User\Entities\User;
 use Illuminate\Http\Request;
@@ -71,6 +72,13 @@ class UserController extends Controller
 
         $user->fill($data);
         $user->save($data);
+        if(isset($data['role_name'])) {
+            $role = Role::create(['name' => $data['role_name']]);
+            $role->syncPermissions($data['permissions']);
+            $data['roles'][] = $role->id;
+        }
+
+        $user->syncRoles($data['roles']);
 
         return response()->json([
             'message' => lang('Update successful')
