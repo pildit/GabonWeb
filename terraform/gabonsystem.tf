@@ -20,6 +20,7 @@ resource "aws_subnet" "subnGabonSystemPublic" {
   vpc_id                  = aws_vpc.vpcGabonSystem.id
   cidr_block              = "10.0.0.0/24"
   map_public_ip_on_launch = "true"
+  availability_zone = "us-east-1b"
 
   tags = {
     Name      = "subnGabonSystemPublic"
@@ -177,10 +178,6 @@ resource "aws_eip" "eipProduction" {
 
 output "vpc-id" {
   value = aws_vpc.vpcGabonSystem.id
-}
-
-output "production-alb-dns-name" {
-  value = aws_lb.albProduction.dns_name
 }
 
 output "vpc-publicsubnet" {
