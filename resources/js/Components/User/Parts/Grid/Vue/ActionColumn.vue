@@ -1,0 +1,72 @@
+<template>
+    <div class="text-right">
+        <a :href="editRoute()" class="text-success aligned fz-16"
+           :title="translate('Edit')"
+           v-tooltip>
+            <i class="fas fa-edit"></i>
+        </a>
+        <a v-if="rowProp.status == 1" class="text-success aligned fz-16"
+           :title="translate('Resend Confirmation Email')"
+           @click="resendConfirmation"
+           v-tooltip >
+            <span v-if="resendLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <i v-else class="far fa-envelope"></i>
+        </a>
+        <switches v-model="isApproved" color="green" title="Approve User" @input="approve" :emit-on-mount="false" v-tooltip></switches>
+    </div>
+</template>
+
+<script>
+import User from "components/User/User";
+
+import Switches from 'vue-switches';
+
+export default {
+
+
+
+    props: ["rowProp", "optionsProp"],
+
+    components: {Switches},
+
+    data() {
+        return {
+            isApproved: this.rowProp.status == 2,
+            resendLoading: false
+        }
+    },
+
+    methods: {
+        editRoute() {
+            return User.buildRoute('users.edit', {id: this.rowProp.id});
+        },
+        approve(val) {
+            let promise = val ? User.approve(this.rowProp.id) : User.update(this.rowProp.id, {status: 0});
+
+            return promise.finally(() => this.rowProp.status = val ? 2 : 0);
+        },
+        resendConfirmation() {
+            this.resendLoading = true;
+            User.resendConfirmation(this.rowProp.id).finally(() => this.resendLoading = false);
+        }
+    },
+
+}
+</script>
+
+<style scoped>
+.aligned {
+    vertical-align: middle;
+}
+.fz-16 {
+    font-size: 16px;
+}
+.vue-switcher {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 0;
+    vertical-align: middle;
+    margin-left: 0.2em;
+}
+
+</style>

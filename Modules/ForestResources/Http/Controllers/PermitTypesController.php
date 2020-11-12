@@ -7,9 +7,13 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\PermitType;
 use App\Services\PageResults;
+use GenTux\Jwt\GetsJwtToken;
+use Log;
 
 class PermitTypesController extends Controller
 {
+    use GetsJwtToken;
+
     /**
      * Display a listing of the resource.
      * @return Response
@@ -33,10 +37,10 @@ class PermitTypesController extends Controller
             'name' => 'string'
         ]);
 
-
         PermitType::create([
             'Abbreviation' => $data['abbreviation'],
-            'Name' => $data['name']
+            'Name' => $data['name'] ?? null,
+            'UserId' => $this->JwtPayload('data.id')
             ]);
 
         return \response()->json([
@@ -67,11 +71,10 @@ class PermitTypesController extends Controller
             'name' => 'string'
         ]);
 
-        $permit_type->fill([
-            'Abbreviation' => $data['abbreviation'],
-            'Name' => $data['name']
-        ]);
+        $permit_type->Abbreviation = $data['abbreviation'];
 
+        if ($request->has('name'))
+            $permit_type->Name = $data['name'];
 
         $permit_type->save();
 

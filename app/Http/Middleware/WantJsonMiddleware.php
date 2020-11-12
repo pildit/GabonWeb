@@ -19,7 +19,9 @@ class WantJsonMiddleware
     public function handle(Request $request, Closure $next)
     {
         if(in_array($request->getMethod(), ["POST", "PUT", "PATCH"])){
-            json_decode($request->getContent());
+            if(!empty($request->getContent())) {
+                json_decode($request->getContent());
+            }
             if (json_last_error() != JSON_ERROR_NONE || !$request->isJson()) {
                 return response()->json(["message" => "Request must be json"], 400);
             }

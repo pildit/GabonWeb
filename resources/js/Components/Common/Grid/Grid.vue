@@ -32,11 +32,8 @@
 <script>
 import VuePagination from "./VuePagination";
 import GridCell from "./GridCell";
-import Translation from "../../Mixins/Translation";
 
 export default {
-    mixins: [Translation],
-
     props: ['options', 'columns'],
 
     components: {GridCell, VuePagination},
@@ -121,7 +118,7 @@ export default {
                 });
         },
         refresh(payload) {
-            if(payload.hasOwnProperty('search')) {
+            if(payload && payload.hasOwnProperty('search')) {
                 this.search = payload.search;
                 this.pagination.current_page = 1;
             }

@@ -53,8 +53,7 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
-import Translation from "components/Mixins/Translation";
+import {mapGetters, mapState} from 'vuex';
 
 import MenuItem from './MenuItem.vue';
 
@@ -62,12 +61,11 @@ export default {
     data() {
         return {}
     },
-    mixins:[Translation],
     computed: {
         ...mapGetters(['translations', 'languages', 'lang', 'menu', 'logged_in']),
-        ...mapGetters('user', ['user']),
+        ...mapState(['loggedUser']),
       username()  {
-          return this.user.firstname + ' ' + this.user.lastname;
+          return this.loggedUser.firstname + ' ' + this.loggedUser.lastname;
       }
     },
     methods: {
@@ -78,7 +76,7 @@ export default {
         }
     },
     created() {
-      this.$store.dispatch('$fetchMenu');
+      this.$store.dispatch('$fetchMenu').then(() =>this.$hideLoading());
     },
     components : {MenuItem}
 }

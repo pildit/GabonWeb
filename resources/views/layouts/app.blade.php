@@ -5,13 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>App Name - @yield('title')</title>
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons">
     <link href="/css/all.css" rel="stylesheet">
     <!--Project styles -->
 {{--    <link href="zenith_src/css/app.css" rel="stylesheet">--}}
     @yield('styles')
 </head>
 <body style="height: 100vh">
+<div class="page-loader d-flex justify-content-center" id="page-loader">
+    <div class="spinner-border text-success" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
 <div id="notification">
     <notifications group="server" position="bottom right" />
 </div>

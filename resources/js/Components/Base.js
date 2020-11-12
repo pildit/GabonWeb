@@ -2,6 +2,7 @@ import _ from 'lodash';
 import Vue from 'vue';
 import store from "store/store";
 import Grid from "./Common/Grid/Grid";
+import Router from "./Router";
 
 class Base {
 
@@ -26,6 +27,10 @@ class Base {
         let components = this.getComponents();
 
         return components[selector](`#${selector}`, options);
+    }
+
+    static buildRoute(name, params = {}) {
+        return Router.build(name, params);
     }
 }
 

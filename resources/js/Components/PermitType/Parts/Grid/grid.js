@@ -26,7 +26,7 @@ export default (options) => {
             email: {
                 header: "Email",
             },
-            created_at: {
+            CreatedAt: {
                 header: "Created At",
             },
             actions: {
