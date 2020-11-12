@@ -4,6 +4,7 @@ import VueReactiveCookie from 'vue-reactive-cookie';
 import VeeValidate from 'vee-validate';
 import Notifications from 'vue-notification'
 import VueJwt from 'vuejs-jwt';
+import Translation from "./Components/Mixins/Translation";
 import store from "store/store"
 import config from './Components/_config/index';
 import directives from './Components/_config/Directives/index';
@@ -29,6 +30,8 @@ Vue.use(VueJwt, {
     keyName: 'jwt',
     storage: 'cookie'
 })
+
+Vue.mixin(Translation);
 
 new Vue({
     el: '#notification'

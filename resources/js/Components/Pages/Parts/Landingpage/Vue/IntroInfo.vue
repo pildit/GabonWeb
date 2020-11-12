@@ -30,10 +30,8 @@
 </template>
 
 <script>
-import Translation from "components/Mixins/Translation";
 
 export default {
-    mixins: [Translation],
     methods: {
         scrollToMain() {
             $('html, body').animate({

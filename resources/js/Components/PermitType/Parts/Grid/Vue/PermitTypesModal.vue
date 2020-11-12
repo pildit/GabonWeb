@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import Translation from "components/Mixins/Translation";
 import bmodal from 'components/Common/BootstrapModal.vue';
 import PermitTypesForm from "./PermitTypesForm";
 import {mapGetters} from 'vuex';
@@ -24,7 +23,6 @@ export default {
     prop: 'state',
     event: 'display'
   },
-  mixins: [Translation],
 
   props: ['state', 'typeProp'],
 

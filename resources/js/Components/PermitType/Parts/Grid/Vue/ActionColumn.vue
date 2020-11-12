@@ -7,11 +7,8 @@
 
 <script>
 import permitTypesModal from "./PermitTypesModal";
-import Translation from "components/Mixins/Translation";
-import PermitType from "components/PermitType/PermitType";
 
 export default {
-    mixins: [Translation],
 
     props: ["rowProp", "optionsProp"],
 
@@ -24,12 +21,6 @@ export default {
             }
         }
     },
-
-    methods: {
-        editRole(id) {
-            Role.get(id).then(() => this.modals.form = true);
-        }
-    }
 }
 </script>
 

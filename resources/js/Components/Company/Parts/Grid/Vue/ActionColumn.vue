@@ -9,12 +9,10 @@
 </template>
 
 <script>
-import Translation from "components/Mixins/Translation";
 import Company from "components/Company/Company";
 import CompanyModal from "./CompanyModal";
 
 export default {
-    mixins: [Translation],
 
     props: ["rowProp", "optionsProp"],
 
