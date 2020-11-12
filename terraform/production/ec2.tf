@@ -116,10 +116,12 @@ resource "aws_instance" "iProduction_2" {
 resource "aws_lb_target_group_attachment" "lbtgaGabonProdInstance_1" {
   target_group_arn = aws_lb_target_group.lbtgProductionGabonHttps.arn
   target_id        = aws_instance.iProduction_1.id
+  port             = 80
 }
 resource "aws_lb_target_group_attachment" "lbtgaGabonProdInstance_2" {
   target_group_arn = aws_lb_target_group.lbtgProductionGabonHttps.arn
   target_id        = aws_instance.iProduction_2.id
+  port             = 80
 }
 
 output "production-alb-dns-name" {
