@@ -7,7 +7,12 @@ export default (selector, options) => {
     let vueOptions = {
         store,
         el: selector,
-        components: {UserForm}
+        components: {UserForm},
+        created() {
+            this.$store.dispatch('user/types');
+            this.$store.dispatch('role/permissions');
+            this.$store.dispatch('role/roles');
+        }
     }
 
     return new Vue(_.merge(options, vueOptions));

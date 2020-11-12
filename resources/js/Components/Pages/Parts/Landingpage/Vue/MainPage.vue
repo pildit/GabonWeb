@@ -96,10 +96,9 @@
 </template>
 
 <script>
-import Translation from "components/Mixins/Translation";
 
 export default {
-    mixins:[Translation],
+
 }
 </script>
 

@@ -18,6 +18,20 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        return view('users.edit', ['user' => $user]);
+        $permissions = $user->getAllPermissions()->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'name' => $item->name
+            ];
+        });
+        $data = $user->toArray();
+        $data['roles'] = $user->roles->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'name' => $item->name
+            ];
+        });
+        $data['permissions'] = $permissions->toArray();
+        return view('users.edit', ['user' => json_encode($data)]);
     }
 }

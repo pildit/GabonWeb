@@ -56,8 +56,8 @@ export default {
         },
         update({}, payload) {
             let id = payload.id;
-            delete payload.id;
-            return axios.patch(`api/users/${id}`, payload)
+            let data = payload.data;
+            return axios.patch(`api/users/${id}`, data)
                 .then((response) => response);
         },
         resendConfirmation({}, payload) {

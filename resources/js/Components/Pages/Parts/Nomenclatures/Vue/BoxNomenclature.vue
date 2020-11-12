@@ -12,15 +12,13 @@
 </template>
 
 <script>
-import Translation from "components/Mixins/Translation";
 
-    export default  {
-        props: {
-          item: Object
-        },
-        mixins: [Translation],
-        created() {
-        }
+export default  {
+    props: {
+      item: Object
+    },
+    created() {
     }
+}
 
 </script>

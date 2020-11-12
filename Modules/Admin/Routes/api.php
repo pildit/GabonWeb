@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 */
 
 Route::middleware('jwt:api')->group(function (){
+    Route::get('/roles/list', "RolesController@listRoles");
     Route::resource('/roles', 'RolesController')->except(['create', 'edit']);
     Route::get('/roles/{role}/permissions', "PermissionController@showPermissions");
     Route::put('/roles/{role}/permissions', "PermissionController@permissions");

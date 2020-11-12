@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import Translation from "components/Mixins/Translation";
+
 import {mapGetters} from 'vuex';
 import VuePagination from "components/Common/Grid/VuePagination.vue";
 import grid from "../grid";
@@ -33,7 +33,7 @@ import Grid from "components/Common/Grid/Grid";
 import UserModal from "./UserModal";
 
 export default {
-    mixins: [Translation],
+
 
     components: {VuePagination, Grid, UserModal},
 

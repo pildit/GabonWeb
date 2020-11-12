@@ -49,6 +49,56 @@
                 @search-change="asyncFindCompany"
             ></multiselect>
         </div>
+        <div v-if="isEditType" class="md-form mb-5">
+            <label>{{translate('Employee Type')}}</label>
+            <multiselect
+                v-model="form.employee_type"
+                :options="employeeTypes"
+                :placeholder="translate('Employee Type')"
+                track-by="id"
+                label="name"
+                :allow-empty="false"
+            ></multiselect>
+        </div>
+        <div v-if="isEditType" class="md-form mb-5">
+            <label>{{translate('Roles')}}</label>
+            <multiselect
+                v-model="form.roles"
+                :options="roles"
+                placeholder="Roles"
+                track-by="id"
+                label="name"
+                :allow-empty="true"
+                :multiple="true"
+                :taggable="true"
+            ></multiselect>
+        </div>
+        <div v-if="isEditType" class="md-form mb-5">
+            <label>{{translate('Permissions')}}</label>
+            <multiselect
+                v-model="form.permissions"
+                :options="permissionList"
+                placeholder="Permissions"
+                track-by="id"
+                label="name"
+                :allow-empty="true"
+                :multiple="true"
+                :taggable="true"
+            ></multiselect>
+            <div class="text-muted">{{translate('additional_permissions')}}</div>
+        </div>
+        <div v-if="showRoleName" class="md-form mb-5 ">
+            <label for="role" :class="{'active': form.role}">{{translate('Role')}}</label>
+            <input type="text"
+                   v-model="form.role"
+                   v-validate="{required: this.form.permissions.length > 0}"
+                   :data-vv-as="translate('Role')"
+                   class="form-control notempty"
+                   name="role"
+                   id="role"/>
+            <div class="text-muted">{{translate('additional_role_info')}}</div>
+            <div v-show="errors.has('role')" class="invalid-feedback">{{ errors.first('role') }}</div>
+        </div>
         <div class="md-form mb-5">
             <label for="password" :class="{'active': form.password}">{{translate('Password')}}</label>
             <input type="password"
@@ -65,66 +115,33 @@
             <label for="confirm_password" :class="{'active': form.confirm_password}">{{translate('Confirm password')}}</label>
             <input type="password"
                    v-model="form.password_confirmation"
-                   v-validate="{required: !this.isEditType, confirmed: {target: 'password'}}"
+                   v-validate="form.password ? 'required|confirmed:password' : 'confirmed:password'"
                    :data-vv-as="translate('password_confirmation')"
                    class="form-control"
                    name="confirm_password"
                    id="confirm_password"  />
             <div v-show="errors.has('confirm_password')" class="invalid-feedback">{{ errors.first('confirm_password') }}</div>
         </div>
-        <div v-if="isEditType" class="md-form mb-5">
-            <label>{{translate('Employee Type')}}</label>
-            <multiselect
-                v-model="form.employee_type"
-                :options="employeeTypes"
-                :placeholder="translate('Employee Type')"
-                track-by="id"
-                label="name"
-                :allow-empty="false"
-            ></multiselect>
-        </div>
-        <div v-if="isEditType" class="md-form mb-5">
-            <label>{{translate('Roles')}}</label>
-            <multiselect
-                v-model="form.roles"
-                :options="rolesList"
-                placeholder="Roles"
-                track-by="id"
-                label="name"
-                :allow-empty="true"
-                :multiple="true"
-                :taggable="true"
-            ></multiselect>
-        </div>
-        <div v-if="isEditType" class="md-form mb-5">
-            <label>{{translate('Permissions')}}</label>
-            <multiselect
-                v-model="form.permissions"
-                :options="permissions"
-                placeholder="Permissions"
-                track-by="id"
-                label="name"
-                :allow-empty="true"
-                :multiple="true"
-                :taggable="true"
-            ></multiselect>
-        </div>
         <div v-if="isEditType" class="text-right">
-            <button @click="update()" class="btn btn-default">{{ translate('Save') }}</button>
+            <button @click="update()" class="btn btn-default" :disabled="saveLoading">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="saveLoading"></span>
+                {{ translate('Save') }}
+            </button>
             <a :href="usersRoute()"class="btn btn-warning">{{ translate('Cancel') }}</a>
         </div>
     </div>
 </template>
 
 <script>
-import Translation from "components/Mixins/Translation";
+
 import User from "components/User/User";
 import Company from "components/Company/Company";
 import {mapState} from 'vuex';
 import Multiselect from 'vue-multiselect'
+import Notification from "components/Common/Notifications/Notification";
 
 export default {
-    mixins: [Translation],
+
 
     props: ['typeProp', 'userProp'],
 
@@ -138,24 +155,28 @@ export default {
                 isLoading: false,
                 limit: 50
             },
-            rolesList: [],
+            showRoleName: false,
+            saveLoading: false
         }
     },
 
     computed: {
         ...mapState('user', ['employeeTypes']),
-        ...mapState('role', ['permissions']),
+        ...mapState('role', ['permissions', 'roles']),
         isEditType() {
             return this.typeProp == 'edit';
+        },
+        permissionList() {
+            return _.filter(this.$diffObj(this.permissions, this.userProp.permissions));
         }
     },
 
     mounted() {
         if(this.isEditType) {
-            this.form = this.userProp;
+            let user = Object.assign({}, this.userProp);
+            delete user.permissions;
+            this.form = user;
             this.asyncFindCompany('');
-            this.$store.dispatch('user/types');
-            this.$store.dispatch('role/permissions');
         }
     },
 
@@ -175,7 +196,19 @@ export default {
         },
 
         update() {
-            this.$validator.validate();
+            this.$validator.validate().then((valid) => {
+                if(valid) {
+                    this.saveLoading = true;
+                    let data = User.buildForm(this.form);
+                    User.update(this.userProp.id, data).then((response) => {
+                       window.location.href = this.usersRoute();
+                    }).catch((error) => {
+                        if(error) {
+                            this.$setErrorsFromResponse(error.data);
+                        }
+                    }).finally(() => this.saveLoading = false);
+                }
+            })
 
         },
 
@@ -188,10 +221,19 @@ export default {
             Company.listSearch(query, this.companyList.limit).then((response) => {
                 this.companyList.data= response.data;
                 this.companyList.isLoading = false;
+                this.form.company = this.companyList.data.find((x) => x['Id'] == this.form.company_id);
             })
         }
 
+    },
 
+    watch: {
+        "form.permissions": {
+            deep: true,
+            handler(val) {
+                this.showRoleName = (val && val.length) ? true : false;
+            }
+        },
     }
 
 }
