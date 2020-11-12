@@ -19,8 +19,8 @@ class Permit extends PageResults
      */
     public function getVectors($bbox)
     {
-        $collection = PermitEntity::select(['Id', DB::raw('public.ST_AsGeoJSON(Geometry) as geom')])
-            ->whereRaw("public.ST_Intersects(Geometry, public.ST_MakeEnvelope($bbox))")->get();
+        $collection = PermitEntity::select(['Id', DB::raw('public.ST_AsGeoJSON("Geometry") as geom')])
+            ->whereRaw("public.ST_Intersects('Geometry', public.ST_MakeEnvelope($bbox))")->get();
 
         return $collection->map(function ($item) {
             return [
@@ -112,46 +112,46 @@ class Permit extends PageResults
                 "type" => "str"
             ],
             [
-                "f" => "AnnualAllowableCut",   
+                "f" => "AnnualAllowableCut",
                 "fl" => "AnnualAllowableCut",
                 "type" => "list_NotEmpty_NoLang",
-                "values" => $aac         
+                "values" => $aac
             ],
             [
-                "f" => "ManagementUnit",     
+                "f" => "ManagementUnit",
                 "fl" => "ManagementUnit",
                 "type" => "list_NotEmpty_NoLang",
-                "values" => $managementunit         
+                "values" => $managementunit
             ],
             [
                 "f" => "DevelopmentUnit",
                 "fl" => "DevelopmentUnit",
-                "type" => "list_NotEmpty_NoLang",       
+                "type" => "list_NotEmpty_NoLang",
                 "values" => $developmentunit
             ],
             [
                 "f" => "Concession",
                 "fl" => "Concession",
-                "type" => "list_NotEmpty_NoLang",         
+                "type" => "list_NotEmpty_NoLang",
                 "values" => $concession
             ],
             [
                 "f" => "ConcessionaireCompany",
                 "fl" => "ConcessionaireCompany",
-                "type" => "list_NotEmpty_NoLang",       
+                "type" => "list_NotEmpty_NoLang",
                 "values" => $concessionaire
             ],
             [
                 "f" => "ClientCompany",
                 "fl" => "ClientCompany",
-                "type" => "list_NotEmpty_NoLang",      
+                "type" => "list_NotEmpty_NoLang",
                 "values" => $client
             ],
             [
                 "f" => "TransporterCompany",
                 "fl" => "TransporterCompany",
                 "type" => "list_NotEmpty_NoLang",
-                "values" => $transport     
+                "values" => $transport
             ],
             [
                 "f" => "DriverName",

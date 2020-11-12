@@ -6,6 +6,7 @@ use App\Services\PageResults;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\ForestResources\Entities\AnnualAllowableCut;
 use Modules\ForestResources\Entities\AnnualAllowableCutInventory;
 use Modules\ForestResources\Http\Requests\CreateAnnualAllowableCutInventoryRequest;
 use Modules\ForestResources\Http\Requests\UpdateAnnualAllowableCutInventoryRequest;
@@ -112,4 +113,21 @@ class AnnualAllowableCutInventoryController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param AnnualAllowableCutInventoryService $aaciService
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function vectors(Request $request, AnnualAllowableCutInventoryService $aaciService)
+    {
+        $request->validate(['bbox' => 'required']);
+
+        return response()->json([
+            'data' => [
+                'type' => 'FeatureCollection',
+                'name' => 'annual_allowable_cut_inventory',
+                'features' => $aaciService->getVectors($request->get('bbox'))
+            ]
+        ]);
+    }
 }

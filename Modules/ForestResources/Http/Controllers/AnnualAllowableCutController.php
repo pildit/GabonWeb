@@ -10,6 +10,7 @@ use Modules\ForestResources\Entities\AnnualAllowableCut;
 use Modules\ForestResources\Http\Requests\CreateAnnualAllowableCutRequest;
 use Modules\ForestResources\Http\Requests\UpdateAnnualAllowableCutRequest;
 use Illuminate\Support\Facades\DB;
+use Modules\ForestResources\Services\AnnualAllowableCut as AnnualAllowableCutService;
 
 class AnnualAllowableCutController extends Controller
 {
@@ -18,7 +19,7 @@ class AnnualAllowableCutController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
-     * @param AnnualAllowableCutService $annualallowablecutService
+     * @param AnnualAllowableCutService $annual_allowable_cutService
      * @return \Illuminate\Http\JsonResponse
      * @throws \Throwable
      */
@@ -30,7 +31,7 @@ class AnnualAllowableCutController extends Controller
     }
 
     /**
-     * Store annualallowablecut
+     * Store annual_allowable_cut
      * @param CreateAnnualAllowableCutRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -46,10 +47,10 @@ class AnnualAllowableCutController extends Controller
         $aacNumber = sprintf("%03d", ++$aacNumber);
         $data['AacId'] = $AacIdName."_".$aacNumber;
 
-        $annualallowablecut = AnnualAllowableCut::create($data);
+        $annual_allowable_cut = AnnualAllowableCut::create($data);
 
         return response()->json([
-            'message' => lang("annualallowablecut_created_successfully")
+            'message' => lang("annual_allowable_cut_created_successfully")
         ], 201);
     }
 
@@ -59,25 +60,25 @@ class AnnualAllowableCutController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(AnnualAllowableCut $annualallowablecut)
+    public function show(AnnualAllowableCut $annual_allowable_cut)
     {
-        return response()->json(['data' => $annualallowablecut]);
+        return response()->json(['data' => $annual_allowable_cut]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param UpdateAnnualAllowableCutRequest $request
-     * @param AnnualAllowableCut $annualallowablecut
+     * @param AnnualAllowableCut $annual_allowable_cut
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateAnnualAllowableCutRequest $request, AnnualAllowableCut $annualallowablecut)
+    public function update(UpdateAnnualAllowableCutRequest $request, AnnualAllowableCut $annual_allowable_cut)
     {
         $data = $request->validated();
-        $annualallowablecut->update($data);
+        $annual_allowable_cut->update($data);
 
         return response()->json([
-            'message' => lang('annualallowablecut_update_successful')
+            'message' => lang('annual_allowable_cut_update_successful')
         ], 200);
 
     }
@@ -88,15 +89,32 @@ class AnnualAllowableCutController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function destroy(AnnualAllowableCut $annualallowablecut)
+    public function destroy(AnnualAllowableCut $annual_allowable_cut)
     {
-        $annualallowablecut->delete();
+        $annual_allowable_cut->delete();
 
         return response()->json([
-            'message' => lang('annualallowablecut_delete_successful')
+            'message' => lang('annual_allowable_cut_delete_successful')
         ], 204);
 
     }
 
+    /**
+     * @param Request $request
+     * @param AnnualAllowableCutService $aacService
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function vectors(Request $request, AnnualAllowableCutService $aacService)
+    {
+        $request->validate(['bbox' => 'required']);
+
+        return response()->json([
+            'data' => [
+                'type' => 'FeatureCollection',
+                'name' => 'annual_allowable_cut',
+                'features' => $aacService->getVectors($request->get('bbox'))
+            ]
+        ]);
+    }
 
 }

@@ -7,6 +7,7 @@ use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\Concession;
 use App\Services\PageResults;
 use Modules\ForestResources\Http\Requests\ConcessionRequest;
+use Modules\ForestResources\Services\Concession as ConcessionService;
 
 class ConcessionsController extends Controller
 {
@@ -81,4 +82,23 @@ class ConcessionsController extends Controller
             'message' => lang('concession_delete_succesful')
         ], 204);
     }
+
+    /**
+     * @param Request $request
+     * @param ConcessionService $concessionService
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function vectors(Request $request, ConcessionService $concessionService)
+    {
+        $request->validate(['bbox' => 'required']);
+
+        return response()->json([
+            'data' => [
+                'type' => 'FeatureCollection',
+                'name' => 'concessions',
+                'features' => $concessionService->getVectors($request->get('bbox'))
+            ]
+        ]);
+    }
+
 }
