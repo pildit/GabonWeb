@@ -6,6 +6,7 @@ use App\Services\PageResults;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Validation\ValidationException;
 use Modules\Transport\Entities\Permit as PermitEntity;
 use Modules\Transport\Entities\Item as ItemEntity;
 use Modules\Transport\Http\Requests\CreatePermitItemRequest;
@@ -24,8 +25,13 @@ class PermitItemController extends Controller
     public function index(Request $request, PageResults $pr)
     {
         $pr->setSortFields(['Id']);
+        $permit = PermitEntity::where('Id', (int)$request->get("Permit"))->first();
+        if(!$permit){
+            throw ValidationException::withMessages(['Permit' => 'validation.exists']);
+        }
+        $request->merge(['search'=>$request->get("Permit")]);
 
-        return response()->json($pr->getPaginator($request, PermitEntity::class, ["TreeId"]));
+        return response()->json($pr->getPaginator($request, ItemEntity::class, ["Permit"]));
 
     }
 

@@ -23,8 +23,12 @@ class SiteLogbookItemController extends Controller
     public function index(Request $request, PageResults $pr)
     {
         $pr->setSortFields(['Id']);
-
-        return response()->json($pr->getPaginator($request, SiteLogbookItem::class,[],['logs']));
+        $sitelogbook = SiteLogbook::where('Id', (int)$request->get("SiteLogbook"))->first();
+        if(!$sitelogbook){
+            throw ValidationException::withMessages(['SiteLogbook' => 'validation.exists']);
+        }
+        $request->merge(['search'=>$request->get("SiteLogbook")]);
+        return response()->json($pr->getPaginator($request, SiteLogbookItem::class,['SiteLogbook'],['logs']));
     }
 
     /**
