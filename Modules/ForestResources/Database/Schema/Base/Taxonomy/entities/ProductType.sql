@@ -26,14 +26,15 @@ CREATE RULE "ProductType_instead_of_delete" AS
 
 
 CREATE RULE "ProductType_instead_of_insert" AS
-    ON INSERT TO "Taxonomy"."ProductType" DO INSTEAD
-    INSERT INTO "Taxonomy"."ProductTypeTable" ("Name", "UserId")
-      VALUES (new."Name",  new."UserId")
-      RETURNING "ProductTypeTable"."Id",
-          "ProductTypeTable"."Name",
-          "ProductTypeTable"."CreatedAt",
-          "ProductTypeTable"."UpdatedAt",
-          "ProductTypeTable"."UserId";
+    ON INSERT TO "Taxonomy"."ProductType" DO INSTEAD  INSERT INTO "Taxonomy"."ProductTypeTable" ("Name", "UserId", "CreatedAt")
+  VALUES (new."Name", new."UserId", new."CreatedAt")
+  RETURNING "ProductTypeTable"."Id",
+    "ProductTypeTable"."Name",
+    "ProductTypeTable"."CreatedAt",
+    "ProductTypeTable"."UpdatedAt",
+    "ProductTypeTable"."UserId";
+
+
 
 
 CREATE RULE "ProductType_instead_of_update" AS
