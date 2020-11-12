@@ -11,9 +11,11 @@ class PermitType extends Model
 
     const CREATED_AT = "CreatedAt";
     const UPDATED_AT = "UpdatedAt";
+    const DELETED_AT = "DeletedAt";
+
+    protected $dateFormat = 'Y-m-d H:i:s.u';
 
     protected $fillable = ['Abbreviation',  'Name', 'UserId'];
-    public $timestamps = true;
 
     protected $table = "ForestResources.PermitTypes";
 
