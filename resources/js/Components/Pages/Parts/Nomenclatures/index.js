@@ -15,7 +15,7 @@ export default (selector, options) => {
                 {'title' : 'Permit types', 'link' : '/nomenclatures/permit-types', 'resource' : 'permit-type', text: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.'},
                 {'title' : 'Species', 'link' : '/nomenclatures/species', 'resource' : 'species', text: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.'},
                 {'title' : 'Quality', 'link' : '/nomenclatures/quality', 'resource' : 'quality', text: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.'},
-                {'title' : 'Resource type', 'link' : '/nomenclatures/resource-types', 'resource' : 'resource-type', text: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.'}
+                {'title' : 'Resource type', 'link' : '/nomenclatures/product-type', 'resource' : 'resource-type', text: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.'}
             ]
         },
         computed: {

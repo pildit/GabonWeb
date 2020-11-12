@@ -2,42 +2,42 @@
 
 namespace Modules\ForestResources\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
-use Modules\ForestResources\Entities\PermitType;
 use App\Services\PageResults;
+use GenTux\Jwt\GetsJwtToken;
+use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Modules\ForestResources\Entities\ProductType;
 
-class PermitTypesController extends Controller
+class ProductTypeController extends Controller
 {
+    use GetsJwtToken;
+
     /**
      * Display a listing of the resource.
-     * @return Response
+     * @return Renderable
      */
     public function index(Request $request, PageResults $pr)
     {
         $pr->setSortFields(["Id"]);
 
-        return response()->json($pr->getPaginator($request, PermitType::class , ['Abbreviation']));
+        return response()->json($pr->getPaginator($request, ProductType::class , ['Name']));
     }
 
     /**
      * Store a newly created resource in storage.
      * @param Request $request
-     * @return Response
+     * @return Renderable
      */
     public function store(Request $request)
     {
         $data = $request->validate([
-            'abbreviation' => 'string|required',
-            'name' => 'string'
+            'name' => 'required|string'
         ]);
 
-
-        PermitType::create([
-            'Abbreviation' => $data['abbreviation'],
+        ProductType::create([
             'Name' => $data['name']
-            ]);
+        ]);
 
         return \response()->json([
             'message' => lang('created_successfully')
@@ -47,42 +47,41 @@ class PermitTypesController extends Controller
     /**
      * Show the specified resource.
      * @param int $id
-     * @return Response
+     * @return Renderable
      */
     public function show($id)
     {
-        //
+        return view('forestresources::show');
     }
+
 
     /**
      * Update the specified resource in storage.
      * @param Request $request
      * @param int $id
-     * @return Response
+     * @return Renderable
      */
-    public function update(Request $request, PermitType $permit_type)
+    public function update(Request $request, ProductType  $productType)
     {
         $data = $request->validate([
-            'abbreviation' => 'string|required',
-            'name' => 'string'
+            'name' => 'string|required'
         ]);
 
-        $permit_type->Abbreviation = $data['abbreviation'];
+        $productType->Name = $data['name'];
 
-        if ($request->has('name'))
-            $permit_type->Name = $data['name'];
 
-        $permit_type->save();
+        $productType->save();
 
         return response()->json([
             'message' => lang('update_successful')
         ], 200);
+
     }
 
     /**
      * Remove the specified resource from storage.
      * @param int $id
-     * @return Response
+     * @return Renderable
      */
     public function destroy($id)
     {
