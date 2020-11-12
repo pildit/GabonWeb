@@ -30,3 +30,4 @@ Route::get('/nomenclatures', 'NomenclaturesController@index');
 Route::get('/users', 'UserController@index');
 Route::get('/users/{user}/edit', 'UserController@edit');
 Route::get('/nomenclatures/{nomenclature_type}', 'NomenclaturesController@index');
+Route::get('/management/{management_type?}', 'ManagementController@index');
