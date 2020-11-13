@@ -92,6 +92,7 @@ db_GabonWeb_password=""
 # TODO
 
 * Provision the infrastructure
+* Run Ansible against each one of the new WebFEs
 * DNS: point `gabon.globalorigin.org` as a CNAME to the DNS name of the ALB
 * Scale the machines to the right instance types
     * EC2 instances
