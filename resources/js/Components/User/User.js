@@ -24,9 +24,10 @@ class User extends Base {
 
     static getStatusLabel(status) {
         let statuses = {
-            0: "Disabled",
-            1: "Not Confirmed",
-            2: "Active"
+            0: "Not Confirmed",
+            1: "Pending",
+            2: "Active",
+            3: "Disabled"
         }
 
         return statuses[status] || '';
@@ -36,7 +37,8 @@ class User extends Base {
         let statuses = {
             0: "badge-light",
             1: "badge-warning",
-            2: "badge-success"
+            2: "badge-success",
+            3: "badge-danger"
         }
 
         return statuses[status] || 'badge-dark'
