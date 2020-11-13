@@ -50,8 +50,10 @@ class User extends Base {
             firstname : user.firstname,
             lastname : user.lastname,
             email: user.email,
-            company_id : user.company['Id'],
             roles: _.map(user.roles, 'id')
+        }
+        if(user.company) {
+            obj.company_id = user.company['Id'];
         }
         if(user.employee_type) {
             obj.employee_type = user.employee_type['id'];
