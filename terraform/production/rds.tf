@@ -26,13 +26,16 @@ resource "aws_security_group" "sgProductionDatabases" {
   }
 }
 
-resource "aws_security_group_rule" "sgrProductionPostgresFromVPC" {
+resource "aws_security_group_rule" "sgrProductionPostgresAccessibleFromWebFEs" {
   security_group_id = aws_security_group.sgProductionDatabases.id
   type              = "ingress"
   from_port         = 5432
   to_port           = 5432
   protocol          = "tcp"
-  cidr_blocks       = aws_vpc.vpcGabonProduction.cidr_block
+  cidr_blocks = [
+    aws_subnet.subnProductionPublic_1a.cidr_block
+    , aws_subnet.subnProductionPublic_1b.cidr_block
+  ]
 }
 
 resource "aws_db_instance" "rdsGabonWeb" {
@@ -71,8 +74,8 @@ resource "aws_db_instance" "rdsGabonWeb" {
 
   tags = {
     Environment = "production"
-    Name      = "GabonWeb"
-    Terraform = 1
+    Name        = "GabonWeb"
+    Terraform   = 1
   }
 }
 
