@@ -79,6 +79,6 @@ resource "aws_db_instance" "rdsGabonWeb" {
   }
 }
 
-output "nextcloud_rds_hostname" {
+output "rdsGabonWeb_hostname" {
   value = aws_db_instance.rdsGabonWeb.address
 }
