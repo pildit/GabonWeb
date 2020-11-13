@@ -95,13 +95,13 @@ class DevelopmentUnitController extends Controller
      */
     public function vectors(Request $request, DevelopmentUnitService $developmentUnitService)
     {
-        $request->validate(['bbox' => 'required']);
+        $request->validate(['bbox' => 'string']);
 
         return response()->json([
             'data' => [
                 'type' => 'FeatureCollection',
-                'name' => 'development_units',
-                'features' => $developmentUnitService->getVectors($request->get('bbox'))
+                'name' => 'concessions',
+                'features' => $developmentUnitService->getVectors($request->get('bbox', config('forestresources.default_bbox')))
             ]
         ]);
     }

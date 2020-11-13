@@ -60,13 +60,13 @@ class PermitController extends Controller
      */
     public function vectors(Request $request, Permit $permitService)
     {
-        $request->validate(['bbox' => 'required']);
+        $request->validate(['bbox' => 'string']);
 
         return response()->json([
             'data' => [
                 'type' => 'FeatureCollection',
                 'name' => 'permits',
-                'features' => $permitService->getVectors($request->get('bbox'))
+                'features' => $permitService->getVectors($request->get('bbox', '651243.4809897017,-704443.6526761844,1939054.533538351,396249.5546303537'))
             ]
         ]);
     }

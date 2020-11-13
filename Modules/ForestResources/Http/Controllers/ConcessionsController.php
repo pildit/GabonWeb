@@ -90,13 +90,13 @@ class ConcessionsController extends Controller
      */
     public function vectors(Request $request, ConcessionService $concessionService)
     {
-        $request->validate(['bbox' => 'required']);
+        $request->validate(['bbox' => 'string']);
 
         return response()->json([
             'data' => [
                 'type' => 'FeatureCollection',
                 'name' => 'concessions',
-                'features' => $concessionService->getVectors($request->get('bbox'))
+                'features' => $concessionService->getVectors($request->get('bbox', config('forestresources.default_bbox')))
             ]
         ]);
     }
