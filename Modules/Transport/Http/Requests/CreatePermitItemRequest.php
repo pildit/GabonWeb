@@ -15,14 +15,14 @@ class CreatePermitItemRequest extends FormRequest
     {
         return [
             "Permit" => "required",
-            "TreeId" =>"required:string",
+            "LogId" =>"required|string",
             "Species" => "required", // Todo - add Species validation;
             "MinDiameter" => "required",
             "MaxDiameter" => "required",
             "AverageDiameter" => "required",
             "Length" => "required",
             "Volume" => "required",
-            "MobileId" => "required:string"
+            "MobileId" => "required|string"
         ];
     }
 

@@ -9,7 +9,7 @@ use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\ManagementUnit;
 use Modules\ForestResources\Http\Requests\CreateManagementUnitRequest;
 use Modules\ForestResources\Http\Requests\UpdateManagementUnitRequest;
-
+use Modules\ForestResources\Services\ManagementUnit as ManagementUnitService;
 
 class ManagementUnitController extends Controller
 {
@@ -88,5 +88,21 @@ class ManagementUnitController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     * @param ManagementUnitService $managementUnitService
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function vectors(Request $request, ManagementUnitService $managementUnitService)
+    {
+        $request->validate(['bbox' => 'required']);
 
+        return response()->json([
+            'data' => [
+                'type' => 'FeatureCollection',
+                'name' => 'management_units',
+                'features' => $managementUnitService->getVectors($request->get('bbox'))
+            ]
+        ]);
+    }
 }

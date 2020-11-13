@@ -14,7 +14,7 @@ class UpdatePermitItemRequest extends FormRequest
     public function rules()
     {
         return [
-            "TreeId" =>"string",
+            "LogId" =>"string",
             "Species" => "required", // Todo - add Species validation;
             "MobileId" => "string"
         ];
