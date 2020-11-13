@@ -66,7 +66,7 @@ class PermitController extends Controller
             'data' => [
                 'type' => 'FeatureCollection',
                 'name' => 'permits',
-                'features' => $permitService->getVectors($request->get('bbox', '651243.4809897017,-704443.6526761844,1939054.533538351,396249.5546303537'))
+                'features' => $permitService->getVectors($request->get('bbox', config('transport.default_bbox')))
             ]
         ]);
     }
