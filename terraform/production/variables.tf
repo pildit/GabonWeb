@@ -4,14 +4,17 @@ variable "profile" {
 }
 
 variable "region" {
+  type    = string
   default = "af-south-1"
 }
 
 variable "webserver_instance_type" {
+  type    = string
   default = "t2.micro"
 }
 
 variable "ubuntu_20_04" {
+  type    = string
   default = "ami-01231db8966c15acd" # Ubuntu Server 20.04 LTS
 }
 
