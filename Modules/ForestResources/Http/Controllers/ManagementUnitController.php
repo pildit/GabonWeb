@@ -100,7 +100,7 @@ class ManagementUnitController extends Controller
         return response()->json([
             'data' => [
                 'type' => 'FeatureCollection',
-                'name' => 'concessions',
+                'name' => 'management_unit',
                 'features' => $managementUnitService->getVectors($request->get('bbox', config('forestresources.default_bbox')))
             ]
         ]);

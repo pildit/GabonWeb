@@ -100,7 +100,7 @@ class DevelopmentUnitController extends Controller
         return response()->json([
             'data' => [
                 'type' => 'FeatureCollection',
-                'name' => 'concessions',
+                'name' => 'development_unit',
                 'features' => $developmentUnitService->getVectors($request->get('bbox', config('forestresources.default_bbox')))
             ]
         ]);

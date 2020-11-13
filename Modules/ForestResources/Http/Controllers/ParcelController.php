@@ -196,7 +196,7 @@ class ParcelController extends Controller
         return response()->json([
             'data' => [
                 'type' => 'FeatureCollection',
-                'name' => 'concessions',
+                'name' => 'parcels',
                 'features' => $parcelService->getVectors($request->get('bbox', config('forestresources.default_bbox')))
             ]
         ]);
