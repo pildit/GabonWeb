@@ -31,8 +31,18 @@ export default {
 
     data() {
         return {
-            isApproved: this.rowProp.status == 2,
             resendLoading: false
+        }
+    },
+
+    computed: {
+        isApproved: {
+            get() {
+                return this.rowProp.status == 2
+            },
+            set(value) {
+                return value;
+            }
         }
     },
 

@@ -78,7 +78,10 @@ class UserController extends Controller
             $data['roles'][] = $role->id;
         }
 
-        $user->syncRoles($data['roles']);
+        if(isset($data['roles'])) {
+            $user->syncRoles($data['roles']);
+        }
+
 
         return response()->json([
             'message' => lang('Update successful')
