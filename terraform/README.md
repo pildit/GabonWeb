@@ -89,6 +89,19 @@ db_GabonWeb_username=""
 db_GabonWeb_password=""
 ```
 
+# TODO
+
+* Provision the infrastructure
+* DNS: point `gabon.globalorigin.org` as a CNAME to the DNS name of the ALB
+* Scale the machines to the right instance types
+    * EC2 instances
+    * RDS instance
+* Use the ALB to also serve the tiles
+    * Create instances for the tile server(s)
+    * Set up ALB listener
+    * Set up Target group with attachments
+    * DNS: point `tile.globalorigin.org` as a CNAME to the DNS name of the ALB
+
 ## See Also
 
 * Terraform
