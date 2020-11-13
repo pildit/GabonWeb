@@ -33,20 +33,91 @@ export default {
     mutations: {
         mutateMap(state, map) {
             state.map = map;
+        },
+
+        mutateAnnualAllowableCutInventory(state, data) {
+            // TODO
+        },
+
+        mutateAnnualAllowableCuts(state, data) {
+            // TODO
+        },
+
+        mutateConcessions(state, data) {
+            // TODO
+        },
+
+        mutableDevelopmentUnits(state, data) {
+            // TODO
+        },
+
+        mutableManagmentUnits(state, data) {
+            // TODO
+        },
+
+        mutableParcels(state, data) {
+            // TODO
+        },
+
+        mutablePermits(state, data) {
+            // TODO
         }
     },
     actions: {
-        
-        /* Set actions */
-        setMap({commit}, map) {
-            commit('mutateMap', map)
-        }
 
-        // $fetchMenu({commit, state}) {
-        //     return axios.get('/api/menu')
-        //         .then((response) => {
-        //             commit('menu', response.data['data'])
-        //         });
-        // }
+        /* Set actions */
+        setMap({ commit }, map) {
+            commit('mutateMap', map)
+        },
+
+        /* Requests */
+        getAnnualAllowableCutInventory({ commit }, payload) {
+            return axios.get(`/api/annual_allowable_cut_inventory/vectors`)
+                .then((response) => response.data)
+                .then((responseData) => commit('mutateAnnualAllowableCutInventory', responseData.data)
+                );
+        },
+
+        getAnnualAllowableCuts({ commit }, payload) {
+            return axios.get(`/api/annual_allowable_cuts/vectors`)
+                .then((response) => response.data)
+                .then((responseData) => commit('mutateAnnualAllowableCuts', responseData.data)
+                );
+        },
+
+        getConcessions({ commit }, payload) {
+            return axios.get(`/api/concessions/vectors`)
+                .then((response) => response.data)
+                .then((responseData) => commit('mutateConcessions', responseData.data)
+                );
+        },
+
+        getDevelopmentUnits({ commit }, payload) {
+            return axios.get(`/api/development_units/vectors`)
+                .then((response) => response.data)
+                .then((responseData) => commit('mutableDevelopmentUnits', responseData.data)
+                );
+        },
+
+        getManagmentUnits({ commit }, payload) {
+            return axios.get(`/api/management_units/vectors`)
+                .then((response) => response.data)
+                .then((responseData) => commit('mutableManagmentUnits', responseData.data)
+                );
+        },
+
+        getParcelsVectors({ commit }, payload) {
+            return axios.get(`/api/parcels/vectors`)
+                .then((response) => response.data)
+                .then((responseData) => commit('mutableParcels', responseData.data)
+                );
+        },
+
+        getPermits({ commit }, payload) {
+            return axios.get(`/api/permits/vectors`)
+            .then((response) => response.data)
+            .then((responseData) => commit('mutablePermits', responseData.data)
+            );
+        }
     }
 }
