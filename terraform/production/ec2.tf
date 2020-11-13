@@ -92,7 +92,7 @@ resource "aws_instance" "iProduction_2" {
   vpc_security_group_ids = [
     aws_security_group.sgProductionWebservers.id
   ]
-  subnet_id = aws_subnet.subnProductionPublic_1a.id
+  subnet_id = aws_subnet.subnProductionPublic_1b.id
   key_name  = aws_key_pair.keyGabonDeploymentKey.key_name
   lifecycle {
     create_before_destroy = true
