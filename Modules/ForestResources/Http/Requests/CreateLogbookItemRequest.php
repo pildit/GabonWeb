@@ -15,8 +15,8 @@ class CreateLogbookItemRequest extends FormRequest
     {
         return [
             'Logbook' => 'required',
-            'AnnualAllowableCutInventory' => 'required|exists:Modules\ForestResources\Entities\AnnualAllowableCutInventory,Id',
-            'HewingId' => 'required|integer',
+            'TreeId' => 'required|string',
+            'HewingId' => 'required|string',
             'Species' => 'required|integer',
             'MaxDiameter' => 'required|numeric',
             'MinDiameter' => 'required|numeric',
@@ -25,7 +25,7 @@ class CreateLogbookItemRequest extends FormRequest
             'Lat' => 'required',
             'Lon' => 'required',
             'GpsAccu' => 'required|numeric',
-            'Note' => 'required|string',
+            'Note' => 'string',
             'ObserveAt' => 'required|date',
             'Approved' => 'bool',
         ];

@@ -26,7 +26,7 @@ class Item extends Model
      */
     protected $fillable = [
         "Permit",
-        "TreeId",
+        "LogId",
         "Species",
         "MinDiameter",
         "MaxDiameter",
