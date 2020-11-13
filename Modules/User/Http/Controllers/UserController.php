@@ -70,6 +70,10 @@ class UserController extends Controller
 
         $data = $request->validated();
 
+        if(isset($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        }
+
         $user->fill($data);
         $user->save($data);
         if(isset($data['role_name'])) {
