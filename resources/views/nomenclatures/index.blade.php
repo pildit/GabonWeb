@@ -13,7 +13,7 @@
         <p></p>
       </div>
       <div class="row" id="nomenclatures">
-       <box-nomenclature v-for="item in nomenclatures" :item="item"></box-nomenclature>
+       <box-resource v-for="item in nomenclatures" :item="item"></box-resource>
       </div>
     </div>
   </section>
