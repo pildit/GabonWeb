@@ -41,7 +41,7 @@ resource "aws_security_group_rule" "sgrProductionPostgresAccessibleFromWebFEs" {
 resource "aws_db_instance" "rdsGabonWeb" {
   engine         = "postgres"
   engine_version = "13"
-  instance_class = "db.t3.micro"
+  instance_class = var.rdspsql_instance_type
   name           = "GabonWeb"
 
   availability_zone = var.db_availability_zone
