@@ -1,40 +1,55 @@
 variable "profile" {
-    type = string
-    default = ""
+  type    = string
+  default = ""
 }
 
 variable "region" {
-    default = "af-south-1"
+  default = "af-south-1"
 }
 
 variable "webserver_instance_type" {
-    default = "t2.micro"
+  default = "t2.micro"
 }
 
 variable "ubuntu_20_04" {
-    default = "ami-01231db8966c15acd"   # Ubuntu Server 20.04 LTS
+  default = "ami-01231db8966c15acd" # Ubuntu Server 20.04 LTS
 }
 
 # set this value in secrets.tfvars (but do NOT commit that file)
 # NOTE: NOT USED FOR PRODUCTION
 variable "sshPubKey" {
-    type = string
-    default = ""
+  type    = string
+  default = ""
 }
 
 # set this value in secrets.tfvars (but do NOT commit that file)
 variable "sshGabonDeploymentKey" {
-    type = string
-    default = ""
+  type    = string
+  default = ""
 }
 
 # set this value in secrets.tfvars (but do NOT commit that file)
 variable "securedOrigins" {
-    type = list
-    default = []
+  type    = list
+  default = []
 }
 
 variable "webserver_storage_size" {
-    type = number
-    default = -1
+  type    = number
+  default = -1
+}
+
+variable "db_availability_zone" {
+  type    = string
+  default = "af-south-1a"
+}
+
+variable "db_GabonWeb_username" {
+  type    = string
+  default = ""
+}
+
+variable "db_GabonWeb_password" {
+  type    = string
+  default = ""
 }
