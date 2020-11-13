@@ -1,41 +1,14 @@
 <template>
-  <div>
-    <div
-      id="map"
-      class="map"
-      ref="map-root"
-      v-bind:style="{ height: window.height + 'px' }"
-    ></div>
-
-    <div class="options"></div>
+  <div
+    id="map"
+    class="map"
+    ref="map-root"
+    v-bind:style="{ height: window.height + 'px' }"
+  >
   </div>
 </template>
 
 <script>
-import TileLayer from "ol/layer/Tile";
-import { toStringHDMS } from "ol/coordinate";
-import { fromLonLat } from "ol/proj";
-
-import OSM from "ol/source/OSM";
-// importing the OpenLayers stylesheet is required for having
-// good looking buttons!
-import "ol/ol.css";
-import "ol-ext/style/defaultStyle";
-
-import olExtAnimatedCluster from "ol-ext/layer/AnimatedCluster";
-import olCluster from "ol/source/Cluster";
-import olVector from "ol/source/Vector";
-import olFeature from "ol/Feature";
-import olGeomPoint from "ol/geom/Point";
-import olGeomPolygon from "ol/geom/Polygon";
-import olView from "ol/View";
-import olExtSelectCluster from "ol-ext/interaction/SelectCluster";
-import olExtOverlay from "ol-ext/control/Overlay";
-import olExtToggle from "ol-ext/control/Toggle";
-import * as olCoordinate from "ol/coordinate/";
-import * as olStyle from "ol/style";
-// import * as olStyle from "ol-ext/style";
-
 /* Vuex */
 import store from "store/store";
 import { mapGetters, mapState, mapMutations, mapActions } from "vuex";
@@ -43,6 +16,7 @@ import * as ol from "ol";
 
 export default {
   name: "VolMap",
+
 
   data() {
     return {
@@ -69,7 +43,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters({map: "geoportal/map"}),
+    ...mapGetters({ map: "geoportal/map" }),
 
     // ...mapMutations({
     //   setMap: "geoportal/map",
@@ -87,8 +61,8 @@ export default {
     },
 
     ...mapActions({
-      setMap: 'geoportal/setMap'
-    })
+      setMap: "geoportal/setMap",
+    }),
   },
 
   mounted() {
@@ -96,11 +70,9 @@ export default {
       this.windowHeight = window.innerHeight;
     });
 
-    this.map.setTarget(this.$refs["map-root"])
+    this.map.setTarget(this.$refs["map-root"]);
     this.setMap(this.map); // = this.$refs["map-root"];
     console.log(this.setMap);
-
-    // 
 
     // this is where we create the OpenLayers map
     //const gabon_coord = fromLonLat([11.609454, -0.803698]);
