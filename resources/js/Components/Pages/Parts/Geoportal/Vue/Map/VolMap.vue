@@ -5,6 +5,7 @@
     ref="map-root"
     v-bind:style="{ height: window.height + 'px' }"
   >
+    <slot/>
   </div>
 </template>
 
@@ -16,7 +17,6 @@ import * as ol from "ol";
 
 export default {
   name: "VolMap",
-
 
   data() {
     return {
