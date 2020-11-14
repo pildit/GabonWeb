@@ -12,11 +12,12 @@
     "devDependencies": {
         "axios": "^0.19",
         "cross-env": "^5.1",
+        "deepmerge": "^4.2.2",
         "laravel-mix": "^5.0.7",
         "lodash": "^4.17.13",
         "resolve-url-loader": "^3.1.2",
-        "sass": "^1.15.2",
-        "sass-loader": "^7.1.0",
+        "sass": "^1.29.0",
+        "sass-loader": "^7.3.1",
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
@@ -24,8 +25,10 @@
         "ol": "^6.4.3",
         "ol-ext": "^3.1.16",
         "openlayers-ext": "^3.1.5",
+        "pretty-checkbox-vue": "^1.1.9",
         "promise.prototype.finally": "^3.1.2",
         "url-join": "^4.0.1",
+        "v-calendar": "^2.0.2",
         "v-tooltip": "^2.0.3",
         "vee-validate": "^2.2.15",
         "vue": "^2.6.12",

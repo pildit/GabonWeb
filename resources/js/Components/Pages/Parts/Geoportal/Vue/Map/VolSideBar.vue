@@ -3,12 +3,51 @@
     <div class="options"></div>
     <!-- Content of the menu -->
     <div id="menu" v-bind:style="{ height: window.height + 'px' }">
-      <h1>Menu</h1>
-      <p style="border-bottom: 1px solid #999">
-        <i>ol.control.Overlay</i> can be used to display a menu or information
-        on the top of the map.
-      </p>
+      <h1>Options</h1>
       <div class="data"></div>
+
+      <hr />
+      <rcp-checkbox
+        v-model="viewActiveTransports"
+        text="View active transports"
+      ></rcp-checkbox>
+      <hr />
+      <rcp-checkbox
+        v-model="checkPlateNumber"
+        text="Check plate number"
+      ></rcp-checkbox>
+
+      <input
+        v-if="checkPlateNumber"
+        v-model="plateNumber"
+        placeholder="ex: PH 01 UNU"
+      />
+      <rcp-button v-if="checkPlateNumber" v-on:click="onCheckPlateNumber">
+        Check
+      </rcp-button>
+      <rcp-alert-box v-if="checkPlateNumber && checkPlateNumberError">
+        Invalid plate number
+      </rcp-alert-box>
+      <hr v-if="checkPlateNumber" />
+
+      <rcp-checkbox
+        v-model="checkAnnualAllowableCut"
+        text="Check Annual Allowable cut"
+      ></rcp-checkbox>
+      <rcp-checkbox
+        v-model="checkTransportPermit"
+        text="Check Transport Permit"
+      ></rcp-checkbox>
+      <hr />
+      <rcp-checkbox v-model="viewParcels" text="View Parcels"></rcp-checkbox>
+      <rcp-checkbox
+        v-model="viewConcessions"
+        text="View Concessions"
+      ></rcp-checkbox>
+      <rcp-checkbox v-model="viewUFA" text="View UFA"></rcp-checkbox>
+      <rcp-checkbox v-model="viewUFG" text="View UFG"></rcp-checkbox>
+      <rcp-checkbox v-model="viewAAC" text="View AAC"></rcp-checkbox>
+
     </div>
   </div>
 </template>
@@ -21,11 +60,38 @@ import olExtToggle from "ol-ext/control/Toggle";
 import store from "store/store";
 import { mapGetters, mapState, mapMutations, mapActions } from "vuex";
 
+import "pretty-checkbox/src/pretty-checkbox.scss";
+
 export default {
   name: "VolSideBar",
 
   data() {
     return {
+      range: {
+        start: new Date(2020, 9, 12),
+        end: new Date(2020, 9, 16),
+      },
+      viewActiveTransports: false,
+      
+      plateNumber: '',
+      checkPlateNumber: false,
+      checkPlateNumberError: false,
+
+      checkAnnualAllowableCut: false,
+      checkTransportPermit: false,
+      viewParcels: false,
+      viewConcessions: false,
+      viewUFA: false,
+      viewUFG: false,
+      viewAAC: false,
+
+      searchText: 0,
+      message: "",
+      checked: false,
+      date: new Date(),
+      timezone: "",
+      mode: "date",
+      count: 0,
       window: {
         width: 0,
         height: 0,
@@ -42,8 +108,8 @@ export default {
     window.removeEventListener("resize", this.handleResize);
   },
 
-   computed: {
-    ...mapGetters({map: "geoportal/map"}),
+  computed: {
+    ...mapGetters({ map: "geoportal/map" }),
   },
 
   methods: {
@@ -52,9 +118,19 @@ export default {
       this.window.height = window.innerHeight;
     },
 
-     ...mapActions({
-      setMap: 'geoportal/setMap'
-    })
+    ...mapActions({
+      setMap: "geoportal/setMap",
+    }),
+
+    onCheckPlateNumber() {
+      if (this.plateNumber.length > 2) {
+        this.checkPlateNumberError = false;
+
+      }
+      else {
+        this.checkPlateNumberError = true;
+      }
+    },
   },
 
   mounted() {
@@ -82,8 +158,8 @@ export default {
 
     this.map.addControl(t);
 
-    this.setMap(this.map)
-    console.log("Sidebar Map instance: ", this.map)
+    this.setMap(this.map);
+    console.log("Sidebar Map instance: ", this.map);
   },
 };
 </script>
@@ -112,6 +188,7 @@ export default {
 #menu {
   padding-top: 1.5em;
   font-size: 0.9em;
+  overflow-x: scroll;
 }
 /* menu button */
 .ol-control.menu {
