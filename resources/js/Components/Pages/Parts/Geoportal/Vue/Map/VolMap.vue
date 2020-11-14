@@ -13,7 +13,11 @@
 /* Vuex */
 import store from "store/store";
 import { mapGetters, mapState, mapMutations, mapActions } from "vuex";
+
 import * as ol from "ol";
+
+import "ol/ol.css";
+import "ol-ext/style/defaultStyle";
 
 export default {
   name: "VolMap",
