@@ -8,15 +8,8 @@ import store from "store/store";
 import { mapGetters, mapState, mapMutations, mapActions } from "vuex";
 
 /* Ol/Ol-Ext */
-//import * as ol from "ol";
-import olCollection from "ol/Collection";
-import olFeature from "ol/Feature";
-import olStyle from "ol/style/Style";
-import olStyleStroke from "ol/style/Stroke";
-import olStyleFlowLine from "ol-ext/style/FlowLine";
-import olLayerVectorImage from "ol/layer/VectorImage";
-import olSourceVector from "ol/source/Vector";
-import olGeomLineString from "ol/geom/LineString";
+import * as ol from '../Imports/ol'
+import * as olExt from '../Imports/ol-ext'
 
 export default {
   name: "VolLine",
@@ -39,28 +32,28 @@ export default {
 
   mounted() {
     // Default style to make the feature selectable
-    var defaultStyle = new olStyle({
-      stroke: new olStyleStroke({ color: [255, 255, 255, 0.1], width: 2 }),
+    var defaultStyle = new ol.Style({
+      stroke: new ol.Stroke({ color: [255, 255, 255, 0.1], width: 2 }),
     });
 
     // Flow style
     var done = false;
-    var flowStyle = new olStyleFlowLine();
+    var flowStyle = new olExt.FlowLine();
 
     var getStyle = (getStyle = (feature, res) => {
       return [defaultStyle, flowStyle];
     });
 
     // Nouvelle source de donnee
-    var vector = new olLayerVectorImage({
-      source: new olSourceVector({ features: new olCollection() }),
+    var vector = new ol.VectorImage({
+      source: new ol.Vector({ features: new ol.Collection() }),
       style: getStyle,
     });
 
     this.map.addLayer(vector);
     vector.getSource().addFeature(
-      new olFeature(
-        new olGeomLineString([
+      new ol.Feature(
+        new ol.LineString([
           [259274, 6398696],
           [63595, 5958419],
           [635956, 5772524],

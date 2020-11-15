@@ -3,30 +3,17 @@
 </template>
 
 <script>
-import * as ol from "ol";
 
 /* Vuex */
 import store from "store/store";
 import { mapGetters, mapState, mapMutations, mapActions } from "vuex";
 
-import OSM from "ol/source/OSM";
-// importing the OpenLayers stylesheet is required for having
-// good looking buttons!
+/* Ol/Ol-Ext */
 import "ol/ol.css";
 import "ol-ext/style/defaultStyle";
 
-import olExtAnimatedCluster from "ol-ext/layer/AnimatedCluster";
-import olCluster from "ol/source/Cluster";
-import olVector from "ol/source/Vector";
-import olFeature from "ol/Feature";
-import olGeomPoint from "ol/geom/Point";
-import olGeomPolygon from "ol/geom/Polygon";
-import olView from "ol/View";
-import olExtSelectCluster from "ol-ext/interaction/SelectCluster";
-import olExtOverlay from "ol-ext/control/Overlay";
-import olExtToggle from "ol-ext/control/Toggle";
-import * as olCoordinate from "ol/coordinate/";
-import * as olStyle from "ol/style";
+import * as ol from '../Imports/ol'
+import * as olExt from '../Imports/ol-ext'
 
 export default {
   name: "VolClustering",
@@ -43,9 +30,9 @@ export default {
 
   mounted() {
     // Cluster Source
-    var clusterSource = new olCluster({
+    var clusterSource = new ol.Cluster({
       distance: 40,
-      source: new olVector(),
+      source: new ol.Vector(),
     });
 
     // Addfeatures to the cluster
@@ -53,8 +40,8 @@ export default {
       var ext = this.map.getView().calculateExtent(this.map.getSize());
       var features = [];
       for (var i = 0; i < nb; ++i) {
-        features[i] = new olFeature(
-          new olGeomPoint([
+        features[i] = new ol.Feature(
+          new ol.Point([
             ext[0] + (ext[2] - ext[0]) * Math.random(),
             ext[1] + (ext[3] - ext[1]) * Math.random(),
           ])
@@ -76,24 +63,24 @@ export default {
         var radius = Math.max(8, Math.min(size * 0.75, 20));
         //var dash = (2 * Math.PI * radius) / 6;
         //var dash = [0, dash, dash, dash, dash, dash, dash];
-        style = styleCache[size] = new olStyle.Style({
-          image: new olStyle.Circle({
+        style = styleCache[size] = new ol.Style({
+          image: new ol.Circle({
             radius: radius,
-            stroke: new olStyle.Stroke({
+            stroke: new ol.Stroke({
               color: "rgba(" + color + ",0.5)",
               width: 15,
               //lineDash: dash,
               //lineCap: "butt",
             }),
-            fill: new olStyle.Fill({
+            fill: new ol.Fill({
               color: "rgba(" + color + ",1)",
             }),
           }),
-          text: new olStyle.Text({
+          text: new ol.Text({
             text: size.toString(),
             //font: 'bold 12px comic sans ms',
             //textBaseline: 'top',
-            fill: new olStyle.Fill({
+            fill: new ol.Fill({
               color: "#fff",
             }),
           }),
@@ -103,7 +90,7 @@ export default {
     };
     
     // Animated cluster layer
-    var clusterLayer = new olExtAnimatedCluster({
+    var clusterLayer = new olExt.AnimatedCluster({
       name: "Cluster",
       source: clusterSource,
       animationDuration: 700,
@@ -116,30 +103,30 @@ export default {
     addFeatures(2000);
 
     // Style for selection
-    var img = new olStyle.Circle({
+    var img = new ol.Circle({
       radius: 5,
-      stroke: new olStyle.Stroke({
+      stroke: new ol.Stroke({
         color: "rgba(0,255,255,1)",
         width: 1,
       }),
-      fill: new olStyle.Fill({
+      fill: new ol.Fill({
         color: "rgba(0,255,255,0.3)",
       }),
     });
-    var style0 = new olStyle.Style({
+    var style0 = new ol.Style({
       image: img,
     });
-    var style1 = new olStyle.Style({
+    var style1 = new ol.Style({
       image: img,
       // Draw a link beetween points (or not)
-      stroke: new olStyle.Stroke({
+      stroke: new ol.Stroke({
         color: "#fff",
         width: 1,
       }),
     });
 
     // Select interaction to spread cluster out and select features
-    var selectCluster = new olExtSelectCluster({
+    var selectCluster = new olExt.SelectCluster({
       // Point radius: to calculate distance between the features
       pointRadius: 7,
       animate: true,
@@ -158,12 +145,12 @@ export default {
             coords.push(cluster[i].getGeometry().getFirstCoordinate());
           // var chull = olCoordinate.convexHull(coords);
           s.push(
-            new olStyle.Style({
-              stroke: new olStyle.Stroke({
+            new ol.Style({
+              stroke: new ol.Stroke({
                 color: "rgba(0,0,192,0.5)",
                 width: 2,
               }),
-              fill: new olStyle.Fill({ color: "rgba(0,0,192,0.3)" }),
+              fill: new ol.Fill({ color: "rgba(0,0,192,0.3)" }),
               //geometry: new olGeomPolygon([chull]),
               zIndex: 1,
             })
@@ -171,13 +158,13 @@ export default {
           return s;
         } else {
           return [
-            new olStyle.Style({
-              image: new olStyle.Circle({
-                stroke: new olStyle.Stroke({
+            new ol.Style({
+              image: new ol.Circle({
+                stroke: new ol.Stroke({
                   color: "rgba(0,0,192,0.5)",
                   width: 2,
                 }),
-                fill: new olStyle.Fill({ color: "rgba(0,0,192,0.3)" }),
+                fill: new ol.Fill({ color: "rgba(0,0,192,0.3)" }),
                 radius: 5,
               }),
             }),
