@@ -6,6 +6,7 @@ use App\Services\PageResults;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Modules\ForestResources\Entities\Parcel;
 use Modules\ForestResources\Http\Requests\CreateUpdateParcelRequest;
 use ShapeFile\Shapefile;

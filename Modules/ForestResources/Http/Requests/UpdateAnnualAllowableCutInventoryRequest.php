@@ -20,6 +20,14 @@ class UpdateAnnualAllowableCutInventoryRequest extends FormRequest
             'Parcel' => 'exists:Modules\ForestResources\Entities\Parcel,Id',
             'TreeId' => 'string',
             'DiameterBreastHeight' => 'numeric',
+            'Lat' => ['regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
+            'Lon' => ['regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
+            'Geometry' => 'string',
+            'GpsAccu' => 'numeric',
+            'Approved' => 'bool',
+            'MobileId'=>'string',
+            'ObserveAt'=>'date'
+
         ];
     }
 

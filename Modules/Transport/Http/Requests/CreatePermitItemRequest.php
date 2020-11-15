@@ -14,15 +14,15 @@ class CreatePermitItemRequest extends FormRequest
     public function rules()
     {
         return [
-            "Permit" => "required",
+            "Permit" => "exists:Modules\Transport\Entities\Permit,Id",
             "LogId" =>"required|string",
-            "Species" => "required", // Todo - add Species validation;
-            "MinDiameter" => "required",
-            "MaxDiameter" => "required",
-            "AverageDiameter" => "required",
-            "Length" => "required",
-            "Volume" => "required",
-            "MobileId" => "required|string"
+            "Species" => "required|integer", // Todo - add Species validation;
+            "MinDiameter" => "required|number",
+            "MaxDiameter" => "required|number",
+            "AverageDiameter" => "required|",
+            "Length" => "required|number",
+            "Volume" => "required|number",
+            "MobileId" => "required|unique:Modules\Transport\Entities\Item,MobileId"
         ];
     }
 

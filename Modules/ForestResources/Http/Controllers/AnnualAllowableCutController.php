@@ -75,6 +75,7 @@ class AnnualAllowableCutController extends Controller
     public function update(UpdateAnnualAllowableCutRequest $request, AnnualAllowableCut $annual_allowable_cut)
     {
         $data = $request->validated();
+
         $annual_allowable_cut->update($data);
 
         return response()->json([

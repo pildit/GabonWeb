@@ -25,6 +25,7 @@ class CreateSiteLogbookRequest extends FormRequest
             'ReportNote' => 'required',
             'ObserveAt' => 'required|date',
             'Approved' => 'bool',
+            'MobileId'=>'string|unique:Modules\ForestResources\Entities\SiteLogbook,MobileId'
         ];
     }
 

@@ -32,9 +32,9 @@ class CreatePermitRequest extends FormRequest
             "Lat" => ['required', 'regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
             "Lon" => ['required', 'regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
             "GpsAccu" => 'integer',
-            "MobileId" => 'required|unique:Modules\\Transport\\Entities\\Permit,MobileId',
+            "MobileId" => 'required|unique:Modules\Transport\Entities\Permit,MobileId',
             "ObserveAt" => 'required|date',
-
+            "Geometry" => 'string',
         ];
     }
 

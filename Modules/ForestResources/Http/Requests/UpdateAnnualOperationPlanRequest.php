@@ -21,6 +21,7 @@ class UpdateAnnualOperationPlanRequest extends FormRequest
             'VolumePerHectare' => 'numeric',
             'AverageVolume' => 'numeric',
             'TotalVolume' => 'numeric',
+            'Approved' =>'bool'
         ];
     }
 
