@@ -167,7 +167,7 @@ class PermitController extends Controller
 
             $tracking = $permit->tracking()->where('Lat', $coordinate['Lat'])->where('Lon', $coordinate['Lon'])->first();
 
-            $srid = config('transportation.srid');
+            $srid = config('forestresources.srid');
             $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$coordinate['Lon']}, {$coordinate['Lat']}),4326),$srid)";
 
             $trackings[$k] = (!is_null($tracking)) ? $tracking : new Tracking();
