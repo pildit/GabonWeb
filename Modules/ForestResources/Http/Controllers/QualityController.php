@@ -5,10 +5,11 @@ namespace Modules\ForestResources\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Modules\ForestResources\Entities\PermitType;
+use Modules\ForestResources\Entities\Quality;
+use GenTux\Jwt\GetsJwtToken;
 use App\Services\PageResults;
 
-class PermitTypesController extends Controller
+class QualityController extends Controller
 {
     use GetsJwtToken;
 
@@ -20,8 +21,9 @@ class PermitTypesController extends Controller
     {
         $pr->setSortFields(["Id"]);
 
-        return response()->json($pr->getPaginator($request, PermitType::class , ['Abbreviation']));
+        return response()->json($pr->getPaginator($request, Quality::class , ['Value', 'Description']));
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -31,21 +33,30 @@ class PermitTypesController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'abbreviation' => 'string|required|unique:\Modules\ForestResources\Entities\PermitType,Abbreviation',
-            'name' => 'string'
+           'value' => 'required|string',
+           'description' => 'string'
         ]);
 
-        PermitType::create([
-            'Abbreviation' => $data['abbreviation'],
-            'Name' => $data['name'] ?? null,
-            'UserId' => $this->JwtPayload('data.id')
-            ]);
+        Quality::create([
+           'Value' => $data['value'],
+           'Description' => $data['description'] ?? null,
+           'UserId'  => $this->JwtPayload('data.id')
+        ]);
 
         return \response()->json([
             'message' => lang('created_successfully')
         ], 201);
     }
 
+    /**
+     * Show the specified resource.
+     * @param int $id
+     * @return Response
+     */
+    public function show($id)
+    {
+        //
+    }
 
     /**
      * Update the specified resource in storage.
@@ -53,19 +64,19 @@ class PermitTypesController extends Controller
      * @param int $id
      * @return Response
      */
-    public function update(Request $request, PermitType $permit_type)
+    public function update(Request $request, Quality $quality)
     {
         $data = $request->validate([
-            'abbreviation' => 'string|required',
-            'name' => 'string'
+            'value' => 'string|required',
+            'description' => 'string'
         ]);
 
-        $permit_type->Abbreviation = $data['abbreviation'];
+        $quality->Value = $data['value'];
 
-        if ($request->has('name'))
-            $permit_type->Name = $data['name'];
+        if ($request->has('description'))
+            $quality->Description = $data['description'];
 
-        $permit_type->save();
+        $quality->save();
 
         return response()->json([
             'message' => lang('update_successful')

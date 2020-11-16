@@ -1,12 +1,21 @@
+drop table "ForestResources"."InventoryQualitiesTable" cascade;
 create table "ForestResources"."InventoryQualitiesTable"
 (
-    "Id" int not null,
-    "Description" text null,
-    "Value" int not null,
-    constraint "PK_ForestResources.InventoryQualitiesTable" primary key("Id"),
-    constraint "CHK_ForestResources.InventoryQualitiesTable.Description" check ("Description" is null or length("Description") > 0),
-    constraint "UNIQ_ForestResources.InventoryQualitiesTable.Description" unique("Description"),
-    constraint "UNIQ_ForestResources.InventoryQualitiesTable.Value" unique("Value")
+    "Id"          serial                              not null
+        constraint "PK_ForestResources.InventoryQualitiesTable"
+            primary key,
+    "Description" text
+        constraint "UNIQ_ForestResources.InventoryQualitiesTable.Description"
+            unique
+        constraint "CHK_ForestResources.InventoryQualitiesTable.Description"
+            check (("Description" IS NULL) OR (length("Description") > 0)),
+    "Value"       integer                             not null
+        constraint "UNIQ_ForestResources.InventoryQualitiesTable.Value"
+            unique,
+    "UserId"      integer,
+    "CreatedAt"   timestamp default CURRENT_TIMESTAMP not null,
+    "UpdatedAt"   timestamp default CURRENT_TIMESTAMP not null,
+    "DeletedAt"   timestamp
 );
 
 create sequence if not exists "ForestResources"."SEQ_InventoryQualities"
@@ -32,3 +41,4 @@ on "ForestResources"."InventoryQualitiesTable"
         "Value"
     )
 ;
+

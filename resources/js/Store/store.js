@@ -7,6 +7,8 @@ import role         from './role';
 import company         from './company';
 import permitType         from './permittype';
 import species         from './species';
+import productType         from './producttype';
+import quality         from './quality';
 
 Vue.use(Vuex);
 Vue.use(cookie)
@@ -73,6 +75,8 @@ export default new Vuex.Store({
         role,
         company,
         permitType,
-        species
+        species,
+        productType,
+        quality
     }
 });
