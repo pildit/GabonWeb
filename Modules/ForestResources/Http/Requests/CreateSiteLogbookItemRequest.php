@@ -15,7 +15,7 @@ class CreateSiteLogbookItemRequest extends FormRequest
     {
         return [
             'SiteLogbook' => 'required',
-            'HewingId' => 'required|integer',
+            'HewingId' => 'required|string',
             'Date' => 'required|date',
             'MaxDiameter' => 'required|numeric',
             'MinDiameter' => 'required|numeric',
@@ -24,6 +24,7 @@ class CreateSiteLogbookItemRequest extends FormRequest
             'Volume' => 'required|numeric',
             'ObserveAt' => 'required|date',
             'Approved' => 'bool',
+            'MobileId' => 'string|unique:Modules\ForestResources\Entities\SiteLogbookItem,MobileId'
         ];
     }
 

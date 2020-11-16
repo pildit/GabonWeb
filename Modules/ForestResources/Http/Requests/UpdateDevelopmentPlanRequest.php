@@ -17,10 +17,11 @@ class UpdateDevelopmentPlanRequest extends FormRequest
 
         return [
             'DevelopmentUnit' => 'exists:Modules\ForestResources\Entities\DevelopmentUnit,Id',
-            'Species' => 'required|string',
-            'MinimumExploitableDiameter' => 'required|string',
+            'Species' => 'string',
+            'MinimumExploitableDiameter' => 'string',
             'VolumeTariff' => 'string',
             'Increment' => ['regex:/^(?:[1-9]\d+|\d)(?:\.\d\d)?(?:\,\d\d)?$/'],
+            'Approved' => 'bool'
         ];
     }
 

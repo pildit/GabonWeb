@@ -20,6 +20,7 @@ class CreateLogbookRequest extends FormRequest
             'AnnualAllowableCut' => 'required|exists:Modules\ForestResources\Entities\AnnualAllowableCut,Id',
             'ObserveAt' => 'required|date',
             'Approved' => 'bool',
+            'MobileId' => 'string|unique:Modules\ForestResources\Entities\Logbook,MobileId'
         ];
     }
 

@@ -6,6 +6,7 @@ use App\Services\PageResults;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\ForestResources\Entities\AnnualAllowableCut;
 use Modules\ForestResources\Entities\AnnualAllowableCutInventory;
 use Modules\ForestResources\Http\Requests\CreateAnnualAllowableCutInventoryRequest;
 use Modules\ForestResources\Http\Requests\UpdateAnnualAllowableCutInventoryRequest;
@@ -40,6 +41,10 @@ class AnnualAllowableCutInventoryController extends Controller
     {
         $data = $request->validated();
 
+        $srid = config('forestresources.srid');
+        $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$data['Lon']}, {$data['Lat']}),4326),$srid)";
+        $data['Geometry'] = isset($data['Geometry']) ? DB::raw("public.st_geomfromtext('".$data['Geometry']."', 5223)") : DB::raw("(select $geomQuery)");
+
         $annual_allowable_cut_inventory = AnnualAllowableCutInventory::create($data);
 
         return response()->json([
@@ -68,6 +73,11 @@ class AnnualAllowableCutInventoryController extends Controller
     public function update(UpdateAnnualAllowableCutInventoryRequest $request, AnnualAllowableCutInventory $annual_allowable_cut_inventory)
     {
         $data = $request->validated();
+
+        $srid = config('forestresources.srid');
+        $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$data['Lon']}, {$data['Lat']}),4326),$srid)";
+        $data['Geometry'] = isset($data['Geometry']) ? DB::raw("public.st_geomfromtext('".$data['Geometry']."', 5223)") : DB::raw("(select $geomQuery)");
+
         $annual_allowable_cut_inventory->update($data);
 
         return response()->json([
@@ -107,4 +117,21 @@ class AnnualAllowableCutInventoryController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param AnnualAllowableCutInventoryService $aaciService
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function vectors(Request $request, AnnualAllowableCutInventoryService $aaciService)
+    {
+        $request->validate(['bbox' => 'string']);
+
+        return response()->json([
+            'data' => [
+                'type' => 'FeatureCollection',
+                'name' => 'annual_allowable_cut_inventory',
+                'features' => $aaciService->getVectors($request->get('bbox', config('forestresources.default_bbox')))
+            ]
+        ]);
+    }
 }

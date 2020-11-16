@@ -14,7 +14,9 @@ class UpdateSiteLogbookLogRequest extends FormRequest
     public function rules()
     {
         return [
-            'HewingId' => 'integer',
+            'SiteLogbookItem' => '',
+            'LogId' => 'string',
+            'HewingId' => 'string',
             'Species' => 'integer',
             'MaxDiameter' => 'numeric',
             'MinDiameter' => 'numeric',
@@ -23,11 +25,12 @@ class UpdateSiteLogbookLogRequest extends FormRequest
             'Volume' => 'numeric',
             'Note' => 'string',
             'EvacuationDate' => 'date',
-            'Lat' => 'numeric',
-            'Lon' => 'numeric',
+            'Lat' => ['regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
+            'Lon' => ['regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
             'GpsAccu' => 'numeric',
             'ObserveAt' => 'date',
             'Approved' => 'bool',
+            'MobileId' => 'string|unique:Modules\ForestResources\Entities\SiteLogbookLog,MobileId'
         ];
     }
 

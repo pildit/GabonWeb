@@ -5,6 +5,7 @@ namespace Modules\Transport\Services;
 
 
 use App\Services\PageResults;
+use Modules\ForestResources\Entities\SiteLogbook;
 use Modules\Transport\Entities\Item as ItemEntity;
 use Modules\User\Entities\User;
 use GenTux\Jwt\GetsJwtToken;
@@ -24,7 +25,7 @@ class Item extends PageResults
             ->get()->toArray();
 
 
-        list($treeID) = $this->treeIdList();
+        list($logID) = $this->logIdList();
 
         // mobile form
      	//!!! daca nu are "fl" NU pui NotEmpty!!!!
@@ -40,10 +41,10 @@ class Item extends PageResults
                 "type" => "str"
             ],
             [
-                "f" => "TreeId",
-                "fl" => "TreeId",
-                "type" => "list_ed_NotEmpty_NoLang",     //!!! TreeId se transformă in LogID doar cu val... fără id din lista de LogId
-                "values" => $treeID
+                "f" => "LogId",
+                "fl" => "LogId",
+                "type" => "list_ed_NotEmpty_NoLang",     //!!! LogId se transformă in LogID doar cu val... fără id din lista de LogId
+                "values" => $logID
            //     "condition" => "product_type=logs"
             ],
             [
@@ -92,42 +93,32 @@ class Item extends PageResults
         return $array;
     }
 
-    public function treeIdList(): array
+    public function logIdList(): array
     {
         $array = [];
 
         $userId = $this->jwtPayload('data.id');
 
-        // User > Company > Concessions -> Developtment Unit -> Management Unit -> AAC -> AAC Inventory > TreeIDs
-
-        $values = DB::table('admin.accounts')
+        $concessions =  DB::table('admin.accounts')
             ->join('Taxonomy.Companies', 'admin.accounts.company_id', '=', 'Taxonomy.Companies.Id')
             ->join('ForestResources.Concessions', 'ForestResources.Concessions.Company', '=', 'Taxonomy.Companies.Id')
-            ->join('ForestResources.DevelopmentUnits', 'ForestResources.Concessions.Id',"=", 'ForestResources.DevelopmentUnits.Concession')
-            ->join('ForestResources.ManagementUnits', 'ForestResources.ManagementUnits.DevelopmentUnit',"=", 'ForestResources.DevelopmentUnits.Id')
-            ->join('ForestResources.AnnualAllowableCuts', 'ForestResources.AnnualAllowableCuts.ManagementUnit',"=", 'ForestResources.ManagementUnits.Id')
-            ->join('ForestResources.AnnualAllowableCutInventory', 'ForestResources.AnnualAllowableCutInventory.AnnualAllowableCut',"=", 'ForestResources.AnnualAllowableCuts.Id')
-            ->select('ForestResources.AnnualAllowableCutInventory.Id','ForestResources.AnnualAllowableCutInventory.TreeId')
-            ->where("admin.accounts.id","=", $userId)
-            ->get();
+            ->select('ForestResources.Concessions.Id')
+            ->where("admin.accounts.id","=", $userId)->get()->toArray();
 
-//                $values = DB::table('ForestResources.AnnualAllowableCutInventory')
-//                    ->join('ForestResources.AnnualAllowableCuts', 'ForestResources.AnnualAllowableCuts.ManagementUnit', 'ForestResources.ManagementUnits.Id')
-//                    ->join('ForestResources.ManagementUnits', 'ForestResources.ManagementUnits.DevelopmentUnit',"=", 'ForestResources.DevelopmentUnits.Id')
-//                    ->join('ForestResources.DevelopmentUnits', 'ForestResources.Concessions.Id', "",'ForestResources.DevelopmentUnits.Concession')
-//                    ->join('ForestResources.Concessions', 'ForestResources.Concessions.Company', '=', 'Taxonomy.Companies.Id')
-//                    ->join('Taxonomy.Companies', 'admin.accounts.company_id', '=', 'Taxonomy.Companies.Id')
-//                    ->join('admin.accounts', 'admin.accounts.company_id', '=', 'Taxonomy.Companies.Id')
-//                    ->select('ForestResources.AnnualAllowableCutInventory.Id','ForestResources.AnnualAllowableCutInventory.TreeId')
-//                    ->where("admin.accounts.id","=",$userId)
-//                    ->get();
+        $concessions = array_column($concessions, 'Id');
 
-        $values->each(function ($value) use (&$array) {
-            $array[]= [
-                'val' => $value->TreeId,
-                'id'  => $value->Id,
-            ];
+        $SiteLogbooks = DB::table('ForestResources.SiteLogbooks')
+            ->select('ForestResources.SiteLogbooks.Id')
+            ->whereIn("ForestResources.SiteLogbooks.Concession",$concessions)->get();
 
+
+        $SiteLogbooks->each(function ($SiteLogbook) use (&$array) {
+            $SiteLogbook = SiteLogbook::find($SiteLogbook->Id);
+            $SiteLogbook->logs()->get()->each(function ($value) use (&$array) {
+                $array[]= [
+                    'val' => $value->LogId,
+                ];
+            });
         });
 
         return array($array);

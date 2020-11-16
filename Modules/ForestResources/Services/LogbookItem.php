@@ -56,15 +56,15 @@ class LogbookItem extends PageResults
                 "type" => "int"
             ],
             [
-                "f" => "AnnualAllowableCutInventory",
-                "fl" => "",
-                "type" => "list_NotEmpty_NoLang",
+                "f" => "TreeId",
+                "fl" => "TreeId",   //!TreeId
+                "type" => "list_ed_NotEmpty_NoLang",
                 "values" => $annualallowablecutinventory
             ],
             [
-                "f" => "HewingId",
-                "fl" => "",
-                "type" => "int"
+                "f" => "HewingId",           //! AbatajID
+                "fl" => "HewingId",
+                "type" => "str_NotEmpty"
             ],
             [
                 "f" => "Species",
@@ -75,22 +75,22 @@ class LogbookItem extends PageResults
             [
                 "f" => "MaxDiameter",
                 "fl" => "MaxDiameter",
-                "type" => "int"
+                "type" => "int_NotEmpty"
             ],
             [
                 "f" => "MinDiameter",
                 "fl" => "MinDiameter",
-                "type" => "int"
+                "type" => "int_NotEmpty"
             ],
             [
                 "f" => "Length",
                 "fl" => "Length",
-                "type" => "int"
+                "type" => "float_NotEmpty"
             ],
             [
                 "f" => "Volume",
                 "fl" => "Volume",
-                "type" => "int"
+                "type" => "float_NotEmpty"
             ],
             [
                 "f" => "Note",

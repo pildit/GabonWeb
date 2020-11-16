@@ -178,7 +178,7 @@ class PermitTest extends TestCase
                     'name',
                     'features' => [
                         '*' => [
-                            'geometry' => [
+                            'Geometry' => [
                                 'type',
                                 'coordinates'
                             ],

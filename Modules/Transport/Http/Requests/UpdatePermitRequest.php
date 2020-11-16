@@ -15,6 +15,7 @@ class UpdatePermitRequest extends FormRequest
     {
         return [
             "PermitNo" => 'string',
+            "PermitNoMobile" => 'unique:Modules\\Transport\\Entities\\Permit,PermitNoMobile',
             "Concession" => 'exists:Modules\ForestResources\Entities\Concession,Id',
             "ManagementUnit" => 'exists:Modules\ForestResources\Entities\ManagementUnit,Id',
             "DevelopmentUnit" => 'exists:Modules\ForestResources\Entities\DevelopmentUnit,Id',
@@ -28,11 +29,12 @@ class UpdatePermitRequest extends FormRequest
             "LicensePlate" => 'string',
             "Province" => 'string',
             "Destination" => 'string',
-            "ScanGpsAccu" => 'integer',
             "Lat" => [ 'regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
             "Lon" => [ 'regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
             "GpsAccu" => 'integer',
+            "MobileId" => 'string',
             "ObserveAt" => 'date',
+            "Geometry" => 'string',
         ];
     }
 
