@@ -13,6 +13,7 @@ require('laravel-mix-alias');
  */
 
 mix.js('resources/js/app.js', 'public/js')
+    .js('resources/js/swagger.js', 'public/js')
     // .sass('resources/sass/app.scss', 'public/css')
     .scripts([
         'resources/mdb/js/jquery-3.4.1.min.js',

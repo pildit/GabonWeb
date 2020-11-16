@@ -8,6 +8,7 @@ import Translation from "./Components/Mixins/Translation";
 import store from "store/store"
 import config from './Components/_config/index';
 import directives from './Components/_config/Directives/index';
+import SwaggerUI from 'swagger-ui'
 
 import Base from './Components/Base';
 import Pages from './Components/Pages/Pages';
