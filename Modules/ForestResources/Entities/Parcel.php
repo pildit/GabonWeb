@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Parcel extends Model
 {
-    use Sortable, Geometry, SoftDeletes;
+    use Sortable, Geometry, SoftDeletes, UserEmailAttribute;
 
     const CREATED_AT = "CreatedAt";
     const UPDATED_AT = "UpdatedAt";

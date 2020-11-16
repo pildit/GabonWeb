@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('home');
 });
 
+Route::get('/docs', function () {
+    return view('docs.index');
+});
+
 Route::get('/geoportal', function () {
    return view('geoportal');
 });
