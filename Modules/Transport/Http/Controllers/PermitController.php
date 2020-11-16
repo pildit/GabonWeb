@@ -60,13 +60,13 @@ class PermitController extends Controller
      */
     public function vectors(Request $request, Permit $permitService)
     {
-        $request->validate(['bbox' => 'required']);
+        $request->validate(['bbox' => 'string']);
 
         return response()->json([
             'data' => [
                 'type' => 'FeatureCollection',
                 'name' => 'permits',
-                'features' => $permitService->getVectors($request->get('bbox'))
+                'features' => $permitService->getVectors($request->get('bbox', config('transport.default_bbox')))
             ]
         ]);
     }
@@ -150,10 +150,8 @@ class PermitController extends Controller
             'coords.*.Lat' => ['required', 'regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
             'coords.*.Lon' => ['required', 'regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
             'coords.*.ObserveAt' => ['required', 'date'],
-            'MobileId' => 'required'
+            'coords.*.MobileId' => 'required'
         ]);
-
-        $permit = PermitEntity::where('MobileId',$request->get('MobileId'))->firstOrFail();
 
         /** get the $coords from the request */
         $coords = $request->get('coords');
@@ -161,6 +159,8 @@ class PermitController extends Controller
         /** save each set of $coordinates or update if same coords are sent */
         $trackings = [];
         foreach ($coords as $k => $coordinate) {
+            $permit = PermitEntity::where('MobileId',$coordinate['MobileId'])->firstOrFail();
+
             $tracking = $permit->tracking()->where('Lat', $coordinate['Lat'])->where('Lon', $coordinate['Lon'])->first();
 
             $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$coordinate['Lon']}, {$coordinate['Lat']}),4326),3857)";
@@ -168,6 +168,7 @@ class PermitController extends Controller
             $trackings[$k]->User = $this->jwtPayload('data.id');
             $trackings[$k]->Lat = $coordinate['Lat'];
             $trackings[$k]->Lon = $coordinate['Lon'];
+            $trackings[$k]->ObserveAt = $coordinate['ObserveAt'];
             $trackings[$k]->GpsAccu = $coordinate['GpsAccu'] ?? 0;
             $trackings[$k]->Geometry = DB::raw("(select $geomQuery)");
         }
@@ -175,7 +176,7 @@ class PermitController extends Controller
         $permit->tracking()->saveMany($trackings);
 
         return response()->json([
-            'message' => 'success'
+            'message' => 'tracking_success'
         ],201);
     }
 }

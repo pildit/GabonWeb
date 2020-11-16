@@ -184,5 +184,22 @@ class ParcelController extends Controller
         ], 204);
     }
 
+    /**
+     * @param Request $request
+     * @param ParcelService $parcelService
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function vectors(Request $request, ParcelService $parcelService)
+    {
+        $request->validate(['bbox' => 'string']);
+
+        return response()->json([
+            'data' => [
+                'type' => 'FeatureCollection',
+                'name' => 'parcels',
+                'features' => $parcelService->getVectors($request->get('bbox', config('forestresources.default_bbox')))
+            ]
+        ]);
+    }
 
 }

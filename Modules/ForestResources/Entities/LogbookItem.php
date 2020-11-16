@@ -26,7 +26,7 @@ class LogbookItem extends Model
      *
      * @var array
      */
-    protected $fillable = ['Logbook','AnnualAllowableCutInventory','HewingId','Species','MaxDiameter','MinDiameter','Length','Volume','Lat','Lon','GpsAccu','Note','ObserveAt','Approved'];
+    protected $fillable = ['Logbook','TreeId','HewingId','Species','MaxDiameter','MinDiameter','Length','Volume','Lat','Lon','GpsAccu','Note','ObserveAt','Approved'];
 
     /**
      * The table associated with the model.
@@ -37,7 +37,5 @@ class LogbookItem extends Model
 
     protected $primaryKey = "Id";
 
-    public function anuualallowablecutinventory(){
-        return $this->belongsTo(AnnualAllowableCutInventory::class,'AnnualAllowableCutInventory');
-    }
+
 }

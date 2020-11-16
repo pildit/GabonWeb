@@ -15,7 +15,7 @@ class CreateSiteLogbookItemRequest extends FormRequest
     {
         return [
             'SiteLogbook' => 'required',
-            'HewingId' => 'required|integer',
+            'HewingId' => 'required|string',
             'Date' => 'required|date',
             'MaxDiameter' => 'required|numeric',
             'MinDiameter' => 'required|numeric',
