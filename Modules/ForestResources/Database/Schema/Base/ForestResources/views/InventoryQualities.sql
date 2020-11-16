@@ -6,7 +6,11 @@ as
     select
         iqt."Id"
         , iqt."Description"
-        , iqt."Value"
+        , iqt."Value",
+        iqt."UserId",
+        iqt."CreatedAt",
+        iqt."UpdatedAt",
+        iqt."DeletedAt"
     from "ForestResources"."InventoryQualitiesTable" as iqt
 ;
 
@@ -31,17 +35,25 @@ as
                 "Id"
                 , "Description"
                 , "Value"
+                , "CreatedAt"
+                , "UserId"
             )
         values
             (
                 nextval('"ForestResources"."SEQ_InventoryQualities"')
                 , new."Description"
                 , new."Value"
+                , new."CreatedAt"
+                , new."UserId"
             )
         returning
             "Id"
             , "Description"
             , "Value"
+            , "UserId"
+            , "CreatedAt"
+            , "UpdatedAt"
+            , "DeletedAt"
 ;
 
 create or replace rule "InventoryQualities_instead_of_update"
@@ -52,10 +64,15 @@ as
             set
                 "Description" = new."Description"
                 , "Value" = new."Value"
+                , "UpdatedAt" = new."UpdatedAt"
             where
                 "Id" = old."Id"
             returning
-                "Id"
-                , "Description"
-                , "Value"
+            "Id"
+            , "Description"
+            , "Value"
+            , "UserId"
+            , "CreatedAt"
+            , "UpdatedAt"
+            , "DeletedAt"
 ;

@@ -56,8 +56,8 @@ class LogbookItem extends PageResults
                 "type" => "int"
             ],
             [
-                "f" => "AnnualAllowableCutInventory",
-                "fl" => "Tree_AnnualAllowableCutInventory",   //!TreeId
+                "f" => "TreeId",
+                "fl" => "TreeId",   //!TreeId
                 "type" => "list_ed_NotEmpty_NoLang",
                 "values" => $annualallowablecutinventory
             ],

@@ -18,7 +18,8 @@ class CreateDevelopmentUnitRequest extends FormRequest
             'Concession' => 'required|integer',
             'Start' => 'required|date',
             'End' => 'required|date',
-            'Geometry' => 'required|regex:/\POLYGON\b/',
+            'Geometry' => 'string',
+            'Approved'=>'bool',
         ];
     }
 

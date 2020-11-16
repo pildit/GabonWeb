@@ -20,7 +20,7 @@ class ManagementUnit extends Model
      *
      * @var array
      */
-    protected $fillable = ['Name','DevelopmentUnit','Geometry'];
+    protected $fillable = ['Name','DevelopmentUnit','Geometry','Approved'];
 
     /**
      * @var string

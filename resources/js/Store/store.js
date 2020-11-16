@@ -7,6 +7,8 @@ import role         from './role';
 import company         from './company';
 import permitType         from './permittype';
 import species         from './species';
+import productType         from './producttype';
+import quality         from './quality';
 import geoportal from './geoportal';
 
 Vue.use(Vuex);
@@ -75,6 +77,8 @@ export default new Vuex.Store({
         company,
         permitType,
         species,
+        productType,
+        quality
         geoportal
     }
 });

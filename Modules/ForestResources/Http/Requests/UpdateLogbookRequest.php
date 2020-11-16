@@ -20,6 +20,7 @@ class UpdateLogbookRequest extends FormRequest
             'AnnualAllowableCut' => 'exists:Modules\ForestResources\Entities\AnnualAllowableCut,Id',
             'ObserveAt' => 'date',
             'Approved' => 'bool',
+            'MobileId' => 'string'
         ];
     }
 

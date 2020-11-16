@@ -22,7 +22,7 @@ class DevelopmentUnit extends Model
      *
      * @var array
      */
-    protected $fillable = ['Name','Concession','Start','End','Geometry'];
+    protected $fillable = ['Name','Concession','Start','End','Geometry','Approved'];
 
     /**
      * @var string

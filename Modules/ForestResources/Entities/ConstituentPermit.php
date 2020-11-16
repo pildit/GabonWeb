@@ -11,7 +11,7 @@ class ConstituentPermit extends Model
 {
 	use Sortable, SoftDeletes, Geometry;
 
-    protected $fillable = ['PermitType', 'Geometry', 'PermitNumber'];
+    protected $fillable = ['PermitType', 'Geometry', 'PermitNumber', 'Approved'];
 
     protected $table = 'ForestResources.ConstituentPermits';
 
