@@ -8,6 +8,7 @@ import axios from 'axios'; // Will be used for requests once we have the endpoin
 export default {
     namespaced: true,
     state: {
+
         map: new Map({
             // the map will be created using the 'map-root' ref
             // target: this.$refs["map-root"],
@@ -17,17 +18,54 @@ export default {
                     source: new OSM(), // tiles are served by OpenStreetMap
                 }),
             ],
-            //the map view will initially show the whole world
+            // the map view will initially show the whole world
             view: new View({
                 zoom: 7,
-                center: fromLonLat([11.609454, -0.803698]), //Gabon coord
+                center: fromLonLat([11.609454, -0.803698]), // Gabon coord
                 constrainResolution: true,
             }),
-        })
+        }),
+
+        annualAllowableCutInventory: [],
+        annualAllowableCuts: [],
+        concessions: [],
+        developmentUnits: [],
+        managmentUnits: [],
+        parcels: [],
+        permits: []
     },
     getters: {
+        
         map(state) {
             return state.map;
+        },
+
+        annualAllowableCutInventory(state) {
+            return state.annualAllowableCutInventory
+        },
+
+        annualAllowableCuts(state) {
+            return state.annualAllowableCuts
+        },
+
+        concessions(state) {
+            return state.concessions
+        },
+
+        developmentUnits(state) {
+            return state.developmentUnits
+        },
+
+        managmentUnits(state){
+            return state.managmentUnits
+        },
+
+        parcels(state) {
+            return state.parcels
+        },
+
+        permits(state) {
+            return state.permits
         }
     },
     mutations: {
@@ -36,31 +74,31 @@ export default {
         },
 
         mutateAnnualAllowableCutInventory(state, data) {
-            // TODO
+            state.annualAllowableCutInventory = data;
         },
 
         mutateAnnualAllowableCuts(state, data) {
-            // TODO
+            state.annualAllowableCuts = data
         },
 
         mutateConcessions(state, data) {
-            // TODO
+            state.concessions = data
         },
 
         mutableDevelopmentUnits(state, data) {
-            // TODO
+            state.developmentUnits = data
         },
 
         mutableManagmentUnits(state, data) {
-            // TODO
+            state.managmentUnits = data
         },
 
         mutableParcels(state, data) {
-            // TODO
+            state.parcels = data
         },
 
         mutablePermits(state, data) {
-            // TODO
+            state.permits = data
         }
     },
     actions: {
