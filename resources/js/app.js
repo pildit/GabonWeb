@@ -17,6 +17,7 @@ import Role from './Components/Role/Role';
 import Company from './Components/Company/Company';
 import PermitType from './Components/PermitType/PermitType';
 import Species from './Components/Species/Species';
+import Parcel from './Components/Parcel/Parcel';
 import Quality from './Components/Quality/Quality';
 import ProductType from './Components/ProductType/ProductType';
 
@@ -52,6 +53,7 @@ Gabon.Role = Role;
 Gabon.Company = Company;
 Gabon.PermitType = PermitType;
 Gabon.Species = Species;
+Gabon.Parcel = Parcel;
 Gabon.Quality = Quality;
 Gabon.ProductType = ProductType;
 

@@ -22,7 +22,6 @@
     "dependencies": {
         "laravel-mix-alias": "^1.0.2",
         "promise.prototype.finally": "^3.1.2",
-        "swagger-ui": "^3.36.2",
         "url-join": "^4.0.1",
         "v-tooltip": "^2.0.3",
         "vee-validate": "^2.2.15",

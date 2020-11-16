@@ -7,6 +7,7 @@ import role         from './role';
 import company         from './company';
 import permitType         from './permittype';
 import species         from './species';
+import parcels         from './parcel';
 import productType         from './producttype';
 import quality         from './quality';
 import development_unit from './development_unit';
@@ -76,6 +77,8 @@ export default new Vuex.Store({
         role,
         company,
         permitType,
+        species,
+        parcels,
         species,
         productType,
         quality,
