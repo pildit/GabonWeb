@@ -1,5 +1,6 @@
 const mix = require('laravel-mix');
 require('laravel-mix-alias');
+require('dotenv').config();
 
 /*
  |--------------------------------------------------------------------------
@@ -27,6 +28,7 @@ mix.js('resources/js/app.js', 'public/js')
         'resources/mdb/css/style.css',
         'resources/mdb/css/addons/flag.css',
         'resources/css/vue-multiselect.min.css',
+        'resources/css/swagger-ui.css',
         'resources/css/app.css'
     ], 'public/css/all.css')
     .alias({

@@ -6517,7 +6517,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var swagger_ui__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(swagger_ui__WEBPACK_IMPORTED_MODULE_0__);
 
 swagger_ui__WEBPACK_IMPORTED_MODULE_0___default()({
-  dom_id: '#swagger-ui'
+  dom_id: '#swagger-ui',
+  url: "http://localhost:8000" + '/doc/swagger.json'
 });
 
 /***/ }),
