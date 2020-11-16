@@ -24,8 +24,6 @@ export default {
       event: 'display'
     },
 
-    mixins: [Translation],
-
     props: ['state', 'typeProp', 'rowProp'],
 
     components: {bmodal, CompanyForm},
