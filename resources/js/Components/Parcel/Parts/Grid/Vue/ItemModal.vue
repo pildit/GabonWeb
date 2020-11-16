@@ -15,7 +15,7 @@
 
 <script>
 import bmodal from 'components/Common/BootstrapModal.vue';
-import itemForm from "./itemForm";
+import itemForm from "./itemForm.vue";
 import {mapGetters} from 'vuex';
 
 export default {
