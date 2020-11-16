@@ -20,6 +20,8 @@ import Species from './Components/Species/Species';
 import Quality from './Components/Quality/Quality';
 import ProductType from './Components/ProductType/ProductType';
 
+import DevelopmentUnit from "./Components/Management/DevelopmentUnit/DevelopmentUnit";
+
 Vue.config.devtools = true;
 window.Vent         = new Vue;
 
@@ -52,6 +54,10 @@ Gabon.PermitType = PermitType;
 Gabon.Species = Species;
 Gabon.Quality = Quality;
 Gabon.ProductType = ProductType;
+
+Gabon.Management = {
+    DevelopmentUnit: DevelopmentUnit
+}
 
 window.Gabon = Gabon;
 if(Vue.$jwt.hasToken()) {

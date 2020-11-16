@@ -9,6 +9,7 @@ import permitType         from './permittype';
 import species         from './species';
 import productType         from './producttype';
 import quality         from './quality';
+import development_unit from './development_unit';
 
 Vue.use(Vuex);
 Vue.use(cookie)
@@ -77,6 +78,7 @@ export default new Vuex.Store({
         permitType,
         species,
         productType,
-        quality
+        quality,
+        development_unit
     }
 });
