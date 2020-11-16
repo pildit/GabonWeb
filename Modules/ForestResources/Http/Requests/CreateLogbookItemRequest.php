@@ -14,7 +14,7 @@ class CreateLogbookItemRequest extends FormRequest
     public function rules()
     {
         return [
-            'Logbook' => 'required|exists:Modules\ForestResources\Entities\Logbook,Id',
+            'Logbook' => 'required',
             'TreeId' => 'required|string',
             'HewingId' => 'required|string',
             'Species' => 'required|integer',
@@ -25,7 +25,7 @@ class CreateLogbookItemRequest extends FormRequest
             'Lat' => ['regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
             'Lon' => ['regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
             'GpsAccu' => 'required|numeric',
-            'Note' => 'string',
+            'Note' => '',
             'ObserveAt' => 'required|date',
             'Approved' => 'bool',
             'MobileId' => 'string|unique:Modules\ForestResources\Entities\LogbookItem,MobileId',

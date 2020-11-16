@@ -20,9 +20,9 @@ class CreateSiteLogbookRequest extends FormRequest
             'AnnualAllowableCut' => 'required|exists:Modules\ForestResources\Entities\AnnualAllowableCut,Id',
             'Company' => 'required|exists:Modules\Admin\Entities\Company,Id',
             'Hammer' => 'required|integer',
-            'Localization' => 'required',
-            'ReportNo' => 'required',
-            'ReportNote' => 'required',
+            'Localization' => '',
+            'ReportNo' => '',
+            'ReportNote' => '',
             'ObserveAt' => 'required|date',
             'Approved' => 'bool',
             'MobileId'=>'string|unique:Modules\ForestResources\Entities\SiteLogbook,MobileId'
