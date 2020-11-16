@@ -60,9 +60,6 @@ export default {
 
   computed: {
   },
-  mounted() {
-    this.getQualities();
-  },
   methods: {
     getQualities() {
       Vent.$emit('grid-refresh', {search: this.search});
