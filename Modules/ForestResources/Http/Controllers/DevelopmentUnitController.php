@@ -9,7 +9,7 @@ use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\DevelopmentUnit;
 use Modules\ForestResources\Http\Requests\CreateDevelopmentUnitRequest;
 use Modules\ForestResources\Http\Requests\UpdateDevelopmentUnitRequest;
-
+use Modules\ForestResources\Services\DevelopmentUnit as DevelopmentUnitService;
 
 class DevelopmentUnitController extends Controller
 {
@@ -88,5 +88,21 @@ class DevelopmentUnitController extends Controller
 
     }
 
+    /**
+     * @param Request $request
+     * @param DevelopmentUnitService $developmentUnitService
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function vectors(Request $request, DevelopmentUnitService $developmentUnitService)
+    {
+        $request->validate(['bbox' => 'string']);
 
+        return response()->json([
+            'data' => [
+                'type' => 'FeatureCollection',
+                'name' => 'development_unit',
+                'features' => $developmentUnitService->getVectors($request->get('bbox', config('forestresources.default_bbox')))
+            ]
+        ]);
+    }
 }

@@ -70,6 +70,10 @@ class UserController extends Controller
 
         $data = $request->validated();
 
+        if(isset($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        }
+
         $user->fill($data);
         $user->save($data);
         if(isset($data['role_name'])) {
@@ -78,7 +82,10 @@ class UserController extends Controller
             $data['roles'][] = $role->id;
         }
 
-        $user->syncRoles($data['roles']);
+        if(isset($data['roles'])) {
+            $user->syncRoles($data['roles']);
+        }
+
 
         return response()->json([
             'message' => lang('Update successful')

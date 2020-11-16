@@ -14,7 +14,8 @@ class UpdateSiteLogbookLogRequest extends FormRequest
     public function rules()
     {
         return [
-            'HewingId' => 'integer',
+            'LogId' => 'string',
+            'HewingId' => 'string',
             'Species' => 'integer',
             'MaxDiameter' => 'numeric',
             'MinDiameter' => 'numeric',
