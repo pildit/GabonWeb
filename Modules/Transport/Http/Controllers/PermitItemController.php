@@ -47,7 +47,7 @@ class PermitItemController extends Controller
 
         $permit = PermitEntity::where('Id', (int)$data['Permit'])->orWhere('MobileId', $data['Permit'])->first();
         if(!$permit){
-            throw \ValidationException::withMessages(['Permit' => 'validation.exists']);
+            throw ValidationException::withMessages(['Permit' => 'validation.exists']);
         }
         $data['Permit'] = $permit->Id;
         $item = ItemEntity::create($data);
