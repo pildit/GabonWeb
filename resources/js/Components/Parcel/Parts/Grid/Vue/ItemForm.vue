@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import Item from "components/Parcel";
+import Item from "components/Parcel/Parcel";
 
 
 export default {
