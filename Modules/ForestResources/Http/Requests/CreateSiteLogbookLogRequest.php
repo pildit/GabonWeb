@@ -14,7 +14,7 @@ class CreateSiteLogbookLogRequest extends FormRequest
     public function rules()
     {
         return [
-            'SiteLogbookItem' => 'exists:Modules\ForestResources\Entities\SiteLogbookItem,Id',
+            'SiteLogbookItem' => 'required',
             'LogId' => 'string',
             'HewingId' => 'string',
             'Species' => 'integer',

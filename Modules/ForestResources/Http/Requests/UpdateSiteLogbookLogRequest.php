@@ -14,6 +14,7 @@ class UpdateSiteLogbookLogRequest extends FormRequest
     public function rules()
     {
         return [
+            'SiteLogbookItem' => '',
             'LogId' => 'string',
             'HewingId' => 'string',
             'Species' => 'integer',
@@ -29,6 +30,7 @@ class UpdateSiteLogbookLogRequest extends FormRequest
             'GpsAccu' => 'numeric',
             'ObserveAt' => 'date',
             'Approved' => 'bool',
+            'MobileId' => 'string|unique:Modules\ForestResources\Entities\SiteLogbookLog,MobileId'
         ];
     }
 

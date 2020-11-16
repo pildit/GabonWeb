@@ -121,8 +121,6 @@ class Item extends PageResults
             });
         });
 
-        dd($array);
-
         return array($array);
     }
 }

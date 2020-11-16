@@ -14,7 +14,7 @@ class UpdateSiteLogbookItemRequest extends FormRequest
     public function rules()
     {
         return [
-            'SiteLogbook' => 'exists:Modules\ForestResources\Entities\SiteLogbook,Id',
+            'SiteLogbook' => '',
             'HewingId' => 'string',
             'Date' => 'date',
             'MaxDiameter' => 'numeric',
