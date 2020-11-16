@@ -60,13 +60,13 @@ class PermitController extends Controller
      */
     public function vectors(Request $request, Permit $permitService)
     {
-        $request->validate(['bbox' => 'required']);
+        $request->validate(['bbox' => 'string']);
 
         return response()->json([
             'data' => [
                 'type' => 'FeatureCollection',
                 'name' => 'permits',
-                'features' => $permitService->getVectors($request->get('bbox'))
+                'features' => $permitService->getVectors($request->get('bbox', config('transport.default_bbox')))
             ]
         ]);
     }
@@ -89,10 +89,12 @@ class PermitController extends Controller
     {
         $data = $request->validated();
 
-        $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$request->get('Lon')}, {$request->get('Lat')}),4326),3857)";
-
         $data['User'] = $this->jwtPayload('data.id');
-        $data['Geometry'] = $data['Geometry'] ?? DB::raw("(select $geomQuery)");
+
+        $srid = config('forestresources.srid');
+        $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$data['Lon']}, {$data['Lat']}),4326),$srid)";
+        $data['Geometry'] = isset($data['Geometry']) ? DB::raw("public.st_geomfromtext('".$data['Geometry']."', 5223)") : DB::raw("(select $geomQuery)");
+
         $permit = PermitEntity::create($data);
 
         return response()->json([
@@ -110,10 +112,12 @@ class PermitController extends Controller
     {
         $data = $request->validated();
 
-        $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$request->get('Lon')}, {$request->get('Lat')}),4326),3857)";
-
         $data['User'] = $this->jwtPayload('data.id');
-        $data['Geometry'] = $data['Geometry'] ?? DB::raw("(select $geomQuery)");
+
+        $srid = config('forestresources.srid');
+        $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$data['Lon']}, {$data['Lat']}),4326),$srid)";
+        $data['Geometry'] = isset($data['Geometry']) ? DB::raw("public.st_geomfromtext('".$data['Geometry']."', 5223)") : DB::raw("(select $geomQuery)");
+
         $permit->update($data);
 
         return response()->json([
@@ -163,7 +167,9 @@ class PermitController extends Controller
 
             $tracking = $permit->tracking()->where('Lat', $coordinate['Lat'])->where('Lon', $coordinate['Lon'])->first();
 
-            $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$coordinate['Lon']}, {$coordinate['Lat']}),4326),3857)";
+            $srid = config('forestresources.srid');
+            $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$coordinate['Lon']}, {$coordinate['Lat']}),4326),$srid)";
+
             $trackings[$k] = (!is_null($tracking)) ? $tracking : new Tracking();
             $trackings[$k]->User = $this->jwtPayload('data.id');
             $trackings[$k]->Lat = $coordinate['Lat'];

@@ -15,21 +15,21 @@ use Illuminate\Http\Request;
 
 
 Route::middleware('jwt:api')->resource('/constituent_permits', ConstituentPermitController::class)->except(['create', 'edit']);
-Route::middleware('jwt:api')->get('/parcels/vectors', 'ParcelController@vectors');
+Route::get('/parcels/vectors', 'ParcelController@vectors');
 Route::middleware('jwt:api')->resource('/parcels', ParcelController::class)->except(['edit', 'create']);
-Route::middleware('jwt:api')->get('/development_units/vectors', 'DevelopmentUnitController@vectors');
+Route::get('/development_units/vectors', 'DevelopmentUnitController@vectors');
 Route::middleware('jwt:api')->resource('/development_units', DevelopmentUnitController::class)->except(['edit', 'create']);
 Route::middleware('jwt:api')->resource('/development_plans', DevelopmentPlanController::class)->except(['edit', 'create']);
 Route::middleware('jwt:api')->resource('/management_plans', ManagementPlanController::class)->except(['edit', 'create']);
-Route::middleware('jwt:api')->get('/management_units/vectors', 'ManagementUnitController@vectors');
+Route::get('/management_units/vectors', 'ManagementUnitController@vectors');
 Route::middleware('jwt:api')->resource('/management_units', ManagementUnitController::class)->except(['edit', 'create']);
-Route::middleware('jwt:api')->get('/concessions/vectors', 'ConcessionsController@vectors');
+Route::get('/concessions/vectors', 'ConcessionsController@vectors');
 Route::middleware('jwt:api')->resource('/concessions', ConcessionsController::class)->except(['edit', 'create']);
-Route::middleware('jwt:api')->get('/annual_allowable_cuts/vectors', 'AnnualAllowableCutController@vectors');
+Route::get('/annual_allowable_cuts/vectors', 'AnnualAllowableCutController@vectors');
 Route::middleware('jwt:api')->resource('/annual_allowable_cuts', AnnualAllowableCutController::class)->except(['edit', 'create']);
 Route::middleware('jwt:api')->resource('/annual_operation_plans', AnnualOperationPlanController::class)->except(['edit', 'create']);
 Route::middleware('jwt:api')->get('/annual_allowable_cut_inventory/mobile', 'AnnualAllowableCutInventoryController@mobile');
-Route::middleware('jwt:api')->get('/annual_allowable_cut_inventory/vectors', 'AnnualAllowableCutInventoryController@vectors');
+Route::get('/annual_allowable_cut_inventory/vectors', 'AnnualAllowableCutInventoryController@vectors');
 Route::middleware('jwt:api')->resource('/annual_allowable_cut_inventory', AnnualAllowableCutInventoryController::class)->except(['edit', 'create']);
 Route::middleware('jwt:api')->get('/logbooks/mobile', 'LogbookController@mobile');
 Route::middleware('jwt:api')->resource('/logbooks', LogbookController::class)->except(['edit', 'create']);

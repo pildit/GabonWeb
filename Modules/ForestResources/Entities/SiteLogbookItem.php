@@ -2,7 +2,6 @@
 
 namespace Modules\ForestResources\Entities;
 
-use App\Traits\Geometry;
 use App\Traits\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -10,7 +9,7 @@ use Modules\ForestResources\Http\Controllers\SiteLogbookItemItemController;
 
 class SiteLogbookItem extends Model
 {
-    use Sortable, Geometry, SoftDeletes;
+    use Sortable, SoftDeletes;
 
     const CREATED_AT = "CreatedAt";
     const UPDATED_AT = "UpdatedAt";
@@ -27,7 +26,7 @@ class SiteLogbookItem extends Model
      *
      * @var array
      */
-    protected $fillable = ['SiteLogbook','HewingId','Date','MaxDiameter','MinDiameter','AverageDiameter','Length','Volume','ObserveAt','Approved'];
+    protected $fillable = ['SiteLogbook','HewingId','Date','MaxDiameter','MinDiameter','AverageDiameter','Length','Volume','ObserveAt','Approved','MobileId'];
 
     /**
      * The table associated with the model.

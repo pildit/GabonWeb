@@ -6,6 +6,7 @@ use App\Services\PageResults;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Modules\ForestResources\Entities\DevelopmentUnit;
 use Modules\ForestResources\Http\Requests\CreateDevelopmentUnitRequest;
 use Modules\ForestResources\Http\Requests\UpdateDevelopmentUnitRequest;
@@ -95,13 +96,13 @@ class DevelopmentUnitController extends Controller
      */
     public function vectors(Request $request, DevelopmentUnitService $developmentUnitService)
     {
-        $request->validate(['bbox' => 'required']);
+        $request->validate(['bbox' => 'string']);
 
         return response()->json([
             'data' => [
                 'type' => 'FeatureCollection',
-                'name' => 'development_units',
-                'features' => $developmentUnitService->getVectors($request->get('bbox'))
+                'name' => 'development_unit',
+                'features' => $developmentUnitService->getVectors($request->get('bbox', config('forestresources.default_bbox')))
             ]
         ]);
     }

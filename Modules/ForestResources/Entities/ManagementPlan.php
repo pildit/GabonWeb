@@ -21,7 +21,7 @@ class ManagementPlan extends Model
      *
      * @var array
      */
-    protected $fillable = ['ManagementUnit','Species','GrossVolumeUFG','GrossVolumeYear','YieldVolumeYear','CommercialVolumeYear'];
+    protected $fillable = ['ManagementUnit','Species','GrossVolumeUFG','GrossVolumeYear','YieldVolumeYear','CommercialVolumeYear','Approved'];
 
     /**
      * @var string

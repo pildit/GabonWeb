@@ -22,7 +22,8 @@ class UpdateUserRequest extends FormRequest
             'company_id' => 'exists:Modules\Admin\Entities\Company,Id',
             'roles' => 'exists:Modules\Admin\Entities\Role,id',
             'permissions' => 'exists:Modules\Admin\Entities\Permission,id',
-            'role_name' => 'required_with:permissions'
+            'role_name' => 'required_with:permissions',
+            'status' => 'integer|in:0,1,2,3,4'
         ];
     }
 

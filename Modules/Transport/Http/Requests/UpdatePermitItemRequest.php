@@ -14,8 +14,14 @@ class UpdatePermitItemRequest extends FormRequest
     public function rules()
     {
         return [
+            "Permit" => "exists:Modules\Transport\Entities\Permit,Id",
             "LogId" =>"string",
-            "Species" => "required", // Todo - add Species validation;
+            "Species" => "integer", // Todo - add Species validation;
+            "MinDiameter" => "number",
+            "MaxDiameter" => "number",
+            "AverageDiameter" => "number",
+            "Length" => "number",
+            "Volume" => "number",
             "MobileId" => "string"
         ];
     }

@@ -31,8 +31,18 @@ export default {
 
     data() {
         return {
-            isApproved: this.rowProp.status == 2,
             resendLoading: false
+        }
+    },
+
+    computed: {
+        isApproved: {
+            get() {
+                return this.rowProp.status == 2
+            },
+            set(value) {
+                return value;
+            }
         }
     },
 
@@ -41,9 +51,9 @@ export default {
             return User.buildRoute('users.edit', {id: this.rowProp.id});
         },
         approve(val) {
-            let promise = val ? User.approve(this.rowProp.id) : User.update(this.rowProp.id, {status: 0});
+            let promise = val ? User.approve(this.rowProp.id) : User.update(this.rowProp.id, {status: 3});
 
-            return promise.finally(() => this.rowProp.status = val ? 2 : 0);
+            return promise.finally(() => this.rowProp.status = val ? 2 : 3);
         },
         resendConfirmation() {
             this.resendLoading = true;

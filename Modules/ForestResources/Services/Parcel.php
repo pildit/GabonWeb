@@ -18,8 +18,10 @@ class Parcel extends PageResults
     public function getVectors($bbox)
     {
         $srid = config('forestresources.srid');
-        $collection = ParcelEntity::select(['Id', DB::raw('public.ST_AsGeoJSON("Geometry") as geom')])
-            ->whereRaw("public.ST_Intersects(public.st_setsrid(\"Geometry\", {$srid}), public.st_setsrid(public.ST_MakeEnvelope({$bbox}), {$srid}))")->get();
+        $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_flipcoordinates(public.st_transform("Geometry",4256))) as geom');
+        $whereIntersects = "public.ST_Intersects(public.st_setsrid(\"Geometry\", {$srid}), public.st_setsrid(public.ST_MakeEnvelope({$bbox}), {$srid}))";
+        $collection = ParcelEntity::select(['Id', $geomCol])
+            ->whereRaw($whereIntersects)->get();
 
         return $collection->map(function ($item) {
             return [

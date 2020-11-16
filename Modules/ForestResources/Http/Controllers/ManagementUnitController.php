@@ -6,6 +6,7 @@ use App\Services\PageResults;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Modules\ForestResources\Entities\ManagementUnit;
 use Modules\ForestResources\Http\Requests\CreateManagementUnitRequest;
 use Modules\ForestResources\Http\Requests\UpdateManagementUnitRequest;
@@ -95,13 +96,13 @@ class ManagementUnitController extends Controller
      */
     public function vectors(Request $request, ManagementUnitService $managementUnitService)
     {
-        $request->validate(['bbox' => 'required']);
+        $request->validate(['bbox' => 'string']);
 
         return response()->json([
             'data' => [
                 'type' => 'FeatureCollection',
-                'name' => 'management_units',
-                'features' => $managementUnitService->getVectors($request->get('bbox'))
+                'name' => 'management_unit',
+                'features' => $managementUnitService->getVectors($request->get('bbox', config('forestresources.default_bbox')))
             ]
         ]);
     }

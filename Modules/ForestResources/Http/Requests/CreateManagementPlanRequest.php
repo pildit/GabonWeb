@@ -20,6 +20,7 @@ class CreateManagementPlanRequest extends FormRequest
             'GrossVolumeYear' => 'required|numeric',
             'YieldVolumeYear' => 'required|numeric',
             'CommercialVolumeYear' => 'required|numeric',
+            'Approved' => 'bool'
         ];
     }
 

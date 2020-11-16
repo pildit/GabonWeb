@@ -26,7 +26,7 @@ class Parcel extends Model
      *
      * @var array
      */
-    protected $fillable = ['Name','Geometry'];
+    protected $fillable = ['Name','Geometry','Approved'];
 
     /**
      * The table associated with the model.

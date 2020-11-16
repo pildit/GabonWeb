@@ -14,8 +14,9 @@ class CreateUpdateParcelRequest extends FormRequest
     public function rules()
     {
         return [
-            'Name' => 'required',
-            'Geometry' => 'required|regex:/\POLYGON\b/',
+            'Name' => 'string',
+            'Geometry' => 'string',
+            'Approved' => 'bool',
         ];
     }
 

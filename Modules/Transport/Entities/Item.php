@@ -33,10 +33,7 @@ class Item extends Model
         "AverageDiameter",
         "Length",
         "Volume",
-        "MobileId",
-        "CreatedAt",
-        "UpdatedAt",
-        "DeletedAt"
+        "MobileId"
     ];
 
     /**

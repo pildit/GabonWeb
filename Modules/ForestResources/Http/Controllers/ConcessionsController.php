@@ -4,6 +4,7 @@ namespace Modules\ForestResources\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Modules\ForestResources\Entities\Concession;
 use App\Services\PageResults;
 use Modules\ForestResources\Http\Requests\ConcessionRequest;
@@ -31,7 +32,7 @@ class ConcessionsController extends Controller
     {
        $data = $request->validated();
 
-       Concession::create($data);
+        Concession::create($data);
 
        return response()->json([
             'message' => lang('concession_create_succesful')
@@ -60,9 +61,8 @@ class ConcessionsController extends Controller
     {
         $data = $request->validated();
 
-        $concession->fill($data);
+        $concession->update($data);
 
-        $concession->save();
 
         return response()->json([
             'message' => lang('concession_update_succesful')
@@ -90,13 +90,13 @@ class ConcessionsController extends Controller
      */
     public function vectors(Request $request, ConcessionService $concessionService)
     {
-        $request->validate(['bbox' => 'required']);
+        $request->validate(['bbox' => 'string']);
 
         return response()->json([
             'data' => [
                 'type' => 'FeatureCollection',
                 'name' => 'concessions',
-                'features' => $concessionService->getVectors($request->get('bbox'))
+                'features' => $concessionService->getVectors($request->get('bbox', config('forestresources.default_bbox')))
             ]
         ]);
     }
