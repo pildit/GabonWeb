@@ -20,8 +20,12 @@ class UpdateSiteLogbookRequest extends FormRequest
             'AnnualAllowableCut' => 'exists:Modules\ForestResources\Entities\AnnualAllowableCut,Id',
             'Company' => 'exists:Modules\Admin\Entities\Company,Id',
             'Hammer' => 'integer',
+            'Localization' => 'string',
+            'ReportNo' => 'string',
+            'ReportNote' => 'string',
             'ObserveAt' => 'date',
             'Approved' => 'bool',
+            'MobileId'=>'string'
         ];
     }
 

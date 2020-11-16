@@ -23,7 +23,7 @@ class AnnualOperationPlan extends Model
      *
      * @var array
      */
-    protected $fillable = ['AnnualAllowableCut','Species','ExploitableVolume','NonExploitableVolume','VolumePerHectare','AverageVolume','TotalVolume'];
+    protected $fillable = ['AnnualAllowableCut','Species','ExploitableVolume','NonExploitableVolume','VolumePerHectare','AverageVolume','TotalVolume','Approved'];
 
     /**
      * The table associated with the model.
