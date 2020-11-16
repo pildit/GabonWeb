@@ -3,23 +3,28 @@ import axios from 'axios';
 export default {
     namespaced: true,
     state: {
-        constituentPermits: [],
+        items: [],
+        item: {},
+        types: []
     },
     getters: {
-        constituentPermits(state) {
-            return state.constituentPermits;
+        items(state) {
+            return state.items;
         },
+        types(state) {
+            return state.types;
+        }
     },
     mutations: {
-        constituentPermits(state, constituentPermits) {
-            state.constituentPermits = constituentPermits;
+        items(state, items) {
+            state.items = items;
         },
     },
     actions: {
         index({commit}, payload) {
             return axios.get('api/constituent_permits', {params: payload})
                 .then((response) => {
-                    commit('parcels', response.data.data);
+                    commit('items', response.data.data);
                     return response
                 });
         },
@@ -27,7 +32,7 @@ export default {
         get({commit}, payload) {
             return axios.get(`api/constituent_permits/${payload.id}`)
                 .then((response) => response.data)
-                .then((responseData) => commit('parcel', responseData.data));
+                .then((responseData) => commit('item', responseData.data));
         },
 
         add({}, payload) {
@@ -43,6 +48,13 @@ export default {
         listSearch({}, payload) {
             return axios.get(`api/constituent_permits/list?name=${payload.name}&limit=${payload.limit}`)
                 .then((response) => response);
+        },
+        types({commit}) {
+            return axios.get(`api/permit_types`)
+                .then((response) => response.data)
+                .then((responseData) => {
+                    commit('types', responseData.data);
+                })
         }
     }
 }

@@ -2,15 +2,22 @@
   <div>
 
     <div class="md-form mb-5">
-      <input type="text" v-model="form.PermitType" name="Name" class="form-control" v-validate="'required'">
-      <label data-error="wrong" data-success="right" for="name" :class="{'active': form.Name}">{{ translate('Abbreviation') }}</label>
-      <div v-show="errors.has('Name')" class="invalid-feedback">{{ errors.first('Name') }}</div>
+      <multiselect
+          v-model="form.PermitType"
+          :options="types"
+          placeholder="Types"
+          track-by="Id"
+          label="Permit Type"
+          :allow-empty="false"
+          :multiple="false"
+          :taggable="true"
+      ></multiselect>
     </div>
 
     <div class="md-form mb-5">
-      <input type="text" v-model="form.Name" name="Name" class="form-control" v-validate="'required'">
-      <label data-error="wrong" data-success="right" for="name" :class="{'active': form.Name}">{{ translate('Abbreviation') }}</label>
-      <div v-show="errors.has('Name')" class="invalid-feedback">{{ errors.first('Name') }}</div>
+      <input type="text" v-model="form.PermitNumber" name="PermitNumber" class="form-control" v-validate="'required'">
+      <label data-error="wrong" data-success="right" for="PermitNumber" :class="{'active': form.PermitNumber}">{{ translate('Permit Number') }}</label>
+      <div v-show="errors.has('PermitNumber')" class="invalid-feedback">{{ errors.first('PermitNumber') }}</div>
     </div>
 
 
@@ -18,7 +25,9 @@
 </template>
 
 <script>
-import Item from "../../../Parcel";
+import Item from "../../../ConstituentPermit";
+import Multiselect from "vue-multiselect";
+import {mapGetters} from 'vuex';
 
 
 export default {
@@ -27,16 +36,21 @@ export default {
       form : {},
     }
   },
-
+  components : {Multiselect},
   computed: {
+    ...mapGetters('constituentPermit', ['types']),
   },
-
+  created() {
+    this.$store.dispatch('constituentPermit/types');
+  },
   methods: {
+
     save() {
       this.$validator.validate().then((valid) => {
         if(valid) {
           Item.add({
-            Name: this.form.Name
+            permit_type :this.form.PermitType,
+            permit_number: this.form.PermitNumber
           }).then((response) => {
             this.$emit('done');
           }).catch((error) => {
@@ -51,7 +65,8 @@ export default {
       this.$validator.validate().then((valid) => {
         if(valid) {
           Item.update(this.form.Id, {
-            Name: this.form.Name
+            permit_type :this.form.PermitType,
+            permit_number: this.form.PermitNumber
           }).then(() => {
             this.$emit('done');
           }).catch((error) => {

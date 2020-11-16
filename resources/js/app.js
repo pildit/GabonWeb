@@ -16,6 +16,7 @@ import Role from './Components/Role/Role';
 import Company from './Components/Company/Company';
 import PermitType from './Components/PermitType/PermitType';
 import Species from './Components/Species/Species';
+import ConstituentPermit from './Components/ConstituentPermit/ConstituentPermit';
 
 Vue.config.devtools = true;
 window.Vent         = new Vue;
@@ -47,6 +48,7 @@ Gabon.Role = Role;
 Gabon.Company = Company;
 Gabon.PermitType = PermitType;
 Gabon.Species = Species;
+Gabon.ConstituentPermit = ConstituentPermit;
 
 window.Gabon = Gabon;
 if(Vue.$jwt.hasToken()) {
