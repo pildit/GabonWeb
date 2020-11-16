@@ -8,6 +8,9 @@ import company         from './company';
 import permitType         from './permittype';
 import species         from './species';
 import parcels         from './parcel';
+import productType         from './producttype';
+import quality         from './quality';
+import development_unit from './development_unit';
 
 Vue.use(Vuex);
 Vue.use(cookie)
@@ -75,6 +78,10 @@ export default new Vuex.Store({
         company,
         permitType,
         species,
-        parcels
+        parcels,
+        species,
+        productType,
+        quality,
+        development_unit
     }
 });

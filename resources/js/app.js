@@ -8,6 +8,7 @@ import Translation from "./Components/Mixins/Translation";
 import store from "store/store"
 import config from './Components/_config/index';
 import directives from './Components/_config/Directives/index';
+import SwaggerUI from 'swagger-ui'
 
 import Base from './Components/Base';
 import Pages from './Components/Pages/Pages';
@@ -17,6 +18,10 @@ import Company from './Components/Company/Company';
 import PermitType from './Components/PermitType/PermitType';
 import Species from './Components/Species/Species';
 import Parcel from './Components/Parcel/Parcel';
+import Quality from './Components/Quality/Quality';
+import ProductType from './Components/ProductType/ProductType';
+
+import DevelopmentUnit from "./Components/Management/DevelopmentUnit/DevelopmentUnit";
 
 Vue.config.devtools = true;
 window.Vent         = new Vue;
@@ -49,6 +54,12 @@ Gabon.Company = Company;
 Gabon.PermitType = PermitType;
 Gabon.Species = Species;
 Gabon.Parcel = Parcel;
+Gabon.Quality = Quality;
+Gabon.ProductType = ProductType;
+
+Gabon.Management = {
+    DevelopmentUnit: DevelopmentUnit
+}
 
 window.Gabon = Gabon;
 if(Vue.$jwt.hasToken()) {

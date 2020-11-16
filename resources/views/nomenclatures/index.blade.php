@@ -13,7 +13,7 @@
         <p></p>
       </div>
       <div class="row" id="nomenclatures">
-       <box-resource v-for="item in nomenclatures" :item="item"></box-resource>
+       <vue-card v-for="(item, index) in nomenclatures" :item="item" :key="index"></vue-card>
       </div>
     </div>
   </section>
