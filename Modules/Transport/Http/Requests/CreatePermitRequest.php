@@ -33,7 +33,7 @@ class CreatePermitRequest extends FormRequest
             "Lon" => ['required', 'regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
             "GpsAccu" => 'integer',
             "MobileId" => 'required|unique:Modules\Transport\Entities\Permit,MobileId',
-            "ObserveAt" => 'required|date',
+            "ObserveAt" => 'required|date_format:Y-m-d H:i:s',
             "Geometry" => 'string',
         ];
     }

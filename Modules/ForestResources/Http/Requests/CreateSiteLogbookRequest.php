@@ -23,7 +23,7 @@ class CreateSiteLogbookRequest extends FormRequest
             'Localization' => '',
             'ReportNo' => '',
             'ReportNote' => '',
-            'ObserveAt' => 'required|date',
+            'ObserveAt' => 'required|dadate_format:Y-m-d H:i:ste',
             'Approved' => 'bool',
             'MobileId'=>'string|unique:Modules\ForestResources\Entities\SiteLogbook,MobileId'
         ];

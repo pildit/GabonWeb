@@ -16,8 +16,8 @@ class UpdateDevelopmentUnitRequest extends FormRequest
         return [
             'Name' => 'required|string',
             'Concession' => 'integer',
-            'Start' => 'date',
-            'End' => 'date',
+            'Start' => 'date_format:Y-m-d H:i:s',
+            'End' => 'date_format:Y-m-d H:i:s',
             'Geometry' => 'string',
         ];
     }

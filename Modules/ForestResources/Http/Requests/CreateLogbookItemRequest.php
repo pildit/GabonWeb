@@ -26,7 +26,7 @@ class CreateLogbookItemRequest extends FormRequest
             'Lon' => ['regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
             'GpsAccu' => 'required|numeric',
             'Note' => '',
-            'ObserveAt' => 'required|date',
+            'ObserveAt' => 'required|date_format:Y-m-d H:i:s',
             'Approved' => 'bool',
             'MobileId' => 'string|unique:Modules\ForestResources\Entities\LogbookItem,MobileId',
         ];
