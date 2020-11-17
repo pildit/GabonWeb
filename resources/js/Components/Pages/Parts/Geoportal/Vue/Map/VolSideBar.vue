@@ -12,33 +12,171 @@
         text="View active transports"
       ></rcp-checkbox>
       <hr />
-      <rcp-checkbox
-        v-model="checkPlateNumber"
-        text="Check plate number"
-      ></rcp-checkbox>
 
+      <!-- Check None -->
+      <input type="radio" id="none" value="none" v-model="checkPicked" />
+      <p-radio color="success-o" name="none" value="none" v-model="checkPicked"></p-radio>
+      <label for="none">None</label>
+      <br />
+
+      <!-- Check plate number -->
       <input
-        v-if="checkPlateNumber"
+        type="radio"
+        id="checkPlateNumber"
+        value="checkPlateNumber"
+        v-model="checkPicked"
+      />
+      <p-radio
+        color="success-o"
+        name="checkPlateNumber"
+        value="checkPlateNumber"
+        v-model="checkPicked"
+      ></p-radio>
+      <label for="checkPlateNumber">Check plate number</label>
+      <br />
+      <input
+        v-if="checkPicked == 'checkPlateNumber'"
         v-model="plateNumber"
         placeholder="ex: PH 01 UNU"
       />
-      <rcp-button v-if="checkPlateNumber" v-on:click="onCheckPlateNumber">
-        Check
+      <rcp-button
+        v-if="checkPicked == 'checkPlateNumber'"
+        v-on:click="onCheckPlateNumber"
+      >
+        Search
       </rcp-button>
-      <rcp-alert-box v-if="checkPlateNumber && checkPlateNumberError">
+      <rcp-alert-box
+        v-if="checkPicked == 'checkPlateNumber' && checkPlateNumberError"
+      >
         Invalid plate number
       </rcp-alert-box>
-      <hr v-if="checkPlateNumber" />
+      <p v-if="checkPicked == 'checkPlateNumber'"></p>
+      <v-date-picker
+        v-if="checkPicked == 'checkPlateNumber'"
+        is-range
+        v-model="checkPlateNumberRange"
+      >
+        <template v-slot="{ inputValue, inputEvents }">
+          <div class="flex justify-center items-center">
+            <input
+              :value="inputValue.start"
+              v-on="inputEvents.start"
+              class="border px-2 py-1 w-32 rounded focus:outline-none focus:border-indigo-300"
+            />
+            -
+            <input
+              :value="inputValue.end"
+              v-on="inputEvents.end"
+              class="border px-2 py-1 w-32 rounded focus:outline-none focus:border-indigo-300"
+            />
+          </div>
+        </template>
+      </v-date-picker>
+      <hr v-if="checkPicked == 'checkPlateNumber'" />
 
-      <rcp-checkbox
-        v-model="checkAnnualAllowableCut"
-        text="Check Annual Allowable cut"
-      ></rcp-checkbox>
-      <rcp-checkbox
-        v-model="checkTransportPermit"
-        text="Check Transport Permit"
-      ></rcp-checkbox>
+      <!-- Check Annual Allowable cut -->
+      <input
+        type="radio"
+        id="checkAnnualAllowableCut"
+        value="checkAnnualAllowableCut"
+        v-model="checkPicked"
+      />
+      <p-radio
+        color="success-o"
+        name="checkAnnualAllowableCut"
+        value="checkAnnualAllowableCut"
+        v-model="checkPicked"
+      ></p-radio>
+      <label for="checkAnnualAllowableCut">Check Annual Allowable cut</label>
+      <br />
+      <input
+        v-if="checkPicked == 'checkAnnualAllowableCut'"
+        v-model="annualAllowableCut"
+        placeholder="Annual allowable cut name/id"
+      />
+      <rcp-button
+        v-if="checkPicked == 'checkAnnualAllowableCut'"
+        v-on:click="onCheckAnnualAllowableCut"
+      >
+        Search
+      </rcp-button>
+      <rcp-alert-box
+        v-if="
+          checkPicked == 'checkAnnualAllowableCut' &&
+          checkAnnualAllowableCutError
+        "
+      >
+        Invalid annual allowable cut name/id
+      </rcp-alert-box>
+      <hr v-if="checkPicked == 'checkAnnualAllowableCut'" />
+
+      <!-- Check Transport Permit -->
+      <input
+        type="radio"
+        id="checkTransportPermit"
+        value="checkTransportPermit"
+        v-model="checkPicked"
+      />
+      <p-radio
+        color="success-o"
+        name="checkTransportPermit"
+        value="checkTransportPermit"
+        v-model="checkPicked"
+      ></p-radio>
+      <label for="checkTransportPermit">Check Transport Permit</label>
+      <br v-if="checkPicked == 'checkTransportPermit'" />
+
+      <input
+        v-if="checkPicked == 'checkTransportPermit'"
+        v-model="transportPermitId"
+        placeholder="Transport permit ID"
+      />
+      <rcp-button
+        v-if="checkPicked == 'checkTransportPermit'"
+        v-on:click="onCheckTransportPermitId"
+      >
+        Search by id
+      </rcp-button>
+      <rcp-alert-box
+        v-if="
+          checkPicked == 'checkTransportPermit' && checkTransportPermitIdError
+        "
+      >
+        Invalid transport permit id
+      </rcp-alert-box>
+      <p v-if="checkPicked == 'checkTransportPermit'" />
+
+      <v-date-picker
+        v-if="checkPicked == 'checkTransportPermit'"
+        v-model="transportPermitDate"
+        mode="date"
+      >
+        <template v-slot="{ inputValue, inputEvents }">
+          <input
+            class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
+            :value="inputValue"
+            v-on="inputEvents"
+          />
+        </template>
+      </v-date-picker>
+      <rcp-button
+        v-if="checkPicked == 'checkTransportPermit'"
+        v-on:click="onCheckTransportPermitDate"
+      >
+        Search by date
+      </rcp-button>
+      <rcp-alert-box
+        v-if="
+          checkPicked == 'checkTransportPermit' && checkTransportPermitDateError
+        "
+      >
+        Invalid transport permit date
+      </rcp-alert-box>
+
+      <br />
       <hr />
+
+      <!-- View -->
       <rcp-checkbox v-model="viewParcels" text="View Parcels"></rcp-checkbox>
       <rcp-checkbox
         v-model="viewConcessions"
@@ -48,6 +186,7 @@
       <rcp-checkbox v-model="viewUFG" text="View UFG"></rcp-checkbox>
       <rcp-checkbox v-model="viewAAC" text="View AAC"></rcp-checkbox>
 
+      <span>Picked: {{ checkPicked }}</span>
     </div>
   </div>
 </template>
@@ -67,18 +206,32 @@ export default {
 
   data() {
     return {
+      checkPicked: "",
+
       range: {
         start: new Date(2020, 9, 12),
         end: new Date(2020, 9, 16),
       },
       viewActiveTransports: false,
-      
-      plateNumber: '',
+
+      plateNumber: "",
       checkPlateNumber: false,
       checkPlateNumberError: false,
+      checkPlateNumberRange: {
+        start: new Date(2020, 9, 12),
+        end: new Date(2020, 9, 16),
+      },
 
+      annualAllowableCut: "",
       checkAnnualAllowableCut: false,
+      checkAnnualAllowableCutError: false,
+
+      transportPermitId: "",
+      transportPermitDate: new Date(),
       checkTransportPermit: false,
+      checkTransportPermitIdError: false,
+      checkTransportPermitDateError: false,
+
       viewParcels: false,
       viewConcessions: false,
       viewUFA: false,
@@ -125,10 +278,32 @@ export default {
     onCheckPlateNumber() {
       if (this.plateNumber.length > 2) {
         this.checkPlateNumberError = false;
-
-      }
-      else {
+      } else {
         this.checkPlateNumberError = true;
+      }
+    },
+
+    onCheckAnnualAllowableCut() {
+      if (this.annualAllowableCut.length > 2) {
+        this.checkAnnualAllowableCutError = false;
+      } else {
+        this.checkAnnualAllowableCutError = true;
+      }
+    },
+
+    onCheckTransportPermitId() {
+      if (this.transportPermitId.length > 2) {
+        this.checkTransportPermitIdError = false;
+      } else {
+        this.checkTransportPermitIdError = true;
+      }
+    },
+
+    onCheckTransportPermitDate() {
+      if (this.transportPermitDate) {
+        this.checkTransportPermitDateError = false;
+      } else {
+        this.checkTransportPermitDateError = true;
       }
     },
   },

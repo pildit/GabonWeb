@@ -9,7 +9,6 @@ import GeoportalPage from "./Vue/GeoportalPage.vue";
 import store from 'store/store';
 import PrettyCheckbox from 'pretty-checkbox-vue';
 import VCalendar from 'v-calendar';
-import { click } from 'ol/events/condition';
 
 /* Load the map */
 Vue.use(VueLayers)
@@ -54,10 +53,11 @@ Vue.component('rcp-button', {
         }
     },
     props: ['text'],
-    template: `<button v-on:click="$emit('click')">
-                    {{ text }}
-                    <slot></slot>
-                </button>`
+    template: `
+            <button v-on:click="$emit('click')">
+                {{ text }}
+                <slot></slot>
+            </button>`
 })
 
 export default (selector, options) => {
