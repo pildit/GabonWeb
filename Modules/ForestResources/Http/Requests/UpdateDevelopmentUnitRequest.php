@@ -14,11 +14,12 @@ class UpdateDevelopmentUnitRequest extends FormRequest
     public function rules()
     {
         return [
-            'Name' => 'required|string',
+            'Name' => 'string',
             'Concession' => 'integer',
             'Start' => 'date',
             'End' => 'date',
             'Geometry' => 'string',
+            'Approved'=>'bool',
         ];
     }
 

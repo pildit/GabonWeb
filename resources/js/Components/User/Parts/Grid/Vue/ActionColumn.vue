@@ -65,18 +65,5 @@ export default {
 </script>
 
 <style scoped>
-.aligned {
-    vertical-align: middle;
-}
-.fz-16 {
-    font-size: 16px;
-}
-.vue-switcher {
-    position: relative;
-    display: inline-block;
-    margin-bottom: 0;
-    vertical-align: middle;
-    margin-left: 0.2em;
-}
 
 </style>

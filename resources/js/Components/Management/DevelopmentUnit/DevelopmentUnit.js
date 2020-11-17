@@ -1,5 +1,6 @@
 import Base from "../../Base";
 import vueGrid from './Parts/Grid/index';
+import store from "store/store";
 
 class DevelopmentUnit extends Base {
 
@@ -11,6 +12,10 @@ class DevelopmentUnit extends Base {
 
     static index(data) {
         return store.dispatch('development_unit/index', data).then((response) => response.data);
+    }
+
+    static update(id, data) {
+        return store.dispatch('development_unit/update', {id, data}).then((response) =>  response.data);
     }
 
 }

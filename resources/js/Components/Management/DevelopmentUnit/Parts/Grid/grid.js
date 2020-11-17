@@ -19,7 +19,6 @@ export default (options) => {
             },
             Name: {
                 header: "Name",
-                render: (row) => `<strong>${row.Name}</strong>`
             },
             ConcessionName: {
                 header: "Concession"

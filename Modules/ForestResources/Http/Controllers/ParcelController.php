@@ -162,7 +162,8 @@ class ParcelController extends Controller
        // $data['Geometry'] = isset($polygon) ? $polygon : '';
 
         $parcel->fill($data);
-        $parcel->save($data);
+        dd($parcel->toArray());
+        $parcel->save();
 
         return response()->json([
             'message' => lang('parcel_update_successful')

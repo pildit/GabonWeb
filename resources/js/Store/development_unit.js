@@ -22,6 +22,12 @@ export default {
                     commit('development_units', response.data.data);
                     return response
                 });
+        },
+        update({}, payload) {
+            let id = payload.id;
+            let data = payload.data;
+            return axios.patch(`api/development_units/${id}`, data)
+                .then((response) => response);
         }
     }
 }
