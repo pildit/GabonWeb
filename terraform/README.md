@@ -88,11 +88,11 @@ securedOrigins=[
 db_GabonWeb_username=""
 db_GabonWeb_password=""
 ```
-
-# TODO
+see
 
 * [ ] Provision the infrastructure
 * [ ] Run Ansible against each one of the new WebFEs
+    * [ ] Provision accounts to SSH into the WebFEs that do not use the Deployment SSH Key
 * [ ] DNS: point `gabon.globalorigin.org` as a CNAME to the DNS name of the ALB
 * [ ] Scale the machines to the right instance types
     * [ ] EC2 instances
