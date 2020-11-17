@@ -23,7 +23,7 @@ class UpdateSiteLogbookRequest extends FormRequest
             'Localization' => '',
             'ReportNo' => '',
             'ReportNote' => '',
-            'ObserveAt' => 'date',
+            'ObserveAt' => 'date_format:Y-m-d H:i:s',
             'Approved' => 'bool',
             'MobileId'=>'string'
         ];

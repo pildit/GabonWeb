@@ -5,10 +5,13 @@ namespace Modules\ForestResources\Services;
 
 
 use App\Services\PageResults;
+use Illuminate\Support\Facades\DB;
+use GenTux\Jwt\GetsJwtToken;
+use Modules\ForestResources\Entities\Logbook;
 
 class SiteLogbookItem extends PageResults
 {
-
+    use GetsJwtToken;
     /**
      * Logic from old mobile.php encapsulated
      *
@@ -16,6 +19,8 @@ class SiteLogbookItem extends PageResults
      */
     public function getMobileForm()
     {
+
+        list($HewingId) = $this->hewingIdLists();
 
         // mobile form
         $formArr = [
@@ -37,38 +42,39 @@ class SiteLogbookItem extends PageResults
             [
                 "f" => "HewingId",
                 "fl" => "HewingId",
-                "type" => "int"
+                "type" => "list_ed_NotEmpty_NoLang",
+                "values" => $HewingId
             ],
             [
                 "f" => "Date",
                 "fl" => "Date",
-                "type" => "date"
-            ],
-            [
-                "f" => "MaxDiameter",
-                "fl" => "MaxDiameter",
-                "type" => "int"
+                "type" => "date_NotEmpty"
             ],
             [
                 "f" => "MinDiameter",
                 "fl" => "MinDiameter",
-                "type" => "int"
+                "type" => "int_NotEmpty"
+            ],
+            [
+                "f" => "MaxDiameter",
+                "fl" => "MaxDiameter",
+                "type" => "int_NotEmpty"
             ],
             [
                 "f" => "AverageDiameter",
                 "fl" => "AverageDiameter",
-                "type" => "int"
+                "type" => "float_NotEmpty"
             ],
             [
                 "f" => "Length",
                 "fl" => "Length",
-                "type" => "int"
+                "type" => "float_NotEmpty"
             ],
 
             [
                 "f" => "Volume",
                 "fl" => "Volume",
-                "type" => "int"
+                "type" => "float_NotEmpty"
             ],
 
 
@@ -79,5 +85,37 @@ class SiteLogbookItem extends PageResults
         return $formArr;
     }
 
+
+    public function hewingIdLists(): array
+    {
+        $array = [];
+
+        $userId = $this->jwtPayload('data.id');
+
+        $concessions =  DB::table('admin.accounts')
+            ->join('Taxonomy.Companies', 'admin.accounts.company_id', '=', 'Taxonomy.Companies.Id')
+            ->join('ForestResources.Concessions', 'ForestResources.Concessions.Company', '=', 'Taxonomy.Companies.Id')
+            ->select('ForestResources.Concessions.Id')
+            ->where("admin.accounts.id","=", $userId)->get()->toArray();
+
+        $concessions = array_column($concessions, 'Id');
+
+
+        $Logbooks = DB::table('ForestResources.Logbooks')
+            ->select('ForestResources.Logbooks.Id')
+            ->whereIn("ForestResources.Logbooks.Concession",$concessions)->get();
+
+
+        $Logbooks->each(function ($Logbook) use (&$array) {
+            $Logbook = Logbook::find($Logbook->Id);
+            $Logbook->items()->get()->each(function ($value) use (&$array) {
+                $array[]= [
+                    'val' => $value->HewingId,
+                ];
+            });
+        });
+
+        return array($array);
+    }
 
 }

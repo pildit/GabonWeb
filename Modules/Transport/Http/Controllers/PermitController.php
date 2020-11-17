@@ -26,12 +26,9 @@ class PermitController extends Controller
      * @param Permit $permit
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request, PageResults $pr)
+    public function index(Request $request, Permit $pr)
     {
-        /**
-         * Todo show only PermitNOMobile == MobileId ( this is the parent permit list )
-         * Todo also check if there are cases where we have permits where there are no parents for them.
-         */
+
         $pr->setSortFields(['Id']);
 
         return response()->json($pr->getPaginator($request, PermitEntity::class, ["PermitNo"],['annualallowablecut','clientcompany','concessionairecompany','transportercompany']));
@@ -44,13 +41,8 @@ class PermitController extends Controller
      */
     public function show(PermitEntity $permit)
     {
-
-        /**
-         * Todo - when PermitNOMobile == MobileId this is the parent permit. Add also permits related to PermitNoMobile ( as childs )
-         */
-        return response()->json([
-            'data' => $permit->with(['items','concession','managementunit','developmentunit','annualallowablecut','clientcompany','concessionairecompany','transportercompany','user'])
-        ]);
+        $permit['permit_child'] = PermitEntity::where("PermitNoMobile","=",$permit->PermitNoMobile)->where("Id","!=",$permit->Id)->get();
+        return response()->json(['data' => $permit]);
     }
 
     /**

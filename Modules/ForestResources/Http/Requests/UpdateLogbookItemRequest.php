@@ -26,7 +26,7 @@ class UpdateLogbookItemRequest extends FormRequest
             'Lon' => ['regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
             'GpsAccu' => 'numeric',
             'Note' => '',
-            'ObserveAt' => 'date',
+            'ObserveAt' => 'date_format:Y-m-d H:i:s',
             'Approved' => 'bool',
             'MobileId' => 'string',
         ];

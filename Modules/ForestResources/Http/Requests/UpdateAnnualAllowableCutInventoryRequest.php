@@ -26,7 +26,7 @@ class UpdateAnnualAllowableCutInventoryRequest extends FormRequest
             'GpsAccu' => 'numeric',
             'Approved' => 'bool',
             'MobileId'=>'string',
-            'ObserveAt'=>'date'
+            'ObserveAt'=>'date_format:Y-m-d H:i:s'
 
         ];
     }

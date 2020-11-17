@@ -16,7 +16,7 @@ class CreatePermitItemRequest extends FormRequest
         return [
             "Permit" => "required",
             "LogId" =>"required|string",
-            "Species" => "required|integer", // Todo - add Species validation;
+            "Species" => "required|exists:Modules\ForestResources\Entities\Species,Id",
             "MinDiameter" => "required|numeric",
             "MaxDiameter" => "required|numeric",
             "AverageDiameter" => "required|",

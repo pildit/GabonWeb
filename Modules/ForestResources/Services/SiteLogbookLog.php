@@ -50,12 +50,12 @@ class SiteLogbookLog extends PageResults
             [
                 "f" => "SiteLogbookItem",
                 "fl" => "",
-                "type" => "int"
+                "type" => "str"
             ],
             [
                 "f" => "HewingId",
                 "fl" => "HewingId",
-                "type" => "int"
+                "type" => "str"
             ],
             [
                 "f" => "Species",
@@ -63,31 +63,30 @@ class SiteLogbookLog extends PageResults
                 "type" => "list_NotEmpty_NoLang",
                 "values" => $species
             ],
-
-            [
-                "f" => "MaxDiameter",
-                "fl" => "MaxDiameter",
-                "type" => "int"
-            ],
             [
                 "f" => "MinDiameter",
                 "fl" => "MinDiameter",
-                "type" => "int"
+                "type" => "int_NotEmpty"
+            ],
+            [
+                "f" => "MaxDiameter",
+                "fl" => "MaxDiameter",
+                "type" => "int_NotEmpty"
             ],
             [
                 "f" => "AverageDiameter",
                 "fl" => "AverageDiameter",
-                "type" => "int"
+                "type" => "float_NotEmpty"
             ],
             [
                 "f" => "Length",
                 "fl" => "Length",
-                "type" => "int"
+                "type" => "float_NotEmpty"
             ],
             [
                 "f" => "Volume",
                 "fl" => "Volume",
-                "type" => "int"
+                "type" => "float_NotEmpty"
             ],
             [
                 "f" => "EvacuationDate",

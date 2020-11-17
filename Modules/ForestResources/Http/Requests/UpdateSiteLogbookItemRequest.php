@@ -16,13 +16,13 @@ class UpdateSiteLogbookItemRequest extends FormRequest
         return [
             'SiteLogbook' => '',
             'HewingId' => 'string',
-            'Date' => 'date',
+            'Date' => 'date_format:Y-m-d H:i:s',
             'MaxDiameter' => 'numeric',
             'MinDiameter' => 'numeric',
             'AverageDiameter' => 'numeric',
             'Length' => 'numeric',
             'Volume' => 'numeric',
-            'ObserveAt' => 'date',
+            'ObserveAt' => 'date_format:Y-m-d H:i:s',
             'Approved' => 'bool',
             'MobileId' => 'string'
         ];

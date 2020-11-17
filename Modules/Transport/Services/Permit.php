@@ -5,6 +5,7 @@ namespace Modules\Transport\Services;
 
 
 use App\Services\PageResults;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Modules\Admin\Entities\Company;
@@ -342,5 +343,27 @@ class Permit extends PageResults
         });
 
         return array($array);
+    }
+
+    public function getPaginator(Request $request,string $model,array $searchFields, array $relations = [])
+    {
+
+        $this->validateRequest($request);
+        $this->setPage($request->get('page'));
+        $this->setPerPage($request->get('per_page'));
+        $this->setSearch($request->get('search'));
+
+        $this->query = $model::ofSort($this->getSortCriteria());
+
+        if(count($relations)){
+            $this->query =  $this->query->with($relations);
+        }
+
+        /**
+         * TODO check if there are cases where we have permits without parent ( PermitNoMobile = MobileId )
+         */
+        $this->query->whereColumn('PermitNoMobile','MobileId');
+
+        return $this->setFilters($searchFields)->getResults();
     }
 }
