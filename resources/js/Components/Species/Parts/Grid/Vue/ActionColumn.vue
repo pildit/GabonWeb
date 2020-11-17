@@ -25,7 +25,7 @@ export default {
 
     methods: {
         edit(id) {
-            this.modals.form = true;
+            this.modals.form = this.rowProp;
         }
     }
 }

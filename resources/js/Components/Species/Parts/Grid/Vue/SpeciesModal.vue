@@ -25,7 +25,6 @@ export default {
     event: 'display'
   },
 
-
   props: ['state', 'typeProp', 'rowProp'],
 
   components: {bmodal, SpeciesForm},

@@ -4,6 +4,10 @@ create table "Taxonomy"."SpeciesTable"
     "Code" text not null,
     "LatinName" text,
     "CommonName" text,
+    "CreatedAt"   timestamp,
+    "UpdatedAt"   timestamp,
+    "DeletedAt"   timestamp,
+    "UserId"      integer,
     constraint "PK_SpeciesTable" primary key ("Id"),
     constraint "CHK_SpeciesTable_Code" check (length("Code") > 0),
     constraint "CHK_SpeciesTable_LatinName" check (length("LatinName") > 0),
@@ -35,15 +39,22 @@ create unique index "UX_SpeciesTable.LatinName"
     )
 ;
 
-create view "Taxonomy"."Species"
+create OR REPLACE  view "Taxonomy"."Species"
 as
     select
         st."Id"
         , st."Code"
         , st."LatinName"
         , st."CommonName"
+        , st."UserId"
+        , st."CreatedAt"
+        , st."UpdatedAt"
+        , st."DeletedAt"
+
     from
-        "Taxonomy"."SpeciesTable" as st
+        "Taxonomy"."SpeciesTable" as st LEFT JOIN
+            "admin".accounts acc
+    ON st."UserId" = acc.id
 ;
 
 create or replace rule "Species_instead_of_delete"
@@ -60,14 +71,18 @@ as
     on insert to "Taxonomy"."Species"
     do instead
         insert into "Taxonomy"."SpeciesTable"
-            ("Id", "Code", "LatinName", "CommonName")
+            ("Id", "Code", "LatinName", "CommonName", "UserId", "CreatedAt")
         values
-            (nextval('"Taxonomy"."SEQ_Species"'), new."Code", new."LatinName", new."CommonName")
+            (nextval('"Taxonomy"."SEQ_Species"'), new."Code", new."LatinName", new."CommonName", new."UserId", new."CreatedAt")
         returning
-            "Id",
-            "Code",
-            "LatinName",
-            "CommonName"
+    "Id"
+     , "Code"
+     , "LatinName"
+     , "CommonName"
+     , "UserId"
+     , "CreatedAt"
+     , "UpdatedAt"
+     , "DeletedAt"
 ;
 
 create or replace rule "Species_instead_of_update"
@@ -79,11 +94,17 @@ as
                 "Code" = new."Code"
                 , "LatinName" = new."LatinName"
                 , "CommonName" = new."CommonName"
+                , "UpdatedAt" = new."UpdatedAt"
+                , "DeletedAt" = new."DeletedAt"
             where
                 "Id" = old."Id"
             returning
-                "Id",
-                "Code",
-                "LatinName",
-                "CommonName"
+            "Id",
+            "Code",
+            "LatinName",
+            "CommonName",
+            "UserId",
+            "CreatedAt",
+            "UpdatedAt",
+            "DeletedAt";
 ;

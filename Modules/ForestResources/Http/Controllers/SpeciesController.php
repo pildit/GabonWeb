@@ -7,9 +7,12 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use App\Services\PageResults;
 use Modules\ForestResources\Entities\Species;
+use GenTux\Jwt\GetsJwtToken;
 
 class SpeciesController extends Controller
 {
+    use GetsJwtToken;
+
     /**
      * Display a listing of the resource.
      * @return Response
@@ -38,7 +41,8 @@ class SpeciesController extends Controller
         Species::create([
             'Code' => $data['code'],
             'LatinName' => $data['latin-name'] ??  null,
-            'CommonName' => $data['common-name'] ??  null
+            'CommonName' => $data['common-name'] ??  null,
+            'UserId' => $this->jwtPayload('data.id')
         ]);
 
         return \response()->json([
