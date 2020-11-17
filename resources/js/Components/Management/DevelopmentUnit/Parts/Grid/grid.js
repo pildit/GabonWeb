@@ -1,3 +1,5 @@
+import ActionColumn from "./Vue/ActionColumn";
+
 export default (options) => {
     return {
         options: {
@@ -16,16 +18,26 @@ export default (options) => {
                 header: "Id"
             },
             Name: {
-                header: "Name"
+                header: "Name",
+                render: (row) => `<strong>${row.Name}</strong>`
             },
-            Concession: {
+            ConcessionName: {
                 header: "Concession"
             },
             plans: {
-                header: "Plan Id"
+                header: "Plan Id",
+                render: (row) => {
+                    return _.map(row.plans, 'Id').join('/')
+                }
             },
             CreatedAt: {
-                header: "Date"
+                header: "Date",
+                render: (row) => `<span>${moment(row.CreatedAt).format('YYYY-MM-DD HH:mm:ss')}</span>`
+            },
+            actions: {
+                header: "Actions",
+                sort: false,
+                component: ActionColumn
             }
         }
     }

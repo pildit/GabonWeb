@@ -33,7 +33,7 @@ class QualityController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-           'value' => 'required|string',
+           'value' => 'required|integer',
            'description' => 'string'
         ]);
 
@@ -67,7 +67,7 @@ class QualityController extends Controller
     public function update(Request $request, Quality $quality)
     {
         $data = $request->validate([
-            'value' => 'string|required',
+            'value' => 'integer|required',
             'description' => 'string'
         ]);
 

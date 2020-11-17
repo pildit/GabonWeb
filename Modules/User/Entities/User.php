@@ -52,7 +52,7 @@ class User extends Model implements JwtPayloadInterface
      */
     public function getCompanyNameAttribute()
     {
-        return $this->attributes['company_name'] = ($this->company) ? $this->company->Name : null;
+        return ($this->company) ? $this->company->Name : null;
     }
 
     /**

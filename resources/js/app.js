@@ -1,4 +1,3 @@
-
 import Vue from 'vue';
 import VueReactiveCookie from 'vue-reactive-cookie';
 import VeeValidate from 'vee-validate';

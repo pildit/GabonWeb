@@ -9,7 +9,7 @@
                 THE MAP
             </div>
             <div class="col-md-8">
-                <div id="development-unit-grid">
+                <div id="development-unit-grid" class="mt-4">
                     @verbatim
                     <h5 class="text-center green-text mb-2">{{translate('development_unit_title')}}</h5>
                     <div class="row">

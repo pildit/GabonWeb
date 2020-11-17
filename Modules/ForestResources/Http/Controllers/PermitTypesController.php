@@ -2,6 +2,7 @@
 
 namespace Modules\ForestResources\Http\Controllers;
 
+use GenTux\Jwt\GetsJwtToken;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
