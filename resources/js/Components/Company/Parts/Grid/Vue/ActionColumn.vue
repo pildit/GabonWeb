@@ -4,7 +4,7 @@
             <i class="fas fa-edit"></i>
             {{translate('Edit')}}
         </span>
-        <company-modal type-prop="edit" v-model="modals.form"></company-modal>
+        <company-modal :row-prop="rowProp" type-prop="edit" v-model="modals.form"></company-modal>
     </div>
 </template>
 
@@ -28,7 +28,7 @@ export default {
 
     methods: {
         editCompany(id) {
-            Company.get(id).then(() => this.modals.form = true);
+          this.modals.form = true;
         },
     }
 }

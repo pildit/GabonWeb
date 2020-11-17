@@ -21,7 +21,7 @@ class DevelopmentPlan extends Model
      *
      * @var array
      */
-    protected $fillable = ['DevelopmentUnit','Species','MinimumExploitableDiameter','VolumeTariff','Increment'];
+    protected $fillable = ['DevelopmentUnit','Species','MinimumExploitableDiameter','VolumeTariff','Increment','Approved'];
 
     /**
      * @var string

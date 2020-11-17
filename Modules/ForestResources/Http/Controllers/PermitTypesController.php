@@ -8,7 +8,6 @@ use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\PermitType;
 use App\Services\PageResults;
 use GenTux\Jwt\GetsJwtToken;
-use Log;
 
 class PermitTypesController extends Controller
 {
@@ -33,7 +32,7 @@ class PermitTypesController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'abbreviation' => 'string|required',
+            'abbreviation' => 'string|required|unique:\Modules\ForestResources\Entities\PermitType,Abbreviation',
             'name' => 'string'
         ]);
 
@@ -48,15 +47,6 @@ class PermitTypesController extends Controller
         ], 201);
     }
 
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.

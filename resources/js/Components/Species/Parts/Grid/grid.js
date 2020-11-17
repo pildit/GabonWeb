@@ -26,11 +26,11 @@ export default (options) => {
             CommonName: {
                 header: "CommonName"
             },
-            email: {
+            Email: {
                 header: "Email",
             },
-            created_at: {
-                header: "Created At",
+            CreatedAt: {
+                header: "Date",
             },
             actions: {
                 header: 'Actions',

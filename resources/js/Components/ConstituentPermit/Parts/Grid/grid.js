@@ -5,7 +5,7 @@ export default (options) => {
         options: {
             instance: "constituentPermit",
             store: {
-                getter: 'constituentPermit/constituentPermits',
+                getter: 'constituentPermit/items',
                 action: 'constituentPermit/index'
             },
             sort: {
@@ -22,6 +22,9 @@ export default (options) => {
             },
             PermitNumber: {
                 header: "Permit No"
+            },
+            Approved: {
+                header: "Approved"
             },
             Email: {
                 header: "Email",

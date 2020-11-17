@@ -4,12 +4,13 @@ namespace Modules\ForestResources\Entities;
 
 use App\Traits\Geometry;
 use App\Traits\Sortable;
+use App\Traits\UserEmailAttribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Parcel extends Model
 {
-    use Sortable, Geometry, SoftDeletes;
+    use Sortable, Geometry, SoftDeletes, UserEmailAttribute;
 
     const CREATED_AT = "CreatedAt";
     const UPDATED_AT = "UpdatedAt";
@@ -26,7 +27,7 @@ class Parcel extends Model
      *
      * @var array
      */
-    protected $fillable = ['Name','Geometry'];
+    protected $fillable = ['Name','Geometry', 'Approved'];
 
     /**
      * The table associated with the model.

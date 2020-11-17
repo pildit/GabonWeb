@@ -6,6 +6,7 @@ use App\Services\PageResults;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Modules\ForestResources\Entities\Parcel;
 use Modules\ForestResources\Http\Requests\CreateUpdateParcelRequest;
 use ShapeFile\Shapefile;
@@ -110,10 +111,10 @@ class ParcelController extends Controller
      * @param  Parcel $parcel
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(CreateUpdateParcelRequest $request, Parcel $parcel)
+    public function update(Request $request, Parcel $parcel)
     {
 
-        $data = $request->validated();
+        $data = $request->all();
 
         /* Upload and get polygon from Shapefile
 
@@ -184,5 +185,22 @@ class ParcelController extends Controller
         ], 204);
     }
 
+    /**
+     * @param Request $request
+     * @param ParcelService $parcelService
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function vectors(Request $request, ParcelService $parcelService)
+    {
+        $request->validate(['bbox' => 'string']);
+
+        return response()->json([
+            'data' => [
+                'type' => 'FeatureCollection',
+                'name' => 'parcels',
+                'features' => $parcelService->getVectors($request->get('bbox', config('forestresources.default_bbox')))
+            ]
+        ]);
+    }
 
 }

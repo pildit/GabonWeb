@@ -15,8 +15,9 @@ class CreateManagementUnitRequest extends FormRequest
     {
         return [
             'Name' => 'required|string',
-            'DevelopmentUnit' => 'required|integer|exists:Modules\ForestResources\Entities\DevelopmentUnit,Id',
-            'Geometry' => 'required',
+            'DevelopmentUnit' => 'required|exists:Modules\ForestResources\Entities\DevelopmentUnit,Id',
+            'Geometry' => 'string',
+            'Approved' => 'bool',
         ];
     }
 

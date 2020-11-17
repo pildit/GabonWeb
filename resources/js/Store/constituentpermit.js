@@ -19,6 +19,9 @@ export default {
         items(state, items) {
             state.items = items;
         },
+        types(state, types) {
+            state.types = types;
+        }
     },
     actions: {
         index({commit}, payload) {

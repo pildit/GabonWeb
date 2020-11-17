@@ -24,9 +24,10 @@ class User extends Base {
 
     static getStatusLabel(status) {
         let statuses = {
-            0: "Disabled",
-            1: "Not Confirmed",
-            2: "Active"
+            0: "Not Confirmed",
+            1: "Pending",
+            2: "Active",
+            3: "Disabled"
         }
 
         return statuses[status] || '';
@@ -36,7 +37,8 @@ class User extends Base {
         let statuses = {
             0: "badge-light",
             1: "badge-warning",
-            2: "badge-success"
+            2: "badge-success",
+            3: "badge-danger"
         }
 
         return statuses[status] || 'badge-dark'
@@ -48,8 +50,10 @@ class User extends Base {
             firstname : user.firstname,
             lastname : user.lastname,
             email: user.email,
-            company_id : user.company['Id'],
             roles: _.map(user.roles, 'id')
+        }
+        if(user.company) {
+            obj.company_id = user.company['Id'];
         }
         if(user.employee_type) {
             obj.employee_type = user.employee_type['id'];

@@ -1,14 +1,26 @@
-import _ from "lodash";
-import Vue from 'vue';
 import store from "store/store";
-import ItemsGrid from "./Vue/ItemsGrid.vue";
+import ConstituentPermit from "../../ConstituentPermit";
+import grid from './grid';
+
 
 export default (selector, options) => {
-    let vueOptions = {
+    return ConstituentPermit.renderTable(selector, grid(options), {
         store,
-        el: selector,
-        components: {ItemsGrid}
-    }
+        data: {
+            modals: {
+                form: false
+            },
+            sort: {
+                direction: "asc",
+                field: "id"
+            },
+            search: null
+        },
+        methods: {
+            fetchData() {
+                Vent.$emit('grid-refresh', {search: this.search});
+            }
+        }
+    });
 
-    return new Vue(_.merge(options, vueOptions));
 }

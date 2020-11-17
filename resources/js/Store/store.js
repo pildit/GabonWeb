@@ -7,7 +7,12 @@ import role         from './role';
 import company         from './company';
 import permitType         from './permittype';
 import species         from './species';
+import parcels         from './parcel';
+import productType         from './producttype';
+import quality         from './quality';
+import development_unit from './development_unit';
 import constituentPermit         from './constituentpermit';
+import concession         from './concession';
 
 Vue.use(Vuex);
 Vue.use(cookie)
@@ -75,6 +80,11 @@ export default new Vuex.Store({
         company,
         permitType,
         species,
-        constituentPermit
+        constituentPermit,
+        parcels,
+        productType,
+        quality,
+        development_unit,
+        concession
     }
 });

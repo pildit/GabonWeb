@@ -7,7 +7,7 @@
           :options="types"
           placeholder="Types"
           track-by="Id"
-          label="Permit Type"
+          label="Abbreviation"
           :allow-empty="false"
           :multiple="false"
           :taggable="true"
@@ -40,16 +40,13 @@ export default {
   computed: {
     ...mapGetters('constituentPermit', ['types'])
   },
-  created() {
-    this.$store.dispatch('constituentPermit/types');
-  },
   methods: {
 
     save() {
       this.$validator.validate().then((valid) => {
         if(valid) {
           Item.add({
-            permit_type :this.form.PermitType,
+            permit_type :this.form.PermitTypeObj.Id,
             permit_number: this.form.PermitNumber
           }).then((response) => {
             this.$emit('done');
@@ -65,7 +62,7 @@ export default {
       this.$validator.validate().then((valid) => {
         if(valid) {
           Item.update(this.form.Id, {
-            permit_type :this.form.PermitType,
+            permit_type :this.form.PermitTypeObj.Id,
             permit_number: this.form.PermitNumber
           }).then(() => {
             this.$emit('done');

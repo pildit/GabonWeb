@@ -15,20 +15,22 @@ class CreateSiteLogbookLogRequest extends FormRequest
     {
         return [
             'SiteLogbookItem' => 'required',
-            'HewingId' => 'required|integer',
-            'Species' => 'required|integer',
-            'MaxDiameter' => 'required|numeric',
-            'MinDiameter' => 'required|numeric',
-            'AverageDiameter' => 'required|numeric',
-            'Length' => 'required|numeric',
-            'Volume' => 'required|numeric',
-            'Note' => 'required|string',
-            'EvacuationDate' => 'required|date',
-            'Lat' => 'required|numeric',
-            'Lon' => 'required|numeric',
-            'GpsAccu' => 'required|numeric',
-            'ObserveAt' => 'required|date',
+            'LogId' => 'string',
+            'HewingId' => 'string',
+            'Species' => 'integer',
+            'MaxDiameter' => 'numeric',
+            'MinDiameter' => 'numeric',
+            'AverageDiameter' => 'numeric',
+            'Length' => 'numeric',
+            'Volume' => 'numeric',
+            'Note' => 'string',
+            'EvacuationDate' => 'date',
+            'Lat' => ['regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
+            'Lon' => ['regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
+            'GpsAccu' => 'numeric',
+            'ObserveAt' => 'date',
             'Approved' => 'bool',
+            'MobileId' => 'string|unique:Modules\ForestResources\Entities\SiteLogbookLog,MobileId'
         ];
     }
 

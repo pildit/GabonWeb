@@ -16,9 +16,9 @@ class Concession extends Model
 	const DELETED_AT = 'DeletedAt';
 
     public $timestamps = true;
-    
+
     protected $fillable = [
-        'Name', 'Company', 'Geometry', 'Company', 'Continent', 'ResourceType', 'ConstituentPermit'
+        'Name', 'Company', 'Geometry', 'Continent', 'ConstituentPermit','Approved'
     ];
 
     protected $table = "ForestResources.Concessions";

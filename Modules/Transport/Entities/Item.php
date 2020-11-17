@@ -26,17 +26,14 @@ class Item extends Model
      */
     protected $fillable = [
         "Permit",
-        "TreeId",
+        "LogId",
         "Species",
         "MinDiameter",
         "MaxDiameter",
         "AverageDiameter",
         "Length",
         "Volume",
-        "MobileId",
-        "CreatedAt",
-        "UpdatedAt",
-        "DeletedAt"
+        "MobileId"
     ];
 
     /**

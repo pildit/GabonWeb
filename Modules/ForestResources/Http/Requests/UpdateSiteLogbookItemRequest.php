@@ -14,7 +14,8 @@ class UpdateSiteLogbookItemRequest extends FormRequest
     public function rules()
     {
         return [
-            'HewingId' => 'integer',
+            'SiteLogbook' => '',
+            'HewingId' => 'string',
             'Date' => 'date',
             'MaxDiameter' => 'numeric',
             'MinDiameter' => 'numeric',
@@ -23,6 +24,7 @@ class UpdateSiteLogbookItemRequest extends FormRequest
             'Volume' => 'numeric',
             'ObserveAt' => 'date',
             'Approved' => 'bool',
+            'MobileId' => 'string'
         ];
     }
 
