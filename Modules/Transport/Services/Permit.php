@@ -18,13 +18,32 @@ class Permit extends PageResults
      * @param $bbox
      * @return mixed
      */
-    public function getVectors($bbox)
+    public function getVectors($bbox,$LicensePlate,$DateFrom,$DateTo,$Date,$PermitNo)
     {
         $srid = config('transport.srid');
         $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_flipcoordinates(public.st_transform("Geometry",4256))) as geom');
         $whereIntersects = "public.ST_Intersects(public.st_setsrid(\"Geometry\", {$srid}), public.st_setsrid(public.ST_MakeEnvelope({$bbox}), {$srid}))";
+
         $collection = PermitEntity::select(['Id', $geomCol])
-            ->whereRaw($whereIntersects)->get();
+            ->whereRaw($whereIntersects);
+
+        if($LicensePlate){
+            $collection = $collection->where('LicensePlate','=',$LicensePlate);
+        }
+        if($DateFrom){
+            $collection = $collection->where('ObserveAt','>=',$DateFrom);
+        }
+        if($DateTo){
+            $collection = $collection->where('ObserveAt','<=',$DateTo);
+        }
+        if($Date){
+            $collection = $collection->where('ObserveAt','=',$Date);
+        }
+        if($PermitNo){
+            $collection = $collection->where('PermitNo','=',$PermitNo);
+        }
+
+        $collection = $collection->get();
 
         return $collection->map(function ($item) {
             return [

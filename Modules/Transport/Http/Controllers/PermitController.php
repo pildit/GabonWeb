@@ -52,13 +52,26 @@ class PermitController extends Controller
      */
     public function vectors(Request $request, Permit $permitService)
     {
-        $request->validate(['bbox' => 'string']);
+        $request->validate([
+            'bbox' => 'string',
+            'LicensePlate' => 'nullable|string',
+            'DateFrom' => 'nullable|date_format:Y-m-d',
+            'DateTo' => 'nullable|date_format:Y-m-d',
+            'PermitNo'=>'nullable|string',
+            'Date' => 'nullable|date_format:Y-m-d'
+        ]);
 
         return response()->json([
             'data' => [
                 'type' => 'FeatureCollection',
                 'name' => 'permits',
-                'features' => $permitService->getVectors($request->get('bbox', config('transport.default_bbox')))
+                'features' => $permitService->getVectors(
+                    $request->get('bbox', config('transport.default_bbox')),
+                    $request->get('LicensePlate'),$request->get('DateFrom'),
+                    $request->get('DateTo'),
+                    $request->get('Date'),
+                    $request->get('PermitNo')
+                )
             ]
         ]);
     }
