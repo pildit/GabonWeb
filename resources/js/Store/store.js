@@ -7,6 +7,10 @@ import role         from './role';
 import company         from './company';
 import permitType         from './permittype';
 import species         from './species';
+import parcels         from './parcel';
+import productType         from './producttype';
+import quality         from './quality';
+import development_unit from './development_unit';
 
 Vue.use(Vuex);
 Vue.use(cookie)
@@ -20,6 +24,7 @@ export default new Vuex.Store({
         },
         lang: Vue.prototype.$cookies.language || 'en',
         menu: [],
+        loggedUser: {},
         logged_in: Vue.prototype.$cookies.jwt ? true:false
     },
     getters: {
@@ -46,6 +51,9 @@ export default new Vuex.Store({
         lang(state, lang) {
             state.lang = lang;
         },
+        loggedUser(state, user) {
+            state.loggedUser = user;
+        },
         menu(state, menu) {
             state.menu = menu;
         }
@@ -69,6 +77,11 @@ export default new Vuex.Store({
         role,
         company,
         permitType,
-        species
+        species,
+        parcels,
+        species,
+        productType,
+        quality,
+        development_unit
     }
 });

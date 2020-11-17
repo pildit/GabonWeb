@@ -13,6 +13,11 @@
     @yield('styles')
 </head>
 <body style="height: 100vh">
+<div class="page-loader d-flex justify-content-center" id="page-loader">
+    <div class="spinner-border text-success" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
 <div id="notification">
     <notifications group="server" position="bottom right" />
 </div>
@@ -23,7 +28,7 @@
 <div class="main-content">
     @yield('content')
 </div>
-
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
 <script src="/js/all.js"></script>
 <script src="/js/app.js"></script>
 @yield('scripts')

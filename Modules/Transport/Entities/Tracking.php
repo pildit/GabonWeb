@@ -16,7 +16,7 @@ class Tracking extends Model
 
     protected $fillable = ['User', 'Lat', 'Lon','GpsAccu', 'ObserveAt'];
 
-    protected $table = 'transportation.PermitTracking';
+    protected $table = 'Transportation.PermitTracking';
 
 
     public function getGeomAttribute($value)

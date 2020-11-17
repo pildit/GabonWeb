@@ -15,8 +15,11 @@ class User extends Model implements JwtPayloadInterface
     const STATUS_DISABLED = 0;
     const STATUS_PENDING = 1;
     const STATUS_ACTIVE = 2;
+    const STATUS_INACTIVE = 3;
 
     protected $guard_name = 'api';
+
+    protected $with = ['roles:id,name'];
 
     /**
      * The attributes that are mass assignable.
@@ -49,7 +52,7 @@ class User extends Model implements JwtPayloadInterface
      */
     public function getCompanyNameAttribute()
     {
-        return $this->attributes['company_name'] = ($this->company) ? $this->company->Name : null;
+        return ($this->company) ? $this->company->Name : null;
     }
 
     /**

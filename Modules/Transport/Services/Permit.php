@@ -19,13 +19,16 @@ class Permit extends PageResults
      */
     public function getVectors($bbox)
     {
-        $collection = PermitEntity::select(['Id', DB::raw('public.ST_AsGeoJSON(Geometry) as geom')])
-            ->whereRaw("public.ST_Intersects(Geometry, public.ST_MakeEnvelope($bbox))")->get();
+        $srid = config('transport.srid');
+        $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_flipcoordinates(public.st_transform("Geometry",4256))) as geom');
+        $whereIntersects = "public.ST_Intersects(public.st_setsrid(\"Geometry\", {$srid}), public.st_setsrid(public.ST_MakeEnvelope({$bbox}), {$srid}))";
+        $collection = PermitEntity::select(['Id', $geomCol])
+            ->whereRaw($whereIntersects)->get();
 
         return $collection->map(function ($item) {
             return [
                 'type' => 'Feature',
-                'geometry' => $item->geom,
+                'geometry' => json_decode($item->geom),
                 'properties' => [
                     'id' => $item->Id
                 ]
@@ -103,8 +106,8 @@ class Permit extends PageResults
 
             [
                 "f" => "PermitNo",
-                "fl" => "PermitNo",
-                "type" => "str_NotEmpty"
+                "fl" => "",
+                "type" => "str"
             ],
             [
                 "f" => "PermitNoMobile",   //! asta e OK ... il lasi asa - NU adauga NotEmpty!!!
@@ -112,46 +115,46 @@ class Permit extends PageResults
                 "type" => "str"
             ],
             [
-                "f" => "AnnualAllowableCut",   // AAC
+                "f" => "AnnualAllowableCut",
                 "fl" => "AnnualAllowableCut",
                 "type" => "list_NotEmpty_NoLang",
-                "values" => $aac         //! vezi aici ce faci
+                "values" => $aac
             ],
             [
-                "f" => "ManagementUnit",     // UFG
+                "f" => "ManagementUnit",
                 "fl" => "ManagementUnit",
                 "type" => "list_NotEmpty_NoLang",
-                "values" => $managementunit          //! vezi aici ce faci
+                "values" => $managementunit
             ],
             [
                 "f" => "DevelopmentUnit",
                 "fl" => "DevelopmentUnit",
-                "type" => "str_NotEmpty",       //! aici lista
+                "type" => "list_NotEmpty_NoLang",
                 "values" => $developmentunit
             ],
             [
                 "f" => "Concession",
                 "fl" => "Concession",
-                "type" => "str_NotEmpty",         //! aici lista - FK consession
+                "type" => "list_NotEmpty_NoLang",
                 "values" => $concession
             ],
             [
                 "f" => "ConcessionaireCompany",
                 "fl" => "ConcessionaireCompany",
-                "type" => "str_NotEmpty",         //! aici lista - FK companies - type concesion?
+                "type" => "list_NotEmpty_NoLang",
                 "values" => $concessionaire
             ],
             [
                 "f" => "ClientCompany",
                 "fl" => "ClientCompany",
-                "type" => "str_NotEmpty",         //! aici lista - FK companies - type client
-                "value" => $client
+                "type" => "list_NotEmpty_NoLang",
+                "values" => $client
             ],
             [
                 "f" => "TransporterCompany",
                 "fl" => "TransporterCompany",
                 "type" => "list_NotEmpty_NoLang",
-                "values" => $transport     //! aici lista - FK companies - type transporter
+                "values" => $transport
             ],
             [
                 "f" => "DriverName",
@@ -176,13 +179,13 @@ class Permit extends PageResults
             ],
 
 	   //! pentru moment e default resource = logs - facut default in DB
-            [
+    /*        [
                 "f" => "ProductType",
                 "fl" => "ProductType",
                 "type" => "list_NotEmpty",
                 "values" => $product_types    //! vezi aici ce faci
             ],
-
+     */
 	/*		!! not needed yet dar in viitoru apropiat ighen - ighen draga
 	        [
 				"f":"Photos",

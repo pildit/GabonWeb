@@ -3,8 +3,9 @@ import axios         from 'axios';
 export default {
     namespaced: true,
     state: {
-        user: window.user,
+        user: {},
         users: [],
+        employeeTypes: []
     },
     getters: {
         user(state) {
@@ -20,6 +21,9 @@ export default {
         },
         users(state, users) {
             state.users = users;
+        },
+        employeeTypes(state, employeeTypes) {
+            state.employeeTypes = employeeTypes;
         }
     },
     actions: {
@@ -27,31 +31,44 @@ export default {
             return axios.get('api/users', {params: payload})
                 .then((response) => {
                     commit('users', response.data.data);
-                    return response
+                    return response;
                 });
         },
         login({}, payload) {
             return axios.post('api/users/login', payload)
-                .then((response) => {
-                    return response;
-                })
+                .then((response) => response)
         },
         register({}, payload) {
             return axios.post('api/users/register', payload)
-                .then((response) => {
-                    return response;
-                })
+                .then((response) => response)
         },
         verify({}, payload) {
             return axios.post('api/users/verify', payload)
-                .then((response) => {
-                    return response;
-                });
+                .then((response) => response);
         },
         add({}, payload) {
             return axios.post('api/users/registerAdmin', payload)
-                .then((response) => {
-                    return response;
+                .then((response) => response)
+        },
+        approve({}, payload) {
+            return axios.post(`api/users/${payload.id}/approve`, {})
+                .then((response) => response);
+        },
+        update({}, payload) {
+            let id = payload.id;
+            let data = payload.data;
+            return axios.patch(`api/users/${id}`, data)
+                .then((response) => response);
+        },
+        resendConfirmation({}, payload) {
+            return axios.post(`api/users/${payload.id}/confirmation`, {})
+                .then((response) => response);
+        },
+        types({commit}) {
+            return axios.get(`api/users/types`)
+                .then((response) => response.data)
+                .then((responseData) => {
+                    commit('employeeTypes', responseData.data);
                 })
         }
     }

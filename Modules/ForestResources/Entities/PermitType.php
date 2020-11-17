@@ -4,13 +4,20 @@ namespace Modules\ForestResources\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Sortable;
+use App\Traits\UserEmailAttribute;
 
 class PermitType extends Model
 {
-    use Sortable;
+    use Sortable, UserEmailAttribute;
 
-    protected $fillable = ['Abbreviation',  'Name'];
-    public $timestamps = false;
+    public $timestamps = true;
+    const CREATED_AT = "CreatedAt";
+    const UPDATED_AT = "UpdatedAt";
+    const DELETED_AT = "DeletedAt";
+
+    protected $dateFormat = 'Y-m-d H:i:s.u';
+
+    protected $fillable = ['Abbreviation',  'Name', 'UserId'];
 
     protected $table = "ForestResources.PermitTypes";
 

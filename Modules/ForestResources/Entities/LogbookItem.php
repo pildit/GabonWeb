@@ -2,14 +2,13 @@
 
 namespace Modules\ForestResources\Entities;
 
-use App\Traits\Geometry;
 use App\Traits\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class LogbookItem extends Model
 {
-    use Sortable, Geometry, SoftDeletes;
+    use Sortable, SoftDeletes;
 
     const CREATED_AT = "CreatedAt";
     const UPDATED_AT = "UpdatedAt";
@@ -26,7 +25,7 @@ class LogbookItem extends Model
      *
      * @var array
      */
-    protected $fillable = ['Logbook','AnnualAllowableCutInventory','HewingId','Species','MaxDiameter','MinDiameter','Length','Volume','Lat','Lon','GpsAccu','Note','ObserveAt','Approved'];
+    protected $fillable = ['Logbook','TreeId','HewingId','Species','MaxDiameter','MinDiameter','Length','Volume','Lat','Lon','GpsAccu','Note','ObserveAt','Approved','MobileId'];
 
     /**
      * The table associated with the model.
@@ -37,7 +36,5 @@ class LogbookItem extends Model
 
     protected $primaryKey = "Id";
 
-    public function anuualallowablecutinventory(){
-        return $this->belongsTo(AnnualAllowableCutInventory::class,'AnnualAllowableCutInventory');
-    }
+
 }

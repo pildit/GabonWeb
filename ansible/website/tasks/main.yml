@@ -87,10 +87,10 @@
   - name: "Install node dependencies"
     npm:
       path: "{{ local_repo }}"
-  - name: "Compile the javascript"
-    command: npm run dev
-    args:
-      chdir: "{{ local_repo }}"
+#  - name: "Compile the javascript"
+#    command: npm run dev
+#    args:
+#      chdir: "{{ local_repo }}"
   - name: "Set permissions and ownership on the local repo"
     become: yes
     file:

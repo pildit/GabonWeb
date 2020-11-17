@@ -14,19 +14,17 @@
 </template>
 
 <script>
-import Translation from "components/Mixins/Translation";
 import bmodal from 'components/Common/BootstrapModal.vue';
 import PermitTypesForm from "./PermitTypesForm";
 import {mapGetters} from 'vuex';
 
 export default {
   model: {
-    prop: 'state',
+      prop: 'state',
     event: 'display'
   },
-  mixins: [Translation],
 
-  props: ['state', 'typeProp'],
+  props: ['state', 'typeProp', 'rowProp'],
 
   components: {bmodal, PermitTypesForm},
 
@@ -53,7 +51,7 @@ export default {
     state(val) {
       if(!val) return;
       if(this.typeProp != 'create') {
-        this.$refs.PermitTypesForm.form = this.role;
+        this.$refs.PermitTypesForm.form = this.rowProp;
       }else{
         this.$refs.PermitTypesForm.form = {};
       }

@@ -27,8 +27,6 @@ class PermissionController extends Controller
     {
         return response()
             ->json(['data' => PermissionEntity::all()]);
-//        return response()
-//            ->json($pageResults->getPaginator($request, PermissionEntity::class, ['name']));
     }
 
 

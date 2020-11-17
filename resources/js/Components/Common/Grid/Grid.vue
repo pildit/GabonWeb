@@ -32,11 +32,8 @@
 <script>
 import VuePagination from "./VuePagination";
 import GridCell from "./GridCell";
-import Translation from "../../Mixins/Translation";
 
 export default {
-    mixins: [Translation],
-
     props: ['options', 'columns'],
 
     components: {GridCell, VuePagination},

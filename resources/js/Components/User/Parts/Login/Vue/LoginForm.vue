@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import Translation from "components/Mixins/Translation";
+
 import User from "components/User/User";
 
 export default {
@@ -67,7 +67,7 @@ export default {
             failed: null
         }
     },
-    mixins: [Translation],
+
     methods: {
         onSubmit() {
             this.$validator.validate().then((valid) => {
@@ -79,6 +79,7 @@ export default {
                             window.location.href = '/';
                         })
                         .catch((error) => {
+                            console.log(error);
                             if(error) {
                                 if([401,404].includes(error.status)) {
                                     this.failed = error.data.message;

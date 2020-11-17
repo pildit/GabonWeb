@@ -14,17 +14,21 @@ class UpdateLogbookItemRequest extends FormRequest
     public function rules()
     {
         return [
-            'AnnualAllowableCutInventory' => 'exists:Modules\ForestResources\Entities\AnnualAllowableCutInventory,Id',
-            'HewingId' => 'integer',
+            'Logbook' => '',
+            'TreeId' => 'string',
+            'HewingId' => 'string',
             'Species' => 'integer',
             'MaxDiameter' => 'numeric',
             'MinDiameter' => 'numeric',
             'Length' => 'numeric',
             'Volume' => 'numeric',
+            'Lat' => ['regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
+            'Lon' => ['regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
             'GpsAccu' => 'numeric',
-            'Note' => 'string',
+            'Note' => '',
             'ObserveAt' => 'date',
             'Approved' => 'bool',
+            'MobileId' => 'string',
         ];
     }
 

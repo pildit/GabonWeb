@@ -10,6 +10,8 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Modules\Admin\Entities\Role;
+use Modules\User\Entities\EmployeeType;
 use Modules\User\Entities\User;
 use Illuminate\Http\Request;
 use Modules\User\Http\Requests\CreateUserRequest;
@@ -38,7 +40,21 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return response()->json(['data' => $user]);
+        $permissions = $user->getAllPermissions()->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'name' => $item->name
+            ];
+        });
+        $data = $user->toArray();
+        $data['roles'] = $user->roles->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'name' => $item->name
+            ];
+        });
+        $data['permissions'] = $permissions->toArray();
+        return response()->json(['data' => $data]);
     }
 
 
@@ -54,8 +70,22 @@ class UserController extends Controller
 
         $data = $request->validated();
 
+        if(isset($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        }
+
         $user->fill($data);
         $user->save($data);
+        if(isset($data['role_name'])) {
+            $role = Role::create(['name' => $data['role_name']]);
+            $role->syncPermissions($data['permissions']);
+            $data['roles'][] = $role->id;
+        }
+
+        if(isset($data['roles'])) {
+            $user->syncRoles($data['roles']);
+        }
+
 
         return response()->json([
             'message' => lang('Update successful')
@@ -279,5 +309,10 @@ class UserController extends Controller
         return response()->json([
             'message' => lang('Assign role succesful')
         ], 200);
+    }
+
+    public function listTypes()
+    {
+        return response()->json(['data' => EmployeeType::all()]);
     }
 }

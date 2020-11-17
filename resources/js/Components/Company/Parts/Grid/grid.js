@@ -20,11 +20,10 @@ export default (options) => {
             Name: {
                 header: "Name"
             },
-            Type: {
+            types: {
                 header: "Type",
-                forceRender: true,
                 render: (row) => {
-                    return _.map(row.types, 'Name').join('|')
+                    return _.map(row.types, 'Name').join('/')
                 }
             },
             Email: {

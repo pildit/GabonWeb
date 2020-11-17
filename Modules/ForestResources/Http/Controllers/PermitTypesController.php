@@ -2,6 +2,7 @@
 
 namespace Modules\ForestResources\Http\Controllers;
 
+use GenTux\Jwt\GetsJwtToken;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -10,6 +11,8 @@ use App\Services\PageResults;
 
 class PermitTypesController extends Controller
 {
+    use GetsJwtToken;
+
     /**
      * Display a listing of the resource.
      * @return Response
@@ -29,14 +32,14 @@ class PermitTypesController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'abbreviation' => 'string|required',
+            'abbreviation' => 'string|required|unique:\Modules\ForestResources\Entities\PermitType,Abbreviation',
             'name' => 'string'
         ]);
 
-
         PermitType::create([
             'Abbreviation' => $data['abbreviation'],
-            'Name' => $data['name']
+            'Name' => $data['name'] ?? null,
+            'UserId' => $this->JwtPayload('data.id')
             ]);
 
         return \response()->json([
@@ -44,15 +47,6 @@ class PermitTypesController extends Controller
         ], 201);
     }
 
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -67,11 +61,10 @@ class PermitTypesController extends Controller
             'name' => 'string'
         ]);
 
-        $permit_type->fill([
-            'Abbreviation' => $data['abbreviation'],
-            'Name' => $data['name']
-        ]);
+        $permit_type->Abbreviation = $data['abbreviation'];
 
+        if ($request->has('name'))
+            $permit_type->Name = $data['name'];
 
         $permit_type->save();
 

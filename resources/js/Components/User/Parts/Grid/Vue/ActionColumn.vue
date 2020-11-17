@@ -5,23 +5,25 @@
            v-tooltip>
             <i class="fas fa-edit"></i>
         </a>
-        <a class="text-success aligned fz-16"
+        <a v-if="rowProp.status == 1" class="text-success aligned fz-16"
            :title="translate('Resend Confirmation Email')"
+           @click="resendConfirmation"
            v-tooltip >
-            <i class="far fa-envelope"></i>
+            <span v-if="resendLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <i v-else class="far fa-envelope"></i>
         </a>
-        <switches v-model="enabled" color="green" title="Approve User" v-tooltip></switches>
+        <switches v-model="isApproved" color="green" title="Approve User" @input="approve" :emit-on-mount="false" v-tooltip></switches>
     </div>
 </template>
 
 <script>
 import User from "components/User/User";
-import Translation from "components/Mixins/Translation";
+
 import Switches from 'vue-switches';
 
 export default {
 
-    mixins: [Translation],
+
 
     props: ["rowProp", "optionsProp"],
 
@@ -29,15 +31,35 @@ export default {
 
     data() {
         return {
-            enabled: false
+            resendLoading: false
+        }
+    },
+
+    computed: {
+        isApproved: {
+            get() {
+                return this.rowProp.status == 2
+            },
+            set(value) {
+                return value;
+            }
         }
     },
 
     methods: {
         editRoute() {
             return User.buildRoute('users.edit', {id: this.rowProp.id});
+        },
+        approve(val) {
+            let promise = val ? User.approve(this.rowProp.id) : User.update(this.rowProp.id, {status: 3});
+
+            return promise.finally(() => this.rowProp.status = val ? 2 : 3);
+        },
+        resendConfirmation() {
+            this.resendLoading = true;
+            User.resendConfirmation(this.rowProp.id).finally(() => this.resendLoading = false);
         }
-    }
+    },
 
 }
 </script>

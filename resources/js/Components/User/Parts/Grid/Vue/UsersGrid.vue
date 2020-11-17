@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import Translation from "components/Mixins/Translation";
+
 import {mapGetters} from 'vuex';
 import VuePagination from "components/Common/Grid/VuePagination.vue";
 import grid from "../grid";
@@ -33,7 +33,7 @@ import Grid from "components/Common/Grid/Grid";
 import UserModal from "./UserModal";
 
 export default {
-    mixins: [Translation],
+
 
     components: {VuePagination, Grid, UserModal},
 
@@ -48,14 +48,6 @@ export default {
                 field: "id"
             },
             formType: 'create',
-            rolesPagination: {
-                total: 0,
-                per_page: 20,
-                from: 1,
-                to: 0,
-                current_page: 1
-            },
-            offset: 4,
             search: null,
         }
     },

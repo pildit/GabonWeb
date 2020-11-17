@@ -19,6 +19,7 @@ class CreateDevelopmentPlanRequest extends FormRequest
             'MinimumExploitableDiameter' => 'required|string',
             'VolumeTariff' => 'string',
             'Increment' => ['regex:/^(?:[1-9]\d+|\d)(?:\.\d\d)?(?:\,\d\d)?$/'],
+            'Approved' => 'bool'
         ];
     }
 

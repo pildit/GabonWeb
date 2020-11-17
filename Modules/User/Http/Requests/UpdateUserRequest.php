@@ -16,6 +16,14 @@ class UpdateUserRequest extends FormRequest
         return [
             'firstname' => 'string',
             'lastname' => 'string',
+            'email' => 'email|unique:pgsql.admin.accounts,email,'.$this->user->id,
+            'password' => 'confirmed',
+            'employee_type' => 'exists:Modules\User\Entities\EmployeeType,id',
+            'company_id' => 'exists:Modules\Admin\Entities\Company,Id',
+            'roles' => 'exists:Modules\Admin\Entities\Role,id',
+            'permissions' => 'exists:Modules\Admin\Entities\Permission,id',
+            'role_name' => 'required_with:permissions',
+            'status' => 'integer|in:0,1,2,3,4'
         ];
     }
 

@@ -10,8 +10,8 @@
       <div class="md-form col-sm-4">
         <div class="form-row justify-content-end">
           <div class="col-sm-10">
-            <label for="company_name">{{translate('Search')}}</label>
-            <input @keyup.enter="getPermitTypes" class="form-control" v-model="search" type="text" Placeholder="" name="company_name" id="company_name" />
+            <label for="permit_type_name">{{translate('Search')}}</label>
+            <input @keyup.enter="getPermitTypes" class="form-control" v-model="search" type="text" Placeholder="" name="permit_type_name" id="permit_type_name" />
           </div>
           <button @click="getPermitTypes" class="btn btn-sm btn-green  px-2" id="filter">
             <i class="fas fa-search"></i>
@@ -27,7 +27,6 @@
 <script>
 import {mapGetters, mapState, mapActions} from 'vuex';
 import VuePagination from "components/Common/Grid/VuePagination.vue";
-import Translation from "components/Mixins/Translation";
 import PermitType from "components/PermitType/PermitType";
 import PermitTypesModal from './PermitTypesModal.vue';
 
@@ -35,7 +34,6 @@ import grid from "../grid";
 import Grid from "components/Common/Grid/Grid";
 
 export default {
-  mixins: [Translation],
   components: {PermitTypesModal, VuePagination, Grid},
   data() {
     return {
