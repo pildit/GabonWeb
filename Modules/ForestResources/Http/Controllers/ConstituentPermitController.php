@@ -25,7 +25,7 @@ class ConstituentPermitController extends Controller
     {
         $pr->setSortFields(['Id']);
 
-        return response()->json($pr->getPaginator($request, ConstituentPermit::class , ['Email']));
+        return response()->json($pr->getPaginator($request, ConstituentPermit::class , ['PermitType', 'PermitNumber', 'Email'], ['PermitTypeObj']));
     }
 
 
@@ -69,9 +69,28 @@ class ConstituentPermitController extends Controller
      * @param ConstituentPermit $cp
      * @return Response
      */
-    public function update(Request $request, ConstituentPermit $cp)
+    public function update(Request $request, ConstituentPermit $constituent_permit)
     {
-        //
+        $data = $request->validate([
+            'permit_type' => 'exists:pgsql.ForestResources.PermitTypes,Id',
+            'permit_number' => 'string',
+            'geometry' => 'string',
+            'approved' => 'bool'
+        ]);
+
+        if ($request->has('permit_type'))
+            $constituent_permit->PermitType = $data['permit_type'];
+
+        if ($request->has('permit_number'))
+            $constituent_permit->PermitNumber = $data['permit_number'];
+
+        if ($request->has('geometry'))
+            $constituent_permit->Geometry = $data['geometry'];
+
+        if ($request->has('approved'))
+            $constituent_permit->Approved = $data['approved'];
+
+        $constituent_permit->save();
     }
 
     /**

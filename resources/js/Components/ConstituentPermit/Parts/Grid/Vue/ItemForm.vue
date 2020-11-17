@@ -3,7 +3,7 @@
 
     <div class="md-form mb-5">
       <multiselect
-          v-model="form.PermitType"
+          v-model="form.PermitTypeObj"
           :options="types"
           placeholder="Types"
           track-by="Id"
@@ -38,7 +38,7 @@ export default {
   },
   components : {Multiselect},
   computed: {
-    ...mapGetters('constituentPermit', ['types']),
+    ...mapGetters('constituentPermit', ['types'])
   },
   created() {
     this.$store.dispatch('constituentPermit/types');

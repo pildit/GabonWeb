@@ -33,7 +33,7 @@ export default {
       this.modals.form = true;
     },
     approve(val) {
-      let promise =  Item.update(this.rowProp.Id, {Approved: val}).then((response) => {
+      let promise =  Item.update(this.rowProp.Id, {approved: val}).then((response) => {
         Notification.success('Constituent Permit', response.data.message)
         return response.data;
       });

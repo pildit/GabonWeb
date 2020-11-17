@@ -17,7 +17,7 @@ export default (options) => {
             Id: {
                 header: "Id"
             },
-            PermitType: {
+            "PermitTypeObj.Abbreviation" : {
                 header: "Permit Type"
             },
             PermitNumber: {
@@ -27,7 +27,7 @@ export default (options) => {
                 header: "Email",
             },
             CreatedAt: {
-                header: "Created At",
+                header: "Date",
             },
             actions: {
                 header: 'Actions',
