@@ -13,7 +13,7 @@ There are two directories:
 
 The production environment is relatively simple and split over the different files that represent the AWS services:
 
-* [`production/acm.tf`](production/acm.tf): This contains the `*.globalorigin.org` (wildcard) certificate (which has been imported into Terraform from AWS - do NOT delete this!) as well as the SSH key. The certificate is applied at the ALB (seel [`production/ec2.tf`](production/ec2.tf)), and *not* on the individual machines.
+* [`production/acm.tf`](production/acm.tf): This contains the `*.globalorigin.org` (wildcard) certificate (which has been imported into Terraform from AWS - do NOT delete this!) as well as the SSH key. The certificate is applied at the ALB (see [`production/ec2.tf`](production/ec2.tf)), and *not* on the individual machines.
 * [`production/ec2.tf`](production/ec2.tf): This contains 2 EC2 instances (one per subnet -and thus AZ- as defined in the `vpc.tf` file) as well as the Application Load Balancer (ALB) and its resources (listeners, rules, target groups, etc.).
 * [`production/production.tf`](production/production.tf): This contains the provider information (i.e. that we're using AWS)
 * [`production/rds.tf`](production/rds.tf): This contains the Production RDS PostgreSQL instance and any artifacts it needs (such as subnet groups and security groups).
