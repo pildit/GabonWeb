@@ -170,7 +170,7 @@ resource "aws_instance" "iProduction_2" {
 }
 
 
-# NOTE: Attach additional hosts to the lbtgProduction_Https target group (just like below) to
+# NOTE: Attach additional hosts to the lbtgProductionGabonHttp target group (just like below) to
 # scale horizontally the load balancer's job is to rotate requests around to the instances
 # in the target group
 resource "aws_lb_target_group_attachment" "lbtgaGabonProdInstance_1" {
