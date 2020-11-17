@@ -15,26 +15,26 @@ export default (options) => {
         },
         columns: {
             Id: {
-                header: "Id"
+                header: "id"
             },
             Name: {
-                header: "Name"
+                header: "name"
             },
             Type: {
-                header: "Type",
+                header: "type",
                 forceRender: true,
                 render: (row) => {
                     return _.map(row.types, 'Name').join('|')
                 }
             },
             Email: {
-                header: "Email"
+                header: "email"
             },
             CreatedAt: {
-                header: "Date"
+                header: "date"
             },
             actions: {
-                header: "Actions",
+                header: "actions",
                 sort: false,
                 css: {
                     textAlign: "right"

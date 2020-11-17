@@ -1,18 +1,18 @@
 <template>
     <div class="text-right">
         <a :href="editRoute()" class="text-success aligned fz-16"
-           :title="translate('Edit')"
+           :title="translate('edit')"
            v-tooltip>
             <i class="fas fa-edit"></i>
         </a>
         <a v-if="rowProp.status == 1" class="text-success aligned fz-16"
-           :title="translate('Resend Confirmation Email')"
+           :title="translate('resend_confirmation_email')"
            @click="resendConfirmation"
            v-tooltip >
             <span v-if="resendLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             <i v-else class="far fa-envelope"></i>
         </a>
-        <switches v-model="isApproved" color="green" title="Approve User" @input="approve" :emit-on-mount="false" v-tooltip></switches>
+        <switches v-model="isApproved" color="green" :title="translate('approve_user')" @input="approve" :emit-on-mount="false" v-tooltip></switches>
     </div>
 </template>
 

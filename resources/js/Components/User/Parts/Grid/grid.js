@@ -16,32 +16,32 @@ export default (options) => {
         },
         columns: {
             id: {
-                header: "Id"
+                header: "id"
             },
             lastname: {
-                header: "Name"
+                header: "name"
             },
             firstname: {
-                header: "First Name"
+                header: "first_name"
             },
             email: {
-                header: "Email"
+                header: "email"
             },
             company_name: {
-                header: "Company"
+                header: "company"
             },
             status: {
-                header: "Status",
+                header: "status",
                 forceRender: true,
                 render: (row) => {
                     return `<span class="badge ${User.getStatusClass(row.status)}">${User.getStatusLabel(row.status)}</span>`
                 }
             },
             created_at: {
-                header: "Date"
+                header: "date"
             },
             actions: {
-                header: "Actions",
+                header: "actions",
                 sort: false,
                 css: {
                     textAlign: "right"

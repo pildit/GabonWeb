@@ -10,30 +10,30 @@ export default (options) => {
             },
             sort: {
                 direction: "desc",
-                field: "Id"
+                field: "id"
             }
         },
         columns: {
             Id: {
-                header: "Id"
+                header: "id"
             },
             Code: {
-                header: "Code"
+                header: "code"
             },
             LatinName: {
-                header: "LatinName"
+                header: "latin_name"
             },
             CommonName: {
-                header: "CommonName"
+                header: "common_name"
             },
             email: {
-                header: "Email",
+                header: "email",
             },
             created_at: {
-                header: "Created At",
+                header: "created_at",
             },
             actions: {
-                header: 'Actions',
+                header: 'actions',
                 sort: false,
                 css: {
                   textAlign: "right"

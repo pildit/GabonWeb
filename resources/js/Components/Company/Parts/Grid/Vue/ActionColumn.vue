@@ -2,7 +2,7 @@
     <div class="text-right">
         <span class="btn btn-sm btn-outline-success" @click="editCompany(rowProp.Id)">
             <i class="fas fa-edit"></i>
-            {{translate('Edit')}}
+            {{translate('edit')}}
         </span>
         <company-modal type-prop="edit" v-model="modals.form"></company-modal>
     </div>
