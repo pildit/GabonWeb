@@ -51,28 +51,17 @@ export default {
     },
 
     cluster() {
-      console.log("AFTER", this.isClusterShown);
-
       var clusterSource = this.clusterSource;
 
       if (!this.isClusterShown) {
-        const currentMapLayers = this.map.getLayers();
-        console.log("Pusky layers: ", currentMapLayers);
-
         // Cluster Source
         clusterSource = this.emptyClusterSource;
-
-        // TODO: Add or remove the layer
-        // this.map.addLayer(clusterLayer);
       }
 
       // Animated cluster layer
       if (this.clusterLayer != null) {
         this.clusterLayer.setSource(clusterSource);
       }
-
-      // /* Update the stored map */
-      // this.setMap(this.map);
     },
 
     clusterSetup() {
@@ -238,7 +227,6 @@ export default {
 
   mounted() {
     this.clusterSetup();
-    // this.cluster();
   },
 };
 </script>
