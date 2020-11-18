@@ -11,7 +11,7 @@
         <div class="form-row justify-content-end">
           <div class="col-sm-10">
             <label for="speciesname">{{translate('search')}}</label>
-            <input @keyup.enter="getSpecies" class="form-control" v-model="search" type="text" :placeholder="translate('search_placeholder')" name="speciesname" id="speciesname" />
+            <input @keyup.enter="getSpecies" class="form-control" v-model="search" type="text"  name="speciesname" id="speciesname" />
           </div>
           <button @click="getSpecies" class="btn btn-sm btn-green  px-2" id="filter">
             <i class="fas fa-search"></i>
