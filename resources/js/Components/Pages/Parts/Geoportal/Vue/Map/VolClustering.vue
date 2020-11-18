@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="clustering"></div>
-    <div v-if="volSideCommand" v-html="volSideCommand" />
+    <!-- <div v-if="volSideCommand" v-html="volSideCommand" /> -->
   </div>
 </template>
 
@@ -15,7 +15,6 @@ import { mapGetters, mapState, mapMutations, mapActions } from "vuex";
 /* Ol/Ol-Ext */
 import "ol/ol.css";
 import "ol-ext/style/defaultStyle";
-
 import * as ol from "../Imports/ol";
 import * as olExt from "../Imports/ol-ext";
 import { fromLonLat } from "ol/proj";
@@ -39,11 +38,13 @@ export default {
 
   computed: {
     ...mapGetters({ map: "geoportal/map" }),
+    ...mapGetters({ points: "geoportal/annualAllowableCutInventory" }),
   },
 
   methods: {
     ...mapActions({
       setMap: "geoportal/setMap",
+      getPoints: "geoportal/getAnnualAllowableCutInventory",
     }),
 
     someMet() {
@@ -51,11 +52,16 @@ export default {
     },
 
     cluster() {
-      var clusterSource = this.clusterSource;
-
+      // this.clusterSetup()
+      var clusterSource;
       if (!this.isClusterShown) {
         // Cluster Source
+        console.log("FIRST");
         clusterSource = this.emptyClusterSource;
+      } else {
+        console.log("SECOND");
+        this.clusterSetup();
+        clusterSource = this.clusterSource;
       }
 
       // Animated cluster layer
@@ -65,7 +71,6 @@ export default {
     },
 
     clusterSetup() {
-
       // Cluster Source
       this.clusterSource = new ol.Cluster({
         distance: 40,
@@ -73,15 +78,27 @@ export default {
       });
 
       // Addfeatures to the cluster
-      var addFeatures = (addFeatures = (nb) => {
+      var addFeatures = (addFeatures = () => {
         var ext = this.map.getView().calculateExtent(this.map.getSize());
         var features = [];
-        for (var i = 0; i < nb; ++i) {
+
+        var len;
+        console.log("IN CLUSTER POINTS : ", this.points);
+        if (this.points.length == 0) {
+          len = 0;
+        } else {
+          console.log("ENER HERE");
+          len = this.points.features.length;
+        }
+
+        for (var i = 0; i < len; ++i) {
           features[i] = new ol.Feature(
-            new ol.Point([
-              ext[0] + (ext[2] - ext[0]) * Math.random(),
-              ext[1] + (ext[3] - ext[1]) * Math.random(),
-            ])
+            new ol.Point(
+              fromLonLat([
+                this.points.features[i].geometry.coordinates[1],
+                this.points.features[i].geometry.coordinates[0],
+              ])
+            )
           );
           features[i].set("id", i);
         }
@@ -221,12 +238,15 @@ export default {
   watch: {
     volSideCommand: function (newVal, oldVal) {
       this.isClusterShown = !this.isClusterShown;
-      this.cluster();
+      this.getPoints().then(() => {
+        console.log("POINT: ", this.points.features[0]);
+        this.cluster();
+      });
     },
   },
 
   mounted() {
-    this.clusterSetup();
+    //this.clusterSetup();
   },
 };
 </script>
