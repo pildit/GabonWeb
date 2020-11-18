@@ -37,13 +37,6 @@ export default {
 
     /* Methods for VolClustering */
     setAnnualAllowableCutInventoryCluster() {},
-
-    /* Fetches */
-    getAnnualAllowableCutInventory() {
-      axios
-        .get("api/annual_allowable_cut_inventory/vectors")
-        .then((response) => (console.log(response)))
-    },
   },
 
   components: {

@@ -5,6 +5,29 @@ import { fromLonLat } from "ol/proj";
 
 import axios from 'axios'; // Will be used for requests once we have the endpoints
 
+/* Helper function to parametrize strings */
+function getParametrizedString(apiString, payload) {
+
+    const filters = payload
+    const filterLenght = Object.keys(filters).length
+
+    if (filterLenght <= 0)
+        return apiString
+
+    apiString += '?'
+    let iterator = 0
+    Object.keys(filters).forEach(function (key) {
+
+        const value = filters[key]
+        apiString += `${key}=${value}`
+
+        /* Prepare for the next parameter */
+        ++iterator < filterLenght ? apiString += '&' : null
+    });
+
+    return apiString
+}
+
 export default {
     namespaced: true,
     state: {
@@ -35,7 +58,7 @@ export default {
         permits: []
     },
     getters: {
-        
+
         map(state) {
             return state.map;
         },
@@ -56,7 +79,7 @@ export default {
             return state.developmentUnits
         },
 
-        managmentUnits(state){
+        managmentUnits(state) {
             return state.managmentUnits
         },
 
@@ -117,7 +140,14 @@ export default {
         },
 
         getAnnualAllowableCuts({ commit }, payload) {
-            return axios.get(`/api/annual_allowable_cuts/vectors`)
+
+            let apiString = `/api/annual_allowable_cuts/vectors`
+
+            if (payload) {
+                apiString = getParametrizedString(apiString, payload)
+            }
+
+            return axios.get(``)
                 .then((response) => response.data)
                 .then((responseData) => commit('mutateAnnualAllowableCuts', responseData.data)
                 );
@@ -152,10 +182,17 @@ export default {
         },
 
         getPermits({ commit }, payload) {
-            return axios.get(`/api/permits/vectors`)
-            .then((response) => response.data)
-            .then((responseData) => commit('mutablePermits', responseData.data)
-            );
+
+            let apiString = `/api/permits/vectors`
+
+            if (payload) {
+                apiString = getParametrizedString(apiString, payload)
+            }
+
+            return axios.get(apiString)
+                .then((response) => response.data)
+                .then((responseData) => commit('mutablePermits', responseData.data)
+                );
         }
     }
 }
