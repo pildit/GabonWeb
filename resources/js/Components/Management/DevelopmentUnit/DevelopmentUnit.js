@@ -1,12 +1,14 @@
 import Base from "../../Base";
 import vueGrid from './Parts/Grid/index';
+import vueForm from './Parts/Form/index';
 import store from "store/store";
 
 class DevelopmentUnit extends Base {
 
     static getComponents() {
         return {
-            "development-unit-grid" : vueGrid
+            "development-unit-grid" : vueGrid,
+            "development-unit-form" : vueForm,
         }
     }
 

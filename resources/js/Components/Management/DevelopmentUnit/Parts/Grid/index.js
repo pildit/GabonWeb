@@ -6,9 +6,6 @@ export default (selector, options) => {
     return DevelopmentUnit.renderTable(selector, grid(options), {
         store,
         data: {
-            modals: {
-                form : false
-            },
             sort: {
                 direction: "asc",
                 field: "id"
@@ -18,6 +15,9 @@ export default (selector, options) => {
         methods: {
             fetchData() {
                 Vent.$emit('grid-refresh', {search: this.search});
+            },
+            createRoute() {
+                return DevelopmentUnit.buildRoute('development_units.create');
             }
         }
     });

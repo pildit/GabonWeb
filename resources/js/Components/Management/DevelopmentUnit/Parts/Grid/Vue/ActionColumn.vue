@@ -27,7 +27,7 @@ export default {
 
     methods: {
         editRoute() {
-            return DevelopmentUnit.buildRoute('development_unit.edit', {id: this.rowProp.Id});
+            return DevelopmentUnit.buildRoute('development_units.edit', {id: this.rowProp.Id});
         },
 
         approve(value) {

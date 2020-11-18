@@ -4,7 +4,9 @@ export default {
         edit: `/users/{id}/edit`
     },
 
-    development_unit: {
-        edit: '/development_unit/{id}/edit'
+    development_units: {
+        index: '/management/development-units',
+        create: '/management/development-units/create',
+        edit: '/management/development-units/{id}/edit'
     }
 }
