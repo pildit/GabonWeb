@@ -16,7 +16,7 @@ class UpdatePermitItemRequest extends FormRequest
         return [
             "Permit" => "",
             "LogId" =>"string",
-            "Species" => "integer", // Todo - add Species validation;
+            "Species" => "exists:Modules\ForestResources\Entities\Species,Id",
             "MinDiameter" => "numeric",
             "MaxDiameter" => "numeric",
             "AverageDiameter" => "numeric",

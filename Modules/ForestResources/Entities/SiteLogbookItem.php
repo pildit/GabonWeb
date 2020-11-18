@@ -26,7 +26,7 @@ class SiteLogbookItem extends Model
      *
      * @var array
      */
-    protected $fillable = ['SiteLogbook','HewingId','Date','MaxDiameter','MinDiameter','AverageDiameter','Length','Volume','ObserveAt','Approved','MobileId'];
+    protected $fillable = ['SiteLogbook','Species','HewingId','Date','MaxDiameter','MinDiameter','AverageDiameter','Length','Volume','ObserveAt','Approved','MobileId'];
 
     /**
      * The table associated with the model.
@@ -39,6 +39,9 @@ class SiteLogbookItem extends Model
 
     public function logs(){
         return $this->hasMany(SiteLogbookLog::class,'SiteLogbookItem');
+    }
+    public function species(){
+        return $this->belongsTo(Species::class,'Species');
     }
 
 }

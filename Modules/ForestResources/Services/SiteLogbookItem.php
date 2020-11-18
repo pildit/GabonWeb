@@ -21,7 +21,7 @@ class SiteLogbookItem extends PageResults
     {
 
         list($HewingId) = $this->hewingIdLists();
-
+        list($species) = $this->speciesLists();
         // mobile form
         $formArr = [
             [
@@ -44,6 +44,12 @@ class SiteLogbookItem extends PageResults
                 "fl" => "HewingId",
                 "type" => "list_ed_NotEmpty_NoLang",
                 "values" => $HewingId
+            ],
+            [
+                "f" => "Species",
+                "fl" => "Species",
+                "type" => "list_NotEmpty_NoLang",
+                "values" => $species
             ],
             [
                 "f" => "Date",
@@ -117,5 +123,25 @@ class SiteLogbookItem extends PageResults
 
         return array($array);
     }
+    /**
+     * @return string[]
+     */
+    public function speciesLists(): array
+    {
+        $species_array = [];
 
+        $species = app('db')
+            ->table('Taxonomy.Species')
+            ->select( 'Id','CommonName')
+            ->get();
+
+        $species->each(function ($specie) use (&$species_array) {
+            $species_array[] = [
+                'val' => $specie->CommonName,
+                'id'  => $specie->Id,
+            ];
+        });
+
+        return array($species_array);
+    }
 }
