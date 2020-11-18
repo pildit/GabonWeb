@@ -7,6 +7,17 @@
                     <i class="fas fa-plus-circle"></i> {{translate('add_string')}}
                 </button>
             </div>
+            <div class="md-form col-sm-4">
+                <div class="form-row justify-content-end">
+                    <div class="col-sm-10">
+                        <label for="role_name">{{translate('search')}}</label>
+                        <input @keyup.enter="getTranslations" class="form-control" v-model="search" type="text" :placeholder="translate('search_placeholder')" name="role_name" id="role_name" />
+                    </div>
+                    <button @click="getTranslations" class="btn btn-sm btn-green  px-2" id="filter">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
         </div>
         <grid :columns="grid.columns" :options="grid.options"></grid>
         <translation-modal :type-prop="formType" v-model="modals.form" @done="getTranslations"></translation-modal>
@@ -39,7 +50,7 @@
                     current_page: 1
                 },
                 offset: 4,
-                search: null,
+                search: '',
             }
         },
         computed: {
