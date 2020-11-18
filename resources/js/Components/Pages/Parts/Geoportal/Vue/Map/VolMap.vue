@@ -1,11 +1,13 @@
 <template>
-  <div
-    id="map"
-    class="map"
-    ref="map-root"
-    v-bind:style="{ height: window.height + 'px' }"
-  >
-    <slot/>
+  <div>
+    <div
+      id="map"
+      class="map"
+      ref="map-root"
+      v-bind:style="{ height: window.height + 'px' }"
+    >
+      <slot />
+    </div>
   </div>
 </template>
 
@@ -36,6 +38,8 @@ export default {
         width: 0,
         height: 0,
       },
+
+      volSideCommand: "",
     };
   },
 

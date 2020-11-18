@@ -15,7 +15,12 @@
 
       <!-- Check None -->
       <input type="radio" id="none" value="none" v-model="checkPicked" />
-      <p-radio color="success-o" name="none" value="none" v-model="checkPicked"></p-radio>
+      <p-radio
+        color="success-o"
+        name="none"
+        value="none"
+        v-model="checkPicked"
+      ></p-radio>
       <label for="none">None</label>
       <br />
 
@@ -186,6 +191,7 @@
       <rcp-checkbox v-model="viewUFG" text="View UFG"></rcp-checkbox>
       <rcp-checkbox v-model="viewAAC" text="View AAC"></rcp-checkbox>
 
+      <button v-on:click="onTransmitAValue">Show Cluster</button>
       <span>Picked: {{ checkPicked }}</span>
     </div>
   </div>
@@ -249,6 +255,8 @@ export default {
         width: 0,
         height: 0,
       },
+
+      isTest: true,
     };
   },
 
@@ -305,6 +313,16 @@ export default {
       } else {
         this.checkTransportPermitDateError = true;
       }
+    },
+
+    onTransmitAValue() {
+      console.log("Button was pressed in VolSideBar");
+      if (this.isTest) {
+        this.$emit("volSideCommandFunction", "Just a text for now");
+      } else {
+        this.$emit("volSideCommandFunction", "Just another text for now");
+      }
+      this.isTest = !this.isTest;
     },
   },
 
