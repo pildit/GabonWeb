@@ -39,6 +39,10 @@ export default {
             return axios.patch(`api/species/${payload.id}`, payload.data)
                 .then((response) => response);
         },
+        listSearch({}, payload) {
+            return axios.get(`api/species/list?name=${payload.name}&limit=${payload.limit}`)
+                .then((response) => response);
+        }
 
     }
 }

@@ -15,8 +15,13 @@
                 <div class="form-row">
                     <div class="col">
                         <div class="md-form">
-                            <input type="text" id="Name" class="form-control" v-model="form.Name">
+                            <input type="text" id="Name" class="form-control"
+                                   v-model="form.Name"
+                                   :data-vv-as="translate('development_unit_form_name')"
+                                   v-validate="'required'"
+                            >
                             <label for="Name">{{translate('development_unit_form_name')}}</label>
+                            <div v-show="errors.has('Name')" class="invalid-feedback">{{ errors.first('Name') }}</div>
                         </div>
                     </div>
                     <div class="col">
@@ -31,7 +36,7 @@
                     <div class="col">
                         <div class="md-form">
                             <multiselect
-                                v-model="form.Concession"
+                                v-model="form.concession"
                                 :options="concessionsList.data"
                                 :placeholder="translate('concession_select_label')"
                                 track-by="Id"
@@ -42,7 +47,11 @@
                                 :loading="concessionsList.isLoading"
                                 :allow-empty="false"
                                 @search-change="asyncFindConcession"
-                            ></multiselect>
+                            >
+                                <template slot="singleLabel" slot-scope="{ option }">{{ option.Name }}({{option.Id}})</template>
+                                <template slot="option" slot-scope="{option}">{{ option.Name }}({{option.Id}})</template>
+                            </multiselect>
+                            <div v-show="errors.has('concession')" class="invalid-feedback">{{ errors.first('concession') }}</div>
                         </div>
                     </div>
                     <div class="col">
@@ -75,6 +84,7 @@
                                    {{ picker.startDate | date }} - {{ picker.endDate | date}}
                                </template>
                            </date-range-picker>
+                           <div v-show="errors.has('dates')" class="invalid-feedback">{{ errors.first('dates') }}</div>
                        </div>
                    </div>
                    <div class="col"></div>
@@ -84,7 +94,7 @@
 
                    </div>
                </div>
-                <plan-form-partial v-for="i in formPlansCount" v-model="plansForm[i-1]" :key="i"></plan-form-partial>
+                <plan-form-partial v-for="index in formPlansCount" v-model="plansForm[index-1]" :index="index" :key="index"></plan-form-partial>
                <div class="form-row">
                    <a class="btn btn-info" @click="addPlan()">{{translate('add_ufa_plan')}}</a>
                </div>
@@ -108,6 +118,7 @@ import DevelopmentUnit from "components/Management/DevelopmentUnit/DevelopmentUn
 import Multiselect from 'vue-multiselect';
 import DateRangePicker from 'vue2-daterange-picker';
 import PlanFormPartial from "./PlanFormPartial";
+import Concession from "components/Concession/Concession";
 
 export default {
 
@@ -141,6 +152,7 @@ export default {
     },
     created() {
         this.form.ProductType = this.productTypeList.data[0];
+        this.asyncFindConcession('');
     },
 
     methods: {
@@ -151,6 +163,14 @@ export default {
 
         },
         asyncFindConcession(query) {
+            this.concessionsList.isLoading = true;
+            Concession.listSearch(query, this.concessionsList.limit).then((response) => {
+                this.concessionsList.data= response.data;
+                this.concessionsList.isLoading = false;
+                if(this.form.concession) {
+                    this.form.Concession = this.concessionsList.data.find((x) => x['Id'] == this.form.concession.id);
+                }
+            })
 
         },
         addPlan() {

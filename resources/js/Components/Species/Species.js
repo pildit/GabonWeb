@@ -26,6 +26,10 @@ class Species extends Base {
         return store.dispatch('species/update', {id, data});
     }
 
+    static listSearch(name, limit = 100) {
+        return store.dispatch('species/listSearch', {name, limit}).then(response => response.data);
+    }
+
 }
 
 export default Species;
