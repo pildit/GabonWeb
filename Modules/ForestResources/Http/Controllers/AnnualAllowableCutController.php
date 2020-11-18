@@ -107,13 +107,16 @@ class AnnualAllowableCutController extends Controller
      */
     public function vectors(Request $request, AnnualAllowableCutService $aacService)
     {
-        $request->validate(['bbox' => 'string']);
+        $request->validate([
+            'bbox' => 'string',
+            'Name' => 'nullable|string'
+        ]);
 
         return response()->json([
             'data' => [
                 'type' => 'FeatureCollection',
                 'name' => 'annual_allowable_cut',
-                'features' => $aacService->getVectors($request->get('bbox', config('forestresources.default_bbox')))
+                'features' => $aacService->getVectors($request->get('bbox', config('forestresources.default_bbox')),$request->get('Name'))
             ]
         ]);
     }

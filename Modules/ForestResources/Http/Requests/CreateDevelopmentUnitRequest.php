@@ -16,8 +16,8 @@ class CreateDevelopmentUnitRequest extends FormRequest
         return [
             'Name' => 'required|string',
             'Concession' => 'required|integer',
-            'Start' => 'required|date',
-            'End' => 'required|date',
+            'Start' => 'required|date_format:Y-m-d H:i:s',
+            'End' => 'required|date_format:Y-m-d H:i:s',
             'Geometry' => 'string',
             'Approved'=>'bool',
         ];

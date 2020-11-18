@@ -32,7 +32,6 @@ export default (options) => {
             },
             status: {
                 header: "Status",
-                forceRender: true,
                 render: (row) => {
                     return `<span class="badge ${User.getStatusClass(row.status)}">${User.getStatusLabel(row.status)}</span>`
                 }

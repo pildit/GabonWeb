@@ -62,7 +62,7 @@ class Item extends PageResults
             [
                 "f" => "MaxDiameter",
                 "fl" => "MaxDiameter",
-                "type" => "float_NotEmpty",
+                "type" => "int_NotEmpty",
            //     "condition" => "product_type=logs"
             ],
             [
@@ -120,8 +120,6 @@ class Item extends PageResults
                 ];
             });
         });
-
-        dd($array);
 
         return array($array);
     }

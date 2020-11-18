@@ -51,10 +51,13 @@ export default {
       this.$validator.validate().then((valid) => {
         if(valid) {
 
-          PermitType.update(this.form.id, {
-              abbreviation: this.form.Abbreviation,
-              name: this.form.Name
-            }).then(() => {
+            let data = {
+                abbreviation: this.form.Abbreviation,
+            };
+            if(this.form.Name) {
+                data['name'] = this.form.Name;
+            }
+            PermitType.update(this.form.Id, data).then(() => {
             this.$emit('done');
           }).catch((error) => {
             if(error) {

@@ -20,10 +20,10 @@ class UpdateSiteLogbookRequest extends FormRequest
             'AnnualAllowableCut' => 'exists:Modules\ForestResources\Entities\AnnualAllowableCut,Id',
             'Company' => 'exists:Modules\Admin\Entities\Company,Id',
             'Hammer' => 'integer',
-            'Localization' => 'string',
-            'ReportNo' => 'string',
-            'ReportNote' => 'string',
-            'ObserveAt' => 'date',
+            'Localization' => '',
+            'ReportNo' => '',
+            'ReportNote' => '',
+            'ObserveAt' => 'date_format:Y-m-d H:i:s',
             'Approved' => 'bool',
             'MobileId'=>'string'
         ];

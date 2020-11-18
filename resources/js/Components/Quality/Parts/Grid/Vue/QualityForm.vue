@@ -37,7 +37,7 @@ export default {
       this.$validator.validate().then((valid) => {
         if(valid) {
           Quality.add({
-            value: this.form.Value,
+            value: parseInt(this.form.Value),
             description: this.form.Description
           }).then((response) => {
             this.$emit('done');
@@ -54,7 +54,7 @@ export default {
         if(valid) {
 
           Quality.update(this.form.Id, {
-            value: this.form.Value,
+            value: parseInt(this.form.Value),
             description: this.form.Description
           }).then(() => {
             this.$emit('done');

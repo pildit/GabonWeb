@@ -24,7 +24,7 @@ export default {
     },
 
     methods: {
-        edit(id) {
+        edit() {
             this.modals.form = true;
         }
     }

@@ -5,6 +5,7 @@ namespace Modules\Transport\Entities;
 use App\Traits\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\ForestResources\Entities\Species;
 
 class Item extends Model
 {
@@ -64,9 +65,8 @@ class Item extends Model
         return $this->belongsTo(Permit::class,"Permit");
     }
 
-//    public function species()
-//    {
-// TODO: add relation for Species
-//       // return $this->belongsTo(Species::class,"Species");
-//    }
+    public function species()
+    {
+        return $this->belongsTo(Species::class,"Species");
+    }
 }

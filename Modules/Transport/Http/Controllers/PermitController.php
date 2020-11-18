@@ -26,12 +26,9 @@ class PermitController extends Controller
      * @param Permit $permit
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request, PageResults $pr)
+    public function index(Request $request, Permit $pr)
     {
-        /**
-         * Todo show only PermitNOMobile == MobileId ( this is the parent permit list )
-         * Todo also check if there are cases where we have permits where there are no parents for them.
-         */
+
         $pr->setSortFields(['Id']);
 
         return response()->json($pr->getPaginator($request, PermitEntity::class, ["PermitNo"],['annualallowablecut','clientcompany','concessionairecompany','transportercompany']));
@@ -44,13 +41,8 @@ class PermitController extends Controller
      */
     public function show(PermitEntity $permit)
     {
-
-        /**
-         * Todo - when PermitNOMobile == MobileId this is the parent permit. Add also permits related to PermitNoMobile ( as childs )
-         */
-        return response()->json([
-            'data' => $permit->with(['items','concession','managementunit','developmentunit','annualallowablecut','clientcompany','concessionairecompany','transportercompany','user'])
-        ]);
+        $permit['permit_child'] = PermitEntity::where("PermitNoMobile","=",$permit->PermitNoMobile)->where("Id","!=",$permit->Id)->get();
+        return response()->json(['data' => $permit]);
     }
 
     /**
@@ -60,13 +52,26 @@ class PermitController extends Controller
      */
     public function vectors(Request $request, Permit $permitService)
     {
-        $request->validate(['bbox' => 'string']);
+        $request->validate([
+            'bbox' => 'string',
+            'LicensePlate' => 'nullable|string',
+            'DateFrom' => 'nullable|date_format:Y-m-d',
+            'DateTo' => 'nullable|date_format:Y-m-d',
+            'PermitNo'=>'nullable|string',
+            'Date' => 'nullable|date_format:Y-m-d'
+        ]);
 
         return response()->json([
             'data' => [
                 'type' => 'FeatureCollection',
                 'name' => 'permits',
-                'features' => $permitService->getVectors($request->get('bbox', config('transport.default_bbox')))
+                'features' => $permitService->getVectors(
+                    $request->get('bbox', config('transport.default_bbox')),
+                    $request->get('LicensePlate'),$request->get('DateFrom'),
+                    $request->get('DateTo'),
+                    $request->get('Date'),
+                    $request->get('PermitNo')
+                )
             ]
         ]);
     }

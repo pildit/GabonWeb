@@ -111,10 +111,10 @@ class ParcelController extends Controller
      * @param  Parcel $parcel
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(CreateUpdateParcelRequest $request, Parcel $parcel)
+    public function update(Request $request, Parcel $parcel)
     {
 
-        $data = $request->validated();
+        $data = $request->all();
 
         /* Upload and get polygon from Shapefile
 
@@ -162,7 +162,8 @@ class ParcelController extends Controller
        // $data['Geometry'] = isset($polygon) ? $polygon : '';
 
         $parcel->fill($data);
-        $parcel->save($data);
+        dd($parcel->toArray());
+        $parcel->save();
 
         return response()->json([
             'message' => lang('parcel_update_successful')

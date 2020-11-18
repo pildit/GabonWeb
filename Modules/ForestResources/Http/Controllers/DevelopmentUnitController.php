@@ -45,27 +45,27 @@ class DevelopmentUnitController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param DevelopmentUnit $developmentunit
+     * @param DevelopmentUnit $development_unit
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(DevelopmentUnit $developmentunit)
+    public function show(DevelopmentUnit $development_unit)
     {
-        return response()->json(['data' => $developmentunit]);
+        return response()->json(['data' => $development_unit]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  DevelopmentUnit $developmentunit
+     * @param  DevelopmentUnit $development_unit
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateDevelopmentUnitRequest $request, DevelopmentUnit $developmentunit)
+    public function update(UpdateDevelopmentUnitRequest $request, DevelopmentUnit $development_unit)
     {
 
         $data = $request->validated();
 
-        $developmentunit->update($data);
+        $development_unit->update($data);
 
         return response()->json([
             'message' => lang('developmentunit_update_successful')
@@ -79,9 +79,9 @@ class DevelopmentUnitController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function destroy(DevelopmentUnit $developmentunit)
+    public function destroy(DevelopmentUnit $development_unit)
     {
-        $developmentunit->delete();
+        $development_unit->delete();
 
         return response()->json([
             'message' => lang('developmentunit_delete_successful')

@@ -14,15 +14,15 @@ class CreateSiteLogbookItemRequest extends FormRequest
     public function rules()
     {
         return [
-            'SiteLogbook' => 'required|exists:Modules\ForestResources\Entities\SiteLogbook,Id',
+            'SiteLogbook' => 'required',
             'HewingId' => 'required|string',
-            'Date' => 'required|date',
+            'Date' => 'required|date_format:Y-m-d H:i:s',
             'MaxDiameter' => 'required|numeric',
             'MinDiameter' => 'required|numeric',
             'AverageDiameter' => 'required|numeric',
             'Length' => 'required|numeric',
             'Volume' => 'required|numeric',
-            'ObserveAt' => 'required|date',
+            'ObserveAt' => 'required|date_format:Y-m-d H:i:s',
             'Approved' => 'bool',
             'MobileId' => 'string|unique:Modules\ForestResources\Entities\SiteLogbookItem,MobileId'
         ];

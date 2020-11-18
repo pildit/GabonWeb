@@ -26,7 +26,7 @@ class CreateAnnualAllowableCutInventoryRequest extends FormRequest
             'GpsAccu' => 'numeric',
             'Approved' => 'bool',
             'MobileId'=>'string|unique:Modules\ForestResources\Entities\AnnualAllowableCutInventory,MobileId',
-            'ObserveAt'=>'date'
+            'ObserveAt'=>'date_format:Y-m-d H:i:s'
 
         ];
     }
