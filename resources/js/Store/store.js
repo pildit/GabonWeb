@@ -11,6 +11,8 @@ import parcels         from './parcel';
 import productType         from './producttype';
 import quality         from './quality';
 import development_unit from './development_unit';
+import constituentPermit         from './constituentpermit';
+// import concession         from './concession';
 
 Vue.use(Vuex);
 Vue.use(cookie)
@@ -78,10 +80,11 @@ export default new Vuex.Store({
         company,
         permitType,
         species,
+        constituentPermit,
         parcels,
-        species,
         productType,
         quality,
-        development_unit
+        development_unit,
+        // concession
     }
 });

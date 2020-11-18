@@ -3,10 +3,10 @@ import ActionColumn from "./Vue/ActionColumn";
 export default (options) => {
     return {
         options: {
-            instance: "species",
+            instance: "constituentPermit",
             store: {
-                getter: 'species/species',
-                action: 'species/index'
+                getter: 'constituentPermit/items',
+                action: 'constituentPermit/index'
             },
             sort: {
                 direction: "desc",
@@ -17,14 +17,14 @@ export default (options) => {
             Id: {
                 header: "Id"
             },
-            Code: {
-                header: "Code"
+            "PermitTypeObj.Abbreviation" : {
+                header: "Permit Type"
             },
-            LatinName: {
-                header: "LatinName"
+            PermitNumber: {
+                header: "Permit No"
             },
-            CommonName: {
-                header: "CommonName"
+            Approved: {
+                header: "Approved"
             },
             Email: {
                 header: "Email",
@@ -36,7 +36,7 @@ export default (options) => {
                 header: 'Actions',
                 sort: false,
                 css: {
-                  textAlign: "right"
+                    textAlign: "right"
                 },
                 component: ActionColumn
             }

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Parcels')
+@section('title', 'Constituent permits')
 
 @section('content')
 <div class="container-fluid">
@@ -11,18 +11,18 @@
     <div class="col-md-8">
       <div id="items-grid">
         @verbatim
-        <h5 class="text-center green-text mb-2">{{translate('parcels_title')}}</h5>
+        <h5 class="text-center green-text mb-2">{{translate('constituent_permit_title')}}</h5>
         <div class="row">
           <div class="col-sm-8 d-flex align-items-center">
             <button class="btn btn-md" @click="modals.form = true">
-              <i class="fas fa-plus-circle"></i> {{translate('add_parcels')}}
+              <i class="fas fa-plus-circle"></i> {{translate('add_constituent_permit')}}
             </button>
           </div>
           <div class="md-form col-sm-4">
             <div class="form-row justify-content-end">
               <div class="col-sm-10">
                 <label for="company_name">{{translate('Search')}}</label>
-                <input @keyup.enter="fetchData" class="form-control" v-model="search" type="text" Placeholder="" name="parcels_name" id="parcels_name" />
+                <input @keyup.enter="fetchData" class="form-control" v-model="search" type="text" Placeholder="" name="constituent_permit_name" id="constituent_permit_name" />
               </div>
               <button @click="fetchData" class="btn btn-sm btn-green  px-2" id="filter">
                 <i class="fas fa-search"></i>
@@ -41,7 +41,7 @@
 @section('scripts')
 <script>
     Gabon.Base.getTranslations().then(() => {
-        Gabon.Parcel.render('items-grid');
+        Gabon.ConstituentPermit.render('items-grid');
     });
 </script>
 @endsection

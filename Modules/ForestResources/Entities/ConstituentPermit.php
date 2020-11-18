@@ -23,4 +23,13 @@ class ConstituentPermit extends Model
     const CREATED_AT = 'CreatedAt';
     const UPDATED_AT = 'UpdatedAt';
     const DELETED_AT = 'DeletedAt';
+
+    protected $hidden = ['PermitType'];
+
+    public static $snakeAttributes = false;
+
+    public function PermitTypeObj()
+    {
+        return $this->belongsTo('Modules\ForestResources\Entities\PermitType', 'PermitType');
+    }
 }

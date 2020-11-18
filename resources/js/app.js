@@ -22,6 +22,8 @@ import Quality from './Components/Quality/Quality';
 import ProductType from './Components/ProductType/ProductType';
 
 import DevelopmentUnit from "./Components/Management/DevelopmentUnit/DevelopmentUnit";
+import ConstituentPermit from './Components/ConstituentPermit/ConstituentPermit';
+// import Concession from './Components/Concession/Concession';
 
 Vue.config.devtools = true;
 window.Vent         = new Vue;
@@ -54,9 +56,11 @@ Gabon.Role = Role;
 Gabon.Company = Company;
 Gabon.PermitType = PermitType;
 Gabon.Species = Species;
+Gabon.ConstituentPermit = ConstituentPermit;
 Gabon.Parcel = Parcel;
 Gabon.Quality = Quality;
 Gabon.ProductType = ProductType;
+// Gabon.Concession = Concession;
 
 Gabon.Management = {
     DevelopmentUnit: DevelopmentUnit
