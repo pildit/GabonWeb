@@ -3,30 +3,30 @@ import ActionColumn from "./Vue/ActionColumn";
 export default (options) => {
     return {
         options: {
-            instance: "roles",
+            instance: "translations",
             store: {
-                getter: 'role/roles',
-                action: 'role/index'
+                getter: 'translation/translations',
+                action: 'translation/index'
             },
         },
         columns: {
-            id: {
-                header: "id"
+            text_key: {
+                header: "key"
             },
-            name: {
-                header: "role"
+            text_us: {
+                header: "english"
             },
-            type: {
-                header: "type"
+            text_ga: {
+                header: "french"
             },
-            created_at: {
-                header: "created_at",
+            mobile: {
+                header: "mobile",
             },
             actions: {
                 header: 'actions',
                 sort: false,
                 css: {
-                  textAlign: "right"
+                    textAlign: "right"
                 },
                 component: ActionColumn
             }

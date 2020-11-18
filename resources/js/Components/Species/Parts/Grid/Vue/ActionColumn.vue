@@ -1,6 +1,6 @@
 <template>
     <div class="text-right">
-        <span class="btn btn-sm btn-outline-success" @click="edit(rowProp.id)" ><i class="fas fa-edit"></i> {{translate('Edit')}}</span>
+        <span class="btn btn-sm btn-outline-success" @click="edit(rowProp.id)" ><i class="fas fa-edit"></i> {{translate('edit')}}</span>
         <species-modal :row-prop="rowProp" type-prop="edit" v-model="modals.form"></species-modal>
     </div>
 </template>

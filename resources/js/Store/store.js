@@ -13,6 +13,7 @@ import quality         from './quality';
 import development_unit from './development_unit';
 import constituentPermit         from './constituentpermit';
 import concession         from './concession';
+import translation from "./translation";
 
 Vue.use(Vuex);
 Vue.use(cookie)
@@ -85,6 +86,7 @@ export default new Vuex.Store({
         productType,
         quality,
         development_unit,
-        concession
+        concession,
+        translation
     }
 });

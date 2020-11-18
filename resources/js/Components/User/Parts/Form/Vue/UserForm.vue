@@ -1,29 +1,29 @@
 <template>
     <div>
         <div class="md-form mb-5 ">
-            <label for="firstname" :class="{'active': form.firstname}">{{translate('Firstname')}}</label>
+            <label for="firstname" :class="{'active': form.firstname}">{{translate('first_name')}}</label>
             <input type="text"
                    v-model="form.firstname"
                    v-validate="'required'"
-                   :data-vv-as="translate('firstname')"
+                   :data-vv-as="translate('first_name')"
                    class="form-control notempty"
                    name="firstname"
                    id="firstname"/>
             <div v-show="errors.has('firstname')" class="invalid-feedback">{{ errors.first('firstname') }}</div>
         </div>
         <div class="md-form mb-5 ">
-            <label for="lastname" :class="{'active': form.lastname}">{{translate('Lastname')}}</label>
+            <label for="lastname" :class="{'active': form.lastname}">{{translate('last_name')}}</label>
             <input type="text"
                    v-model="form.lastname"
                    v-validate="'required'"
-                   :data-vv-as="translate('lastname')"
+                   :data-vv-as="translate('last_name')"
                    class="form-control notempty"
                    name="lastname"
                    id="lastname"/>
             <div v-show="errors.has('lastname')" class="invalid-feedback">{{ errors.first('lastname') }}</div>
         </div>
         <div class="md-form mb-5">
-            <label for="email" :class="{'active': form.email}">{{translate('Email')}}</label>
+            <label for="email" :class="{'active': form.email}">{{translate('email')}}</label>
             <input type="email"
                    v-model="form.email"
                    v-validate="'required|email'"
@@ -34,11 +34,11 @@
             <div v-show="errors.has('email')" class="invalid-feedback">{{ errors.first('email') }}</div>
         </div>
         <div v-if="isEditType" class="md-form mb-5">
-            <label>{{translate('Company')}}</label>
+            <label>{{translate('company')}}</label>
             <multiselect
                 v-model="form.company"
                 :options="companyList.data"
-                :placeholder="translate('Company')"
+                :placeholder="translate('company')"
                 track-by="Id"
                 label="Name"
                 :hide-selected="true"
@@ -50,18 +50,18 @@
             ></multiselect>
         </div>
         <div v-if="isEditType" class="md-form mb-5">
-            <label>{{translate('Employee Type')}}</label>
+            <label>{{translate('employee_type')}}</label>
             <multiselect
                 v-model="form.employee_type"
                 :options="employeeTypes"
-                :placeholder="translate('Employee Type')"
+                :placeholder="translate('employee_type')"
                 track-by="id"
                 label="name"
                 :allow-empty="false"
             ></multiselect>
         </div>
         <div v-if="isEditType" class="md-form mb-5">
-            <label>{{translate('Roles')}}</label>
+            <label>{{translate('roles')}}</label>
             <multiselect
                 v-model="form.roles"
                 :options="roles"
@@ -74,11 +74,11 @@
             ></multiselect>
         </div>
         <div v-if="isEditType" class="md-form mb-5">
-            <label>{{translate('Permissions')}}</label>
+            <label>{{translate('permissions')}}</label>
             <multiselect
                 v-model="form.permissions"
                 :options="permissionList"
-                placeholder="Permissions"
+                :placeholder="translate('permissions')"
                 track-by="id"
                 label="name"
                 :allow-empty="true"
@@ -92,7 +92,7 @@
             <input type="text"
                    v-model="form.role"
                    v-validate="{required: this.form.permissions.length > 0}"
-                   :data-vv-as="translate('Role')"
+                   :data-vv-as="translate('role')"
                    class="form-control notempty"
                    name="role"
                    id="role"/>
@@ -100,7 +100,7 @@
             <div v-show="errors.has('role')" class="invalid-feedback">{{ errors.first('role') }}</div>
         </div>
         <div class="md-form mb-5">
-            <label for="password" :class="{'active': form.password}">{{translate('Password')}}</label>
+            <label for="password" :class="{'active': form.password}">{{translate('password')}}</label>
             <input type="password"
                    ref="password"
                    v-model="form.password"
@@ -112,7 +112,7 @@
             <div v-show="errors.has('password')" class="invalid-feedback">{{ errors.first('password') }}</div>
         </div>
         <div class="md-form mb-5">
-            <label for="confirm_password" :class="{'active': form.confirm_password}">{{translate('Confirm password')}}</label>
+            <label for="confirm_password" :class="{'active': form.confirm_password}">{{translate('confirm_password')}}</label>
             <input type="password"
                    v-model="form.password_confirmation"
                    v-validate="form.password ? 'required|confirmed:password' : 'confirmed:password'"
@@ -125,9 +125,9 @@
         <div v-if="isEditType" class="text-right">
             <button @click="update()" class="btn btn-default" :disabled="saveLoading">
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="saveLoading"></span>
-                {{ translate('Save') }}
+                {{ translate('save') }}
             </button>
-            <a :href="usersRoute()"class="btn btn-warning">{{ translate('Cancel') }}</a>
+            <a :href="usersRoute()"class="btn btn-warning">{{ translate('cancel') }}</a>
         </div>
     </div>
 </template>

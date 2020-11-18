@@ -12,13 +12,13 @@ class Translation extends PageResults
     /**
      * @return mixed
      */
-    public function getPaginator()
-    {
-        $this->query = Language::ofSort($this->getSortCriteria());
-
-        return $this->setFilters(['text_key', 'text_us', 'text_ga'])->getResults();
-
-    }
+//    public function getPaginator()
+//    {
+//        $this->query = Language::ofSort($this->getSortCriteria());
+//
+//        return $this->setFilters(['text_key', 'text_us', 'text_ga'])->getResults();
+//
+//    }
 
     /**
      * @param array $data
