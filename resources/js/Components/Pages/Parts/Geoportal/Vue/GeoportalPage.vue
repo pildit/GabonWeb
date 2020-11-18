@@ -17,7 +17,7 @@ import VolSideBar from "./Map/VolSideBar"
 import VolClustering from "./Map/VolClustering"
 import VolPerimeter from "./Map/VolPerimeter"
 import VolLine from "./Map/VolLine"
-import VolLayers from "./Map/VolLayers.vue"
+// import VolLayers from "./Map/VolLayers.vue"
 
 import axios from 'axios'
 
@@ -48,7 +48,7 @@ export default {
 
   components: {
     VolMap,
-    VolLayers,
+    // VolLayers,
     VolPerimeter,
     VolClustering,
     VolLine,
