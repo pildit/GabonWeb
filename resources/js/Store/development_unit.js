@@ -3,7 +3,7 @@ import axios from "axios";
 export default {
     namespaced: true,
     state: {
-        development_units: []
+        development_units: [],
     },
     getters: {
         development_units(state) {

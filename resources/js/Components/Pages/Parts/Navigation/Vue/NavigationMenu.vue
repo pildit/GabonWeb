@@ -23,10 +23,10 @@
                     <a href="#" class=" nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{  username }}<span class="caret"></span></a>
                     <ul class="nav-item dropdown-menu dropdown-default" aria-labelledby="about-us">
                       <li class="nav-item">
-                        <a class="dropdown-item text-nowrap" href="/logout">{{ translate ("Logout") }}</a>
+                        <a class="dropdown-item text-nowrap" href="/logout">{{ translate ("logout") }}</a>
                       </li>
                       <li class="nav-item">
-                        <a class="dropdown-item text-nowrap" href="/settings">{{ translate("Account settings") }}</a>
+                        <a class="dropdown-item text-nowrap" href="/settings">{{ translate("account_settings") }}</a>
                       </li>
                     </ul>
                   </li>

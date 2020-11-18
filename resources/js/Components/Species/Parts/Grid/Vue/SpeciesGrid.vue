@@ -1,17 +1,17 @@
 <template>
   <div class="container mt-40">
-    <h5 class="text-center green-text mb-2">{{translate('Species')}}</h5>
+    <h5 class="text-center green-text mb-2">{{translate('species')}}</h5>
     <div class="row">
       <div class="col-sm-8 d-flex align-items-center">
         <button class="btn btn-md" @click="modals.form = true">
-          <i class="fas fa-plus-circle"></i> {{translate('Add Species')}}
+          <i class="fas fa-plus-circle"></i> {{translate('add_species')}}
         </button>
       </div>
       <div class="md-form col-sm-4">
         <div class="form-row justify-content-end">
           <div class="col-sm-10">
-            <label for="speciesname">{{translate('Search')}}</label>
-            <input @keyup.enter="getSpecies" class="form-control" v-model="search" type="text" Placeholder="" name="speciesname" id="speciesname" />
+            <label for="speciesname">{{translate('search')}}</label>
+            <input @keyup.enter="getSpecies" class="form-control" v-model="search" type="text"  name="speciesname" id="speciesname" />
           </div>
           <button @click="getSpecies" class="btn btn-sm btn-green  px-2" id="filter">
             <i class="fas fa-search"></i>

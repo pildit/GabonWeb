@@ -94,4 +94,27 @@ class SpeciesController extends Controller
     {
         //
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function listSpecies(Request $request)
+    {
+        $species = Species::where('LatinName', 'like', "%{$request->get('name')}%")
+            ->take($request->get('limit', 100))
+            ->get(['Id', 'LatinName', 'Code', 'CommonName']);
+
+        return response()->json([
+            'data' => $species->map(function ($item) {
+                return [
+                    'Id' => $item->Id,
+                    'LatinName' => $item->LatinName,
+                    'Code' => $item->Code,
+                    'CommonName' => $item->CommonName
+                ];
+            })
+        ]);
+
+    }
 }

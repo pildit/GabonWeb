@@ -3,8 +3,8 @@ import VueReactiveCookie from 'vue-reactive-cookie';
 import VeeValidate from 'vee-validate';
 import Notifications from 'vue-notification'
 import VueJwt from 'vuejs-jwt';
-import Translation from "./Components/Mixins/Translation";
 import DateRangePicker from "vue2-daterange-picker"
+import Translate from "./Components/Mixins/Translation";
 import store from "store/store"
 import config from './Components/_config/index';
 import directives from './Components/_config/Directives/index';
@@ -25,7 +25,8 @@ import ProductType from './Components/ProductType/ProductType';
 
 import DevelopmentUnit from "./Components/Management/DevelopmentUnit/DevelopmentUnit";
 import ConstituentPermit from './Components/ConstituentPermit/ConstituentPermit';
-// import Concession from './Components/Concession/Concession';
+import Concession from './Components/Concession/Concession';
+import Translation from './Components/Translations/Translation'
 
 Vue.config.devtools = true;
 window.Vent         = new Vue;
@@ -42,8 +43,8 @@ Vue.use(VueJwt, {
 })
 Vue.use(DateRangePicker);
 
-Vue.mixin(Translation);
 Vue.filter('date', date);
+Vue.mixin(Translate);
 
 new Vue({
     el: '#notification'
@@ -63,11 +64,13 @@ Gabon.ConstituentPermit = ConstituentPermit;
 Gabon.Parcel = Parcel;
 Gabon.Quality = Quality;
 Gabon.ProductType = ProductType;
-// Gabon.Concession = Concession;
+Gabon.Concession = Concession;
 
 Gabon.Management = {
     DevelopmentUnit: DevelopmentUnit
 }
+
+Gabon.Translation = Translation;
 
 window.Gabon = Gabon;
 if(Vue.$jwt.hasToken()) {
