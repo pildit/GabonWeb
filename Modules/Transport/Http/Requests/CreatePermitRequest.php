@@ -15,7 +15,7 @@ class CreatePermitRequest extends FormRequest
     {
         return [
             "PermitNo" => 'required|string',
-            "PermitNoMobile" => 'required|unique:Modules\\Transport\\Entities\\Permit,PermitNoMobile',
+            "PermitNoMobile" => 'required',
             "Concession" => 'exists:Modules\ForestResources\Entities\Concession,Id',
             "ManagementUnit" => 'exists:Modules\ForestResources\Entities\ManagementUnit,Id',
             "DevelopmentUnit" => 'exists:Modules\ForestResources\Entities\DevelopmentUnit,Id',
