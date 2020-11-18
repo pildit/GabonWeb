@@ -15,6 +15,7 @@ class CreateSiteLogbookItemRequest extends FormRequest
     {
         return [
             'SiteLogbook' => 'required',
+            'Species' => 'required|exists:Modules\ForestResources\Entities\Species,Id',
             'HewingId' => 'required|string',
             'Date' => 'required|date_format:Y-m-d H:i:s',
             'MaxDiameter' => 'required|numeric',

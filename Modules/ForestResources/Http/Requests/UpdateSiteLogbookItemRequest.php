@@ -15,6 +15,7 @@ class UpdateSiteLogbookItemRequest extends FormRequest
     {
         return [
             'SiteLogbook' => '',
+            'Species' => 'exists:Modules\ForestResources\Entities\Species,Id',
             'HewingId' => 'string',
             'Date' => 'date_format:Y-m-d H:i:s',
             'MaxDiameter' => 'numeric',
