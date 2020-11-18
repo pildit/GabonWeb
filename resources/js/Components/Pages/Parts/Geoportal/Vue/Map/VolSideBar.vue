@@ -191,7 +191,7 @@
       <rcp-checkbox v-model="viewUFG" text="View UFG"></rcp-checkbox>
       <rcp-checkbox v-model="viewAAC" text="View AAC"></rcp-checkbox>
 
-      <button v-on:click="onTransmitAValue">Show Cluster</button>
+      <button v-on:click="onTransmitAValue">{{clusterButtonText}}</button>
       <span>Picked: {{ checkPicked }}</span>
     </div>
   </div>
@@ -212,6 +212,7 @@ export default {
 
   data() {
     return {
+      clusterButtonText: 'Show Clusters', 
       checkPicked: "",
 
       range: {
@@ -257,6 +258,7 @@ export default {
       },
 
       isTest: true,
+
     };
   },
 
@@ -318,8 +320,10 @@ export default {
     onTransmitAValue() {
       console.log("Button was pressed in VolSideBar");
       if (this.isTest) {
+        this.clusterButtonText = "Hide Clusters";
         this.$emit("volSideCommandFunction", "Just a text for now");
       } else {
+        this.clusterButtonText = "Show Clusters";
         this.$emit("volSideCommandFunction", "Just another text for now");
       }
       this.isTest = !this.isTest;

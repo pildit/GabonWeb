@@ -28,6 +28,12 @@ export default {
   data() {
     return {
       isClusterShown: false,
+      clusterSource: null,
+      emptyClusterSource: new ol.Cluster({
+        distance: 40,
+        source: new ol.Vector(),
+      }),
+      clusterLayer: null,
     };
   },
 
@@ -45,179 +51,181 @@ export default {
     },
 
     cluster() {
-      console.log('AFTER', this.isClusterShown)
+      console.log("AFTER", this.isClusterShown);
 
-      if (this.isClusterShown) {
+      var clusterSource = this.clusterSource;
+
+      if (!this.isClusterShown) {
+        const currentMapLayers = this.map.getLayers();
+        console.log("Pusky layers: ", currentMapLayers);
+
         // Cluster Source
-        var clusterSource = new ol.Cluster({
-          distance: 40,
-          source: new ol.Vector(),
-        });
+        clusterSource = this.emptyClusterSource;
 
-        // Addfeatures to the cluster
-        var addFeatures = (addFeatures = (nb) => {
-          var ext = this.map.getView().calculateExtent(this.map.getSize());
-          var features = [];
-          for (var i = 0; i < nb; ++i) {
-            features[i] = new ol.Feature(
-              new ol.Point([
-                ext[0] + (ext[2] - ext[0]) * Math.random(),
-                ext[1] + (ext[3] - ext[1]) * Math.random(),
-              ])
-            );
-            features[i].set("id", i);
-          }
+        // TODO: Add or remove the layer
+        // this.map.addLayer(clusterLayer);
+      }
 
-          clusterSource.getSource().clear();
-          clusterSource.getSource().addFeatures(features);
-        });
+      // Animated cluster layer
+      if (this.clusterLayer != null) {
+        this.clusterLayer.setSource(clusterSource);
+      }
 
-        // Style for the clusters
-        var styleCache = {};
-        var getStyle = (getStyle = (feature, resolution) => {
-          var size = feature.get("features").length;
-          var style = styleCache[size];
-          if (!style) {
-            var color =
-              size > 25 ? "192,0,0" : size > 8 ? "255,128,0" : "0,128,0";
-            var radius = Math.max(8, Math.min(size * 0.75, 20));
-            //var dash = (2 * Math.PI * radius) / 6;
-            //var dash = [0, dash, dash, dash, dash, dash, dash];
-            style = styleCache[size] = new ol.Style({
-              image: new ol.Circle({
-                radius: radius,
+      // /* Update the stored map */
+      // this.setMap(this.map);
+    },
+
+    clusterSetup() {
+
+      // Cluster Source
+      this.clusterSource = new ol.Cluster({
+        distance: 40,
+        source: new ol.Vector(),
+      });
+
+      // Addfeatures to the cluster
+      var addFeatures = (addFeatures = (nb) => {
+        var ext = this.map.getView().calculateExtent(this.map.getSize());
+        var features = [];
+        for (var i = 0; i < nb; ++i) {
+          features[i] = new ol.Feature(
+            new ol.Point([
+              ext[0] + (ext[2] - ext[0]) * Math.random(),
+              ext[1] + (ext[3] - ext[1]) * Math.random(),
+            ])
+          );
+          features[i].set("id", i);
+        }
+
+        this.clusterSource.getSource().clear();
+        this.clusterSource.getSource().addFeatures(features); // TODO Ritan: Add actual cluster features
+      });
+
+      // Style for the clusters
+      var styleCache = {};
+      var getStyle = (getStyle = (feature, resolution) => {
+        var size = feature.get("features").length;
+        var style = styleCache[size];
+        if (!style) {
+          var color =
+            size > 25 ? "192,0,0" : size > 8 ? "255,128,0" : "0,128,0";
+          var radius = Math.max(8, Math.min(size * 0.75, 20));
+          //var dash = (2 * Math.PI * radius) / 6;
+          //var dash = [0, dash, dash, dash, dash, dash, dash];
+          style = styleCache[size] = new ol.Style({
+            image: new ol.Circle({
+              radius: radius,
+              stroke: new ol.Stroke({
+                color: "rgba(" + color + ",0.5)",
+                width: 15,
+                //lineDash: dash,
+                //lineCap: "butt",
+              }),
+              fill: new ol.Fill({
+                color: "rgba(" + color + ",1)",
+              }),
+            }),
+            text: new ol.Text({
+              text: size.toString(),
+              //font: 'bold 12px comic sans ms',
+              //textBaseline: 'top',
+              fill: new ol.Fill({
+                color: "#fff",
+              }),
+            }),
+          });
+        }
+        return style;
+      });
+
+      // Animated cluster layer
+      this.clusterLayer = new olExt.AnimatedCluster({
+        name: "Cluster",
+        source: this.clusterSource,
+        animationDuration: 700,
+        // Cluster style
+        style: getStyle,
+      });
+
+      this.map.addLayer(this.clusterLayer);
+      // add 2000 features
+      addFeatures(2000);
+
+      // Style for selection
+      var img = new ol.Circle({
+        radius: 5,
+        stroke: new ol.Stroke({
+          color: "rgba(0,255,255,1)",
+          width: 1,
+        }),
+        fill: new ol.Fill({
+          color: "rgba(0,255,255,0.3)",
+        }),
+      });
+      var style0 = new ol.Style({
+        image: img,
+      });
+      var style1 = new ol.Style({
+        image: img,
+        // Draw a link beetween points (or not)
+        stroke: new ol.Stroke({
+          color: "#fff",
+          width: 1,
+        }),
+      });
+
+      // Select interaction to spread cluster out and select features
+      var selectCluster = new olExt.SelectCluster({
+        // Point radius: to calculate distance between the features
+        pointRadius: 7,
+        animate: true,
+        // Feature style when it springs apart
+        featureStyle: function () {
+          return [style1];
+        },
+        // selectCluster: false,	// disable cluster selection
+        // Style to draw cluster when selected
+        style: function (f, res) {
+          var cluster = f.get("features");
+          if (cluster.length > 1) {
+            var s = [getStyle(f, res)];
+            var coords = [];
+            for (let i = 0; i < cluster.length; i++)
+              coords.push(cluster[i].getGeometry().getFirstCoordinate());
+            // var chull = olCoordinate.convexHull(coords);
+            s.push(
+              new ol.Style({
                 stroke: new ol.Stroke({
-                  color: "rgba(" + color + ",0.5)",
-                  width: 15,
-                  //lineDash: dash,
-                  //lineCap: "butt",
+                  color: "rgba(0,0,192,0.5)",
+                  width: 2,
                 }),
-                fill: new ol.Fill({
-                  color: "rgba(" + color + ",1)",
-                }),
-              }),
-              text: new ol.Text({
-                text: size.toString(),
-                //font: 'bold 12px comic sans ms',
-                //textBaseline: 'top',
-                fill: new ol.Fill({
-                  color: "#fff",
-                }),
-              }),
-            });
-          }
-          return style;
-        });
-
-        // Animated cluster layer
-        var clusterLayer = new olExt.AnimatedCluster({
-          name: "Cluster",
-          source: clusterSource,
-          animationDuration: 700,
-          // Cluster style
-          style: getStyle,
-        });
-
-        this.map.addLayer(clusterLayer);
-        // add 2000 features
-        addFeatures(2000);
-
-        // Style for selection
-        var img = new ol.Circle({
-          radius: 5,
-          stroke: new ol.Stroke({
-            color: "rgba(0,255,255,1)",
-            width: 1,
-          }),
-          fill: new ol.Fill({
-            color: "rgba(0,255,255,0.3)",
-          }),
-        });
-        var style0 = new ol.Style({
-          image: img,
-        });
-        var style1 = new ol.Style({
-          image: img,
-          // Draw a link beetween points (or not)
-          stroke: new ol.Stroke({
-            color: "#fff",
-            width: 1,
-          }),
-        });
-
-        // Select interaction to spread cluster out and select features
-        var selectCluster = new olExt.SelectCluster({
-          // Point radius: to calculate distance between the features
-          pointRadius: 7,
-          animate: true,
-          // Feature style when it springs apart
-          featureStyle: function () {
-            return [style1];
-          },
-          // selectCluster: false,	// disable cluster selection
-          // Style to draw cluster when selected
-          style: function (f, res) {
-            var cluster = f.get("features");
-            if (cluster.length > 1) {
-              var s = [getStyle(f, res)];
-              var coords = [];
-              for (let i = 0; i < cluster.length; i++)
-                coords.push(cluster[i].getGeometry().getFirstCoordinate());
-              // var chull = olCoordinate.convexHull(coords);
-              s.push(
-                new ol.Style({
+                fill: new ol.Fill({ color: "rgba(0,0,192,0.3)" }),
+                //geometry: new olGeomPolygon([chull]),
+                zIndex: 1,
+              })
+            );
+            return s;
+          } else {
+            return [
+              new ol.Style({
+                image: new ol.Circle({
                   stroke: new ol.Stroke({
                     color: "rgba(0,0,192,0.5)",
                     width: 2,
                   }),
                   fill: new ol.Fill({ color: "rgba(0,0,192,0.3)" }),
-                  //geometry: new olGeomPolygon([chull]),
-                  zIndex: 1,
-                })
-              );
-              return s;
-            } else {
-              return [
-                new ol.Style({
-                  image: new ol.Circle({
-                    stroke: new ol.Stroke({
-                      color: "rgba(0,0,192,0.5)",
-                      width: 2,
-                    }),
-                    fill: new ol.Fill({ color: "rgba(0,0,192,0.3)" }),
-                    radius: 5,
-                  }),
+                  radius: 5,
                 }),
-              ];
-            }
-          },
-        });
-
-        this.map.addInteraction(selectCluster);
-
-        /* Update the stored map */
-        this.setMap(this.map);
-      } else {
-        /* Need a function from storage that delete/refresh or realocate the map */
-        this.setMap(
-          new ol.Map({
-            // the map will be created using the 'map-root' ref
-            // target: this.$refs["map-root"],
-            layers: [
-              // adding a background tiled layer
-              new ol.TileLayer({
-                source: new ol.OSM(), // tiles are served by OpenStreetMap
               }),
-            ],
-            // the map view will initially show the whole world
-            view: new ol.View({
-              zoom: 7,
-              center: fromLonLat([11.609454, -0.803698]), // Gabon coord
-              constrainResolution: true,
-            }),
-          })
-        );
-      }
+            ];
+          }
+        },
+      });
+
+      this.map.addInteraction(selectCluster);
+
+      /* Update the stored map */
+      this.setMap(this.map);
     },
   },
 
@@ -229,7 +237,8 @@ export default {
   },
 
   mounted() {
-    this.cluster();
+    this.clusterSetup();
+    // this.cluster();
   },
 };
 </script>
