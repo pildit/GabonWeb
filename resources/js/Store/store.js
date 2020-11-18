@@ -78,7 +78,7 @@ export default new Vuex.Store({
         permitType,
         species,
         productType,
-        quality
+        quality,
         geoportal
     }
 });
