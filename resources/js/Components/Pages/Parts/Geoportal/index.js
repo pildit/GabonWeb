@@ -30,6 +30,7 @@ Vue.component('rcp-checkbox', {
             <input type="checkbox" v-model="checked"
                 v-bind:id="text"
                 v-bind:value="checked"
+                v-on:click="$emit('click')"
                 v-on:input="$emit('input', $event.target.checked)"
             />
             <p-check class="p-default p-curve" name="check" color="success" v-model="checked"></p-check>
