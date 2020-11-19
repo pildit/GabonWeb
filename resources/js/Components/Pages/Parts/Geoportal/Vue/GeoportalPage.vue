@@ -2,7 +2,7 @@
   <div>
     <vol-map>
       <!-- Provider -->
-      <vol-layers />
+      <!-- <vol-layers /> -->
       <vol-perimeter
         :volViewParcels="viewParcels"
         :volViewConcessions="viewConcessions"
