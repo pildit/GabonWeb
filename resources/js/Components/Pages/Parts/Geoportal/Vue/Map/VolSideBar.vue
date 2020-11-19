@@ -193,7 +193,6 @@
       <rcp-checkbox v-model="viewTrees" text="View Trees"></rcp-checkbox>
 
       <button v-on:click="onTransmitAValue">{{clusterButtonText}}</button>
-      <span>Picked: {{ checkPicked }}</span>
     </div>
   </div>
 </template>
