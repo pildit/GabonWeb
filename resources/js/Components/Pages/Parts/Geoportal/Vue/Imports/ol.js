@@ -17,4 +17,4 @@ export { default as VectorImage } from "ol/layer/VectorImage"
 export { default as LayerVector } from "ol/layer/Vector"
 export { default as Map } from "ol/Map"
 export { default as TileLayer } from "ol/layer/Tile"
-
+export { default as Select } from "ol/interaction/Select"

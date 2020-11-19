@@ -19,6 +19,10 @@ import * as ol from "../Imports/ol";
 import * as olExt from "../Imports/ol-ext";
 import { fromLonLat } from "ol/proj";
 
+import Popup from "ol-ext/overlay/Popup";
+import Select from "ol/interaction/Select";
+import "../Imports/ol-ext.css";
+
 export default {
   name: "VolClustering",
 
@@ -229,6 +233,42 @@ export default {
       });
 
       this.map.addInteraction(selectCluster);
+
+      var popup = new Popup({
+        popupClass: "default anim", //"tooltips", "warning" "black" "default", "tips", "shadow",
+        closeBox: true,
+        onshow: function () {
+          console.log("You opened the box");
+        },
+        onclose: function () {
+          console.log("You close the box");
+        },
+        positioning: "auto",
+        autoPan: true,
+        autoPanAnimation: { duration: 250 },
+      });
+      this.map.addOverlay(popup);
+
+      // Control Select
+      var select = new Select({});
+
+      // On selected => show/hide popup
+      select.getFeatures().on(["add"], function (e) {
+        var feature = e.element;
+        var content = "";
+        // content += "<img src='" + feature.get("img") + "'/>";
+        content += `
+        <div style="height: 150px; width: 150px; background-color: white">
+          <p style="color:red;">Point informations</p>
+        </div>
+        `;
+        popup.show(feature.getGeometry().getFirstCoordinate(), content);
+      });
+      select.getFeatures().on(["remove"], function (e) {
+        popup.hide();
+      });
+      popup.setPositioning("bottom-center");
+      this.map.addInteraction(select);
 
       /* Update the stored map */
       this.setMap(this.map);
