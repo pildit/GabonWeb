@@ -14,7 +14,7 @@ class CreateTranslationKeyRequest extends FormRequest
     public function rules()
     {
         return [
-            'text_key' => 'required|string',
+            'text_key' => 'required|string|unique:',
             'text_us' => 'required|string',
             'text_ga' => 'required|string',
             'mobile' => 'boolean'

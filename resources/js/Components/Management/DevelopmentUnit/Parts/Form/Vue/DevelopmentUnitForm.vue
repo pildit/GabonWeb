@@ -14,19 +14,32 @@
                 <div class="form-row">
                     <div class="col">
                         <div class="md-form">
-                            <input type="text" id="Name" name="Name" class="form-control"
-                                   v-model="form.Name"
-                                   :data-vv-as="translate('development_unit_form_name')"
+                            <input type="text" id="Number" name="Number" class="form-control"
+                                   v-model="form.Number"
+                                   :data-vv-as="translate('number_development_unit_form')"
                                    v-validate="'required'"
                             >
-                            <label for="Name">{{translate('development_unit_form_name')}}</label>
-                            <div v-show="errors.has('Name')" class="invalid-feedback">{{ errors.first('Name') }}</div>
+                            <label for="Number" :class="{'active': form.Number}">{{translate('number_development_unit_form')}}</label>
+                            <div v-show="errors.has('Number')" class="invalid-feedback">{{ errors.first('Number') }}</div>
                         </div>
                     </div>
                     <div class="col">
                         <div class="md-form">
+                            <input type="text" id="Name" name="Name" class="form-control"
+                                   v-model="form.Name"
+                                   :data-vv-as="translate('name_development_unit_form')"
+                                   v-validate="'required'"
+                            >
+                            <label for="Name" :class="{'active': form.Name}">{{translate('name_development_unit_form')}}</label>
+                            <div v-show="errors.has('Name')" class="invalid-feedback">{{ errors.first('Name') }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="md-form">
                             <input type="text" id="Geometry" class="form-control" v-model="form.Geometry">
-                            <label for="Geometry">{{translate('geometry_input_label')}}</label>
+                            <label for="Geometry" :class="{'active': form.Geometry}">{{translate('geometry_input_label')}}</label>
                         </div>
                     </div>
                 </div>
@@ -104,7 +117,7 @@
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="saveLoading"></span>
                         {{ translate('save') }}
                     </button>
-                    <a class="btn btn-warning z-depth-0 my-4" :href="indexRoute">{{translate('cancel_button')}}</a>
+                    <a class="btn btn-warning z-depth-0 my-4" :href="indexRoute()">{{translate('cancel_button')}}</a>
                 </div>
 
             </form>
@@ -116,15 +129,18 @@
 </template>
 
 <script>
+import _ from 'lodash';
 import DevelopmentUnit from "components/Management/DevelopmentUnit/DevelopmentUnit";
 import Multiselect from 'vue-multiselect';
 import DateRangePicker from 'vue2-daterange-picker';
 import PlanFormPartial from "./PlanFormPartial";
 import Concession from "components/Concession/Concession";
-import DevelopmentPlan from "../../../../DevelopmentPlan/DevelopmentPlan";
-import Notification from "../../../../../Common/Notifications/Notification";
+import DevelopmentPlan from "components/Management/DevelopmentPlan/DevelopmentPlan";
+import Notification from "components/Common/Notifications/Notification";
 
 export default {
+
+    props: ['developmentUnitProp'],
 
     components: {Multiselect, DateRangePicker, PlanFormPartial},
 
@@ -153,6 +169,13 @@ export default {
           }
       }
     },
+
+    computed: {
+        isCreatedFormType() {
+            return _.isEmpty(this.developmentUnitProp);
+        }
+    },
+
     created() {
         this.form.ProductType = this.productTypeList.data[0];
         this.form.Start = this.dateRange.startDate.format('YYYY-MM-DD');
@@ -173,7 +196,6 @@ export default {
                         _.each(this.plansForm, (plan, index) => {
                             this.$refs[`devPlan${index + 1}`][0].$validator.validate().then((validForm) => {
                                 validated = validForm && valid;
-                                console.log(validated);
                                 resolve(validated)
                             })
                         })
@@ -181,26 +203,32 @@ export default {
                         resolve(valid);
                     }
                 }).then((valid) => {
-                    console.log(valid);
                     if(valid) {
                         this.saveLoading = true;
-                        let data = DevelopmentUnit.buildForm(this.form);
-                        DevelopmentUnit.add(data).then((data) => {
-                            Notification.success(this.translate('Development Unit'), data.message);
-                            return data.id
-                        }).then((id) => {
-                            _.each(this.plansForm, (plan, index) => {
-                                let data = DevelopmentPlan.buildForm(plan, id);
-                                DevelopmentPlan.add(data).then((data) => {
-                                    Notification.success(this.translate('Development Plan'), data.message);
-                                })
-                            })
-                            window.location.href = DevelopmentUnit.buildRoute('development_units.index');
-                        }).finally(() => this.saveLoading = false);
+                        let promise = this.isCreatedFormType ? this.create : this.update;
+                        return promise(this.form).finally(() => this.saveLoading = false);
                     }
                 })
             })
 
+        },
+        create(data) {
+            data = DevelopmentUnit.buildForm(data);
+            return DevelopmentUnit.add(data).then((data) => {
+                Notification.success(this.translate('Development Unit'), data.message);
+                return data.id
+            }).then((id) => {
+                _.each(this.plansForm, (plan, index) => {
+                    let data = DevelopmentPlan.buildForm(plan, id);
+                    DevelopmentPlan.add(data).then((data) => {
+                        Notification.success(this.translate('Development Plan'), data.message);
+                    })
+                })
+                window.location.href = DevelopmentUnit.buildRoute('development_units.index');
+            })
+        },
+        update() {
+            //TODO update
         },
         asyncFindConcession(query) {
             this.concessionsList.isLoading = true;
@@ -224,16 +252,21 @@ export default {
         checkOpen (open) {
             console.log('event: open', open)
         },
-        dateFormat (classes, date) {
-            let yesterday = new Date();
-            let d1 = dateUtil.format(date, 'isoDate')
-            let d2 = dateUtil.format(yesterday.setDate(yesterday.getDate() - 1), 'isoDate')
-            if (!classes.disabled) {
-                classes.disabled = d1 === d2
-            }
-            return classes
-        }
 
+    },
+
+    watch: {
+        developmentUnitProp(value) {
+            if(value) {
+                console.log(value);
+                this.form = _.merge(this.form, value);
+                this.form.Geometry = value.geometry_as_text;
+                this.form.Concession = this.concessionsList.data.find((x) => x.Id == value.concession.Id);
+                this.formPlansCount = value.plans.length;
+                this.plansForm = value.plans;
+                this.$forceUpdate();
+            }
+        }
     }
 
 }

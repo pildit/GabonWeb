@@ -5,7 +5,7 @@
             <div class="col">
                 <div class="md-form">
                     <input type="text" :id="`planNumber-${index}`"  class="form-control" v-model="formData.Number">
-                    <label :for="`planNumber-${index}}`">{{translate('development_plan_form_id')}}</label>
+                    <label :for="`planNumber-${index}}`" :class="{'active': formData.Number}">{{translate('number_development_plan_form')}}</label>
                 </div>
             </div>
             <div class="col">
@@ -41,20 +41,20 @@
                            v-model="formData.MinimumExploitableDiameter"
                            v-validate="'required'"
                     >
-                    <label for="`MinimumExploitableDiameter-${index}`">{{translate('development_plan_form_min_exploit_diameter')}}</label>
+                    <label for="`MinimumExploitableDiameter-${index}`" :class="{'active': formData.MinimumExploitableDiameter}">{{translate('min_exploit_diameter_development_plan_form')}}</label>
                     <div v-show="errors.has(`MinimumExploitableDiameter`)" class="invalid-feedback">{{ errors.first(`MinimumExploitableDiameter`) }}</div>
                 </div>
             </div>
             <div class="col">
                 <div class="md-form">
                     <input type="text" :id="`VolumeTariff-${index}`" class="form-control" v-model="formData.VolumeTariff">
-                    <label :for="`VolumeTariff-${index}`">{{translate('development_plan_form_volume_tariff')}}</label>
+                    <label :for="`VolumeTariff-${index}`" :class="{'active': formData.VolumeTariff}">{{translate('volume_tariff_development_plan_form')}}</label>
                 </div>
             </div>
             <div class="col">
                 <div class="md-form">
                     <input type="text" :id="`Increment-${index}`" class="form-control" v-model="formData.Increment">
-                    <label :for="`Increment-${index}`">{{translate('development_plan_form_name_increment')}}</label>
+                    <label :for="`Increment-${index}`" :class="{'active': formData.Increment}">{{translate('increment_development_plan_form')}}</label>
                 </div>
             </div>
         </div>
@@ -102,7 +102,6 @@ export default {
     },
 
     mounted() {
-        this.form = this.formData;
         this.asyncFindSpecies('');
     },
 
@@ -112,12 +111,15 @@ export default {
             Species.listSearch(query, this.speciesList.limit).then((response) => {
                 this.speciesList.data= response.data;
                 this.speciesList.isLoading = false;
+                this.selectedSpecies = this.speciesList.data.find((x) => x.Id == this.formData.Species)
             })
         },
     },
     watch: {
         selectedSpecies(value) {
-            this.formData.Species = value;
+            if(value) {
+                this.formData.Species = value;
+            }
         }
     }
 }

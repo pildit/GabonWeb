@@ -49,8 +49,11 @@ class DevelopmentUnitController extends Controller
      * @param DevelopmentUnit $development_unit
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(DevelopmentUnit $development_unit)
+    public function show($development_unit)
     {
+        $geomCol = DB::raw('public.ST_AsText("Geometry") as geometry_as_text');
+        $development_unit = DevelopmentUnit::select(['Id', 'Name', 'Concession', 'Geometry', $geomCol])->with(['plans'])->find($development_unit);
+
         return response()->json(['data' => $development_unit]);
     }
 
