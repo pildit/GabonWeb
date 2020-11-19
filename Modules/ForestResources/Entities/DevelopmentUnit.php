@@ -6,6 +6,7 @@ use App\Traits\Geometry;
 use App\Traits\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 class DevelopmentUnit extends Model
 {
@@ -48,19 +49,19 @@ class DevelopmentUnit extends Model
      */
     protected $hidden = ['Geometry'];
 
-//    /**
-//     * The accessors to append to the model's array form.
-//     *
-//     * @var array
-//     */
-//    protected $appends = ['ConcessionName'];
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['ConcessionName'];
 
     /**
      * Concession Name accessor
      */
     public function getConcessionNameAttribute()
     {
-//        return (isset($this->concession) && $this->concession) ? $this->concession->Name : null;
+        return (isset($this->concession) && $this->concession) ? $this->concession->Name : null;
     }
 
     /**

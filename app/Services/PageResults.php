@@ -146,7 +146,7 @@ class PageResults
     }
 
 
-    public function getPaginator(Request $request,string $model,array $searchFields, array $relations = [])
+    public function getPaginator(Request $request,string $model,array $searchFields, array $relations = [], array $hidden = [])
     {
 
         $this->validateRequest($request);
@@ -158,6 +158,9 @@ class PageResults
 
         if(count($relations)){
             $this->query =  $this->query->with($relations);
+        }
+        if($hidden) {
+            $model->makeHidden($hidden);
         }
 
         return $this->setFilters($searchFields)->getResults();

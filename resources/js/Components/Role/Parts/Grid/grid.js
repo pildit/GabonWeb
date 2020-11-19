@@ -11,19 +11,19 @@ export default (options) => {
         },
         columns: {
             id: {
-                header: "Id"
+                header: "id"
             },
             name: {
-                header: "Role"
+                header: "role"
             },
             type: {
-                header: "Type"
+                header: "type"
             },
             created_at: {
-                header: "Created At",
+                header: "created_at",
             },
             actions: {
-                header: 'Actions',
+                header: 'actions',
                 sort: false,
                 css: {
                   textAlign: "right"

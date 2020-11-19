@@ -60,6 +60,7 @@ class SiteLogbookItemController extends Controller
      */
     public function show(SiteLogbookItem $site_logbook_item)
     {
+        $site_logbook_item['species'] = $site_logbook_item->species()->get();
         return response()->json(['data' => $site_logbook_item]);
     }
 

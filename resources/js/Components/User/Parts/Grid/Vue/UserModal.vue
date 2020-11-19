@@ -7,8 +7,8 @@
             <user-form ref="userForm" @done="closeModal"></user-form>
         </div>
         <div slot="footer">
-            <button @click="submit" class="btn btn-default">{{ translate('Save') }}</button>
-            <button @click="closeModal"class="btn btn-warning">{{ translate('Cancel') }}</button>
+            <button @click="submit" class="btn btn-default">{{ translate('save') }}</button>
+            <button @click="closeModal"class="btn btn-warning">{{ translate('cancel') }}</button>
         </div>
     </bmodal>
 </template>

@@ -4,7 +4,7 @@
             <div class="card card-image rgba-green-strong">
                 <div class="text-white text-center py-5 px-4">
                     <div class="spinner-border m-5" role="status" v-if="loading">
-                        <span class="sr-only">Loading...</span>
+                        <span class="sr-only">{{ translate('loading') }}...</span>
                     </div>
                     <div v-else>
                         <h3 class="card-title h3-responsive pt-3 mb-5 font-bold">

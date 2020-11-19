@@ -15,25 +15,25 @@ export default (options) => {
         },
         columns: {
             Id: {
-                header: "Id"
+                header: "id"
             },
             Code: {
-                header: "Code"
+                header: "code"
             },
             LatinName: {
-                header: "LatinName"
+                header: "latin_name"
             },
             CommonName: {
-                header: "CommonName"
+                header: "common_name"
             },
             Email: {
-                header: "Email",
+                header: "email",
             },
             CreatedAt: {
-                header: "Date",
+                header: "created_at",
             },
             actions: {
-                header: 'Actions',
+                header: 'actions',
                 sort: false,
                 css: {
                   textAlign: "right"

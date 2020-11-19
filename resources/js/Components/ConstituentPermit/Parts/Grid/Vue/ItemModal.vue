@@ -15,7 +15,7 @@
 
 <script>
 import bmodal from 'components/Common/BootstrapModal.vue';
-import itemForm from "./itemForm";
+import ItemForm from "./ItemForm.vue";
 import {mapGetters} from 'vuex';
 
 export default {
@@ -26,7 +26,7 @@ export default {
 
   props: ['state', 'typeProp', 'rowProp'],
 
-  components: {bmodal, itemForm},
+  components: {bmodal, ItemForm},
 
   computed: {
   },

@@ -3,12 +3,14 @@ import VueReactiveCookie from 'vue-reactive-cookie';
 import VeeValidate from 'vee-validate';
 import Notifications from 'vue-notification'
 import VueJwt from 'vuejs-jwt';
-import Translation from "./Components/Mixins/Translation";
 import DateRangePicker from "vue2-daterange-picker"
+import Translate from "./Components/Mixins/Translation";
 import store from "store/store"
 import config from './Components/_config/index';
 import directives from './Components/_config/Directives/index';
+import date from './Components/_config/Filters/date';
 import SwaggerUI from 'swagger-ui'
+import 'vue2-daterange-picker/dist/vue2-daterange-picker.css';
 
 import Base from './Components/Base';
 import Pages from './Components/Pages/Pages';
@@ -23,7 +25,9 @@ import ProductType from './Components/ProductType/ProductType';
 
 import DevelopmentUnit from "./Components/Management/DevelopmentUnit/DevelopmentUnit";
 import ConstituentPermit from './Components/ConstituentPermit/ConstituentPermit';
-// import Concession from './Components/Concession/Concession';
+import Concession from './Components/Concession/Concession';
+import Translation from './Components/Translations/Translation'
+import DevelopmentPlan from "./Components/Management/DevelopmentPlan/DevelopmentPlan";
 
 Vue.config.devtools = true;
 window.Vent         = new Vue;
@@ -40,7 +44,8 @@ Vue.use(VueJwt, {
 })
 Vue.use(DateRangePicker);
 
-Vue.mixin(Translation);
+Vue.filter('date', date);
+Vue.mixin(Translate);
 
 new Vue({
     el: '#notification'
@@ -60,11 +65,14 @@ Gabon.ConstituentPermit = ConstituentPermit;
 Gabon.Parcel = Parcel;
 Gabon.Quality = Quality;
 Gabon.ProductType = ProductType;
-// Gabon.Concession = Concession;
+Gabon.Concession = Concession;
 
 Gabon.Management = {
-    DevelopmentUnit: DevelopmentUnit
+    DevelopmentUnit: DevelopmentUnit,
+    DevelopmentPlan: DevelopmentPlan
 }
+
+Gabon.Translation = Translation;
 
 window.Gabon = Gabon;
 if(Vue.$jwt.hasToken()) {

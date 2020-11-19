@@ -28,5 +28,7 @@ class Language extends Model
      *
      * @var array
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'text_key', 'text_us', 'text_ga', 'mobile', 'appuser'
+    ];
 }

@@ -6,13 +6,15 @@
 
     <main class="page landing-page text-center" ref="main-section">
 
-        <section class="clean-block clean-services dark">
+        <section class="clean-block clean-services dark" id="management">
             <div class="container p-5">
+                @verbatim
                 <div class="block-heading p-5">
-                    <h2 class="text-success" style="color: rgb(90,135,8);opacity: 1;filter: blur(0px);">Mangement</h2>
+                    <h2 class="text-success" style="color: rgb(90,135,8);opacity: 1;filter: blur(0px);">{{translate('management')}}</h2>
                     <p></p>
                 </div>
-                <div class="row" id="management">
+                @endverbatim
+                <div class="row">
                     <vue-card v-for="(item, index) in management" :item="item" :key="index"></vue-card>
                 </div>
             </div>

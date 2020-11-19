@@ -7,8 +7,8 @@
             <company-form :type-prop="typeProp" ref="companyForm" @done="closeModal"></company-form>
         </div>
         <div slot="footer">
-            <button @click="submit" class="btn btn-default">Save</button>
-            <button @click="closeModal" class="btn btn-warning">Cancel</button>
+            <button @click="submit" class="btn btn-default">{{translate('save')}}</button>
+            <button @click="closeModal"class="btn btn-warning">{{translate('cancel')}}</button>
         </div>
     </bmodal>
 </template>

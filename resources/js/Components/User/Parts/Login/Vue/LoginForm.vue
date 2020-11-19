@@ -20,7 +20,7 @@
                         </div>
                         <!-- Password -->
                         <div class="md-form ">
-                            <label for="password">{{translate("Password")}}</label>
+                            <label for="password">{{translate("password")}}</label>
                             <input type="password" id="password" name="password"
                                    v-model="loginForm.password"
                                    v-validate="'required'"
@@ -32,19 +32,19 @@
                                 <!-- Remember me -->
                                 <div class="form-check">
                                     <input type="checkbox" v-model="rememberMe" class="form-check-input" id="rememberMe" name="rememberMe" value=''/>
-                                    <label class="form-check-label" for="rememberMe">{{translate("Remember me")}}</label>
+                                    <label class="form-check-label" for="rememberMe">{{translate("remember_me")}}</label>
                                 </div>
                             </div>
                             <div>
                                 <!-- Forgot password -->
-                                <a href="/forgot_password" class="text-success">{{translate("Forgot password?")}}</a>
+                                <a href="/forgot_password" class="text-success">{{translate("forgot_password")}}?</a>
                             </div>
                         </div>
                         <!-- Sign in button -->
-                        <button type="submit" class="btn btn-outline-success btn-rounded btn-block my-4 waves-effect z-depth-0" >{{translate("Sign in")}}</button>
+                        <button type="submit" class="btn btn-outline-success btn-rounded btn-block my-4 waves-effect z-depth-0" >{{translate("sign_in")}}</button>
                         <!-- Register -->
-                        <p>{{translate("Not a member?")}}
-                            <a href="/register" class="text-success">{{translate("Register")}}</a>
+                        <p>{{translate("not_a_member")}}?
+                            <a href="/register" class="text-success">{{translate("register")}}</a>
                         </p>
                     </form>
                     <!-- Form -->

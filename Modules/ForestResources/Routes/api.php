@@ -24,6 +24,7 @@ Route::middleware('jwt:api')->resource('/management_plans', ManagementPlanContro
 Route::get('/management_units/vectors', 'ManagementUnitController@vectors');
 Route::middleware('jwt:api')->resource('/management_units', ManagementUnitController::class)->except(['edit', 'create']);
 Route::get('/concessions/vectors', 'ConcessionsController@vectors');
+Route::middleware('jwt:api')->get('/concessions/list', 'ConcessionsController@listConcessions');
 Route::middleware('jwt:api')->resource('/concessions', ConcessionsController::class)->except(['edit', 'create']);
 Route::get('/annual_allowable_cuts/vectors', 'AnnualAllowableCutController@vectors');
 Route::middleware('jwt:api')->resource('/annual_allowable_cuts', AnnualAllowableCutController::class)->except(['edit', 'create']);
@@ -42,6 +43,7 @@ Route::middleware('jwt:api')->resource('/site_logbook_items', SiteLogbookItemCon
 Route::middleware('jwt:api')->get('/site_logbook_logs/mobile', 'SiteLogbookLogController@mobile');
 Route::middleware('jwt:api')->resource('/site_logbook_logs', SiteLogbookLogController::class)->except(['edit', 'create']);
 Route::middleware('jwt:api')->resource('/permit_types', PermitTypesController::class)->except(['edit', 'create']);
+Route::middleware('jwt:api')->get('/species/list', "SpeciesController@listSpecies");
 Route::middleware('jwt:api')->resource('/species', SpeciesController::class)->except(['edit', 'create']);
 Route::middleware('jwt:api')->resource('/quality', QualityController::class)->except(['edit', 'create']);
 Route::middleware('jwt:api')->resource('/product_type', ProductTypeController::class)->except(['edit', 'create']);

@@ -13,6 +13,6 @@ class DevelopmentUnitController extends Controller
 
     public function edit($id)
     {
-        //
+        return view('management.development-units.edit', ['id' => $id]);
     }
 }
