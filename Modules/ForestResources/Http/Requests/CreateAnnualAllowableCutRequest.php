@@ -18,7 +18,6 @@ class CreateAnnualAllowableCutRequest extends FormRequest
             'ManagementPlan' => 'exists:Modules\ForestResources\Entities\ManagementPlan,Id',
             'Name' => 'required|string',
             'Geometry' => 'string',
-            'AacId' => 'string',
             'Approved' => 'bool',
         ];
     }
