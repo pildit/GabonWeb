@@ -23,6 +23,10 @@ class DevelopmentPlan extends Base {
         return store.dispatch('development_plan/add', data);
     }
 
+    static update(id, data) {
+        return store.dispatch('development_plan/update', {id,data});
+    }
+
 }
 
 export default DevelopmentPlan

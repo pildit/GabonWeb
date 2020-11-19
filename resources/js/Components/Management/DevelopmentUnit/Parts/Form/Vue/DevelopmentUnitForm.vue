@@ -224,11 +224,22 @@ export default {
                         Notification.success(this.translate('Development Plan'), data.message);
                     })
                 })
-                window.location.href = DevelopmentUnit.buildRoute('development_units.index');
+                // window.location.href = DevelopmentUnit.buildRoute('development_units.index');
             })
         },
-        update() {
-            //TODO update
+        update(data) {
+            data = DevelopmentUnit.buildForm(data);
+            return DevelopmentUnit.update(this.form.Id, data).then((data) => {
+                Notification.success(this.translate('Development Unit'), data.message);
+            }).then(() => {
+                _.each(this.plansForm, (plan, index) => {
+                    let data = DevelopmentPlan.buildForm(plan, this.form.Id);
+                    DevelopmentPlan.update(plan.Id, data).then((data) => {
+                        Notification.success(this.translate('Development Plan'), data.message);
+                    })
+                })
+                // window.location.href = DevelopmentUnit.buildRoute('development_units.index');
+            })
         },
         asyncFindConcession(query) {
             this.concessionsList.isLoading = true;
@@ -258,7 +269,7 @@ export default {
     watch: {
         developmentUnitProp(value) {
             if(value) {
-                console.log(value);
+                // console.log(value);
                 this.form = _.merge(this.form, value);
                 this.form.Geometry = value.geometry_as_text;
                 this.form.Concession = this.concessionsList.data.find((x) => x.Id == value.concession.Id);

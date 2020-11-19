@@ -3,6 +3,7 @@
 namespace Modules\ForestResources\Http\Controllers;
 
 use App\Services\PageResults;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -24,7 +25,7 @@ class DevelopmentPlanController extends Controller
         if (DevelopmentPlan::where('DevelopmentUnit', $data['DevelopmentUnit'])->where('Species', $data['Species'])->count() > 0) {
             return response()->json([
                 'message' => lang("developmentplan_developmentunit_species_exist")
-            ], 200);
+            ], 422);
         }
 
         $developmentplan = DevelopmentPlan::create($data);
@@ -49,23 +50,21 @@ class DevelopmentPlanController extends Controller
      * Update the specified resource in storage.
      *
      * @param UpdateDevelopmentPlanRequest $request
-     * @param DevelopmentPlan $developmentplan
+     * @param DevelopmentPlan $development_plan
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateDevelopmentPlanRequest $request, DevelopmentPlan $developmentplan)
+    public function update(UpdateDevelopmentPlanRequest $request, DevelopmentPlan $development_plan)
     {
         $data = $request->validated();
 
-        if (DevelopmentPlan::where('DevelopmentUnit', $data['DevelopmentUnit'])->where('Species', $data['Species'])->where('Id', '!=', $developmentplan->get()[0]->Id)->count() > 0) {
-            return response()->json([
-                'message' => lang("developmentplan_developmentunit_species_exist")
-            ], 200);
-        } elseif( DevelopmentPlan::where('DevelopmentUnit', $data['DevelopmentUnit'])->where('Species', $data['Species'])->where('Id', '=', $developmentplan->get()[0]->Id)->count() > 0) {
+        if (DevelopmentPlan::where('DevelopmentUnit', $data['DevelopmentUnit'])->where('Species', $data['Species'])->where('Id', '!=', $development_plan->Id)->count() > 0) {
+            throw  ValidationException::withMessages(['development_unit' => lang("developmentplan_developmentunit_species_exist")]);
+        } elseif( DevelopmentPlan::where('DevelopmentUnit', $data['DevelopmentUnit'])->where('Species', $data['Species'])->where('Id', '=', $development_plan->Id)->count() > 0) {
             unset($data['DevelopmentUnit']);
             unset($data['Species']);
         }
 
-        $developmentplan->update($data);
+        $development_plan->update($data);
 
         return response()->json([
             'message' => lang('developmentplan_update_successful')
