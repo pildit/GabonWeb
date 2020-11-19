@@ -10,10 +10,28 @@ use Modules\ForestResources\Entities\Logbook;
 use Modules\ForestResources\Http\Requests\CreateLogbookRequest;
 use Modules\ForestResources\Http\Requests\UpdateLogbookRequest;
 use Modules\ForestResources\Services\Logbook as LogbookService;
+use App\Traits\Approve;
 
 
 class LogbookController extends Controller
 {
+    use Approve;
+
+    private $modelName = Logbook::class;
+
+    public function __construct()
+    {
+        $this->middleware('can:carnet-abattage.view')->only('index', 'show');
+
+        $this->middleware('can:carnet-abattage.add')->only('store');
+
+        $this->middleware('can:carnet-abattage.edit')->only('update');
+
+        $this->middleware('can:carnet-abattage.approve')->only('approve');
+
+        $this->middleware('role:admin')->only('delete');
+
+    }
 
     /**
      * Display a listing of the resource.

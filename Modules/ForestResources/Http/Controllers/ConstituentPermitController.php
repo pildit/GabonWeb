@@ -11,11 +11,27 @@ use Modules\ForestResources\Http\Requests\CreateConstituentPermitRequest;
 use GenTux\Jwt\GetsJwtToken;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Auth;
-
+use App\Traits\Approve;
 
 class ConstituentPermitController extends Controller
 {
-    use GetsJwtToken;
+    use GetsJwtToken, Approve;
+
+    private $modelName = ConstituentPermit::class;
+
+    public function __construct()
+    {
+        $this->middleware('can:constituent-permit.view')->only('index', 'show');
+
+        $this->middleware('can:constituent-permit.add')->only('store');
+
+        $this->middleware('can:constituent-permit.edit')->only('update');
+
+        $this->middleware('can:constituent-permit.approve')->only('approve');
+
+        $this->middleware('role:admin')->only('delete');
+
+    }
 
     /**
      * Display a listing of the resource.
@@ -69,9 +85,24 @@ class ConstituentPermitController extends Controller
      * @param ConstituentPermit $cp
      * @return Response
      */
-    public function update(Request $request, ConstituentPermit $cp)
+    public function update(Request $request, ConstituentPermit $constituent_permit)
     {
-        //
+        $data = $request->validate([
+            'permit_type' => 'exists:pgsql.ForestResources.PermitTypes,Id',
+            'permit_number' => 'string',
+            'geometry' => 'string',
+        ]);
+
+        if ($request->has('permit_type'))
+            $constituent_permit->PermitType = $data['permit_type'];
+
+        if ($request->has('permit_number'))
+            $constituent_permit->PermitNumber = $data['permit_number'];
+
+        if ($request->has('geometry'))
+            $constituent_permit->Geometry = $data['geometry'];
+
+        $constituent_permit->save();
     }
 
     /**

@@ -14,6 +14,21 @@ use Modules\ForestResources\Services\ManagementUnit as ManagementUnitService;
 
 class ManagementUnitController extends Controller
 {
+    private $modelName = ManagementUnit::class;
+
+    public function __construct()
+    {
+        $this->middleware('can:management-unit(UFG).view')->only('index', 'show');
+
+        $this->middleware('can:management-unit(UFG).add')->only('store');
+
+        $this->middleware('can:management-unit(UFG).edit')->only('update');
+
+        $this->middleware('can:management-unit(UFG).approve')->only('approve');
+
+        $this->middleware('role:admin')->only('delete');
+
+    }
 
     /**
      * Display a listing of the resource.

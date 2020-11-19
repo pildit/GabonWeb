@@ -17,7 +17,6 @@ class UpdateManagementUnitRequest extends FormRequest
             'Name' => 'string',
             'DevelopmentUnit' => 'exists:Modules\ForestResources\Entities\DevelopmentUnit,Id',
             'Geometry' => 'string',
-            'Approved' => 'bool',
         ];
     }
 

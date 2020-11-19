@@ -3,6 +3,7 @@
 namespace Modules\ForestResources\Http\Controllers;
 
 use App\Services\PageResults;
+use App\Traits\Approve;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -16,7 +17,23 @@ use Illuminate\Validation\ValidationException;
 
 class LogbookItemController extends Controller
 {
+    use Approve;
 
+    private $modelName = LogbookItem::class;
+
+    public function __construct()
+    {
+        $this->middleware('can:carnet-abattage.view')->only('index', 'show');
+
+        $this->middleware('can:carnet-abattage.add')->only('store');
+
+        $this->middleware('can:carnet-abattage.edit')->only('update');
+
+        $this->middleware('can:carnet-abattage.approve')->only('approve');
+
+        $this->middleware('role:admin')->only('delete');
+
+    }
     /**
      * Display a listing of the resource.
      * @return Response

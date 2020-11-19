@@ -19,7 +19,6 @@ class UpdateAnnualAllowableCutRequest extends FormRequest
             'Name' => 'string',
             'Geometry' => 'string',
             'AacId' => 'string',
-            'Approved' => 'bool',
         ];
     }
 

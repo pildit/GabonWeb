@@ -12,10 +12,25 @@ use Modules\ForestResources\Http\Requests\CreateAnnualAllowableCutInventoryReque
 use Modules\ForestResources\Http\Requests\UpdateAnnualAllowableCutInventoryRequest;
 use Illuminate\Support\Facades\DB;
 use Modules\ForestResources\Services\AnnualAllowableCutInventory as AnnualAllowableCutInventoryService;
-
+use App\Traits\Approve;
 
 class AnnualAllowableCutInventoryController extends Controller
 {
+    use Approve;
+
+    private $modelName = AnnualAllowableCutInventory::class;
+
+    public function __construct()
+    {
+        $this->middleware('can:AACInventory.view')->only('index', 'show');
+
+        $this->middleware('can:AACInventory.add')->only('store');
+
+        $this->middleware('can:AACInventory.edit')->only('update');
+
+        $this->middleware('can:AACInventory.approve')->only('approve');
+
+    }
 
     /**
      * Display a listing of the resource.
@@ -133,5 +148,20 @@ class AnnualAllowableCutInventoryController extends Controller
                 'features' => $aaciService->getVectors($request->get('bbox', config('forestresources.default_bbox')))
             ]
         ]);
+    }
+
+    public function approve(Request $request, AnnualAllowableCutInventory  $annual_allowable_cut_inventory)
+    {
+        $data = $request->validate([
+            'Approved' => 'required|bool'
+        ]);
+
+        $annual_allowable_cut_inventory->update($data);
+
+        return response()->json([
+            'message' => lang('annual_allowable_cut_inventory_update_successful')
+        ], 200);
+
+
     }
 }

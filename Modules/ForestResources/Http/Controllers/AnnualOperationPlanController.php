@@ -10,9 +10,25 @@ use Modules\ForestResources\Entities\AnnualOperationPlan;
 use Modules\ForestResources\Http\Requests\CreateAnnualOperationPlanRequest;
 use Modules\ForestResources\Http\Requests\UpdateAnnualOperationPlanRequest;
 use Illuminate\Support\Facades\DB;
+use App\Traits\Approve;
 
 class AnnualOperationPlanController extends Controller
 {
+    use Approve;
+
+    private $modelName = AnnualOperationPlan::class;
+
+    public function __construct()
+    {
+        $this->middleware('can:AAC.view')->only('index', 'show');
+
+        $this->middleware('can:AAC.add')->only('store');
+
+        $this->middleware('can:AAC.edit')->only('update');
+
+        $this->middleware('can:AAC.approve')->only('approve');
+
+    }
 
     /**
      * Store annualoperationplan
