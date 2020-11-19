@@ -182,17 +182,20 @@
       <hr />
 
       <!-- View -->
-      <rcp-checkbox v-model="viewParcels" text="View Parcels"></rcp-checkbox>
+      <rcp-checkbox
+        v-model="viewParcels"
+        v-on:click="onViewParcelClick"
+        text="View Parcels"
+      ></rcp-checkbox>
       <rcp-checkbox
         v-model="viewConcessions"
+        v-on:click="onViewConcessionsClick"
         text="View Concessions"
       ></rcp-checkbox>
       <rcp-checkbox v-model="viewUFA" text="View UFA"></rcp-checkbox>
       <rcp-checkbox v-model="viewUFG" text="View UFG"></rcp-checkbox>
       <rcp-checkbox v-model="viewAAC" text="View AAC"></rcp-checkbox>
       <rcp-checkbox v-model="viewTrees" text="View Trees"></rcp-checkbox>
-
-      <button v-on:click="onTransmitAValue">{{clusterButtonText}}</button>
     </div>
   </div>
 </template>
@@ -212,7 +215,6 @@ export default {
 
   data() {
     return {
-      clusterButtonText: 'Show Clusters', 
       checkPicked: "",
 
       range: {
@@ -259,7 +261,6 @@ export default {
       },
 
       isTest: true,
-
     };
   },
 
@@ -297,6 +298,13 @@ export default {
     onCheckAnnualAllowableCut() {
       if (this.annualAllowableCut.length > 2) {
         this.checkAnnualAllowableCutError = false;
+
+        if (this.isTest) {
+          this.$emit("volSideCommandFunction", "Just a text for now");
+        } else {
+          this.$emit("volSideCommandFunction", "Just another text for now");
+        }
+        this.isTest = !this.isTest;
       } else {
         this.checkAnnualAllowableCutError = true;
       }
@@ -318,16 +326,12 @@ export default {
       }
     },
 
-    onTransmitAValue() {
-      console.log("Button was pressed in VolSideBar");
-      if (this.isTest) {
-        this.clusterButtonText = "Hide Clusters";
-        this.$emit("volSideCommandFunction", "Just a text for now");
-      } else {
-        this.clusterButtonText = "Show Clusters";
-        this.$emit("volSideCommandFunction", "Just another text for now");
-      }
-      this.isTest = !this.isTest;
+    onViewParcelClick() {
+      this.$emit("onViewParcels", !this.viewParcels);
+    },
+
+    onViewConcessionsClick() {
+      this.$emit("onViewConcessions", !this.viewConcessions);
     },
   },
 
