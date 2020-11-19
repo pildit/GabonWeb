@@ -38,7 +38,8 @@ class DevelopmentUnitController extends Controller
         $developmentunit = DevelopmentUnit::create($data);
 
         return response()->json([
-            'message' => lang("developmentunit_created_successfully")
+            'message' => lang("developmentunit_created_successfully"),
+            'id' => $developmentunit->Id
         ], 201);
     }
 

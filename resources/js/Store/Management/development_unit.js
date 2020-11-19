@@ -23,11 +23,17 @@ export default {
                     return response
                 });
         },
+
+        add({}, payload) {
+            return axios.post('api/development_units', payload)
+                .then((response) => response.data)
+        },
+
         update({}, payload) {
             let id = payload.id;
             let data = payload.data;
             return axios.patch(`api/development_units/${id}`, data)
-                .then((response) => response);
+                .then((response) => response.data);
         }
     }
 }

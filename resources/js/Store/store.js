@@ -10,7 +10,8 @@ import species         from './species';
 import parcels         from './parcel';
 import productType         from './producttype';
 import quality         from './quality';
-import development_unit from './development_unit';
+import development_unit from './Management/development_unit';
+import development_plan from "./Management/development_plan";
 import constituentPermit         from './constituentpermit';
 import concession         from './concession';
 import translation from "./translation";
@@ -86,6 +87,7 @@ export default new Vuex.Store({
         productType,
         quality,
         development_unit,
+        development_plan,
         concession,
         translation
     }

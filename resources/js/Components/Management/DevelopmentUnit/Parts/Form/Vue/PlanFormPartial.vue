@@ -4,14 +4,16 @@
         <div class="form-row">
             <div class="col">
                 <div class="md-form">
-                    <input type="text" id="planName" class="form-control" v-model="formData.Number">
-                    <label for="planName">{{translate('development_plan_form_id')}}</label>
+                    <input type="text" :id="`planNumber-${index}`"  class="form-control" v-model="formData.Number">
+                    <label :for="`planNumber-${index}}`">{{translate('development_plan_form_id')}}</label>
                 </div>
             </div>
             <div class="col">
                 <div class="col">
                     <div class="md-form">
                         <multiselect
+                            name="species"
+                            v-validate="'required'"
                             v-model="selectedSpecies"
                             :options="speciesList.data"
                             :placeholder="translate('species_select_label')"
@@ -27,7 +29,7 @@
                             <template slot="singleLabel" slot-scope="{ option }">{{ option.LatinName }}({{option.CommonName}})</template>
                             <template slot="option" slot-scope="{option}">{{ option.LatinName }}({{option.CommonName}})</template>
                         </multiselect>
-                        <div v-show="errors.has('species')" class="invalid-feedback">{{ errors.first('species') }}</div>
+                        <div v-show="errors.has(`species`)" class="invalid-feedback">{{ errors.first(`species`) }}</div>
                     </div>
                 </div>
             </div>
@@ -35,24 +37,24 @@
         <div class="form-row">
             <div class="col">
                 <div class="md-form">
-                    <input type="text" id="MinimumExploitableDiameter" class="form-control"
+                    <input type="text" id="`MinimumExploitableDiameter-${index}`" name="MinimumExploitableDiameter" class="form-control"
                            v-model="formData.MinimumExploitableDiameter"
                            v-validate="'required'"
                     >
-                    <label for="MinimumExploitableDiameter">{{translate('development_plan_form_min_exploit_diameter')}}</label>
-                    <div v-show="errors.has('MinimumExploitableDiameter')" class="invalid-feedback">{{ errors.first('MinimumExploitableDiameter') }}</div>
+                    <label for="`MinimumExploitableDiameter-${index}`">{{translate('development_plan_form_min_exploit_diameter')}}</label>
+                    <div v-show="errors.has(`MinimumExploitableDiameter`)" class="invalid-feedback">{{ errors.first(`MinimumExploitableDiameter`) }}</div>
                 </div>
             </div>
             <div class="col">
                 <div class="md-form">
-                    <input type="text" id="VolumeTariff" class="form-control" v-model="formData.VolumeTariff">
-                    <label for="VolumeTariff">{{translate('development_plan_form_volume_tariff')}}</label>
+                    <input type="text" :id="`VolumeTariff-${index}`" class="form-control" v-model="formData.VolumeTariff">
+                    <label :for="`VolumeTariff-${index}`">{{translate('development_plan_form_volume_tariff')}}</label>
                 </div>
             </div>
             <div class="col">
                 <div class="md-form">
-                    <input type="text" id="Increment" class="form-control" v-model="formData.Increment">
-                    <label for="Increment">{{translate('development_plan_form_name_increment')}}</label>
+                    <input type="text" :id="`Increment-${index}`" class="form-control" v-model="formData.Increment">
+                    <label :for="`Increment-${index}`">{{translate('development_plan_form_name_increment')}}</label>
                 </div>
             </div>
         </div>

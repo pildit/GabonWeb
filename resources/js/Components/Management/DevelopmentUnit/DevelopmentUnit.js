@@ -12,12 +12,31 @@ class DevelopmentUnit extends Base {
         }
     }
 
+    static buildForm(data) {
+        let obj = {
+            Name : data.Name,
+            Concession : data.Concession.Id,
+            Start: data.Start,
+            End: data.End
+        }
+
+        if(data.Geometry) {
+            obj['Geometry'] = data.Geometry;
+        }
+
+        return obj;
+    }
+
     static index(data) {
         return store.dispatch('development_unit/index', data).then((response) => response.data);
     }
 
+    static add(data) {
+        return store.dispatch('development_unit/add', data);
+    }
+
     static update(id, data) {
-        return store.dispatch('development_unit/update', {id, data}).then((response) =>  response.data);
+        return store.dispatch('development_unit/update', {id, data});
     }
 
 }

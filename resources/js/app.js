@@ -27,6 +27,7 @@ import DevelopmentUnit from "./Components/Management/DevelopmentUnit/Development
 import ConstituentPermit from './Components/ConstituentPermit/ConstituentPermit';
 import Concession from './Components/Concession/Concession';
 import Translation from './Components/Translations/Translation'
+import DevelopmentPlan from "./Components/Management/DevelopmentPlan/DevelopmentPlan";
 
 Vue.config.devtools = true;
 window.Vent         = new Vue;
@@ -67,7 +68,8 @@ Gabon.ProductType = ProductType;
 Gabon.Concession = Concession;
 
 Gabon.Management = {
-    DevelopmentUnit: DevelopmentUnit
+    DevelopmentUnit: DevelopmentUnit,
+    DevelopmentPlan: DevelopmentPlan
 }
 
 Gabon.Translation = Translation;
