@@ -190,6 +190,7 @@
       <rcp-checkbox v-model="viewUFA" text="View UFA"></rcp-checkbox>
       <rcp-checkbox v-model="viewUFG" text="View UFG"></rcp-checkbox>
       <rcp-checkbox v-model="viewAAC" text="View AAC"></rcp-checkbox>
+      <rcp-checkbox v-model="viewTrees" text="View Trees"></rcp-checkbox>
 
       <button v-on:click="onTransmitAValue">{{clusterButtonText}}</button>
       <span>Picked: {{ checkPicked }}</span>
@@ -244,6 +245,7 @@ export default {
       viewUFA: false,
       viewUFG: false,
       viewAAC: false,
+      viewTrees: false,
 
       searchText: 0,
       message: "",
