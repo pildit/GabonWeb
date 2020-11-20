@@ -7,9 +7,30 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use App\Services\PageResults;
 use Modules\ForestResources\Entities\Species;
+use App\Traits\Approve;
 
 class SpeciesController extends Controller
 {
+
+    use Approve;
+
+    private $modelName = Species::class;
+
+    public function __construct()
+    {
+        $this->middleware('can:species.view')->only('index', 'show');
+
+        $this->middleware('can:species.add')->only('store');
+
+        $this->middleware('can:species.edit')->only('update');
+
+        $this->middleware('can:species.approve')->only('approve');
+
+        $this->middleware('role:admin')->only('delete');
+
+    }
+
+
     /**
      * Display a listing of the resource.
      * @return Response

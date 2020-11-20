@@ -23,13 +23,13 @@ class LogbookItemController extends Controller
 
     public function __construct()
     {
-        $this->middleware('can:carnet-abattage.view')->only('index', 'show');
+        $this->middleware('can:logbook.view')->only('index', 'show');
 
-        $this->middleware('can:carnet-abattage.add')->only('store');
+        $this->middleware('can:logbook.add')->only('store');
 
-        $this->middleware('can:carnet-abattage.edit')->only('update');
+        $this->middleware('can:logbook.edit')->only('update');
 
-        $this->middleware('can:carnet-abattage.approve')->only('approve');
+        $this->middleware('can:logbook.approve')->only('approve');
 
         $this->middleware('role:admin')->only('delete');
 
