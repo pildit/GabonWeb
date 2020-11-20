@@ -29,4 +29,6 @@ class Concession extends Model
     protected $dateFormat = 'Y-m-d H:i:s.u';
 
     protected $primaryKey = "Id";
+
+    protected $hidden = ['Geometry'];
 }

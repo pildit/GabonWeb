@@ -1,0 +1,46 @@
+<template>
+    <div>
+        <a :href="editRoute()" class="text-success aligned fz-16"
+           :title="translate('Edit')"
+           v-tooltip>
+            <i class="fas fa-edit"></i>
+        </a>
+        <switches v-model="isApproved" color="green" title="Approve Item" @input="approve" :emit-on-mount="false" v-tooltip></switches>
+    </div>
+</template>
+
+<script>
+import Switches from 'vue-switches';
+import ManagementUnit from "components/Management/ManagementUnit/ManagementUnit";
+import Notification from "components/Common/Notifications/Notification";
+
+export default {
+    props: ["rowProp", "optionsProp"],
+
+    components: {Switches},
+
+    data() {
+        return {
+            isApproved: this.rowProp.Approved
+        }
+    },
+
+    methods: {
+        editRoute() {
+            return ManagementUnit.buildRoute('management_units.edit', {id: this.rowProp.Id});
+        },
+
+        approve(value) {
+            ManagementUnit.update(this.rowProp.Id, {Approved: value}).then((response) => {
+                Notification.success('Management Unit', response.message);
+                this.rowProp.Approved = value;
+            });
+        }
+    }
+
+}
+</script>
+
+<style scoped>
+
+</style>

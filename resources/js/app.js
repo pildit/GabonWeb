@@ -28,6 +28,7 @@ import ConstituentPermit from './Components/ConstituentPermit/ConstituentPermit'
 import Concession from './Components/Concession/Concession';
 import Translation from './Components/Translations/Translation'
 import DevelopmentPlan from "./Components/Management/DevelopmentPlan/DevelopmentPlan";
+import ManagementUnit from "./Components/Management/ManagementUnit/ManagementUnit";
 
 Vue.config.devtools = true;
 window.Vent         = new Vue;
@@ -69,7 +70,8 @@ Gabon.Concession = Concession;
 
 Gabon.Management = {
     DevelopmentUnit: DevelopmentUnit,
-    DevelopmentPlan: DevelopmentPlan
+    DevelopmentPlan: DevelopmentPlan,
+    ManagementUnit: ManagementUnit,
 }
 
 Gabon.Translation = Translation;

@@ -40,5 +40,9 @@ class DevelopmentUnit extends Base {
         return store.dispatch('development_unit/update', {id, data});
     }
 
+    static listSearch(name, limit = 100) {
+        return store.dispatch('development_unit/listSearch', {name, limit}).then(response => response.data);
+    }
+
 }
 export default DevelopmentUnit;

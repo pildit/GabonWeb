@@ -18,6 +18,7 @@ Route::middleware('jwt:api')->resource('/constituent_permits', ConstituentPermit
 Route::get('/parcels/vectors', 'ParcelController@vectors');
 Route::middleware('jwt:api')->resource('/parcels', ParcelController::class)->except(['edit', 'create']);
 Route::get('/development_units/vectors', 'DevelopmentUnitController@vectors');
+Route::middleware('jwt:api')->get('/development_units/list', 'DevelopmentUnitController@listDevelopmentUnits');
 Route::middleware('jwt:api')->resource('/development_units', DevelopmentUnitController::class)->except(['edit', 'create']);
 Route::middleware('jwt:api')->resource('/development_plans', DevelopmentPlanController::class)->except(['edit', 'create']);
 Route::middleware('jwt:api')->resource('/management_plans', ManagementPlanController::class)->except(['edit', 'create']);

@@ -49,6 +49,11 @@ export default {
             let data = payload.data;
             return axios.patch(`api/development_units/${id}`, data)
                 .then((response) => response.data);
+        },
+
+        listSearch({}, payload) {
+            return axios.get(`api/development_units/list?name=${payload.name}&limit=${payload.limit}`)
+                .then((response) => response);
         }
     }
 }

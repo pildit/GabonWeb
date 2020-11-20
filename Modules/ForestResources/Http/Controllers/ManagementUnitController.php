@@ -23,7 +23,10 @@ class ManagementUnitController extends Controller
     {
         $pr->setSortFields(['Id']);
 
-        return response()->json($pr->getPaginator($request, ManagementUnit::class , ['Name'], ['plans','developmentUnit']));
+        return response()->json($pr->getPaginator($request, ManagementUnit::class , ['Name'], [
+            'plans',
+            'developmentUnit'
+        ]));
     }
 
     /**
@@ -45,12 +48,12 @@ class ManagementUnitController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param ManagementUnit $managementunit
+     * @param ManagementUnit $management_unit
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(ManagementUnit $managementunit)
+    public function show(ManagementUnit $management_unit)
     {
-        return response()->json(['data' => $managementunit]);
+        return response()->json(['data' => $management_unit]);
     }
 
     /**

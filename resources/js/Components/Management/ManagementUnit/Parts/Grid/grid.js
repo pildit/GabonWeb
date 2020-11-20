@@ -1,12 +1,12 @@
-import ActionColumn from "./Vue/ActionColumn";
+import ActionColumn from "./Vue/ActionColumn.vue";
 
 export default (options) => {
     return {
         options: {
-            instance: "development_unit",
+            instance: "management_unit",
             store: {
-                getter: 'development_unit/development_units',
-                action: 'development_unit/index'
+                getter: 'management_unit/management_units',
+                action: 'management_unit/index'
             },
             sort: {
                 direction: "desc",
@@ -18,13 +18,13 @@ export default (options) => {
                 header: "id"
             },
             Number: {
-                header: 'th_dev_unit_id'
+                header: 'th_management_unit_id'
             },
             Name: {
-                header: "th_dev_unit_name",
+                header: "th_management_unit_name",
             },
-            ConcessionName: {
-                header: "th_concession_name"
+            'development_unit.Name' : {
+                header: "th_dev_unit_name"
             },
             plans: {
                 header: "th_plan_id",

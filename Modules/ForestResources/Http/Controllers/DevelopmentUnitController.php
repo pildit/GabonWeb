@@ -115,4 +115,25 @@ class DevelopmentUnitController extends Controller
             ]
         ]);
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function listDevelopmentUnits(Request $request)
+    {
+        $concessions = DevelopmentUnit::where('Name', 'like', "%{$request->get('name')}%")
+            ->take($request->get('limit', 100))
+            ->get(['Id', 'Name']);
+
+        return response()->json([
+            'data' => $concessions->map(function ($item) {
+                return [
+                    'Id' => $item->Id,
+                    'Name' => $item->Name
+                ];
+            })
+        ]);
+
+    }
 }
