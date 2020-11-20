@@ -55,8 +55,8 @@ export default {
           var vector = new ol.LayerVector({
             source: new ol.Vector({ features: [f] }),
             style: new ol.Style({
-              stroke: new ol.Stroke({ width: 5, color: "blue" }),
-              fill: new ol.Fill({ color: "red" }),
+              stroke: new ol.Stroke({ width: 2, color: "rgba(52, 163, 79, 0.8)" }),
+              fill: new ol.Fill({ color: "rgba(52, 163, 79, 0.5)" }),
             }),
           });
 
