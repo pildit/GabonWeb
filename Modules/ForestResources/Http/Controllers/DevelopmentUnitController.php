@@ -12,10 +12,27 @@ use Modules\ForestResources\Entities\DevelopmentUnit;
 use Modules\ForestResources\Http\Requests\CreateDevelopmentUnitRequest;
 use Modules\ForestResources\Http\Requests\UpdateDevelopmentUnitRequest;
 use Modules\ForestResources\Services\DevelopmentUnit as DevelopmentUnitService;
+use App\Traits\Approve;
 
 class DevelopmentUnitController extends Controller
 {
-    use GetsJwtToken;
+    use GetsJwtToken, Approve;
+
+    private $modelName = DevelopmentUnit::class;
+
+    public function __construct()
+    {
+        $this->middleware('can:development-unit.view')->only('index', 'show');
+
+        $this->middleware('can:development-unit.add')->only('store');
+
+        $this->middleware('can:development-unit.edit')->only('update');
+
+        $this->middleware('can:development-unit.approve')->only('approve');
+
+        $this->middleware('role:admin')->only('delete');
+
+    }
 
     /**
      * @param Request $request

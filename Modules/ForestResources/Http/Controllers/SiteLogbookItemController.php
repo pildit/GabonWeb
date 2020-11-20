@@ -12,9 +12,28 @@ use Modules\ForestResources\Http\Requests\UpdateSiteLogbookItemRequest;
 use Modules\ForestResources\Services\SiteLogbookItem as SiteLogbookItemService;
 use Modules\ForestResources\Entities\SiteLogbook;
 use Illuminate\Validation\ValidationException;
+use App\Traits\Approve;
 
 class SiteLogbookItemController extends Controller
 {
+
+    use Approve;
+
+    private $modelName = SiteLogbookItem::class;
+
+    public function __construct()
+    {
+        $this->middleware('can:site_logbook.view')->only('index', 'show');
+
+        $this->middleware('can:site_logbook.add')->only('store');
+
+        $this->middleware('can:site_logbook.edit')->only('update');
+
+        $this->middleware('can:site_logbook.approve')->only('approve');
+
+        $this->middleware('role:admin')->only('delete');
+
+    }
 
     /**
      * Display a listing of the resource.

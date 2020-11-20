@@ -19,6 +19,20 @@ class PermitController extends Controller
 {
     use GetsJwtToken;
 
+    public function __construct()
+    {
+        $this->middleware('can:permit.view')->only('index', 'show');
+
+        $this->middleware('can:permit.add')->only('store');
+
+        $this->middleware('can:permit.edit')->only('update');
+
+        $this->middleware('can:permit.scan_qr_code')->only('update');
+
+        $this->middleware('role:admin')->only('delete');
+
+    }
+
     /**
      * Returns list of permits paginated
      *

@@ -15,6 +15,17 @@ use Modules\Transport\Services\Item;
 
 class PermitItemController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:permit.view')->only('index', 'show');
+
+        $this->middleware('can:permit.add')->only('store');
+
+        $this->middleware('can:permit.edit')->only('update');
+
+        $this->middleware('role:admin')->only('delete');
+
+    }
 
     /**
      * Return a list of permit items for a specific permit

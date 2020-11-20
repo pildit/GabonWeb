@@ -16,8 +16,16 @@ class TranslationController extends Controller
 
     public function __construct()
     {
-        //$this->middleware('permission:translations.view', ['only' => 'index']);
+        $this->middleware('can:translations.view')->only('index', 'show', 'dictionary');
+
+        $this->middleware('can:translations.add')->only('store');
+
+        $this->middleware('can:translations.edit')->only('update');
+
+        $this->middleware('role:admin')->only('delete');
+
     }
+
 
     /**
      * @param Request $request

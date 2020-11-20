@@ -8,11 +8,16 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\PermitType;
 use App\Services\PageResults;
+use GenTux\Jwt\GetsJwtToken;
 
 class PermitTypesController extends Controller
 {
     use GetsJwtToken;
 
+    public function __construct()
+    {
+        $this->middleware('role:admin');
+    }
     /**
      * Display a listing of the resource.
      * @return Response

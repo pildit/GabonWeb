@@ -22,7 +22,6 @@ class UpdateManagementPlanRequest extends FormRequest
             'GrossVolumeYear' => 'numeric',
             'YieldVolumeYear' => 'numeric',
             'CommercialVolumeYear' => 'numeric',
-            'Approved' => 'bool'
         ];
     }
 

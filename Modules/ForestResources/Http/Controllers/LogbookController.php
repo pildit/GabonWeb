@@ -10,10 +10,28 @@ use Modules\ForestResources\Entities\Logbook;
 use Modules\ForestResources\Http\Requests\CreateLogbookRequest;
 use Modules\ForestResources\Http\Requests\UpdateLogbookRequest;
 use Modules\ForestResources\Services\Logbook as LogbookService;
+use App\Traits\Approve;
 
 
 class LogbookController extends Controller
 {
+    use Approve;
+
+    private $modelName = Logbook::class;
+
+    public function __construct()
+    {
+        $this->middleware('can:logbook.view')->only('index', 'show');
+
+        $this->middleware('can:logbook.add')->only('store');
+
+        $this->middleware('can:logbook.edit')->only('update');
+
+        $this->middleware('can:logbook.approve')->only('approve');
+
+        $this->middleware('role:admin')->only('delete');
+
+    }
 
     /**
      * Display a listing of the resource.

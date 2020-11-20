@@ -19,6 +19,16 @@ use Modules\Admin\Services\Permission;
 
 class PermissionController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('role:admin');
+
+        $this->middleware('can:permission.view')->only('index', 'show');
+
+
+    }
+
     /**
      * Display a listing of the resource.
      * @return JsonResponse
