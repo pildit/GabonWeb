@@ -8,11 +8,14 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\AnnualAllowableCut;
 use Modules\ForestResources\Entities\AnnualAllowableCutInventory;
+use Modules\ForestResources\Entities\Parcel;
+use Modules\ForestResources\Entities\Species;
 use Modules\ForestResources\Http\Requests\CreateAnnualAllowableCutInventoryRequest;
 use Modules\ForestResources\Http\Requests\UpdateAnnualAllowableCutInventoryRequest;
 use Illuminate\Support\Facades\DB;
 use Modules\ForestResources\Services\AnnualAllowableCutInventory as AnnualAllowableCutInventoryService;
-
+use Modules\ForestResources\Exports\Exporter;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AnnualAllowableCutInventoryController extends Controller
 {
@@ -43,11 +46,11 @@ class AnnualAllowableCutInventoryController extends Controller
 
         $srid = config('forestresources.srid');
         $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$data['Lon']}, {$data['Lat']}),4326),$srid)";
-        $data['Geometry'] = isset($data['Geometry']) ? DB::raw("public.st_geomfromtext('".$data['Geometry']."', 5223)") : DB::raw("(select $geomQuery)");
+        $data['Geometry'] = isset($data['Geometry']) ? DB::raw("public.st_geomfromtext('" . $data['Geometry'] . "', 5223)") : DB::raw("(select $geomQuery)");
 
-        $AacId = AnnualAllowableCut::where("Id",$data['AnnualAllowableCut'])->value('AacId');
-        if($AacId){
-            $data['TreeId'] = $data['TreeId']."_".$AacId;
+        $AacId = AnnualAllowableCut::where("Id", $data['AnnualAllowableCut'])->value('AacId');
+        if ($AacId) {
+            $data['TreeId'] = $data['TreeId'] . "_" . $AacId;
         }
 
         $annual_allowable_cut_inventory = AnnualAllowableCutInventory::create($data);
@@ -81,7 +84,7 @@ class AnnualAllowableCutInventoryController extends Controller
 
         $srid = config('forestresources.srid');
         $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$data['Lon']}, {$data['Lat']}),4326),$srid)";
-        $data['Geometry'] = isset($data['Geometry']) ? DB::raw("public.st_geomfromtext('".$data['Geometry']."', 5223)") : DB::raw("(select $geomQuery)");
+        $data['Geometry'] = isset($data['Geometry']) ? DB::raw("public.st_geomfromtext('" . $data['Geometry'] . "', 5223)") : DB::raw("(select $geomQuery)");
 
         $annual_allowable_cut_inventory->update($data);
 
@@ -139,4 +142,48 @@ class AnnualAllowableCutInventoryController extends Controller
             ]
         ]);
     }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+
+    public function export(Request $request)
+    {
+        $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
+        $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
+
+        $headings = ['AnnualAllowableCut', 'Species', 'Quality', 'Parcel', 'TreeId', 'DiameterBreastHeight', 'Lat', 'Lon', 'GpsAccu'];
+        $collection = AnnualAllowableCutInventory::select('Id', 'AnnualAllowableCut', 'Species', 'Quality', 'Parcel', 'TreeId', 'DiameterBreastHeight', 'Lat', 'Lon', 'GpsAccu');
+
+        if ($request->get('date_from')) {
+            $collection = $collection->where("CreatedAt", ">=", $request->get('date_from'));
+        }
+        if ($request->get('date_to')) {
+            $collection = $collection->where("CreatedAt", "<=", $request->get('date_to'));
+        }
+        $collection = $collection->get();
+
+        $collection = $collection->map(function ($item) {
+
+            $AnnualAllowableCut = AnnualAllowableCut::where("Id", $item->AnnualAllowableCut)->first();
+            $Species = Species::where("Id", $item->Species)->first();
+            $Parcel = Parcel::where("Id", $item->Parcel)->first();
+
+            return [
+                'AnnualAllowableCut' => $AnnualAllowableCut->Name,
+                'Species' => $Species->CommonName,
+                'Quality' => $item->Quality,
+                'Parcel' => $Parcel->Name,
+                'TreeId' => $item->TreeId,
+                'DiameterBreastHeight' => $item->DiameterBreastHeight,
+                'Lat' => $item->Lat,
+                'Lon' => $item->Lon,
+                'GpsAccu' => $item->GpsAccu
+            ];
+        });
+
+        return Excel::download(new Exporter($collection, $headings), 'annual_allowable_cut_inventory.xlsx');
+    }
+
 }

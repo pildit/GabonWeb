@@ -54,14 +54,20 @@ class SiteLogbookLog extends PageResults
             ],
             [
                 "f" => "HewingId",
-                "fl" => "HewingId",
+                "fl" => "",
                 "type" => "str"
             ],
             [
                 "f" => "Species",
-                "fl" => "Species",
-                "type" => "list_NotEmpty_NoLang",
-                "values" => $species
+                "fl" => "",
+				"type" => "int"
+             //   "type" => "list_NotEmpty_NoLang",
+            //    "values" => $species
+            ],
+            [
+                "f" => "LogId",
+                "fl" => "LogId",
+                "type" => "str"
             ],
             [
                 "f" => "MinDiameter",
@@ -91,7 +97,7 @@ class SiteLogbookLog extends PageResults
             [
                 "f" => "EvacuationDate",
                 "fl" => "EvacuationDate",
-                "type" => "date"
+                "type" => "date_NotEmpty"
             ],
             [
                 "f" => "Note",
