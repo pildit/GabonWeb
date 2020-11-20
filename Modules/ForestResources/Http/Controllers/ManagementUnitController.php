@@ -3,6 +3,7 @@
 namespace Modules\ForestResources\Http\Controllers;
 
 use App\Services\PageResults;
+use App\Traits\Approve;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -14,6 +15,8 @@ use Modules\ForestResources\Services\ManagementUnit as ManagementUnitService;
 
 class ManagementUnitController extends Controller
 {
+    use Approve;
+
     private $modelName = ManagementUnit::class;
 
     public function __construct()
