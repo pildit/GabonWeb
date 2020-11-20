@@ -12,6 +12,7 @@ import productType         from './producttype';
 import quality         from './quality';
 import development_unit from './development_unit';
 import constituentPermit         from './constituentpermit';
+import logbooks from './logbooks';
 // import concession         from './concession';
 
 Vue.use(Vuex);
@@ -85,6 +86,7 @@ export default new Vuex.Store({
         productType,
         quality,
         development_unit,
+        logbooks
         // concession
     }
 });

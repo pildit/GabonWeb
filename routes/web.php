@@ -36,3 +36,8 @@ Route::get('/nomenclatures/{nomenclature_type?}', 'NomenclaturesController@index
 Route::resource('/management/development-units', 'DevelopmentUnitController')->only(['create', 'edit']);
 Route::get('/management/{management_type?}', 'ManagementController@index');
 Route::get('/concessions/{resource_type?}', 'ConcessionsController@index');
+
+Route::view('/logbooks', 'transportation.logbooks');
+Route::get('/logbooks/{id}/print', function ($id) {
+    return view('transportation.print')->with('id', $id);
+});
