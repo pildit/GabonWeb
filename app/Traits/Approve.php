@@ -19,7 +19,7 @@ trait Approve {
         $item->update($data);
 
         return response()->json([
-            'message' => lang('annual_allowable_cut_update_successful')
+            'message' => lang('update_successful')
         ], 200);
 
     }
