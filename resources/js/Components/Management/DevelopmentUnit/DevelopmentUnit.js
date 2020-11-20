@@ -44,5 +44,9 @@ class DevelopmentUnit extends Base {
         return store.dispatch('development_unit/listSearch', {name, limit}).then(response => response.data);
     }
 
+    static approve(id, data) {
+        return store.dispatch('development_unit/approve', {id, data})
+    }
+
 }
 export default DevelopmentUnit;
