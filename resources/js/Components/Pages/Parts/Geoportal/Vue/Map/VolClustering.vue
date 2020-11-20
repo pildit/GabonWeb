@@ -102,6 +102,7 @@ export default {
               ])
             )
           );
+
           features[i].set("id", i);
         }
 
@@ -160,13 +161,13 @@ export default {
 
       // Style for selection
       var img = new ol.Circle({
-        radius: 5,
+        radius: 10,
         stroke: new ol.Stroke({
-          color: "rgba(0,255,255,1)",
+          color: "rgba(66, 135, 245,1)",
           width: 1,
         }),
         fill: new ol.Fill({
-          color: "rgba(0,255,255,0.3)",
+          color: "rgba(66, 135, 245, 0.7)",
         }),
       });
       var style0 = new ol.Style({
@@ -184,7 +185,7 @@ export default {
       // Select interaction to spread cluster out and select features
       var selectCluster = new olExt.SelectCluster({
         // Point radius: to calculate distance between the features
-        pointRadius: 7,
+        pointRadius: 20,
         animate: true,
         // Feature style when it springs apart
         featureStyle: function () {
@@ -220,8 +221,8 @@ export default {
                     color: "rgba(0,0,192,0.5)",
                     width: 2,
                   }),
-                  fill: new ol.Fill({ color: "rgba(0,0,192,0.3)" }),
-                  radius: 5,
+                  fill: new ol.Fill({ color: "rgba(21, 87, 191, 1)" }),
+                  radius: 10,
                 }),
               }),
             ];
@@ -263,13 +264,15 @@ export default {
 
           popup.show(longLat, content);
         } else {
-          var counter = 0;
+          var counter = 1;
           c.forEach((feature) => {
             content += `<tr><th scope="row">${counter++}</th>`;
             const longLat = feature.getGeometry().getFirstCoordinate();
             const coords = toLonLat(longLat);
+
             const lat = coords[0];
             const long = coords[1];
+
             content += `<td><button class="btn btn-primary" v-on:click="name">${feature.get(
               "id"
             )}</button> </td> <td>${lat}</td><td>${long}</td>`;
