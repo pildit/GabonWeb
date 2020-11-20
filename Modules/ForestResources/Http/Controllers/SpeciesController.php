@@ -26,7 +26,7 @@ class SpeciesController extends Controller
 
         $this->middleware('permission:species.approve')->only('approve');
 
-        $this->middleware('role:admin')->only('delete');
+//        $this->middleware('role:admin')->only('delete');
 
     }
 

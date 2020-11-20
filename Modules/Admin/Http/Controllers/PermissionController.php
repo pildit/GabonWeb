@@ -22,7 +22,7 @@ class PermissionController extends Controller
 
     public function __construct()
     {
-        $this->middleware('role:admin');
+//        $this->middleware('role:admin');
 
         $this->middleware('permission:permission.view')->only('index', 'show');
 

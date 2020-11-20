@@ -29,7 +29,7 @@ class LogbookController extends Controller
 
         $this->middleware('permission:logbook.approve')->only('approve');
 
-        $this->middleware('role:admin')->only('delete');
+//        $this->middleware('role:admin')->only('delete');
 
     }
 

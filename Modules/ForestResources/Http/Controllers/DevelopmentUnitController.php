@@ -30,7 +30,7 @@ class DevelopmentUnitController extends Controller
 
         $this->middleware('permission:development-unit.approve')->only('approve');
 
-        $this->middleware('role:admin')->only('delete');
+//        $this->middleware('role:admin')->only('delete');
 
     }
 

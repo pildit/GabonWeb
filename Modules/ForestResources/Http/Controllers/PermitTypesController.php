@@ -8,7 +8,6 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\PermitType;
 use App\Services\PageResults;
-use GenTux\Jwt\GetsJwtToken;
 
 class PermitTypesController extends Controller
 {
@@ -16,7 +15,7 @@ class PermitTypesController extends Controller
 
     public function __construct()
     {
-        $this->middleware('role:admin');
+//        $this->middleware('role:admin');
     }
     /**
      * Display a listing of the resource.
@@ -47,7 +46,7 @@ class PermitTypesController extends Controller
             'UserId' => $this->JwtPayload('data.id')
             ]);
 
-        return \response()->json([
+        return response()->json([
             'message' => lang('created_successfully')
         ], 201);
     }

@@ -22,7 +22,7 @@ class TranslationController extends Controller
 
         $this->middleware('permission:translations.edit')->only('update');
 
-        $this->middleware('role:admin')->only('delete');
+//        $this->middleware('role:admin')->only('delete');
 
     }
 

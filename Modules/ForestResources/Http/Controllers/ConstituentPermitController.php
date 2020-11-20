@@ -29,7 +29,7 @@ class ConstituentPermitController extends Controller
 
         $this->middleware('permission:constituent-permit.approve')->only('approve');
 
-        $this->middleware('role:admin')->only('delete');
+//        $this->middleware('role:admin')->only('delete');
 
     }
 

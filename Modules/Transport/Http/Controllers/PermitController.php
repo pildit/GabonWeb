@@ -29,7 +29,7 @@ class PermitController extends Controller
 
         $this->middleware('permission:permit.scan_qr_code')->only('update');
 
-        $this->middleware('role:admin')->only('delete');
+//        $this->middleware('role:admin')->only('delete');
 
     }
 

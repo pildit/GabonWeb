@@ -33,7 +33,7 @@ class UserController extends Controller
 
         $this->middleware('permission:users.approve')->only('approve');
 
-        $this->middleware('role:admin')->only('delete', 'assignRoleToUser');
+//        $this->middleware('role:admin')->only('delete', 'assignRoleToUser');
 
     }
 

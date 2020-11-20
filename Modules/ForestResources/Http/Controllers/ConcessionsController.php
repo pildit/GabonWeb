@@ -27,7 +27,7 @@ class ConcessionsController extends Controller
 
         $this->middleware('permission:concession.approve')->only('approve');
 
-        $this->middleware('role:admin')->only('delete');
+//        $this->middleware('role:admin')->only('delete');
 
     }
 

@@ -20,7 +20,7 @@ class RolesController extends Controller
 
         $this->middleware('permission:role.edit')->only('update');
 
-        $this->middleware('role:admin');
+//        $this->middleware('role:admin');
 
     }
 
