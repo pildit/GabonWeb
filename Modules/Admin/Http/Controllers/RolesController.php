@@ -14,6 +14,16 @@ class RolesController extends Controller
 {
     use GetsJwtToken;
 
+    public function __construct()
+    {
+        $this->middleware('permission:role.add')->only('store');
+
+        $this->middleware('permission:role.edit')->only('update');
+
+//        $this->middleware('role:admin');
+
+    }
+
     /**
      * Display a listing of the resource.
      * @return JsonResponse

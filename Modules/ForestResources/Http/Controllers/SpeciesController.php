@@ -2,6 +2,7 @@
 
 namespace Modules\ForestResources\Http\Controllers;
 
+use App\Traits\Approve;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
@@ -11,7 +12,23 @@ use GenTux\Jwt\GetsJwtToken;
 
 class SpeciesController extends Controller
 {
-    use GetsJwtToken;
+    use GetsJwtToken, Approve;
+
+    private $modelName = Species::class;
+
+    public function __construct()
+    {
+        $this->middleware('permission:species.view')->only('index', 'show');
+
+        $this->middleware('permission:species.add')->only('store');
+
+        $this->middleware('permission:species.edit')->only('update');
+
+        $this->middleware('permission:species.approve')->only('approve');
+
+//        $this->middleware('role:admin')->only('delete');
+
+    }
 
     /**
      * Display a listing of the resource.

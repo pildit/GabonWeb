@@ -13,6 +13,10 @@ class PermitTypesController extends Controller
 {
     use GetsJwtToken;
 
+    public function __construct()
+    {
+//        $this->middleware('role:admin');
+    }
     /**
      * Display a listing of the resource.
      * @return Response
@@ -42,7 +46,7 @@ class PermitTypesController extends Controller
             'UserId' => $this->JwtPayload('data.id')
             ]);
 
-        return \response()->json([
+        return response()->json([
             'message' => lang('created_successfully')
         ], 201);
     }

@@ -15,26 +15,32 @@ export default (options) => {
         },
         columns: {
             Id: {
-                header: "Id"
+                header: "id"
+            },
+            Number: {
+                header: 'th_dev_unit_id'
             },
             Name: {
-                header: "Name",
+                header: "th_dev_unit_name",
             },
             ConcessionName: {
-                header: "Concession"
+                header: "th_concession_name"
             },
             plans: {
-                header: "Plan Id",
+                header: "th_plan_id",
                 render: (row) => {
                     return _.map(row.plans, 'Id').join('/')
                 }
             },
+            Email: {
+                header: "th_email"
+            },
             CreatedAt: {
-                header: "Date",
+                header: "th_date",
                 render: (row) => `<span>${moment(row.CreatedAt).format('YYYY-MM-DD HH:mm:ss')}</span>`
             },
             actions: {
-                header: "Actions",
+                header: "th_actions",
                 sort: false,
                 component: ActionColumn
             }

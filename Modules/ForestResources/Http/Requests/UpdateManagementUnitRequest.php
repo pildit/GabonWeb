@@ -14,10 +14,10 @@ class UpdateManagementUnitRequest extends FormRequest
     public function rules()
     {
         return [
+            'Number' => 'string',
             'Name' => 'string',
             'DevelopmentUnit' => 'exists:Modules\ForestResources\Entities\DevelopmentUnit,Id',
             'Geometry' => 'string',
-            'Approved' => 'bool',
         ];
     }
 

@@ -12,6 +12,22 @@ use Modules\ForestResources\Http\Requests\UpdateManagementPlanRequest;
 
 class ManagementPlanController extends Controller
 {
+    private $modelName = ManagementPlan::class;
+
+    public function __construct()
+    {
+        $this->middleware('permission:management-unit.view')->only('index', 'show');
+
+        $this->middleware('permission:management-unit.add')->only('store');
+
+        $this->middleware('permission:management-unit.edit')->only('update');
+
+        $this->middleware('permission:management-unit.approve')->only('approve');
+
+//        $this->middleware('role:admin')->only('delete');
+
+    }
+
     /**
      * Store managementplan
      * @param CreateManagementPlanRequest $request

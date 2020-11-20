@@ -14,6 +14,7 @@ class CreateManagementUnitRequest extends FormRequest
     public function rules()
     {
         return [
+            'Number' => 'required|string',
             'Name' => 'required|string',
             'DevelopmentUnit' => 'required|exists:Modules\ForestResources\Entities\DevelopmentUnit,Id',
             'Geometry' => 'string',

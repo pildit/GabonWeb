@@ -20,7 +20,7 @@ class ManagementUnit extends Model
      *
      * @var array
      */
-    protected $fillable = ['Name','DevelopmentUnit','Geometry','Approved'];
+    protected $fillable = ['Name','Number', 'User', 'DevelopmentUnit','Geometry','Approved'];
 
     /**
      * @var string
@@ -35,6 +35,8 @@ class ManagementUnit extends Model
     protected $table = 'ForestResources.ManagementUnits';
 
     protected $primaryKey = "Id";
+
+    protected $hidden = ['Geometry'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

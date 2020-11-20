@@ -15,7 +15,6 @@ class Pages extends Base {
             "landingpage" : vueLandingPage,
             "nomenclatures": vueNomenclatures,
             "concessions": vueConcessions,
-            "nomenclatures": vueNomenclatures,
             "management": vueManagement,
         };
     }

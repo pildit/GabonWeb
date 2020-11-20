@@ -19,7 +19,6 @@ class ConcessionRequest extends FormRequest
             'Continent' => 'integer|required|', //exists:Taxonomy.continents,id',
             'Geometry' => 'string',
             'ConstituentPermit' => 'integer|required|exists:pgsql.ForestResources.ConstituentPermits,Id',
-            'Approved' => 'bool',
         ];
     }
 

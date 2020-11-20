@@ -14,6 +14,7 @@ class DevelopmentUnit extends Base {
 
     static buildForm(data) {
         let obj = {
+            Number : data.Number,
             Name : data.Name,
             Concession : data.Concession.Id,
             Start: data.Start,
@@ -37,6 +38,10 @@ class DevelopmentUnit extends Base {
 
     static update(id, data) {
         return store.dispatch('development_unit/update', {id, data});
+    }
+
+    static listSearch(name, limit = 100) {
+        return store.dispatch('development_unit/listSearch', {name, limit}).then(response => response.data);
     }
 
 }

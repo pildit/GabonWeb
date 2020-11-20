@@ -16,9 +16,28 @@ use Shapefile\ShapefileReader;
 use Modules\ForestResources\Services\SiteLogbook as SiteLogbookService;
 use Shapefile\Geometry\Polygon;
 use Illuminate\Support\Facades\File;
+use App\Traits\Approve;
 
 class SiteLogbookController extends Controller
 {
+
+    use Approve;
+
+    private $modelName = SiteLogbook::class;
+
+    public function __construct()
+    {
+        $this->middleware('permission:site_logbook.view')->only('index', 'show');
+
+        $this->middleware('permission:site_logbook.add')->only('store');
+
+        $this->middleware('permission:site_logbook.edit')->only('update');
+
+        $this->middleware('permission:site_logbook.approve')->only('approve');
+
+//        $this->middleware('role:admin')->only('delete');
+
+    }
 
     /**
      * Display a listing of the resource.

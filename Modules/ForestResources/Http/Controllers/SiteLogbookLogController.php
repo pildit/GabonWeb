@@ -11,9 +11,29 @@ use Modules\ForestResources\Http\Requests\UpdateSiteLogbookLogRequest;
 use Modules\ForestResources\Services\SiteLogbookLog as SiteLogbookLogService;
 use Modules\ForestResources\Entities\SiteLogbookItem;
 use Illuminate\Validation\ValidationException;
+use App\Traits\Approve;
 
 class SiteLogbookLogController extends Controller
 {
+
+    use Approve;
+
+    private $modelName = SiteLogbookLog::class;
+
+    public function __construct()
+    {
+        $this->middleware('permission:site_logbook.view')->only('index', 'show');
+
+        $this->middleware('permission:site_logbook.add')->only('store');
+
+        $this->middleware('permission:site_logbook.edit')->only('update');
+
+        $this->middleware('permission:site_logbook.approve')->only('approve');
+
+//        $this->middleware('role:admin')->only('delete');
+
+    }
+
     /**
      * Store site_logbook_log
      * @param CreateSiteLogbookLogRequest $request

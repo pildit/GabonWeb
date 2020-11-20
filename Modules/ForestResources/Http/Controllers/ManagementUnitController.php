@@ -14,6 +14,21 @@ use Modules\ForestResources\Services\ManagementUnit as ManagementUnitService;
 
 class ManagementUnitController extends Controller
 {
+    private $modelName = ManagementUnit::class;
+
+    public function __construct()
+    {
+        $this->middleware('permission:management-unit.view')->only('index', 'show');
+
+        $this->middleware('permission:management-unit.add')->only('store');
+
+        $this->middleware('permission:management-unit.edit')->only('update');
+
+        $this->middleware('permission:management-unit.approve')->only('approve');
+
+//        $this->middleware('role:admin')->only('delete');
+
+    }
 
     /**
      * Display a listing of the resource.
@@ -23,7 +38,10 @@ class ManagementUnitController extends Controller
     {
         $pr->setSortFields(['Id']);
 
-        return response()->json($pr->getPaginator($request, ManagementUnit::class , ['Name'], ['plans','developmentUnit']));
+        return response()->json($pr->getPaginator($request, ManagementUnit::class , ['Name'], [
+            'plans',
+            'developmentUnit'
+        ]));
     }
 
     /**
@@ -45,12 +63,12 @@ class ManagementUnitController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param ManagementUnit $managementunit
+     * @param ManagementUnit $management_unit
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(ManagementUnit $managementunit)
+    public function show(ManagementUnit $management_unit)
     {
-        return response()->json(['data' => $managementunit]);
+        return response()->json(['data' => $management_unit]);
     }
 
     /**

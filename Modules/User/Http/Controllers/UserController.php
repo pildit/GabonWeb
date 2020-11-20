@@ -22,6 +22,21 @@ class UserController extends Controller
 {
     use ValidatesRequests;
 
+
+    public function __construct()
+    {
+        $this->middleware('permission:users.view')->only('index', 'show', 'listTypes');
+
+        $this->middleware('permission:users.add')->only('store');
+
+        $this->middleware('permission:users.edit')->only('update');
+
+        $this->middleware('permission:users.approve')->only('approve');
+
+//        $this->middleware('role:admin')->only('delete', 'assignRoleToUser');
+
+    }
+
     /**
      * Display a listing of the resource.
      *

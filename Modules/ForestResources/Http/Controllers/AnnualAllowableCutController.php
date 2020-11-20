@@ -11,9 +11,27 @@ use Modules\ForestResources\Http\Requests\CreateAnnualAllowableCutRequest;
 use Modules\ForestResources\Http\Requests\UpdateAnnualAllowableCutRequest;
 use Illuminate\Support\Facades\DB;
 use Modules\ForestResources\Services\AnnualAllowableCut as AnnualAllowableCutService;
+use Log;
+use App\Traits\Approve;
 
 class AnnualAllowableCutController extends Controller
 {
+
+    use Approve;
+
+    private $modelName = AnnualAllowableCut::class;
+
+    public function __construct()
+    {
+        $this->middleware('permission:AAC.view')->only('index', 'show');
+
+        $this->middleware('permission:AAC.add')->only('store');
+
+        $this->middleware('permission:AAC.edit')->only('update');
+
+        $this->middleware('permission:AAC.approve')->only('approve');
+
+    }
 
     /**
      * Display a listing of the resource.
@@ -25,6 +43,7 @@ class AnnualAllowableCutController extends Controller
      */
     public function index(Request $request, PageResults $pr)
     {
+
         $pr->setSortFields(['Id']);
 
         return response()->json($pr->getPaginator($request, AnnualAllowableCut::class , [ 'Name'], ['mangementunit','managementplan']));
@@ -83,7 +102,6 @@ class AnnualAllowableCutController extends Controller
         ], 200);
 
     }
-
 
     /**
      * Remove the specified resource from storage.

@@ -2,6 +2,7 @@
 
 namespace Modules\ForestResources\Http\Controllers;
 
+use App\Traits\Approve;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
@@ -12,6 +13,24 @@ use Modules\ForestResources\Services\Concession as ConcessionService;
 
 class ConcessionsController extends Controller
 {
+    use Approve;
+
+    private $modelName = Concession::class;
+
+    public function __construct()
+    {
+        $this->middleware('permission:concession.view')->only('index', 'show');
+
+        $this->middleware('permission:concession.add')->only('store');
+
+        $this->middleware('permission:concession.edit')->only('update');
+
+        $this->middleware('permission:concession.approve')->only('approve');
+
+//        $this->middleware('role:admin')->only('delete');
+
+    }
+
     /**
      * Display a listing of the resource.
      * @return Response

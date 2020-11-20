@@ -14,6 +14,7 @@ class UpdateDevelopmentUnitRequest extends FormRequest
     public function rules()
     {
         return [
+            'Number' => 'string',
             'Name' => 'string',
             'Concession' => 'integer',
             'Start' => 'date_format:Y-m-d',

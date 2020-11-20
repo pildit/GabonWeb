@@ -3,6 +3,7 @@
 namespace Modules\ForestResources\Http\Controllers;
 
 use App\Services\PageResults;
+use GenTux\Jwt\GetsJwtToken;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -11,9 +12,27 @@ use Modules\ForestResources\Entities\DevelopmentUnit;
 use Modules\ForestResources\Http\Requests\CreateDevelopmentUnitRequest;
 use Modules\ForestResources\Http\Requests\UpdateDevelopmentUnitRequest;
 use Modules\ForestResources\Services\DevelopmentUnit as DevelopmentUnitService;
+use App\Traits\Approve;
 
 class DevelopmentUnitController extends Controller
 {
+    use GetsJwtToken, Approve;
+
+    private $modelName = DevelopmentUnit::class;
+
+    public function __construct()
+    {
+        $this->middleware('permission:development-unit.view')->only('index', 'show');
+
+        $this->middleware('permission:development-unit.add')->only('store');
+
+        $this->middleware('permission:development-unit.edit')->only('update');
+
+        $this->middleware('permission:development-unit.approve')->only('approve');
+
+//        $this->middleware('role:admin')->only('delete');
+
+    }
 
     /**
      * @param Request $request
@@ -34,7 +53,7 @@ class DevelopmentUnitController extends Controller
     public function store(CreateDevelopmentUnitRequest $request)
     {
         $data = $request->validated();
-
+        $data['User'] = $this->jwtPayload('data.id');
         $developmentunit = DevelopmentUnit::create($data);
 
         return response()->json([
@@ -52,7 +71,10 @@ class DevelopmentUnitController extends Controller
     public function show($development_unit)
     {
         $geomCol = DB::raw('public.ST_AsText("Geometry") as geometry_as_text');
-        $development_unit = DevelopmentUnit::select(['Id', 'Name', 'Concession', 'Geometry', $geomCol])->with(['plans'])->find($development_unit);
+
+        $development_unit = DevelopmentUnit::select()
+            ->addSelect($geomCol)
+            ->with(['plans'])->find($development_unit);
 
         return response()->json(['data' => $development_unit]);
     }
@@ -109,5 +131,26 @@ class DevelopmentUnitController extends Controller
                 'features' => $developmentUnitService->getVectors($request->get('bbox', config('forestresources.default_bbox')))
             ]
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function listDevelopmentUnits(Request $request)
+    {
+        $concessions = DevelopmentUnit::where('Name', 'like', "%{$request->get('name')}%")
+            ->take($request->get('limit', 100))
+            ->get(['Id', 'Name']);
+
+        return response()->json([
+            'data' => $concessions->map(function ($item) {
+                return [
+                    'Id' => $item->Id,
+                    'Name' => $item->Name
+                ];
+            })
+        ]);
+
     }
 }
