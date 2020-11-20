@@ -34,6 +34,15 @@ on "ForestResources"."PermitTypesTable"
     )
 ;
 
+alter table "ForestResources"."PermitTypesTable"
+    add "CreatedAt" timestamp default CURRENT_TIMESTAMP not null;
+
+alter table "ForestResources"."PermitTypesTable"
+    add "UpdatedAt" timestamp default CURRENT_TIMESTAMP not null;
+
+alter table "ForestResources"."PermitTypesTable"
+    add "DeletedAt" timestamp null;
+
 create view "ForestResources"."PermitTypes"("Id", "Name", "Abbreviation", "UserId", "CreatedAt", "UpdatedAt") as
 SELECT pt."Id",
        pt."Name",

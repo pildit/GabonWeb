@@ -166,15 +166,23 @@ class AnnualAllowableCutInventoryController extends Controller
 
         $collection = $collection->map(function ($item) {
 
-            $AnnualAllowableCut = AnnualAllowableCut::where("Id", $item->AnnualAllowableCut)->first();
-            $Species = Species::where("Id", $item->Species)->first();
-            $Parcel = Parcel::where("Id", $item->Parcel)->first();
+            $AnnualAllowableCut = (AnnualAllowableCut::select("Name")->where("Id", $item->AnnualAllowableCut)->first()) ?
+                AnnualAllowableCut::select("Name")->where("Id", $item->AnnualAllowableCut)->first()->Name :
+                $item->AnnualAllowableCut;
+
+            $Species = (Species::select("CommonName")->where("Id", $item->Species)->first()) ?
+                Species::select("CommonName")->where("Id", $item->Species)->first()->CommonName :
+                $item->Species;
+
+            $Parcel = (Parcel::select("Name")->where("Id", $item->Parcel)->first()) ?
+                Parcel::select("Name")->where("Id", $item->Parcel)->first()->Name :
+                $item->Parcel;
 
             return [
-                'AnnualAllowableCut' => $AnnualAllowableCut->Name,
-                'Species' => $Species->CommonName,
+                'AnnualAllowableCut' => $AnnualAllowableCut,
+                'Species' => $Species,
                 'Quality' => $item->Quality,
-                'Parcel' => $Parcel->Name,
+                'Parcel' => $Parcel,
                 'TreeId' => $item->TreeId,
                 'DiameterBreastHeight' => $item->DiameterBreastHeight,
                 'Lat' => $item->Lat,

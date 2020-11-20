@@ -8,6 +8,9 @@ use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\Quality;
 use GenTux\Jwt\GetsJwtToken;
 use App\Services\PageResults;
+use Modules\ForestResources\Exports\Exporter;
+use Maatwebsite\Excel\Facades\Excel;
+use Modules\User\Entities\User;
 
 class QualityController extends Controller
 {
@@ -91,5 +94,44 @@ class QualityController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+
+    public function export(Request $request)
+    {
+        $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
+        $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
+
+        $headings  = ['Value', 'Description', 'User'];
+        $collection = Quality::select('Id', 'Value', 'Description', 'UserId');
+
+        if($request->get('date_from')){
+            $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
+        }
+        if($request->get('date_to')){
+            $collection = $collection->where("CreatedAt","<=",$request->get('date_to'));
+        }
+
+        $collection = $collection->get();
+        $collection = $collection->map(function ($item) {
+
+            $User = (User::select("firstname","lastname")->where("id", $item->UserId)->first()) ?
+                User::select("firstname")->where("id", $item->UserId)->first()->firstname ." ".User::select("lastname")->where("id", $item->UserId)->first()->lastname :
+                $item->User;
+
+            return [
+                'Value' => $item->Value,
+                'Description' => $item->Description,
+                'User' => $User
+            ];
+
+        });
+
+        return Excel::download(new Exporter($collection,$headings), 'quality.xlsx');
     }
 }

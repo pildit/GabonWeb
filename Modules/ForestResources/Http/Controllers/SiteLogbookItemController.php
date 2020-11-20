@@ -7,11 +7,14 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\SiteLogbookItem;
+use Modules\ForestResources\Entities\Species;
 use Modules\ForestResources\Http\Requests\CreateSiteLogbookItemRequest;
 use Modules\ForestResources\Http\Requests\UpdateSiteLogbookItemRequest;
 use Modules\ForestResources\Services\SiteLogbookItem as SiteLogbookItemService;
 use Modules\ForestResources\Entities\SiteLogbook;
 use Illuminate\Validation\ValidationException;
+use Modules\ForestResources\Exports\Exporter;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SiteLogbookItemController extends Controller
 {
@@ -117,5 +120,49 @@ class SiteLogbookItemController extends Controller
         return response()->json([
             "data" => $form
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+
+    public function export(Request $request)
+    {
+        $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
+        $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
+
+        $headings  = ['SiteLogbook','Species','HewingId','Date','MaxDiameter','MinDiameter','AverageDiameter','Length','Volume','ObserveAt','Approved'];
+        $collection = SiteLogbookItem::select('Id','SiteLogbook','Species','HewingId','Date','MaxDiameter','MinDiameter','AverageDiameter','Length','Volume','ObserveAt');
+
+        if($request->get('date_from')){
+            $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
+        }
+        if($request->get('date_to')){
+            $collection = $collection->where("CreatedAt","<=",$request->get('date_to'));
+        }
+
+        $collection = $collection->get();
+        $collection = $collection->map(function ($item) {
+
+            $Species = (Species::select("CommonName")->where("Id", $item->Species)->first()) ?
+                Species::select("CommonName")->where("Id", $item->Species)->first()->CommonName :
+                $item->Species;
+
+            return [
+                'SiteLogbook'=> $item->SiteLogbook,
+                'Species'=> $Species,
+                'HewingId'=> $item->HewingId,
+                'Date'=> $item->Date,
+                'MaxDiameter'=> $item->MaxDiameter,
+                'MinDiameter'=> $item->MinDiameter,
+                'AverageDiameter'=> $item->AverageDiameter,
+                'Length'=> $item->Length,
+                'Volume'=> $item->Volume,
+                'ObserveAt'=> $item->ObserveAt
+            ];
+        });
+
+        return Excel::download(new Exporter($collection,$headings), 'sitelogbook_item.xlsx');
     }
 }

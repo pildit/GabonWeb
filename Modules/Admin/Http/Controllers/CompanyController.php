@@ -10,6 +10,8 @@ use Modules\Admin\Entities\CompanyType;
 use Modules\Admin\Entities\Company;
 use Modules\Admin\Http\Requests\CreateCompanyRequest;
 use GenTux\Jwt\GetsJwtToken;
+use Modules\Transport\Exports\Exporter;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CompanyController extends Controller
 {
@@ -107,5 +109,37 @@ class CompanyController extends Controller
                ];
            })
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+
+    public function export(Request $request)
+    {
+        $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
+        $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
+
+        $headings  = ["Name"];
+        $collection = Company::select("Id","Name");
+
+        if($request->get('date_from')){
+            $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
+        }
+        if($request->get('date_to')){
+            $collection = $collection->where("CreatedAt","<=",$request->get('date_to'));
+        }
+
+        $collection = $collection->get();
+        $collection = $collection->map(function ($item) {
+
+            return [
+                "Name"=>$item->Name,
+
+            ];
+        });
+
+        return Excel::download(new Exporter($collection,$headings), 'company.xlsx');
     }
 }

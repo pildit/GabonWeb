@@ -103,12 +103,17 @@ class AnnualOperationPlanController extends Controller
 
         $collection = $collection->map(function ($item) {
 
-            $AnnualAllowableCut = AnnualAllowableCut::where("Id", $item->AnnualAllowableCut)->first();
-            $Species = Species::where("Id", $item->Species)->first();
+            $AnnualAllowableCut = (AnnualAllowableCut::select("Name")->where("Id", $item->AnnualAllowableCut)->first()) ?
+                AnnualAllowableCut::select("Name")->where("Id", $item->AnnualAllowableCut)->first()->Name :
+                $item->AnnualAllowableCut;
+
+            $Species = (Species::select("CommonName")->where("Id", $item->Species)->first()) ?
+                Species::select("CommonName")->where("Id", $item->Species)->first()->CommonName :
+                $item->Species;
 
             return [
-                'AnnualAllowableCut' => $AnnualAllowableCut->Name,
-                'Species' => $Species->CommonName,
+                'AnnualAllowableCut' => $AnnualAllowableCut,
+                'Species' => $Species,
                 'ExploitableVolume'=>$item->ExploitableVolume,
                 'NonExploitableVolume'=>$item->NonExploitableVolume,
                 'VolumePerHectare'=>$item->VolumePerHectare,

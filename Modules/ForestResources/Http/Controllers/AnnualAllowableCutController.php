@@ -148,12 +148,14 @@ class AnnualAllowableCutController extends Controller
 
         $collection = $collection->map(function ($item) {
 
-            $ManagementUnit = ManagementUnit::where("Id",$item->ManagementUnit)->first();
+            $ManagementUnit = (ManagementUnit::select("Name")->where("Id",$item->ManagementUnit)->first()) ?
+                ManagementUnit::select("Name")->where("Id",$item->ManagementUnit)->first()->Name  :
+                $item->ManagementUnit;
 
             return [
                 'Name' => $item->Name,
                 'ID' => $item->AacId,
-                'ManagementUnit' => $ManagementUnit->Name,
+                'ManagementUnit' => $ManagementUnit,
                 'ManagementPlan' => $item->ManagementPlan
             ];
         });

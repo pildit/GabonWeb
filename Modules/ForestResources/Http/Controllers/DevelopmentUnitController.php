@@ -133,11 +133,14 @@ class DevelopmentUnitController extends Controller
 
         $collection = $collection->get();
         $collection = $collection->map(function ($item) {
-            $concession = Concession::where("Id",$item->Concession)->first();
+            $concession = (Concession::select("Name")->where("Id",$item->Concession)->first()) ?
+                Concession::select("Name")->where("Id",$item->Concession)->first()->Name :
+                $item->Concession;
+
             $plans = implode(",",array_column(DevelopmentPlan::select("Id")->where("DevelopmentUnit",$item->Id)->get()->toArray(),"Id"));
             return [
                 'Name' => $item->Name,
-                'Concession' => $concession->Name,
+                'Concession' => $concession,
                 'Plan ID' => $plans,
                 'Start' => $item->Start,
                 'End' => $item->End,

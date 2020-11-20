@@ -6,6 +6,11 @@ use App\Services\PageResults;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Admin\Entities\Company;
+use Modules\ForestResources\Entities\AnnualAllowableCut;
+use Modules\ForestResources\Entities\Concession;
+use Modules\ForestResources\Entities\DevelopmentUnit;
+use Modules\ForestResources\Entities\ManagementUnit;
 use Modules\ForestResources\Entities\SiteLogbook;
 use Modules\ForestResources\Http\Requests\CreateSiteLogbookRequest;
 use Modules\ForestResources\Http\Requests\UpdateSiteLogbookRequest;
@@ -16,6 +21,8 @@ use Shapefile\ShapefileReader;
 use Modules\ForestResources\Services\SiteLogbook as SiteLogbookService;
 use Shapefile\Geometry\Polygon;
 use Illuminate\Support\Facades\File;
+use Modules\ForestResources\Exports\Exporter;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SiteLogbookController extends Controller
 {
@@ -107,5 +114,64 @@ class SiteLogbookController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
 
+    public function export(Request $request)
+    {
+        $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
+        $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
+
+        $headings  = ['AnnualAllowableCut','ManagementUnit','DevelopmentUnit','Concession','Company','Hammer','Localization','ReportNo','ReportNote','ObserveAt'];
+        $collection = SiteLogbook::select('Id','AnnualAllowableCut','ManagementUnit','DevelopmentUnit','Concession','Company','Hammer','Localization','ReportNo','ReportNote','ObserveAt');
+
+        if($request->get('date_from')){
+            $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
+        }
+        if($request->get('date_to')){
+            $collection = $collection->where("CreatedAt","<=",$request->get('date_to'));
+        }
+
+        $collection = $collection->get();
+        $collection = $collection->map(function ($item) {
+
+            $Concession = (Concession::select("Name")->where("Id",$item->Concession)->first()) ?
+                Concession::select("Name")->where("Id",$item->Concession)->first()->Name :
+                $item->Concession;
+
+            $AnnualAllowableCut = (AnnualAllowableCut::select("Name")->where("Id", $item->AnnualAllowableCut)->first()) ?
+                AnnualAllowableCut::select("Name")->where("Id", $item->AnnualAllowableCut)->first()->Name :
+                $item->AnnualAllowableCut;
+
+            $DevelopmentUnit = (DevelopmentUnit::select("Name")->where("Id", $item->DevelopmentUnit)->first()) ?
+                DevelopmentUnit::select("Name")->where("Id", $item->DevelopmentUnit)->first()->Name :
+                $item->DevelopmentUnit;
+
+            $ManagementUnit = (ManagementUnit::select("Name")->where("Id", $item->ManagementUnit)->first()) ?
+                ManagementUnit::select("Name")->where("Id", $item->ManagementUnit)->first()->Name :
+                $item->ManagementUnit;
+
+            $Company = (Company::select("Name")->where("Id", $item->Company)->first()) ?
+                Company::select("Name")->where("Id", $item->Company)->first()->Name :
+                $item->Company;
+
+
+            return [
+                'AnnualAllowableCut' => $AnnualAllowableCut,
+                'ManagementUnit'  => $ManagementUnit,
+                'DevelopmentUnit'  => $DevelopmentUnit,
+                'Concession'  => $Concession,
+                'Company'  => $Company,
+                'Hammer' => $item->Hammer,
+                'Localization'  => $item->Localization,
+                'ReportNo'  => $item->ReportNo,
+                'ReportNote'  => $item->ReportNote,
+                'ObserveAt'  => $item->ObserveAt
+            ];
+        });
+
+        return Excel::download(new Exporter($collection,$headings), 'sitelogbook.xlsx');
+    }
 }

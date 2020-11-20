@@ -20,6 +20,7 @@ Route::middleware('jwt:api')->group(function (){
     Route::put('/roles/{role}/permissions', "PermissionController@permissions");
     Route::resource('/permissions', 'PermissionController')->only(['index', 'store']);
     Route::resource('/pages', 'PageController')->only('index');
+    Route::get('/companies/export', 'CompanyController@export');
     Route::get('/companies/list', 'CompanyController@listCompanies');
     Route::resource('/companies', CompanyController::class)->except(['edit', 'create', 'delete']);
     Route::get('/mobile_maps', 'MapController@mobileFeatures');
