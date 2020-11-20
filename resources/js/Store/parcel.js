@@ -45,7 +45,10 @@ export default {
             return axios.patch(`api/parcels/${payload.id}`, payload.data)
                 .then((response) => response);
         },
-
+        approve({}, payload) {
+            return axios.patch(`api/parcels/approve/${payload.id}`, payload.data)
+                .then((response) => response);
+        },
         listSearch({}, payload) {
             return axios.get(`api/parcels/list?name=${payload.name}&limit=${payload.limit}`)
                 .then((response) => response);

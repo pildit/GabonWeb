@@ -13,7 +13,11 @@ export default {
         },
         users(state) {
             return state.users;
+        },
+        employeeTypes(state) {
+            return state.employeeTypes;
         }
+
     },
     mutations: {
         user(state, user) {

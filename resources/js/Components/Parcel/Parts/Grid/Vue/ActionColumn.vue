@@ -33,7 +33,7 @@ export default {
             this.modals.form = true;
         },
       approve(val) {
-        let promise =  Item.update(this.rowProp.Id, {Approved: val}).then((response) => {
+        let promise =  Item.approve(this.rowProp.Id, {Approved: val}).then((response) => {
           Notification.success('Parcel', response.data.message)
           return response.data;
         });
