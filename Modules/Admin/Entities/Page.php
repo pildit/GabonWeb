@@ -2,7 +2,7 @@
 
 namespace Modules\Admin\Entities;
 
-use App\Services\Sortable;
+use App\Traits\Sortable;
 use Illuminate\Database\Eloquent\Model;
 
 class Page extends Model
