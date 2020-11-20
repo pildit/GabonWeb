@@ -34,7 +34,7 @@
 
         methods: {
             approve(val) {
-                let promise = val ? Logbook.approve(this.rowProp.Id) : Logbook.update(this.rowProp.Id, {Approved: val});
+                let promise = Logbook.approve(this.rowProp.Id);
 
                 return promise.finally(() => this.rowProp.Approved = val);
             },
