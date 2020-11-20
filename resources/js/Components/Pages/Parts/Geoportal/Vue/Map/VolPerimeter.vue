@@ -12,6 +12,10 @@ import * as ol from "../Imports/ol";
 import * as olExt from "../Imports/ol-ext";
 import { fromLonLat } from "ol/proj";
 
+import Select from "ol/interaction/Select";
+import { singleClick } from "ol/events/condition";
+import PopupFeature from "ol-ext/overlay/PopupFeature";
+
 export default {
   name: "VolPerimeter",
 
@@ -52,10 +56,16 @@ export default {
           }
 
           var f = new ol.Feature(new ol.Polygon([coords]));
+          f.set("id", feature.properties.id);
+          f.set("type", feature.type);
+
           var vector = new ol.LayerVector({
             source: new ol.Vector({ features: [f] }),
             style: new ol.Style({
-              stroke: new ol.Stroke({ width: 2, color: "rgba(52, 163, 79, 0.8)" }),
+              stroke: new ol.Stroke({
+                width: 2,
+                color: "rgba(52, 163, 79, 0.8)",
+              }),
               fill: new ol.Fill({ color: "rgba(52, 163, 79, 0.5)" }),
             }),
           });
@@ -63,6 +73,27 @@ export default {
           perimetersVector.push(vector);
           this.map.addLayer(vector);
         }
+
+        // Select  interaction
+        var select = new Select({
+          hitTolerance: 5,
+          multi: true,
+          condition: singleClick,
+        });
+        this.map.addInteraction(select);
+
+        // Select control
+        var popup = new PopupFeature({
+          popupClass: "default anim",
+          select: select,
+          canFix: true,
+          template: {
+            title: function (f) {
+              return "Perimeter";
+            },
+          },
+        });
+        this.map.addOverlay(popup);
       } else {
         for (const vector of perimetersVector) {
           vector.setVisible(false);
@@ -72,11 +103,19 @@ export default {
     },
 
     renderParcels(isShown = true) {
-      this.renderPerimeter(this.parcelsPerimeters, this.parcelsVectors, isShown);
+      this.renderPerimeter(
+        this.parcelsPerimeters,
+        this.parcelsVectors,
+        isShown
+      );
     },
 
     renderConcessions(isShown = true) {
-      this.renderPerimeter(this.concessionsPerimeters, this.concessionsVectors, isShown);
+      this.renderPerimeter(
+        this.concessionsPerimeters,
+        this.concessionsVectors,
+        isShown
+      );
     },
   },
 
@@ -97,12 +136,11 @@ export default {
           this.renderConcessions();
         });
       } else {
-          this.renderConcessions(false);
+        this.renderConcessions(false);
       }
     },
   },
 
-  mounted() {
-  },
+  mounted() {},
 };
 </script>
