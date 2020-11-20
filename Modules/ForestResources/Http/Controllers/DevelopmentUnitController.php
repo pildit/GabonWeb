@@ -54,11 +54,11 @@ class DevelopmentUnitController extends Controller
     {
         $data = $request->validated();
         $data['User'] = $this->jwtPayload('data.id');
-        $developmentunit = DevelopmentUnit::create($data);
+        $development_unit = DevelopmentUnit::create($data);
 
         return response()->json([
             'message' => lang("developmentunit_created_successfully"),
-            'id' => $developmentunit->Id
+            'id' => $development_unit->Id
         ], 201);
     }
 
@@ -94,7 +94,8 @@ class DevelopmentUnitController extends Controller
         $development_unit->update($data);
 
         return response()->json([
-            'message' => lang('developmentunit_update_successful')
+            'message' => lang('developmentunit_update_successful'),
+            'id' => $development_unit->Id
         ], 200);
 
     }

@@ -38,7 +38,7 @@
                 <div class="form-row">
                     <div class="col">
                         <div class="md-form">
-                            <input type="text" id="Geometry" class="form-control" v-model="form.Geometry">
+                            <input type="text" id="Geometry" class="form-control" v-model="form.Geometry" v-validate="'required'">
                             <label for="Geometry" :class="{'active': form.Geometry}">{{translate('geometry_input_label')}}</label>
                         </div>
                     </div>
@@ -154,7 +154,6 @@ export default {
               startDate: moment(),
               endDate: moment().add(1,'d')
           },
-          picker: {},
           concessionsList: {
               data: [],
               isLoading: false,
@@ -259,9 +258,6 @@ export default {
         updateDates(values) {
             this.form.Start = moment(values.startDate).format('YYYY-MM-DD');
             this.form.End = moment(values.endDate).format('YYYY-MM-DD');
-        },
-        checkOpen (open) {
-            console.log('event: open', open)
         },
 
     },
