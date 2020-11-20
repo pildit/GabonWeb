@@ -9,6 +9,7 @@ import GeoportalPage from "./Vue/GeoportalPage.vue";
 import store from 'store/store';
 import PrettyCheckbox from 'pretty-checkbox-vue';
 import VCalendar from 'v-calendar';
+import VueRangeSlider from "vue-range-component";
 
 /* Load the map */
 Vue.use(VueLayers)
@@ -16,6 +17,7 @@ Vue.use(PrettyCheckbox);
 
 // Use v-calendar & v-date-picker components
 Vue.use(VCalendar, { componentPrefix: 'v' });
+Vue.use(VueRangeSlider);
 
 // Checkbox component
 Vue.component('rcp-checkbox', {

@@ -177,6 +177,16 @@
       >
         Invalid transport permit date
       </rcp-alert-box>
+      <vue-range-slider
+        style="margin-top: 50px"
+        v-if="checkPicked == 'checkTransportPermit'"
+        v-model="transportPermitHourInterval"
+        :min="transportPermitHourMin"
+        :max="transportPermitHourMax"
+        :formatter="transportPermitHourFormatter"
+        :tooltip-merge="false"
+        :enable-cross="false"
+      ></vue-range-slider>
 
       <br />
       <hr />
@@ -207,14 +217,25 @@ import olExtToggle from "ol-ext/control/Toggle";
 /* Vuex */
 import store from "store/store";
 import { mapGetters, mapState, mapMutations, mapActions } from "vuex";
-
 import "pretty-checkbox/src/pretty-checkbox.scss";
+
+import "vue-range-component/dist/vue-range-slider.css";
 
 export default {
   name: "VolSideBar",
 
   data() {
     return {
+      transportPermitHourInterval: [10, 13],
+      transportPermitHourMin: 0,
+      transportPermitHourMax: 24,
+      transportPermitHourFormatter: (value) => {
+        if (value === 24) {
+          return "23:59";
+        }
+        return `${value}:00`;
+      },
+
       checkPicked: "",
 
       range: {
