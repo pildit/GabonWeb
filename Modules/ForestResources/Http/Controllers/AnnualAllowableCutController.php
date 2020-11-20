@@ -23,13 +23,13 @@ class AnnualAllowableCutController extends Controller
 
     public function __construct()
     {
-        $this->middleware('can:AAC.view')->only('index', 'show');
+        $this->middleware('permission:AAC.view')->only('index', 'show');
 
-        $this->middleware('can:AAC.add')->only('store');
+        $this->middleware('permission:AAC.add')->only('store');
 
-        $this->middleware('can:AAC.edit')->only('update');
+        $this->middleware('permission:AAC.edit')->only('update');
 
-        $this->middleware('can:AAC.approve')->only('approve');
+        $this->middleware('permission:AAC.approve')->only('approve');
 
     }
 

@@ -18,13 +18,13 @@ class ManagementUnitController extends Controller
 
     public function __construct()
     {
-        $this->middleware('can:management-unit(UFG).view')->only('index', 'show');
+        $this->middleware('permission:management-unit(UFG).view')->only('index', 'show');
 
-        $this->middleware('can:management-unit(UFG).add')->only('store');
+        $this->middleware('permission:management-unit(UFG).add')->only('store');
 
-        $this->middleware('can:management-unit(UFG).edit')->only('update');
+        $this->middleware('permission:management-unit(UFG).edit')->only('update');
 
-        $this->middleware('can:management-unit(UFG).approve')->only('approve');
+        $this->middleware('permission:management-unit(UFG).approve')->only('approve');
 
         $this->middleware('role:admin')->only('delete');
 

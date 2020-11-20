@@ -24,7 +24,7 @@ class PermissionController extends Controller
     {
         $this->middleware('role:admin');
 
-        $this->middleware('can:permission.view')->only('index', 'show');
+        $this->middleware('permission:permission.view')->only('index', 'show');
 
 
     }

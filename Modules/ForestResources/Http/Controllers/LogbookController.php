@@ -21,13 +21,13 @@ class LogbookController extends Controller
 
     public function __construct()
     {
-        $this->middleware('can:logbook.view')->only('index', 'show');
+        $this->middleware('permission:logbook.view')->only('index', 'show');
 
-        $this->middleware('can:logbook.add')->only('store');
+        $this->middleware('permission:logbook.add')->only('store');
 
-        $this->middleware('can:logbook.edit')->only('update');
+        $this->middleware('permission:logbook.edit')->only('update');
 
-        $this->middleware('can:logbook.approve')->only('approve');
+        $this->middleware('permission:logbook.approve')->only('approve');
 
         $this->middleware('role:admin')->only('delete');
 

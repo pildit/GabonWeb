@@ -17,11 +17,11 @@ class PermitItemController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:permit.view')->only('index', 'show');
+        $this->middleware('permission:permit.view')->only('index', 'show');
 
-        $this->middleware('can:permit.add')->only('store');
+        $this->middleware('permission:permit.add')->only('store');
 
-        $this->middleware('can:permit.edit')->only('update');
+        $this->middleware('permission:permit.edit')->only('update');
 
         $this->middleware('role:admin')->only('delete');
 

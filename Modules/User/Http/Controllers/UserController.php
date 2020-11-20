@@ -25,13 +25,13 @@ class UserController extends Controller
 
     public function __construct()
     {
-        $this->middleware('can:users.view')->only('index', 'show', 'listTypes');
+        $this->middleware('permission:users.view')->only('index', 'show', 'listTypes');
 
-        $this->middleware('can:users.add')->only('store');
+        $this->middleware('permission:users.add')->only('store');
 
-        $this->middleware('can:users.edit')->only('update');
+        $this->middleware('permission:users.edit')->only('update');
 
-        $this->middleware('can:users.approve')->only('approve');
+        $this->middleware('permission:users.approve')->only('approve');
 
         $this->middleware('role:admin')->only('delete', 'assignRoleToUser');
 
