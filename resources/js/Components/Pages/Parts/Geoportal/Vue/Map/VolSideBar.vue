@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="options"></div>
+    <!-- <div class="options"></div> -->
     <!-- Content of the menu -->
     <div id="menu" v-bind:style="{ height: window.height + 'px' }">
       <h1>Options</h1>
@@ -261,6 +261,10 @@ export default {
       },
 
       isTest: true,
+
+      /* MENU */
+      menu: null,
+      toggaleMenu: null,
     };
   },
 
@@ -278,9 +282,41 @@ export default {
   },
 
   methods: {
+    initializeSideBar() {
+      var menu = new olExtOverlay({
+        closeBox: true,
+        className: "menu",
+        content: $("#menu").get(0),
+      });
+
+      this.menu = menu;
+      this.map.addControl(menu);
+
+      var toggaleMenu = new olExtToggle({
+        html: '<i class="fa fa-bars" ></i>',
+        className: "menu",
+        title: "Menu",
+        onToggle: function () {
+          menu.toggle();
+        },
+      });
+
+      this.toggaleMenu = toggaleMenu;
+      this.map.addControl(toggaleMenu);
+
+      this.setMap(this.map);
+    },
+
     handleResize() {
-      this.window.width = window.innerWidth;
       this.window.height = window.innerHeight;
+      this.window.width = window.innerWidth;
+
+      /* Change the style of the menu dynamically */
+      if (window.innerWidth < 900) {
+        this.menu.setClass("menu-expand");
+      } else {
+        this.menu.setClass("menu");
+      }
     },
 
     ...mapActions({
@@ -340,28 +376,7 @@ export default {
       this.windowHeight = window.innerHeight;
     });
 
-    var menu = new olExtOverlay({
-      closeBox: true,
-      className: "menu",
-      content: $("#menu").get(0),
-    });
-
-    this.map.addControl(menu);
-
-    // A toggle control to show/hide the menu
-    var t = new olExtToggle({
-      html: '<i class="fa fa-bars" ></i>',
-      className: "menu",
-      title: "Menu",
-      onToggle: function () {
-        menu.toggle();
-      },
-    });
-
-    this.map.addControl(t);
-
-    this.setMap(this.map);
-    console.log("Sidebar Map instance: ", this.map);
+    this.initializeSideBar();
   },
 };
 </script>
@@ -387,11 +402,35 @@ export default {
   content: "\f0c9";
   font-family: FontAwesome;
 }
+
 #menu {
   padding-top: 1.5em;
   font-size: 0.9em;
   overflow-x: scroll;
 }
+
+.ol-overlay.menu-expand {
+  width: 100%;
+  background: #fff;
+  color: #333;
+  box-shadow: 0px 0px 5px #000;
+  padding: 0.5em;
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s;
+}
+
+/* style the close box */
+.ol-overlay.menu-expand .ol-closebox {
+  color: #369;
+  left: 1em;
+  top: 0.5em;
+}
+#menu-expand {
+  padding-top: 1.5em;
+  font-size: 0.9em;
+  overflow-x: scroll;
+}
+
 /* menu button */
 .ol-control.menu {
   top: 0.5em;
