@@ -263,15 +263,13 @@ export default {
 
           popup.show(longLat, content);
         } else {
-          var counter = 1;
+          var counter = 0;
           c.forEach((feature) => {
             content += `<tr><th scope="row">${counter++}</th>`;
             const longLat = feature.getGeometry().getFirstCoordinate();
             const coords = toLonLat(longLat);
-
             const lat = coords[0];
             const long = coords[1];
-            
             content += `<td><button class="btn btn-primary" v-on:click="name">${feature.get(
               "id"
             )}</button> </td> <td>${lat}</td><td>${long}</td>`;

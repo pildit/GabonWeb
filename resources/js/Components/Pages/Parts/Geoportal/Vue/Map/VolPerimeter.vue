@@ -14,7 +14,6 @@ import { fromLonLat } from "ol/proj";
 
 import Select from "ol/interaction/Select";
 import { singleClick } from "ol/events/condition";
-import PopupFeature from "ol-ext/overlay/PopupFeature";
 
 export default {
   name: "VolPerimeter",
@@ -83,7 +82,7 @@ export default {
         this.map.addInteraction(select);
 
         // Select control
-        var popup = new PopupFeature({
+        var popup = new olExt.PopupFeature({
           popupClass: "default anim",
           select: select,
           canFix: true,
