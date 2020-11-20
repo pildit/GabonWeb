@@ -17,7 +17,7 @@ import "ol/ol.css";
 import "ol-ext/style/defaultStyle";
 import * as ol from "../Imports/ol";
 import * as olExt from "../Imports/ol-ext";
-import { fromLonLat } from "ol/proj";
+import { fromLonLat, toLonLat } from "ol/proj";
 
 import Popup from "ol-ext/overlay/Popup";
 import Select from "ol/interaction/Select";
@@ -87,11 +87,9 @@ export default {
         var features = [];
 
         var len;
-        console.log("IN CLUSTER POINTS : ", this.points);
         if (this.points.length == 0) {
           len = 0;
         } else {
-          console.log("ENER HERE");
           len = this.points.features.length;
         }
 
@@ -108,7 +106,7 @@ export default {
         }
 
         this.clusterSource.getSource().clear();
-        this.clusterSource.getSource().addFeatures(features); // TODO Ritan: Add actual cluster features
+        this.clusterSource.getSource().addFeatures(features);
       });
 
       // Style for the clusters
@@ -120,16 +118,16 @@ export default {
           var color =
             size > 25 ? "192,0,0" : size > 8 ? "255,128,0" : "0,128,0";
           var radius = Math.max(8, Math.min(size * 0.75, 20));
-          //var dash = (2 * Math.PI * radius) / 6;
-          //var dash = [0, dash, dash, dash, dash, dash, dash];
+          // var dash = (2 * Math.PI * radius) / 6;
+          // var dash = [0, dash, dash, dash, dash, dash, dash];
           style = styleCache[size] = new ol.Style({
             image: new ol.Circle({
               radius: radius,
               stroke: new ol.Stroke({
                 color: "rgba(" + color + ",0.5)",
                 width: 15,
-                //lineDash: dash,
-                //lineCap: "butt",
+                // lineDash: dash,
+                // lineCap: "butt",
               }),
               fill: new ol.Fill({
                 color: "rgba(" + color + ",1)",
@@ -137,8 +135,8 @@ export default {
             }),
             text: new ol.Text({
               text: size.toString(),
-              //font: 'bold 12px comic sans ms',
-              //textBaseline: 'top',
+              // font: 'bold 12px comic sans ms',
+              // textBaseline: 'top',
               fill: new ol.Fill({
                 color: "#fff",
               }),
@@ -158,8 +156,7 @@ export default {
       });
 
       this.map.addLayer(this.clusterLayer);
-      // add 2000 features
-      addFeatures(2000);
+      addFeatures();
 
       // Style for selection
       var img = new ol.Circle({
@@ -210,7 +207,7 @@ export default {
                   width: 2,
                 }),
                 fill: new ol.Fill({ color: "rgba(0,0,192,0.3)" }),
-                //geometry: new olGeomPolygon([chull]),
+                // geometry: new olGeomPolygon([chull]),
                 zIndex: 1,
               })
             );
@@ -234,6 +231,35 @@ export default {
 
       this.map.addInteraction(selectCluster);
 
+      /*   */
+      selectCluster.getFeatures().on(["add"], function (e) {
+        var content = `
+          <div style="height: 150px; width: 250px; background-color: white; overflow-y: scroll">
+          <p style="color:red;">Point informations</p>
+          `;
+
+        var c = e.element.get("features");
+
+        if (c.length == 1) {
+          var feature = c[0];
+          const longLat = feature.getGeometry().getFirstCoordinate();
+          const coords = toLonLat(longLat);
+          content += `<br>Id: ${feature.get("id")} <br>${coords}</div>`;
+          popup.show(longLat, content);
+        } else {
+          content += `Cluster size: ${c.length}`;
+          c.forEach((feature) => {
+            const longLat = feature.getGeometry().getFirstCoordinate();
+            const coords = toLonLat(longLat);
+            content += `<br>Id: <button v-on:click="name">${feature.get(
+              "id"
+            )}</button> <br> Coordinates: ${coords}`;
+          });
+          content += `</div>`;
+          popup.show(c[0].getGeometry().getFirstCoordinate(), content);
+        }
+      });
+
       var popup = new Popup({
         popupClass: "default anim", //"tooltips", "warning" "black" "default", "tips", "shadow",
         closeBox: true,
@@ -247,28 +273,27 @@ export default {
         autoPan: true,
         autoPanAnimation: { duration: 250 },
       });
+
+      var detailedPopup = new Popup({
+        popupClass: "default anim", //"tooltips", "warning" "black" "default", "tips", "shadow",
+        closeBox: true,
+        onshow: function () {
+          console.log("You opened the box");
+        },
+        onclose: function () {
+          console.log("You close the box");
+        },
+        positioning: "auto",
+        autoPan: true,
+        autoPanAnimation: { duration: 250 },
+      });
+
       this.map.addOverlay(popup);
+      this.map.addOverlay(detailedPopup);
 
       // Control Select
       var select = new Select({});
-
-      // On selected => show/hide popup
-      select.getFeatures().on(["add"], function (e) {
-        var feature = e.element;
-        var content = "";
-        // content += "<img src='" + feature.get("img") + "'/>";
-        content += `
-        <div style="height: 150px; width: 150px; background-color: white">
-          <p style="color:red;">Point informations</p>
-        </div>
-        `;
-        popup.show(feature.getGeometry().getFirstCoordinate(), content);
-      });
-      select.getFeatures().on(["remove"], function (e) {
-        popup.hide();
-      });
       popup.setPositioning("bottom-center");
-      this.map.addInteraction(select);
 
       /* Update the stored map */
       this.setMap(this.map);
@@ -279,14 +304,13 @@ export default {
     volSideCommand: function (newVal, oldVal) {
       this.isClusterShown = !this.isClusterShown;
       this.getPoints().then(() => {
-        console.log("POINT: ", this.points.features[0]);
         this.cluster();
       });
     },
   },
 
   mounted() {
-    //this.clusterSetup();
+    // this.clusterSetup();
   },
 };
 </script>
