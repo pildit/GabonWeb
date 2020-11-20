@@ -38,7 +38,7 @@ class ManagementUnit extends Base {
         return store.dispatch('management_unit/update', {id, data});
     }
 
-    static approve(id, value) {
+    static approve(id, data) {
         return store.dispatch('management_unit/approve', {id, data});
     }
 
