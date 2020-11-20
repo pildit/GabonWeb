@@ -21,7 +21,7 @@ class Permit extends PageResults
     public function getVectors($bbox,$LicensePlate,$DateFrom,$DateTo,$Date,$PermitNo)
     {
         $srid = config('transport.srid');
-        $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_flipcoordinates(public.st_transform("Geometry",4256))) as geom');
+        $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_flipcoordinates(public.st_transform(public.st_setsrid("Geometry",'.$srid.'),4256))) as geom');
         $whereIntersects = "public.ST_Intersects(public.st_setsrid(\"Geometry\", {$srid}), public.st_setsrid(public.ST_MakeEnvelope({$bbox}), {$srid}))";
 
         $collection = PermitEntity::select(['Id', $geomCol])
