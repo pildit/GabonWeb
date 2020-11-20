@@ -364,7 +364,7 @@ class Permit extends PageResults
         return array($array);
     }
 
-    public function getPaginator(Request $request,string $model,array $searchFields, array $relations = [])
+    public function getPaginator(Request $request,string $model,array $searchFields, array $relations = [], $hidden = [])
     {
 
         $this->validateRequest($request);
