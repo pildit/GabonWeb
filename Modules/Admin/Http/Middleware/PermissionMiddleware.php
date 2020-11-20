@@ -26,7 +26,6 @@ class PermissionMiddleware
             ? $permission
             : explode('|', $permission);
 
-
         foreach ($permissions as $permission) {
             if(collect($this->jwtPayload('data')['permissions'])->contains($permission)) {
                 return $next($request);
