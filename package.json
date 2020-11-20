@@ -21,10 +21,13 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "bootstrap": "^4.5.3",
+        "jquery": "^3.5.1",
         "laravel-mix-alias": "^1.0.2",
         "moment": "^2.29.1",
         "ol": "^6.4.3",
         "ol-ext": "^3.1.16",
+        "popper.js": "^1.16.1",
         "pretty-checkbox-vue": "^1.1.9",
         "promise.prototype.finally": "^3.1.2",
         "swagger-ui": "^3.36.2",

@@ -18,10 +18,10 @@ import "ol-ext/style/defaultStyle";
 import * as ol from "../Imports/ol";
 import * as olExt from "../Imports/ol-ext";
 import { fromLonLat, toLonLat } from "ol/proj";
-
-import Popup from "ol-ext/overlay/Popup";
-import Select from "ol/interaction/Select";
 import "../Imports/ol-ext.css";
+
+import "bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export default {
   name: "VolClustering",
@@ -233,9 +233,19 @@ export default {
 
       /*   */
       selectCluster.getFeatures().on(["add"], function (e) {
+        counter = counter + 1;
         var content = `
-          <div style="height: 150px; width: 250px; background-color: white; overflow-y: scroll">
-          <p style="color:red;">Point informations</p>
+        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+          <table class="table table-striped">
+           <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">ID</th>
+              <th scope="col">Lat</th>
+              <th scope="col">Lon</th>
+            </tr>
+          </thead>
+          <tbody>
           `;
 
         var c = e.element.get("features");
@@ -244,23 +254,34 @@ export default {
           var feature = c[0];
           const longLat = feature.getGeometry().getFirstCoordinate();
           const coords = toLonLat(longLat);
-          content += `<br>Id: ${feature.get("id")} <br>${coords}</div>`;
+          const lat = coords[0];
+          const long = coords[1];
+
+          content += `<tr><th scope="row">1</th><td>${feature.get(
+            "id"
+          )} </td><td>${lat}</td> <td>${long}</td></tr>`;
+
           popup.show(longLat, content);
         } else {
-          content += `Cluster size: ${c.length}`;
+          var counter = 1;
           c.forEach((feature) => {
+            content += `<tr><th scope="row">${counter++}</th>`;
             const longLat = feature.getGeometry().getFirstCoordinate();
             const coords = toLonLat(longLat);
-            content += `<br>Id: <button v-on:click="name">${feature.get(
+
+            const lat = coords[0];
+            const long = coords[1];
+            
+            content += `<td><button class="btn btn-primary" v-on:click="name">${feature.get(
               "id"
-            )}</button> <br> Coordinates: ${coords}`;
+            )}</button> </td> <td>${lat}</td><td>${long}</td>`;
           });
-          content += `</div>`;
+          content += `</tbody></table></div>`;
           popup.show(c[0].getGeometry().getFirstCoordinate(), content);
         }
       });
 
-      var popup = new Popup({
+      var popup = new olExt.Popup({
         popupClass: "default anim", //"tooltips", "warning" "black" "default", "tips", "shadow",
         closeBox: true,
         onshow: function () {
@@ -274,7 +295,7 @@ export default {
         autoPanAnimation: { duration: 250 },
       });
 
-      var detailedPopup = new Popup({
+      var detailedPopup = new olExt.PopupFeature({
         popupClass: "default anim", //"tooltips", "warning" "black" "default", "tips", "shadow",
         closeBox: true,
         onshow: function () {
@@ -292,7 +313,7 @@ export default {
       this.map.addOverlay(detailedPopup);
 
       // Control Select
-      var select = new Select({});
+      var select = new ol.Select({});
       popup.setPositioning("bottom-center");
 
       /* Update the stored map */
@@ -314,3 +335,13 @@ export default {
   },
 };
 </script>
+<style>
+.my-custom-scrollbar {
+  position: relative;
+  height: 200px;
+  overflow: auto;
+}
+.table-wrapper-scroll-y {
+  display: block;
+}
+</style>
