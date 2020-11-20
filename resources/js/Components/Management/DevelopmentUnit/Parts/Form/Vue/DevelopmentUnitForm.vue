@@ -224,7 +224,7 @@ export default {
                         Notification.success(this.translate('Development Plan'), data.message);
                     })
                 })
-                // window.location.href = DevelopmentUnit.buildRoute('development_units.index');
+                window.location.href = DevelopmentUnit.buildRoute('development_units.index');
             })
         },
         update(data) {
@@ -238,7 +238,7 @@ export default {
                         Notification.success(this.translate('Development Plan'), data.message);
                     })
                 })
-                // window.location.href = DevelopmentUnit.buildRoute('development_units.index');
+                window.location.href = DevelopmentUnit.buildRoute('development_units.index');
             })
         },
         asyncFindConcession(query) {

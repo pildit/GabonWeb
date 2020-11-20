@@ -14,6 +14,7 @@ class DevelopmentUnit extends Base {
 
     static buildForm(data) {
         let obj = {
+            Number : data.Number,
             Name : data.Name,
             Concession : data.Concession.Id,
             Start: data.Start,

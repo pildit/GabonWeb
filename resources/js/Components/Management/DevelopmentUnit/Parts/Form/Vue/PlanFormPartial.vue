@@ -37,11 +37,11 @@
         <div class="form-row">
             <div class="col">
                 <div class="md-form">
-                    <input type="text" id="`MinimumExploitableDiameter-${index}`" name="MinimumExploitableDiameter" class="form-control"
+                    <input type="text" :id="`MinimumExploitableDiameter-${index}`" name="MinimumExploitableDiameter" class="form-control"
                            v-model="formData.MinimumExploitableDiameter"
-                           v-validate="'required'"
+                           v-validate="'required|decimal:5|max:8'"
                     >
-                    <label for="`MinimumExploitableDiameter-${index}`" :class="{'active': formData.MinimumExploitableDiameter}">{{translate('min_exploit_diameter_development_plan_form')}}</label>
+                    <label :for="`MinimumExploitableDiameter-${index}`" :class="{'active': formData.MinimumExploitableDiameter}">{{translate('min_exploit_diameter_development_plan_form')}}</label>
                     <div v-show="errors.has(`MinimumExploitableDiameter`)" class="invalid-feedback">{{ errors.first(`MinimumExploitableDiameter`) }}</div>
                 </div>
             </div>

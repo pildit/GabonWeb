@@ -16,7 +16,7 @@ class CreateDevelopmentPlanRequest extends FormRequest
         return [
             'DevelopmentUnit' => 'required|exists:Modules\ForestResources\Entities\DevelopmentUnit,Id',
             'Species' => 'required|integer',
-            'MinimumExploitableDiameter' => 'required|string',
+            'MinimumExploitableDiameter' => 'required|numeric',
             'VolumeTariff' => 'string',
             'Increment' => ['regex:/^(?:[1-9]\d+|\d)(?:\.\d\d)?(?:\,\d\d)?$/'],
             'Approved' => 'bool'

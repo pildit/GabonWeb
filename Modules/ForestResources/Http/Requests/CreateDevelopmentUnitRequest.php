@@ -14,6 +14,7 @@ class CreateDevelopmentUnitRequest extends FormRequest
     public function rules()
     {
         return [
+            'Number' => 'required|string',
             'Name' => 'required|string',
             'Concession' => 'required|integer',
             'Start' => 'required|date_format:Y-m-d',
