@@ -425,7 +425,7 @@ export default {
 }
 
 #menu {
-  padding-top: 1.5em;
+  padding: 1.5em;
   font-size: 0.9em;
   overflow-x: scroll;
 }
