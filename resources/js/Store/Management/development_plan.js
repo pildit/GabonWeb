@@ -12,6 +12,12 @@ export default {
             let data = payload.data;
             return axios.patch(`api/development_plans/${id}`, data)
                 .then((response) => response.data);
+        },
+        approve({}, payload) {
+            let id = payload.id;
+            let data = payload.data;
+            return axios.patch(`api/development_plans/approve/${id}`, data)
+                .then((response) => response.data);
         }
     }
 }

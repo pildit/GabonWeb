@@ -3,6 +3,7 @@
 namespace Modules\ForestResources\Http\Controllers;
 
 use App\Services\PageResults;
+use App\Traits\Approve;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -14,6 +15,8 @@ use Modules\ForestResources\Services\ManagementUnit as ManagementUnitService;
 
 class ManagementUnitController extends Controller
 {
+    use Approve;
+
     private $modelName = ManagementUnit::class;
 
     public function __construct()
@@ -53,10 +56,11 @@ class ManagementUnitController extends Controller
     {
         $data = $request->validated();
 
-        $managementunit = ManagementUnit::create($data);
+        $management_unit = ManagementUnit::create($data);
 
         return response()->json([
-            'message' => lang("managementunit_created_successfully")
+            'message' => lang("managementunit_created_successfully"),
+            'id' => $management_unit->Id
         ], 201);
     }
 
@@ -66,8 +70,14 @@ class ManagementUnitController extends Controller
      * @param ManagementUnit $management_unit
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(ManagementUnit $management_unit)
+    public function show($management_unit)
     {
+        $geomCol = DB::raw('public.ST_AsText("Geometry") as geometry_as_text');
+
+        $management_unit = ManagementUnit::select()
+            ->addSelect($geomCol)
+            ->with(['plans'])->find($management_unit);
+
         return response()->json(['data' => $management_unit]);
     }
 
@@ -75,18 +85,18 @@ class ManagementUnitController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  ManagementUnit $managementunit
+     * @param  ManagementUnit $management_unit
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateManagementUnitRequest $request, ManagementUnit $managementunit)
+    public function update(UpdateManagementUnitRequest $request, ManagementUnit $management_unit)
     {
 
         $data = $request->validated();
-
-        $managementunit->update($data);
+        $management_unit->update($data);
 
         return response()->json([
-            'message' => lang('managementunit_update_successful')
+            'message' => lang('managementunit_update_successful'),
+            'id' => $management_unit->Id
         ], 200);
 
     }

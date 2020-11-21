@@ -13,6 +13,7 @@ import quality         from './quality';
 import development_unit from './Management/development_unit';
 import development_plan from "./Management/development_plan";
 import management_unit from "./Management/management_unit";
+import management_plan from "./Management/management_plan";
 import constituentPermit         from './constituentpermit';
 import concession         from './concession';
 import translation from "./translation";
@@ -92,6 +93,7 @@ export default new Vuex.Store({
         development_unit,
         development_plan,
         management_unit,
+        management_plan,
         concession,
         translation,
         concession,

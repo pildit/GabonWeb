@@ -5,7 +5,7 @@
             <div class="col">
                 <div class="md-form">
                     <input type="text" :id="`planNumber-${index}`"  class="form-control" v-model="formData.Number">
-                    <label :for="`planNumber-${index}}`" :class="{'active': formData.Number}">{{translate('number_development_plan_form')}}</label>
+                    <label :for="`planNumber-${index}}`" :class="{'active': formData.Number}">{{translate('number_management_plan_form')}}</label>
                 </div>
             </div>
             <div class="col">
@@ -35,24 +35,41 @@
         <div class="form-row">
             <div class="col">
                 <div class="md-form">
-                    <input type="text" :id="`MinimumExploitableDiameter-${index}`" name="MinimumExploitableDiameter" class="form-control"
-                           v-model="formData.MinimumExploitableDiameter"
-                           v-validate="'required|decimal:5|max:8'"
+                    <input type="text" :id="`GrossVolumeUFG-${index}`" name="GrossVolumeUFG" class="form-control"
+                           v-model="formData.GrossVolumeUFG"
+                           v-validate="'required|numeric'"
                     >
-                    <label :for="`MinimumExploitableDiameter-${index}`" :class="{'active': formData.MinimumExploitableDiameter}">{{translate('min_exploit_diameter_development_plan_form')}}</label>
-                    <div v-show="errors.has(`MinimumExploitableDiameter`)" class="invalid-feedback">{{ errors.first(`MinimumExploitableDiameter`) }}</div>
+                    <label :for="`GrossVolumeUFG-${index}`" :class="{'active': formData.GrossVolumeUFG}">{{translate('gross_volume_ufg_management_plan_form_label')}}</label>
+                    <div v-show="errors.has(`GrossVolumeUFG`)" class="invalid-feedback">{{ errors.first(`GrossVolumeUFG`) }}</div>
                 </div>
             </div>
             <div class="col">
                 <div class="md-form">
-                    <input type="text" :id="`VolumeTariff-${index}`" class="form-control" v-model="formData.VolumeTariff">
-                    <label :for="`VolumeTariff-${index}`" :class="{'active': formData.VolumeTariff}">{{translate('volume_tariff_development_plan_form')}}</label>
+                    <input type="text" :id="`GrossVolumeYear-${index}`" class="form-control"
+                           v-model="formData.GrossVolumeYear"
+                           v-validate="'required|numeric'"
+                    >
+                    <label :for="`GrossVolumeYear-${index}`" :class="{'active': formData.GrossVolumeYear}">{{translate('gross_volume_year_management_plan_form_label')}}</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col">
+                <div class="md-form">
+                    <input type="text" :id="`YieldVolumeYear-${index}`" class="form-control"
+                           v-model="formData.YieldVolumeYear"
+                           v-validate="'required|numeric'"
+                    >
+                    <label :for="`YieldVolumeYear-${index}`" :class="{'active': formData.YieldVolumeYear}">{{translate('yield_volume_year_management_plan_form_label')}}</label>
                 </div>
             </div>
             <div class="col">
                 <div class="md-form">
-                    <input type="text" :id="`Increment-${index}`" class="form-control" v-model="formData.Increment">
-                    <label :for="`Increment-${index}`" :class="{'active': formData.Increment}">{{translate('increment_development_plan_form')}}</label>
+                    <input type="text" :id="`CommercialVolumeYear-${index}`" class="form-control"
+                           v-model="formData.CommercialVolumeYear"
+                           v-validate="'required|numeric'"
+                    >
+                    <label :for="`CommercialVolumeYear-${index}`" :class="{'active': formData.CommercialVolumeYear}">{{translate('comercial_volume_year_management_plan_form_label')}}</label>
                 </div>
             </div>
         </div>
@@ -78,9 +95,10 @@ export default {
                 return {
                     Number: null,
                     Species: null,
-                    MinimumExploitableDiameter : null,
-                    VolumeTariff: null,
-                    Increment: null
+                    GrossVolumeUFG : null,
+                    GrossVolumeYear: null,
+                    YieldVolumeYear: null,
+                    CommercialVolumeYear: null
                 }
             }
         }

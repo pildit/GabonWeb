@@ -31,7 +31,7 @@ export default {
         },
 
         approve(value) {
-            ManagementUnit.update(this.rowProp.Id, {Approved: value}).then((response) => {
+            ManagementUnit.approve(this.rowProp.Id, {Approved: value}).then((response) => {
                 Notification.success('Management Unit', response.message);
                 this.rowProp.Approved = value;
             });

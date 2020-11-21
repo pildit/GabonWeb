@@ -64,7 +64,6 @@ CREATE RULE "ManagementUnits_instead_of_update" AS
                 "DevelopmentUnit" = new."DevelopmentUnit",
                 "Geometry"        = new."Geometry",
                 "Approved"        = new."Approved",
-                "Approved"        = new."Approved",
                 "Number"          = new."Number",
                 "User"            = new."User",
                 "UpdatedAt"       = new."UpdatedAt",

@@ -54,6 +54,7 @@ export default {
     mounted() {
       this.getRoles();
       this.$store.dispatch('role/permissions');
+      this.$store.dispatch('user/types');
     },
     methods: {
         getRoles() {
