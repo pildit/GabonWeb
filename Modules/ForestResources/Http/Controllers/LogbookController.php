@@ -23,7 +23,7 @@ class LogbookController extends Controller
     {
         $pr->setSortFields(['Id']);
 
-        return response()->json($pr->getPaginator($request, Logbook::class,['AnnualAllowableCut'],['anuualallowablecut', 'items', 'concession']));
+        return response()->json($pr->getPaginator($request, Logbook::class,['AnnualAllowableCut'],['anuualallowablecut', 'concession']));
     }
 
     /**
@@ -52,6 +52,7 @@ class LogbookController extends Controller
     public function show(Logbook $logbook)
     {
         $logbook['items'] = $logbook->items()->get();
+        $logbook->load(['developmentunit', 'managementunit', 'items.species']);
         return response()->json(['data' => $logbook]);
     }
 

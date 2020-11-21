@@ -90,7 +90,7 @@
 
 @section('scripts')
     <script>
-        //window.print();
+        window.print();
     </script>
 @endsection
 

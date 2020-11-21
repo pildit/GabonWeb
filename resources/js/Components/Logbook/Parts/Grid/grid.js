@@ -15,7 +15,7 @@ export default (options) => {
         },
         columns: {
             Id: {
-                header: "id_abattage"
+                header: "logbook_id",
             },
             Concession: {
                 header: "concession_name",
@@ -29,17 +29,8 @@ export default (options) => {
                     return row.anuualallowablecut.Name
                 }
             },
-            items: {
-                header: "tree_id",
-                render: (row) => {
-                    return row.items.length > 0 ? row.items[0].TreeId : ''
-                }
-            },
-            CreatedAt: {
-                header: "date",
-                render: (row) => {
-                    return row.items.length > 0 ? row.items[0].CreatedAt : row.CreatedAt
-                }
+            ObservedAt: {
+                header: "date"
             },
             actions: {
                 header: 'actions',

@@ -43,7 +43,12 @@ export default {
         },
 
         approve({}, payload) {
-            return axios.patch(`api/logbooks/${payload.id}/approve`)
+            return axios.patch(`api/logbooks/approve/${payload.id}`)
+                .then((response) => response);
+        },
+
+        approve_item({}, payload) {
+            return axios.patch(`api/logbook_items/approve/${payload.id}`)
                 .then((response) => response);
         },
 

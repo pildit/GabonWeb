@@ -22,6 +22,10 @@ class Logbook extends Base {
         return store.dispatch('logbooks/approve', {id});
     }
 
+    static approve_item (id) {
+        return store.dispatch('logbooks/approve_item', {id});
+    }
+
     static update(id, data) {
         return store.dispatch('logbooks/update', {id});
     }
