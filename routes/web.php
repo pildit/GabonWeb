@@ -38,6 +38,3 @@ Route::get('/management/{management_type?}', 'ManagementController@index');
 Route::get('/concessions/{resource_type?}', 'ConcessionsController@index');
 
 Route::view('/logbooks', 'transportation.logbooks');
-Route::get('/logbooks/{id}/print', function ($id) {
-    return view('transportation.print')->with('id', $id);
-});
