@@ -3,7 +3,9 @@
 namespace Modules\ForestResources\Http\Controllers;
 
 
+use App\Services\PageResults;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\SiteLogbookLog;
 use Modules\ForestResources\Http\Requests\CreateSiteLogbookLogRequest;
@@ -32,6 +34,24 @@ class SiteLogbookLogController extends Controller
 
 //        $this->middleware('role:admin')->only('delete');
 
+    }
+
+    /**
+     * @param Request $request
+     * @param PageResults $pr
+     * @return \Illuminate\Http\JsonResponse
+     * @throws ValidationException
+     */
+    public function index(Request $request, PageResults $pr)
+    {
+        $pr->setSortFields(['Id']);
+
+        $siteLogbookItem = SiteLogbookItem::where('Id', (int)$request->get("SiteLogbookItem"))->first();
+        if(!$siteLogbookItem){
+            throw ValidationException::withMessages(['SiteLogbook' => 'validation.exists']);
+        }
+        $request->merge(['search'=>$request->get("SiteLogbookItem")]);
+        return response()->json($pr->getPaginator($request, SiteLogbookLog::class,['SiteLogbookItem'], ['species']));
     }
 
     /**

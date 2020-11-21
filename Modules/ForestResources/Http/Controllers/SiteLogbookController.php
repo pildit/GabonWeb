@@ -47,7 +47,9 @@ class SiteLogbookController extends Controller
     {
         $pr->setSortFields(['Id']);
 
-        return response()->json($pr->getPaginator($request, SiteLogbook::class,['AnnualAllowableCut'],['anuualallowablecut']));
+        return response()->json($pr->getPaginator($request,
+            SiteLogbook::class,['AnnualAllowableCut'],
+            ['anuualallowablecut', 'concession', 'company']));
     }
 
     /**
@@ -75,6 +77,9 @@ class SiteLogbookController extends Controller
      */
     public function show(SiteLogbook $site_logbook)
     {
+        $site_logbook->load([
+            'items', 'developmentunit', 'managementunit', 'items.species'
+        ]);
         return response()->json(['data' => $site_logbook]);
     }
 

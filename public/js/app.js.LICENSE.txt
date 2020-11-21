@@ -25,6 +25,8 @@
  * @license MIT
  */
 
+/*! For license information please see swagger-ui-es-bundle.js.LICENSE.txt */
+
 /**
  * @license
  * Lodash <https://lodash.com/>
@@ -33,3 +35,7 @@
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
  * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
  */
+
+//! moment.js
+
+//! moment.js locale configuration
