@@ -104,6 +104,7 @@
         methods: {
             approveLogbookItem (id) {
                 Logbook.approve_item(id);
+                Logbook.get(this.rowProp.Id)
             }
         }
     }
