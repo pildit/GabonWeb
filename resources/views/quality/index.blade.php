@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Quality')
+@section('title', @lang('quality'))
 
 @section('content')
 <div id="quality-grid">

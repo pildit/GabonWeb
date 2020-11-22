@@ -1,1 +1,1 @@
-Annual Allowable Cut
+@lang('aac')

@@ -15,25 +15,25 @@ export default (options) => {
         },
         columns: {
             Id: {
-                header: "Id"
+                header: "id"
             },
             "PermitTypeObj.Abbreviation" : {
-                header: "Permit Type"
+                header: "permit_type"
             },
             PermitNumber: {
-                header: "Permit No"
+                header: "permit_no"
             },
             Approved: {
-                header: "Approved"
+                header: "approved"
             },
             Email: {
-                header: "Email",
+                header: "email",
             },
             CreatedAt: {
-                header: "Date",
+                header: "date",
             },
             actions: {
-                header: 'Actions',
+                header: 'actions',
                 sort: false,
                 css: {
                     textAlign: "right"

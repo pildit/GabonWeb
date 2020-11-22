@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Translations')
+@section('title', @lang('translations'))
 
 @section('content')
     <div id="translation-grid">

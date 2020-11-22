@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Permit types')
+@section('title', @lang('permit_types'))
 
 @section('content')
 <div id="permit-types-grid">

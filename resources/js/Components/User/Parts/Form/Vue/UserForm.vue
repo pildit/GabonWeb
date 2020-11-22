@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="md-form mb-5 ">
-            <label for="firstname" :class="{'active': form.firstname}">{{translate('first_name')}}</label>
+            <label for="firstname" :class="{'active': form.firstname}">{{ translate('first_name') }}</label>
             <input type="text"
                    v-model="form.firstname"
                    v-validate="'required'"
@@ -12,7 +12,7 @@
             <div v-show="errors.has('firstname')" class="invalid-feedback">{{ errors.first('firstname') }}</div>
         </div>
         <div class="md-form mb-5 ">
-            <label for="lastname" :class="{'active': form.lastname}">{{translate('last_name')}}</label>
+            <label for="lastname" :class="{'active': form.lastname}">{{ translate('last_name') }}</label>
             <input type="text"
                    v-model="form.lastname"
                    v-validate="'required'"
@@ -23,7 +23,7 @@
             <div v-show="errors.has('lastname')" class="invalid-feedback">{{ errors.first('lastname') }}</div>
         </div>
         <div class="md-form mb-5">
-            <label for="email" :class="{'active': form.email}">{{translate('email')}}</label>
+            <label for="email" :class="{'active': form.email}">{{ translate('email') }}</label>
             <input type="email"
                    v-model="form.email"
                    v-validate="'required|email'"
@@ -34,7 +34,7 @@
             <div v-show="errors.has('email')" class="invalid-feedback">{{ errors.first('email') }}</div>
         </div>
         <div v-if="isEditType" class="md-form mb-5">
-            <label>{{translate('company')}}</label>
+            <label>{{ translate('company') }}</label>
             <multiselect
                 v-model="form.company"
                 :options="companyList.data"
@@ -50,7 +50,7 @@
             ></multiselect>
         </div>
         <div v-if="isEditType" class="md-form mb-5">
-            <label>{{translate('employee_type')}}</label>
+            <label>{{ translate('employee_type') }}</label>
             <multiselect
                 v-model="form.employee_type"
                 :options="employeeTypes"
@@ -61,7 +61,7 @@
             ></multiselect>
         </div>
         <div v-if="isEditType" class="md-form mb-5">
-            <label>{{translate('roles')}}</label>
+            <label>{{ translate('roles') }}</label>
             <multiselect
                 v-model="form.roles"
                 :options="roles"
@@ -74,7 +74,7 @@
             ></multiselect>
         </div>
         <div v-if="isEditType" class="md-form mb-5">
-            <label>{{translate('permissions')}}</label>
+            <label>{{ translate('permissions') }}</label>
             <multiselect
                 v-model="form.permissions"
                 :options="permissionList"
@@ -85,7 +85,7 @@
                 :multiple="true"
                 :taggable="true"
             ></multiselect>
-            <div class="text-muted">{{translate('additional_permissions')}}</div>
+            <div class="text-muted">{{ translate('additional_permissions') }}</div>
         </div>
         <div v-if="showRoleName" class="md-form mb-5 ">
             <label for="role" :class="{'active': form.role}">{{translate('Role')}}</label>
@@ -100,7 +100,7 @@
             <div v-show="errors.has('role')" class="invalid-feedback">{{ errors.first('role') }}</div>
         </div>
         <div class="md-form mb-5">
-            <label for="password" :class="{'active': form.password}">{{translate('password')}}</label>
+            <label for="password" :class="{'active': form.password}">{{ translate('password') }}</label>
             <input type="password"
                    ref="password"
                    v-model="form.password"
@@ -112,7 +112,7 @@
             <div v-show="errors.has('password')" class="invalid-feedback">{{ errors.first('password') }}</div>
         </div>
         <div class="md-form mb-5">
-            <label for="confirm_password" :class="{'active': form.confirm_password}">{{translate('confirm_password')}}</label>
+            <label for="confirm_password" :class="{'active': form.confirm_password}">{{ translate('confirm_password') }}</label>
             <input type="password"
                    v-model="form.password_confirmation"
                    v-validate="form.password ? 'required|confirmed:password' : 'confirmed:password'"

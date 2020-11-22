@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="md-form mb-5">
-      <input type="text" v-model="form.Value" name="Value" class="form-control" v-validate="'required|integer'">
-      <label data-error="wrong" data-success="right" for="Value" :class="{'active': form.Value}">{{ translate('Value') }}</label>
+      <input type="text" v-model="form.Value" name="Value" id="Value" class="form-control" v-validate="'required|integer'">
+      <label data-error="wrong" data-success="right" for="Value" :class="{'active': form.Value}">{{ translate('value') }}</label>
       <div v-show="errors.has('Value')" class="invalid-feedback">{{ errors.first('Value') }}</div>
     </div>
 
     <div class="md-form mb-5">
-      <input type="text" v-model="form.Description" name="Description" class="form-control">
-      <label data-error="wrong" data-success="right" for="Description" :class="{'active': form.Description}">{{ translate('Description') }}</label>
+      <input type="text" v-model="form.Description" id="Description" name="Description" class="form-control">
+      <label data-error="wrong" data-success="right" for="Description" :class="{'active': form.Description}">{{ translate('description') }}</label>
       <div v-show="errors.has('Description')" class="invalid-feedback">{{ errors.first('Description') }}</div>
     </div>
 

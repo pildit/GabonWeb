@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Account Confirmation')
+@section('title', @lang('account_confirmation'))
 
 @section('content')
     <div id="account-confirmation">

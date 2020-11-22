@@ -1,6 +1,6 @@
 <template>
 <div>
-    {{msg}} <br>
+    {{ translate('welcome_from_user_details') }} <br>
     {{translationsProp}}
 </div>
 </template>
@@ -8,11 +8,6 @@
 <script>
 export default {
     props: ['translationsProp'],
-    data() {
-        return {
-            msg : "Welcome from user details component"
-        }
-    }
 }
 </script>
 

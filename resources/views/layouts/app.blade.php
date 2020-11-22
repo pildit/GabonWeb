@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>App Name - @yield('title')</title>
+    <title>{{ env('APP_NAME') }} - @yield('title')</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.8.2/css/all.css">
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic|Material+Icons">
@@ -15,7 +15,7 @@
 <body style="height: 100vh">
 <div class="page-loader d-flex justify-content-center" id="page-loader">
     <div class="spinner-border text-success" role="status">
-        <span class="sr-only">Loading...</span>
+        <span class="sr-only">@lang('loading')...</span>
     </div>
 </div>
 <div id="notification">

@@ -1,7 +1,7 @@
 <template>
     <bmodal ref="userModal" size="medium" :closed="() => $emit('display', false)">
         <div slot="title">
-            <h4 class="modal-title w-100 font-weight-bold">{{translate('add_user')}}</h4>
+            <h4 class="modal-title w-100 font-weight-bold">{{ translate('add_user') }}</h4>
         </div>
         <div slot="body">
             <user-form ref="userForm" @done="closeModal"></user-form>
