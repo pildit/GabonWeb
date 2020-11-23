@@ -52,11 +52,6 @@ class SiteLogbookItem extends PageResults
                 "values" => $species
             ],
             [
-                "f" => "Date",
-                "fl" => "Date",
-                "type" => "date_NotEmpty"
-            ],
-            [
                 "f" => "MinDiameter",
                 "fl" => "MinDiameter",
                 "type" => "int_NotEmpty"
@@ -82,7 +77,11 @@ class SiteLogbookItem extends PageResults
                 "fl" => "Volume",
                 "type" => "float_NotEmpty"
             ],
-
+            [
+                "f" => "Date",
+                "fl" => "Date",
+                "type" => "date_NotEmpty"
+            ],
 
 
         ];

@@ -6,10 +6,14 @@ use App\Traits\Approve;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
+use Modules\Admin\Entities\Company;
 use Modules\ForestResources\Entities\Concession;
 use App\Services\PageResults;
+use Modules\ForestResources\Entities\ConstituentPermit;
 use Modules\ForestResources\Http\Requests\ConcessionRequest;
 use Modules\ForestResources\Services\Concession as ConcessionService;
+use Modules\ForestResources\Exports\Exporter;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ConcessionsController extends Controller
 {
@@ -139,6 +143,44 @@ class ConcessionsController extends Controller
             })
         ]);
 
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+
+    public function export(Request $request)
+    {
+        $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
+        $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
+
+        $headings = [ 'Name', 'Company', 'Continent', 'ConstituentPermit'];
+        $collection = Concession::select('Id','Name', 'Company', 'Continent', 'ConstituentPermit');
+
+        if ($request->get('date_from')) {
+            $collection = $collection->where("CreatedAt", ">=", $request->get('date_from'));
+        }
+        if ($request->get('date_to')) {
+            $collection = $collection->where("CreatedAt", "<=", $request->get('date_to'));
+        }
+        $collection = $collection->get();
+
+        $collection = $collection->map(function ($item) {
+
+            $Company = (Company::select("Name")->where("Id", $item->Company)->first()) ?
+                Company::select("Name")->where("Id", $item->Company)->first()->Name :
+                $item->Company;
+
+            return [
+                'Name' => $item->Name,
+                'Company' => $Company,
+                'Continent' => $item->Continent,
+                'ConstituentPermit' => $item->ConstituentPermit
+            ];
+        });
+
+        return Excel::download(new Exporter($collection, $headings), 'concession.xlsx');
     }
 
 }

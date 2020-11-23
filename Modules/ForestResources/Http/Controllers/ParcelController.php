@@ -15,6 +15,8 @@ use Shapefile\ShapefileReader;
 use Modules\ForestResources\Services\Parcel as ParcelService;
 use Shapefile\Geometry\Polygon;
 use Illuminate\Support\Facades\File;
+use Modules\ForestResources\Exports\Exporter;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ParcelController extends Controller
 {
@@ -204,4 +206,35 @@ class ParcelController extends Controller
         ]);
     }
 
+      /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+
+    public function export(Request $request)
+    {
+        $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
+        $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
+
+        $headings  = ['Name'];
+        $collection = Parcel::select('Id','Name');
+
+        if($request->get('date_from')){
+            $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
+        }
+        if($request->get('date_to')){
+            $collection = $collection->where("CreatedAt","<=",$request->get('date_to'));
+        }
+
+        $collection = $collection->get();
+        $collection = $collection->map(function ($item) {
+
+            return [
+                'Name' => $item->Name,
+            ];
+
+        });
+
+        return Excel::download(new Exporter($collection,$headings), 'parcel.xlsx');
+    }
 }

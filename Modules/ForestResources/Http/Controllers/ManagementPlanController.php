@@ -8,8 +8,12 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Validation\ValidationException;
 use Modules\ForestResources\Entities\ManagementPlan;
+use Modules\ForestResources\Entities\ManagementUnit;
+use Modules\ForestResources\Entities\Species;
 use Modules\ForestResources\Http\Requests\CreateManagementPlanRequest;
 use Modules\ForestResources\Http\Requests\UpdateManagementPlanRequest;
+use Modules\ForestResources\Exports\Exporter;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ManagementPlanController extends Controller
 {
@@ -101,4 +105,47 @@ class ManagementPlanController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+
+    public function export(Request $request)
+    {
+        $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
+        $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
+
+        $headings  = ['ManagementUnit','Species','GrossVolumeUFG','GrossVolumeYear','YieldVolumeYear','CommercialVolumeYear'];
+        $collection = ManagementPlan::select('Id','ManagementUnit','Species','GrossVolumeUFG','GrossVolumeYear','YieldVolumeYear','CommercialVolumeYear');
+
+        if($request->get('date_from')){
+            $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
+        }
+        if($request->get('date_to')){
+            $collection = $collection->where("CreatedAt","<=",$request->get('date_to'));
+        }
+
+        $collection = $collection->get();
+        $collection = $collection->map(function ($item) {
+
+            $Species = (Species::select("CommonName")->where("Id", $item->Species)->first()) ?
+                Species::select("CommonName")->where("Id", $item->Species)->first()->CommonName :
+                $item->Species;
+
+            $ManagementUnit = (ManagementUnit::select("Name")->where("Id", $item->ManagementUnit)->first()) ?
+                ManagementUnit::select("Name")->where("Id", $item->ManagementUnit)->first()->Name :
+                $item->ManagementUnit;
+
+            return [
+                'ManagementUnit' => $ManagementUnit,
+                'Species'  => $Species,
+                'GrossVolumeUFG'  => $item->GrossVolumeUFG,
+                'GrossVolumeYear'  => $item->GrossVolumeYear,
+                'YieldVolumeYear'  => $item->YieldVolumeYear,
+                'CommercialVolumeYear'  => $item->CommercialVolumeYear
+            ];
+        });
+
+        return Excel::download(new Exporter($collection,$headings), 'management_plan.xlsx');
+    }
 }

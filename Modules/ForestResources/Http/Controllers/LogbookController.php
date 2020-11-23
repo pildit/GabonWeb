@@ -6,12 +6,17 @@ use App\Services\PageResults;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\ForestResources\Entities\AnnualAllowableCut;
+use Modules\ForestResources\Entities\Concession;
+use Modules\ForestResources\Entities\DevelopmentUnit;
 use Modules\ForestResources\Entities\Logbook;
+use Modules\ForestResources\Entities\ManagementUnit;
 use Modules\ForestResources\Http\Requests\CreateLogbookRequest;
 use Modules\ForestResources\Http\Requests\UpdateLogbookRequest;
 use Modules\ForestResources\Services\Logbook as LogbookService;
 use App\Traits\Approve;
-
+use Modules\ForestResources\Exports\Exporter;
+use Maatwebsite\Excel\Facades\Excel;
 
 class LogbookController extends Controller
 {
@@ -122,5 +127,56 @@ class LogbookController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
 
+    public function export(Request $request)
+    {
+        $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
+        $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
+
+        $headings  = ['Concession','DevelopmentUnit','ManagementUnit','AnnualAllowableCut','ObserveAt'];
+        $collection = Logbook::select('Id', 'Concession','DevelopmentUnit','ManagementUnit','AnnualAllowableCut','ObserveAt');
+
+        if($request->get('date_from')){
+            $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
+        }
+        if($request->get('date_to')){
+            $collection = $collection->where("CreatedAt","<=",$request->get('date_to'));
+        }
+
+        $collection = $collection->get();
+        $collection = $collection->map(function ($item) {
+
+            $concession = (Concession::select("Name")->where("Id",$item->Concession)->first()) ?
+                Concession::select("Name")->where("Id",$item->Concession)->first()->Name :
+                $item->Concession;
+
+            $AnnualAllowableCut = (AnnualAllowableCut::select("Name")->where("Id", $item->AnnualAllowableCut)->first()) ?
+                AnnualAllowableCut::select("Name")->where("Id", $item->AnnualAllowableCut)->first()->Name :
+                $item->AnnualAllowableCut;
+
+            $DevelopmentUnit = (DevelopmentUnit::select("Name")->where("Id", $item->DevelopmentUnit)->first()) ?
+                    DevelopmentUnit::select("Name")->where("Id", $item->DevelopmentUnit)->first()->Name :
+                    $item->DevelopmentUnit;
+
+            $ManagementUnit = (ManagementUnit::select("Name")->where("Id", $item->ManagementUnit)->first()) ?
+                ManagementUnit::select("Name")->where("Id", $item->ManagementUnit)->first()->Name :
+                    $item->ManagementUnit;
+
+
+
+            return [
+                'Concession' => $concession,
+                'DevelopmentUnit' => $DevelopmentUnit,
+                'ManagementUnit' => $ManagementUnit,
+                'AnnualAllowableCut' => $AnnualAllowableCut,
+                'ObserveAt' => $item->ObserveAt
+            ];
+        });
+
+        return Excel::download(new Exporter($collection,$headings), 'logbook.xlsx');
+    }
 }
