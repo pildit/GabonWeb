@@ -64,6 +64,12 @@
                                    id="confirm_password"  />
                             <div v-show="errors.has('confirm_password')" class="invalid-feedback">{{ errors.first('confirm_password') }}</div>
                         </div>
+                        <div class="md-form ">
+                            <template>
+                                <vue-hcaptcha sitekey="541e440b-1499-42db-a88f-28e5f066bca9" @verify="markHcaptchaAsVerified"></vue-hcaptcha>
+                            </template>
+                            <div class="invalid-feedback" v-show="registerForm.hcaptchaError">{{ registerForm.captchaErrorMessage }}</div>
+                        </div>
                         <button type='submit' class='btn btn-outline-success btn-rounded btn-block my-4 waves-effect z-depth-0'>{{translate('sign_up')}}</button>
                     </form>
                     <div class="alert alert-danger" v-show="failed">{{translate(failed)}}</div>
@@ -78,20 +84,35 @@
 <script>
 
 import User from "components/User/User";
+import VueHcaptcha from '@hcaptcha/vue-hcaptcha'
 
 export default {
     data() {
         return {
-            registerForm: {},
+            registerForm: {
+                hcaptchaVerified: false,
+                hcaptchaError: false,
+                captchaErrorMessage: ''
+            },
             failed: null,
             success: null
         }
     },
-
+    components: { VueHcaptcha },
     methods: {
+        markHcaptchaAsVerified(response) {
+            this.registerForm.captchaErrorMessage = '';
+            this.registerForm.hcaptchaVerified = true;
+            this.registerForm.hcaptchaError = false;
+        },
         onSubmit() {
             this.$validator.validate().then((valid) => {
                 if(valid) {
+                    if (!this.registerForm.hcaptchaVerified) {
+                        this.registerForm.hcaptchaError = true;
+                        this.registerForm.captchaErrorMessage = this.translate("captcha_error");
+                        return true;
+                    }
                     this.failed = null;
                     this.success = null;
                     User.register(this.registerForm)
@@ -103,6 +124,9 @@ export default {
                         })
                         .catch((error) => {
                             if(error) {
+                                window.hcaptcha.reset();
+                                this.registerForm.hcaptchaVerified = false;
+                                window.hcaptcha.reset(this.widgetId)
                                 if ([401, 404].includes(error.status)) {
                                     this.failed = error.data.message;
                                 }
