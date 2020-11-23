@@ -190,7 +190,14 @@ output "webFE-1-ip" {
   value = aws_instance.iProduction_1.public_ip
 }
 
+output "webFE-1-public-dns" {
+  value = aws_instance.iProduction_1.public_dns
+}
 
 output "webFE-2-ip" {
   value = aws_instance.iProduction_2.public_ip
+}
+
+output "webFE-2-public-dns" {
+  value = aws_instance.iProduction_2.public_dns
 }
