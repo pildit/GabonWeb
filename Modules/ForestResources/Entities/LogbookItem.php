@@ -36,5 +36,12 @@ class LogbookItem extends Model
 
     protected $primaryKey = "Id";
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function species () {
+        return $this->belongsTo(Species::class,'Species');
+    }
+
 
 }

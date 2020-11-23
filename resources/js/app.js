@@ -22,7 +22,7 @@ import Species from './Components/Species/Species';
 import Parcel from './Components/Parcel/Parcel';
 import Quality from './Components/Quality/Quality';
 import ProductType from './Components/ProductType/ProductType';
-
+import Logbook from './Components/Logbook/Logbook';
 import DevelopmentUnit from "./Components/Management/DevelopmentUnit/DevelopmentUnit";
 import ConstituentPermit from './Components/ConstituentPermit/ConstituentPermit';
 import Concession from './Components/Concession/Concession';
@@ -67,6 +67,7 @@ Gabon.Parcel = Parcel;
 Gabon.Quality = Quality;
 Gabon.ProductType = ProductType;
 Gabon.Concession = Concession;
+Gabon.Logbook = Logbook;
 
 Gabon.Management = {
     DevelopmentUnit: DevelopmentUnit,
