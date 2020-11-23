@@ -154,7 +154,7 @@ class AnnualAllowableCutInventoryController extends Controller
         $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
 
         $headings = ['AnnualAllowableCut', 'Species', 'Quality', 'Parcel', 'TreeId', 'DiameterBreastHeight', 'Lat', 'Lon', 'GpsAccu'];
-        $collection = AnnualAllowableCutInventory::select('Id', 'AnnualAllowableCut', 'Species', 'Quality', 'Parcel', 'TreeId', 'DiameterBreastHeight', 'Lat', 'Lon', 'GpsAccu');
+        $collection = AnnualAllowableCutInventory::select('Id', 'AnnualAllowableCut', 'Species', 'Quality', 'Parcel', 'TreeId', 'DiameterBreastHeight', 'Lat', 'Lon', 'GpsAccu')->take(1000);
 
         if ($request->get('date_from')) {
             $collection = $collection->where("CreatedAt", ">=", $request->get('date_from'));
