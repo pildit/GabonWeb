@@ -111,7 +111,7 @@ class PageResults
     {
         if($this->search) {
             foreach ($this->filters as $field) {
-                $this->query->orWhere($field, 'LIKE', "%{$this->search}%");
+                $this->query->orWhere($field, 'ilike', "%{$this->search}%");
             }
         }
 
