@@ -197,7 +197,7 @@ as
                 "UpdatedAt" = new."UpdatedAt",
                 "DeletedAt" = new."DeletedAt"
             where
-                old."Id" = new."Id"
+                "SiteLogbooksTable"."Id" = old."Id"
             returning
                 "Id",
                 "AnnualAllowableCut",

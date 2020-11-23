@@ -182,7 +182,7 @@ as
             "UpdatedAt" = new."UpdatedAt",
             "DeletedAt" = new."DeletedAt"
         where
-            old."Id" = new."Id"
+            "SiteLogbookLogsTable"."Id" = old."Id"
         returning
             "Id",
             "SiteLogbookItem",

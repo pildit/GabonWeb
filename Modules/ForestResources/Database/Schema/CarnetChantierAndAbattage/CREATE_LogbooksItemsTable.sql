@@ -190,7 +190,7 @@ create or replace rule "LogbookItems_instead_of_update"
         "UpdatedAt" = new."UpdatedAt",
         "DeletedAt" = new."DeletedAt"
     where
-            old."Id" = new."Id"
+            "LogbookItemsTable"."Id" = old."Id"
     returning
         "Id",
         "Logbook",

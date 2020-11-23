@@ -75,7 +75,7 @@ class LogbookController extends Controller
     public function show(Logbook $logbook)
     {
         $logbook['items'] = $logbook->items()->get();
-        $logbook->load(['developmentunit', 'managementunit', 'items.species']);
+        $logbook->load(['developmentunit', 'managementunit', 'items.species', 'concession', 'anuualallowablecut']);
         return response()->json(['data' => $logbook]);
     }
 

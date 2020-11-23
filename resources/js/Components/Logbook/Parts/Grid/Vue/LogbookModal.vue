@@ -10,7 +10,7 @@
                     <tbody>
                     <tr>
                         <td>{{ translate('concession') }}</td>
-                        <td class="bold"> {{ rowProp.concession.Name }} </td>
+                        <td class="bold"> {{ logbook.concession.Name }} </td>
                         <td>{{ translate('ufg') }}</td>
                         <td class="bold">{{ logbook.managementunit.Name }}</td>
                     </tr>
@@ -18,7 +18,7 @@
                         <td>{{ translate('ufa') }}</td>
                         <td class="bold">{{ logbook.developmentunit.Name }}</td>
                         <td>{{ translate('aac') }}</td>
-                        <td class="bold">{{ rowProp.anuualallowablecut.Name }}</td>
+                        <td class="bold">{{ logbook.anuualallowablecut.Name }}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -102,9 +102,11 @@
         },
 
         methods: {
-            approveLogbookItem (id) {
+            approveLogbookItem (id,val) {
+                console.log(id);
+                console.log(val);
                 Logbook.approve_item(id);
-                Logbook.get(this.rowProp.Id)
+                Logbook.get(this.logbook.Id)
             }
         }
     }

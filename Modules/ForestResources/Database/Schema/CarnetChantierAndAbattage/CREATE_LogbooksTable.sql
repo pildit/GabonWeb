@@ -148,7 +148,7 @@ as
                 "UpdatedAt" = new."UpdatedAt",
                 "DeletedAt" = new."DeletedAt"
             where
-                old."Id" = new."Id"
+                "LogbooksTable"."Id" = old."Id"
         returning
             "Id",
             "Concession",

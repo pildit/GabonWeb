@@ -36,11 +36,12 @@
 
         methods: {
             view (logookId) {
-                Logbook.get(logookId)
-                this.modals.info = true
+                Logbook.get(logookId).then(() => {
+                    this.modals.info = true
+                })
             },
             approve (val) {
-               Logbook.approve(this.rowProp.Id).finally(() => this.rowProp.Approved = val);
+               Logbook.approve(this.rowProp.Id, {Approved: val}).finally(() => this.rowProp.Approved = val);
             },
         }
     }
