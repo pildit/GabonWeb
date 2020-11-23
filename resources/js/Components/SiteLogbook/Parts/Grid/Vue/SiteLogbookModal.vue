@@ -10,7 +10,7 @@
                     <tbody>
                     <tr>
                         <td>{{ translate('concession') }}</td>
-                        <td class="bold"> {{ rowProp.concession.Name }} </td>
+                        <td class="bold"> {{ siteLogbook.concession.Name }} </td>
                         <td>{{ translate('ufg') }}</td>
                         <td class="bold">{{ siteLogbook.managementunit.Name }}</td>
                     </tr>
@@ -18,23 +18,23 @@
                         <td>{{ translate('ufa') }}</td>
                         <td class="bold">{{ siteLogbook.developmentunit.Name }}</td>
                         <td>{{ translate('aac') }}</td>
-                        <td class="bold">{{ rowProp.anuualallowablecut.Name }}</td>
+                        <td class="bold">{{ siteLogbook.anuualallowablecut.Name }}</td>
                     </tr>
                     <tr>
                         <td>{{ translate('company') }}</td>
-                        <td class="bold">{{ rowProp.company.Name }}</td>
+                        <td class="bold">{{ siteLogbook.company.Name }}</td>
                         <td>{{ translate('hammer') }}</td>
-                        <td class="bold">{{ rowProp.Hammer }}</td>
+                        <td class="bold">{{ siteLogbook.Hammer }}</td>
                     </tr>
                     <tr>
                         <td>{{ translate('localization') }}</td>
                         <td class="bold">{{ siteLogbook.Localization }}</td>
                         <td>{{ translate('report_number') }}</td>
-                        <td class="bold">{{ rowProp.ReportNo }}</td>
+                        <td class="bold">{{ siteLogbook.ReportNo }}</td>
                     </tr>
                     <tr>
                         <td>{{ translate('report_note') }}</td>
-                        <td colspan="3" class="bold">{{ rowProp.ReportNote }}</td>
+                        <td colspan="3" class="bold">{{ siteLogbook.ReportNote }}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -67,7 +67,7 @@
                             </tr>
                             <tr>
                                 <th>{{ translate('species') }}</th>
-                                <td class="bold">{{ item.species.CommonName }}</td>
+                                <td class="bold">{{ (item.family) ? item.family.CommonName : '' }}</td>
                                 <th>{{ translate('actions') }}</th>
                                 <td class="bold">
                                     <switches v-model="item.Approved" color="green" :title="translate('approve_logbook_item')" @input="approveLogbookItem(item.Id)" :emit-on-mount="false" v-tooltip></switches>
@@ -131,7 +131,7 @@
             },
             approveLogbookItem (id) {
                 SiteLogbook.approve_item(id);
-                SiteLogbook.get(this.rowProp.Id)
+                SiteLogbook.get(this.siteLogbook.Id)
             },
             displayEvent (value) {
                 this.modal.logs = value

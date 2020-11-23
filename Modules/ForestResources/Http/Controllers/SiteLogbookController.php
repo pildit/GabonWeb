@@ -78,7 +78,7 @@ class SiteLogbookController extends Controller
     public function show(SiteLogbook $site_logbook)
     {
         $site_logbook->load([
-            'items', 'developmentunit', 'managementunit', 'items.species'
+            'items', 'developmentunit', 'managementunit', 'items.family', 'concession', 'anuualallowablecut', 'company'
         ]);
         return response()->json(['data' => $site_logbook]);
     }
