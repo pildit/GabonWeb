@@ -126,7 +126,6 @@ export default {
                             if(error) {
                                 window.hcaptcha.reset();
                                 this.registerForm.hcaptchaVerified = false;
-                                window.hcaptcha.reset(this.widgetId)
                                 if ([401, 404].includes(error.status)) {
                                     this.failed = error.data.message;
                                 }
