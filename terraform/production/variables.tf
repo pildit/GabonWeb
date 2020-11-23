@@ -10,12 +10,12 @@ variable "region" {
 
 variable "webserver_instance_type" {
   type    = string
-  default = "t2.micro"
+  default = "c5.xlarge"
 }
 
 variable "rdspsql_instance_type" {
   type    = string
-  default = "db.t3.micro"
+  default = "db.m5.large"
 }
 
 variable "ubuntu_20_04" {
