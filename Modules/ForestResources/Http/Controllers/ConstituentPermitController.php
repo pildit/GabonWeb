@@ -5,6 +5,7 @@ namespace Modules\ForestResources\Http\Controllers;
 use Illuminate\Contracts\Support\Response;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Modules\ForestResources\Entities\ConstituentPermit;
 use App\Services\PageResults;
 use Modules\ForestResources\Entities\PermitType;

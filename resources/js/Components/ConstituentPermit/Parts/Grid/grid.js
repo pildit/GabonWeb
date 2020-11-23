@@ -3,10 +3,10 @@ import ActionColumn from "./Vue/ActionColumn";
 export default (options) => {
     return {
         options: {
-            instance: "constituentPermit",
+            instance: "constituent_permit",
             store: {
-                getter: 'constituentPermit/items',
-                action: 'constituentPermit/index'
+                getter: 'constituent_permit/items',
+                action: 'constituent_permit/index'
             },
             sort: {
                 direction: "desc",

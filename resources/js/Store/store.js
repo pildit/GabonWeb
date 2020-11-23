@@ -14,7 +14,7 @@ import development_unit from './Management/development_unit';
 import development_plan from "./Management/development_plan";
 import management_unit from "./Management/management_unit";
 import management_plan from "./Management/management_plan";
-import constituentPermit         from './constituentpermit';
+import constituent_permit         from './constituent_permit';
 import concession         from './concession';
 import translation from "./translation";
 import logbooks from './logbooks';
@@ -85,7 +85,7 @@ export default new Vuex.Store({
         company,
         permitType,
         species,
-        constituentPermit,
+        constituent_permit,
         parcels,
         productType,
         quality,

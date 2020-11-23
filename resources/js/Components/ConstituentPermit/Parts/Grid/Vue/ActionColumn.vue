@@ -1,46 +1,49 @@
 <template>
-  <div class="text-right">
-    <span class="btn btn-sm btn-outline-success" @click="edit()" ><i class="fas fa-edit"></i> {{translate('Edit')}}</span>
-    <item-modal :row-prop="rowProp" type-prop="edit" v-model="modals.form"></item-modal>
-    <switches v-model="isApproved" color="green" title="Approve Item" @input="approve" :emit-on-mount="false" v-tooltip></switches>
-  </div>
+    <div class="text-right">
+        <a class="text-success aligned fz-16" :href="editRoute()"
+           :title="translate('Edit')"
+           v-tooltip>
+            <i class="fas fa-edit"></i>
+        </a>
+        <switches v-model="isApproved" color="green" title="Approve Item" @input="approve" :emit-on-mount="false"
+                  v-tooltip></switches>
+    </div>
 </template>
 
 <script>
 import Switches from 'vue-switches';
 import Notification from "components/Common/Notifications/Notification";
-
-import itemModal from "./ItemModal";
-import Item from "../../../ConstituentPermit";
+import ConstituentPermit from "components/ConstituentPermit/ConstituentPermit";
 
 export default {
 
-  props: ["rowProp", "optionsProp"],
+    props: ["rowProp", "optionsProp"],
 
-  components: {itemModal, Switches},
+    components: {Switches},
 
-  data() {
-    return {
-      isApproved: this.rowProp.Approved,
-      modals: {
-        form: false
-      }
+    data() {
+        return {
+            isApproved: this.rowProp.Approved,
+            modals: {
+                form: false
+            }
+        }
+    },
+
+    methods: {
+        editRoute() {
+            return ConstituentPermit.buildRoute('constituent_permits.edit', {id: this.rowProp.Id});
+        },
+        approve(val) {
+            let promise = ConstituentPermit.update(this.rowProp.Id, {approved: val}).then((response) => {
+                Notification.success('Constituent Permit', response.data.message)
+                return response.data;
+            });
+
+            return promise.finally(() => this.rowProp.Approved = val);
+        },
+
     }
-  },
-
-  methods: {
-    edit() {
-      this.modals.form = true;
-    },
-    approve(val) {
-      let promise =  Item.update(this.rowProp.Id, {approved: val}).then((response) => {
-        Notification.success('Constituent Permit', response.data.message)
-        return response.data;
-      });
-
-      return promise.finally(() => this.rowProp.Approved = val);
-    },
-  }
 }
 
 </script>

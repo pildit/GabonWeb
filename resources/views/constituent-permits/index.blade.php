@@ -14,9 +14,9 @@
         <h5 class="text-center green-text mb-2">{{translate('constituent_permit_title')}}</h5>
         <div class="row">
           <div class="col-sm-8 d-flex align-items-center">
-            <button class="btn btn-md" @click="modals.form = true">
+            <a class="btn btn-md" :href="createRoute()">
               <i class="fas fa-plus-circle"></i> {{translate('add_constituent_permit')}}
-            </button>
+            </a>
           </div>
           <div class="md-form col-sm-4">
             <div class="form-row justify-content-end">

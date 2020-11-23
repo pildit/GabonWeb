@@ -263,18 +263,17 @@ DROP VIEW "ForestResources"."ConstituentPermits";
 CREATE VIEW "ForestResources"."ConstituentPermits"
 as
 SELECT cpt."Id",
-    cpt."User",
-    acc.email AS "Email",
-    cpt."PermitType",
-    cpt."PermitNumber",
-    cpt."Geometry",
-    cpt."Approved",
-    cpt."CreatedAt",
-    cpt."UpdatedAt",
-    cpt."DeletedAt"
-   FROM "ForestResources"."ConstituentPermitsTable" cpt,
-    admin.accounts acc
-  WHERE cpt."User" = acc.id;
+       cpt."User",
+       acc.email AS "Email",
+       cpt."PermitType",
+       cpt."PermitNumber",
+       cpt."Geometry",
+       cpt."Approved",
+       cpt."CreatedAt",
+       cpt."UpdatedAt",
+       cpt."DeletedAt"
+FROM "ForestResources"."ConstituentPermitsTable" cpt left join
+     admin.accounts acc on cpt."User" = acc.id;
 
 
 CREATE RULE "ConstituentPermits_instead_of_insert" AS
