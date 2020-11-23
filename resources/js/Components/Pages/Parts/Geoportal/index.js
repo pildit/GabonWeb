@@ -4,7 +4,7 @@ import _ from 'lodash';
 import Vue from 'vue';
 import VueLayers from 'vuelayers'
 import 'vuelayers/lib/style.css' // needs css-loader
-import GeoportalPage from "./Vue/GeoportalPage.vue";
+import GeoportalPage from "./Vue/GeoportalPageLeaflet.vue";
 
 import store from 'store/store';
 import PrettyCheckbox from 'pretty-checkbox-vue';
