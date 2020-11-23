@@ -123,7 +123,7 @@ resource "aws_lb_target_group" "lbtgProductionGabonHttp" {
 
 resource "aws_instance" "iProduction_1" {
   ami           = var.ubuntu_20_04
-  instance_type = "t3.nano"
+  instance_type = var.webserver_instance_type
 
   vpc_security_group_ids = [
     aws_security_group.sgProductionWebservers.id
@@ -147,7 +147,7 @@ resource "aws_instance" "iProduction_1" {
 
 resource "aws_instance" "iProduction_2" {
   ami           = var.ubuntu_20_04
-  instance_type = "t3.nano"
+  instance_type = var.webserver_instance_type
 
   vpc_security_group_ids = [
     aws_security_group.sgProductionWebservers.id
