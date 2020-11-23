@@ -9,7 +9,7 @@ class Company extends Model
 {
     use Sortable;
 
-    protected $fillable = ['Name'];
+    protected $fillable = ['Name', 'GroupName', 'TradeRegister'];
 
     protected $table = 'Taxonomy.Companies';
 

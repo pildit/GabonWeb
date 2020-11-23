@@ -56,7 +56,6 @@ export default {
     },
     mounted() {
       this.getCompanies();
-      // this.$store.dispatch('role/permissions');
     },
     methods: {
         getCompanies() {

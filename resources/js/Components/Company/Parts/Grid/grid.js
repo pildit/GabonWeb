@@ -27,8 +27,11 @@ export default (options) => {
                     return _.map(row.types, 'Name').join('/')
                 }
             },
-            Email: {
+            "user.email" : {
                 header: "email"
+            },
+            TradeRegister:  {
+                header: "Trade Register"
             },
             CreatedAt: {
                 header: "date"

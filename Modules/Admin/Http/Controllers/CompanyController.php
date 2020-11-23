@@ -44,6 +44,8 @@ class CompanyController extends Controller
 
         $company->Name = $data['name'];
         $company->GroupName = $data['group-name'] ?? null;
+        $company->TradeRegister = $data['trade-register'] ?? null;
+
         $company->UserId = $this->jwtPayload('data.id');
 
         $company->save();
@@ -71,6 +73,7 @@ class CompanyController extends Controller
 
         $company->Name = $data['name'];
         $company->GroupName = $data['group-name'] ?? null;
+        $company->TradeRegister = $data['trade-register'] ?? null;
 
         $company->save();
 
@@ -97,7 +100,7 @@ class CompanyController extends Controller
      */
     public function listCompanies(Request $request)
     {
-        $companies = Company::where('Name', 'like', "%{$request->get('name')}%")
+        $companies = Company::where('Name', 'ilike', "%{$request->get('name')}%")
             ->take($request->get('limit', 100))
             ->get(['Id', 'Name']);
 

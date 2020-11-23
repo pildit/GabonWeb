@@ -12,6 +12,12 @@
            <div v-show="errors.has('groupName')" class="invalid-feedback">{{ errors.first('groupName') }}</div>
        </div>
 
+     <div class="md-form mb-5">
+       <input type="text" v-model="form.TradeRegister" id="tradeRegister" name="tradeRegister" class="form-control" >
+       <label data-error="wrong" data-success="right" for="tradeRegister" :class="{'active': form.TradeRegister}">{{ translate('trade_register') }}</label>
+       <div v-show="errors.has('tradeRegister')" class="invalid-feedback">{{ errors.first('tradeRegister') }}</div>
+     </div>
+
        <div class="md-form mb-4">
            <multiselect
                v-model="form.types"
@@ -55,6 +61,7 @@ export default {
                     Company.add({
                       name: this.form.Name,
                       'group-name': this.form.GroupName,
+                      'trade-register': this.form.TradeRegister,
                       types: types
                     }).then((response) => {
                         this.$emit('done');
@@ -73,6 +80,7 @@ export default {
                     Company.update(this.form.Id, {
                       name: this.form.Name,
                       'group-name': this.form.GroupName,
+                      'trade-register': this.form.TradeRegister,
                       types: types
                     }).then(() => {
                         this.$emit('done');
