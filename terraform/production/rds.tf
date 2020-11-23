@@ -82,3 +82,11 @@ resource "aws_db_instance" "rdsGabonWeb" {
 output "rdsGabonWeb_hostname" {
   value = aws_db_instance.rdsGabonWeb.address
 }
+
+output "rdsGabonWeb_endpoint" {
+  value = aws_db_instance.rdsGabonWeb.endpoint
+}
+
+output "rdsGabonWeb_database_name" {
+  value = aws_db_instance.rdsGabonWeb.name
+}
