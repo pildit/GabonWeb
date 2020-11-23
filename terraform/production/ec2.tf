@@ -135,7 +135,7 @@ resource "aws_instance" "iProduction_1" {
   }
 
   root_block_device {
-    volume_size = "50"
+    volume_size = var.webserver_instance_storage
   }
 
   tags = {
@@ -159,7 +159,7 @@ resource "aws_instance" "iProduction_2" {
   }
 
   root_block_device {
-    volume_size = "50"
+    volume_size = var.webserver_instance_storage
   }
 
   tags = {
@@ -184,4 +184,13 @@ resource "aws_lb_target_group_attachment" "lbtgaGabonProdInstance_2" {
 
 output "production-alb-dns-name" {
   value = aws_lb.albProductionFrontEnd.dns_name
+}
+
+output "webFE-1-ip" {
+  value = aws_instance.iProduction_1.public_ip
+}
+
+
+output "webFE-2-ip" {
+  value = aws_instance.iProduction_2.public_ip
 }

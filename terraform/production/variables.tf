@@ -13,6 +13,11 @@ variable "webserver_instance_type" {
   default = "c5.xlarge"
 }
 
+variable "webserver_instance_storage" {
+  type    = number
+  default = 50
+}
+
 variable "rdspsql_instance_type" {
   type    = string
   default = "db.m5.large"
