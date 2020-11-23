@@ -60,7 +60,7 @@
                                 <td>{{ item.Note }}</td>
                                 <th>{{ translate('approved') }}</th>
                                 <td>
-                                    <switches v-model="item.Approved" color="green" :title="translate('approve_logbook_item')" @input="approveLogbookItem(item.Id)" :emit-on-mount="false" v-tooltip></switches>
+                                    <switches v-model="item.Approved" color="green" :title="translate('approve_logbook_item')" @input="approveLogbookItem($event,item.Id)" :emit-on-mount="false" v-tooltip></switches>
                                 </td>
                             </tr>
                         </tbody>
@@ -102,10 +102,8 @@
         },
 
         methods: {
-            approveLogbookItem (id,val) {
-                console.log(id);
-                console.log(val);
-                Logbook.approve_item(id);
+            approveLogbookItem (val,id) {
+                Logbook.approve_item(id, {Approved: val});
                 Logbook.get(this.logbook.Id)
             }
         }
