@@ -25,7 +25,7 @@ class AnnualAllowableCut extends PageResults
             ->whereRaw($whereIntersects);
 
         if($Name){
-            $collection = $collection->where('Name','=',$Name)->orWhere('AacId','=',$Name);
+            $collection = $collection->where('Name','ilike',"%".$Name."%")->orWhere('AacId','ilike',"%".$Name."%");
         }
 
         $collection = $collection->get();

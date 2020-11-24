@@ -34,7 +34,7 @@ class Permit extends PageResults
             ->whereRaw($whereIntersects);
 
         if($LicensePlate){
-            $collection = $collection->where('LicensePlate','=',$LicensePlate);
+            $collection = $collection->where('LicensePlate','ilike',"%".$LicensePlate."%");
         }
         if($DateFrom){
             $collection = $collection->where('ObserveAt','>=',$DateFrom);
