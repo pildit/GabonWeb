@@ -21,6 +21,7 @@ Route::middleware('jwt:api')->patch('/constituent_permits/approve/{id}', 'Consti
 Route::middleware('jwt:api')->resource('/constituent_permits', ConstituentPermitController::class)->except(['create', 'edit']);
 //Parcel
 Route::middleware('jwt:api')->get('/parcels/export', 'ParcelController@export');
+Route::middleware('jwt:api')->patch('/parcels/approve/{id}', 'ParcelController@approve');
 Route::get('/parcels/vectors', 'ParcelController@vectors');
 Route::middleware('jwt:api')->resource('/parcels', ParcelController::class)->except(['edit', 'create']);
 //development unit

@@ -16,7 +16,6 @@ class CreateUpdateParcelRequest extends FormRequest
         return [
             'Name' => 'string',
             'Geometry' => 'string',
-            'Approved' => 'bool',
         ];
     }
 

@@ -1,10 +1,17 @@
 <template>
-  <bmodal ref="itemModal" size="medium" :closed="() => $emit('display', false)">
+  <bmodal ref="itemModal" size="full" :closed="() => $emit('display', false)">
     <div slot="title">
       <h4 class="modal-title w-100 font-weight-bold">{{translate('add_permit_type')}}</h4>
     </div>
     <div slot="body">
-      <item-form ref="itemForm" @done="closeModal"></item-form>
+        <div class="row">
+            <div class="col-md-8">
+                The MAP
+            </div>
+            <div class="col-md-4">
+                <item-form ref="itemForm" :row-prop="rowProp" @done="closeModal"></item-form>
+            </div>
+        </div>
     </div>
     <div slot="footer">
       <button @click="submit" class="btn btn-default">Save</button>
@@ -50,11 +57,11 @@ export default {
   watch: {
     state(val) {
       if(!val) return;
-      if(this.typeProp != 'create') {
-        this.$refs.itemForm.form = this.rowProp;
-      }else{
-        this.$refs.itemForm.form = {};
-      }
+      // if(this.typeProp != 'create') {
+      //   this.$refs.itemForm.form = this.rowProp;
+      // }else{
+      //   this.$refs.itemForm.form = {};
+      // }
       this.$refs.itemForm.errors.clear();
       this.$refs.itemModal.open();
     }

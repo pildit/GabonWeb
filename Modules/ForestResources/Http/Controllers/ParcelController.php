@@ -3,6 +3,7 @@
 namespace Modules\ForestResources\Http\Controllers;
 
 use App\Services\PageResults;
+use App\Traits\Approve;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -20,6 +21,10 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ParcelController extends Controller
 {
+
+    use Approve;
+
+    protected $modelName = Parcel::class;
 
     /**
      * Display a listing of the resource.
@@ -164,7 +169,6 @@ class ParcelController extends Controller
        // $data['Geometry'] = isset($polygon) ? $polygon : '';
 
         $parcel->fill($data);
-        dd($parcel->toArray());
         $parcel->save();
 
         return response()->json([
