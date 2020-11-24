@@ -9,13 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Modules\Admin\Entities\Company;
-use Modules\ForestResources\Entities\AnnualAllowableCut;
-use Modules\ForestResources\Entities\Concession;
-use Modules\ForestResources\Entities\DevelopmentUnit;
-use Modules\ForestResources\Entities\ManagementUnit;
-use Modules\ForestResources\Entities\ProductType;
 use Modules\Transport\Entities\Permit as PermitEntity;
-use Modules\User\Entities\User;
+
 
 class Permit extends PageResults
 {
@@ -53,48 +48,19 @@ class Permit extends PageResults
 
         return $collection->map(function ($item) {
 
-            $Concession = (Concession::select("Name")->where("Id",$item->Concession)->first()) ?
-                Concession::select("Name")->where("Id",$item->Concession)->first()->Name :
-                $item->Concession;
-
-            $AnnualAllowableCut = (AnnualAllowableCut::select("Name")->where("Id", $item->AnnualAllowableCut)->first()) ?
-                AnnualAllowableCut::select("Name")->where("Id", $item->AnnualAllowableCut)->first()->Name :
-                $item->AnnualAllowableCut;
-
-            $DevelopmentUnit = (DevelopmentUnit::select("Name")->where("Id", $item->DevelopmentUnit)->first()) ?
-                DevelopmentUnit::select("Name")->where("Id", $item->DevelopmentUnit)->first()->Name :
-                $item->DevelopmentUnit;
-
-            $ManagementUnit = (ManagementUnit::select("Name")->where("Id", $item->ManagementUnit)->first()) ?
-                ManagementUnit::select("Name")->where("Id", $item->ManagementUnit)->first()->Name :
-                $item->ManagementUnit;
-
-            $ClientCompany = (Company::select("Name")->where("Id", $item->ClientCompany)->first()) ?
-                Company::select("Name")->where("Id", $item->ClientCompany)->first()->Name :
-                $item->ClientCompany;
-
-            $ConcessionaireCompany = (Company::select("Name")->where("Id", $item->ConcessionaireCompany)->first()) ?
-                Company::select("Name")->where("Id", $item->ConcessionaireCompany)->first()->Name :
-                $item->ConcessionaireCompany;
-
-            $TransporterCompany = (Company::select("Name")->where("Id", $item->TransporterCompany)->first()) ?
-                Company::select("Name")->where("Id", $item->TransporterCompany)->first()->Name :
-                $item->TransporterCompany;
-
-
             return [
                 'type' => 'Feature',
                 'geometry' => json_decode($item->geom),
                 'properties' => [
                     "id" => $item->Id,
                     "PermitNo" => $item->PermitNo,
-                    "Concession" => $Concession,
-                    "ManagementUnit" => $ManagementUnit,
-                    "DevelopmentUnit" => $DevelopmentUnit,
-                    "AnnualAllowableCut" => $AnnualAllowableCut,
-                    "ClientCompany" => $ClientCompany,
-                    "ConcessionaireCompany" => $ConcessionaireCompany,
-                    "TransporterCompany" => $TransporterCompany,
+                    "Concession" => $item->concession ? $item->concessions->Name : $item->Concession,
+                    "ManagementUnit" => $item->managementunit ? $item->managementunit->Name : $item->ManagementUnit,
+                    "DevelopmentUnit" => $item->developmentunit ? $item->developmentunit->Name : $item->DevelopmentUnit,
+                    "AnnualAllowableCut" => $item->annualallowablecut ? $item->annualallowablecut->Name : $item->AnnualAllowableCut,
+                    "ClientCompany" => $item->clientcompany ? $item->clientcompany->Name : $item->ClientCompany,
+                    "ConcessionaireCompany" =>  $item->concessionairecompany ? $item->concessionairecompany->Name : $item->ConcessionaireCompany,
+                    "TransporterCompany" =>  $item->transportercompany ? $item->transportercompany->Name : $item->TransporterCompany,
                     "Province" => $item->Province,
                     "Destination" => $item->Destination,
                 ]

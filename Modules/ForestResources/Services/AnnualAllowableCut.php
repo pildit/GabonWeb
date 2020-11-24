@@ -7,7 +7,7 @@ namespace Modules\ForestResources\Services;
 use App\Services\PageResults;
 use Illuminate\Support\Facades\DB;
 use Modules\ForestResources\Entities\AnnualAllowableCut as AnnualAllowableCutEntity;
-use Modules\ForestResources\Entities\ManagementUnit;
+
 
 class AnnualAllowableCut extends PageResults
 {
@@ -32,10 +32,6 @@ class AnnualAllowableCut extends PageResults
 
         return $collection->map(function ($item) {
 
-            $ManagementUnit = (ManagementUnit::select("Name")->where("Id",$item->ManagementUnit)->first()) ?
-                ManagementUnit::select("Name")->where("Id",$item->ManagementUnit)->first()->Name  :
-                $item->ManagementUnit;
-
             return [
                 'type' => 'Feature',
                 'geometry' => json_decode($item->geom),
@@ -43,7 +39,7 @@ class AnnualAllowableCut extends PageResults
                     'id' => $item->Id,
                     'Name' => $item->Name,
                     'ID' => $item->AacId,
-                    'ManagementUnit' => $ManagementUnit,
+                    'ManagementUnit' => $item->managementunit ? $item->managementunit->Name : $item->ManagementUnit,
                     'ManagementPlan' => $item->ManagementPlan
                 ]
             ];
