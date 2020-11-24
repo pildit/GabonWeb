@@ -85,17 +85,15 @@ class PermitController extends Controller
         ]);
 
         return response()->json([
-            'data' => [
-                'type' => 'FeatureCollection',
-                'name' => 'permits',
-                'features' => $permitService->getVectors(
-                    $request->get('bbox', config('transport.default_bbox')),
-                    $request->get('LicensePlate'),$request->get('DateFrom'),
-                    $request->get('DateTo'),
-                    $request->get('Date'),
-                    $request->get('PermitNo')
-                )
-            ]
+            'type' => 'FeatureCollection',
+            'name' => 'permits',
+            'features' => $permitService->getVectors(
+                $request->get('bbox', config('transport.default_bbox')),
+                $request->get('LicensePlate'),$request->get('DateFrom'),
+                $request->get('DateTo'),
+                $request->get('Date'),
+                $request->get('PermitNo')
+            )
         ]);
     }
 

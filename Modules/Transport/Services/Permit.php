@@ -9,7 +9,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Modules\Admin\Entities\Company;
+use Modules\ForestResources\Entities\AnnualAllowableCut;
+use Modules\ForestResources\Entities\Concession;
+use Modules\ForestResources\Entities\DevelopmentUnit;
+use Modules\ForestResources\Entities\ManagementUnit;
+use Modules\ForestResources\Entities\ProductType;
 use Modules\Transport\Entities\Permit as PermitEntity;
+use Modules\User\Entities\User;
 
 class Permit extends PageResults
 {
@@ -21,10 +27,10 @@ class Permit extends PageResults
     public function getVectors($bbox,$LicensePlate,$DateFrom,$DateTo,$Date,$PermitNo)
     {
         $srid = config('transport.srid');
-        $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_flipcoordinates(public.st_transform(public.st_setsrid("Geometry",'.$srid.'),4256))) as geom');
+        $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_transform(public.st_setsrid("Geometry",'.$srid.'),4256)) as geom');
         $whereIntersects = "public.ST_Intersects(public.st_setsrid(\"Geometry\", {$srid}), public.st_setsrid(public.ST_MakeEnvelope({$bbox}), {$srid}))";
 
-        $collection = PermitEntity::select(['Id', $geomCol])
+        $collection = PermitEntity::select(['Id', $geomCol, "PermitNo", "Concession", "ManagementUnit", "DevelopmentUnit", "AnnualAllowableCut", "ClientCompany", "ConcessionaireCompany", "TransporterCompany", "Province", "Destination"])
             ->whereRaw($whereIntersects);
 
         if($LicensePlate){
@@ -46,11 +52,51 @@ class Permit extends PageResults
         $collection = $collection->get();
 
         return $collection->map(function ($item) {
+
+            $Concession = (Concession::select("Name")->where("Id",$item->Concession)->first()) ?
+                Concession::select("Name")->where("Id",$item->Concession)->first()->Name :
+                $item->Concession;
+
+            $AnnualAllowableCut = (AnnualAllowableCut::select("Name")->where("Id", $item->AnnualAllowableCut)->first()) ?
+                AnnualAllowableCut::select("Name")->where("Id", $item->AnnualAllowableCut)->first()->Name :
+                $item->AnnualAllowableCut;
+
+            $DevelopmentUnit = (DevelopmentUnit::select("Name")->where("Id", $item->DevelopmentUnit)->first()) ?
+                DevelopmentUnit::select("Name")->where("Id", $item->DevelopmentUnit)->first()->Name :
+                $item->DevelopmentUnit;
+
+            $ManagementUnit = (ManagementUnit::select("Name")->where("Id", $item->ManagementUnit)->first()) ?
+                ManagementUnit::select("Name")->where("Id", $item->ManagementUnit)->first()->Name :
+                $item->ManagementUnit;
+
+            $ClientCompany = (Company::select("Name")->where("Id", $item->ClientCompany)->first()) ?
+                Company::select("Name")->where("Id", $item->ClientCompany)->first()->Name :
+                $item->ClientCompany;
+
+            $ConcessionaireCompany = (Company::select("Name")->where("Id", $item->ConcessionaireCompany)->first()) ?
+                Company::select("Name")->where("Id", $item->ConcessionaireCompany)->first()->Name :
+                $item->ConcessionaireCompany;
+
+            $TransporterCompany = (Company::select("Name")->where("Id", $item->TransporterCompany)->first()) ?
+                Company::select("Name")->where("Id", $item->TransporterCompany)->first()->Name :
+                $item->TransporterCompany;
+
+
             return [
                 'type' => 'Feature',
                 'geometry' => json_decode($item->geom),
                 'properties' => [
-                    'id' => $item->Id
+                    "id" => $item->Id,
+                    "PermitNo" => $item->PermitNo,
+                    "Concession" => $Concession,
+                    "ManagementUnit" => $ManagementUnit,
+                    "DevelopmentUnit" => $DevelopmentUnit,
+                    "AnnualAllowableCut" => $AnnualAllowableCut,
+                    "ClientCompany" => $ClientCompany,
+                    "ConcessionaireCompany" => $ConcessionaireCompany,
+                    "TransporterCompany" => $TransporterCompany,
+                    "Province" => $item->Province,
+                    "Destination" => $item->Destination,
                 ]
             ];
         });
