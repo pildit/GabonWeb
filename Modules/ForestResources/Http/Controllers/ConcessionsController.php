@@ -130,7 +130,7 @@ class ConcessionsController extends Controller
      */
     public function listConcessions(Request $request)
     {
-        $concessions = Concession::where('Name', 'like', "%{$request->get('name')}%")
+        $concessions = Concession::where('Name', 'ilike', "%{$request->get('name')}%")
             ->take($request->get('limit', 100))
             ->get(['Id', 'Name']);
 

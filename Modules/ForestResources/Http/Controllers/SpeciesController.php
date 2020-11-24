@@ -122,7 +122,7 @@ class SpeciesController extends Controller
      */
     public function listSpecies(Request $request)
     {
-        $species = Species::where('LatinName', 'like', "%{$request->get('name')}%")
+        $species = Species::where('LatinName', 'ilike', "%{$request->get('name')}%")
             ->take($request->get('limit', 100))
             ->get(['Id', 'LatinName', 'Code', 'CommonName']);
 

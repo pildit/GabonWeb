@@ -124,8 +124,8 @@ class PermitTypesController extends Controller
      */
     public function listPermitTypes(Request $request)
     {
-        $species = PermitType::where('Name', 'like', "%{$request->get('name')}%")
-            ->orWhere('Abbreviation', 'like', "%{$request->get('name')}%")
+        $species = PermitType::where('Name', 'ilike', "%{$request->get('name')}%")
+            ->orWhere('Abbreviation', 'ilike', "%{$request->get('name')}%")
             ->take($request->get('limit', 100))
             ->get(['Id', 'Name', 'Abbreviation']);
 

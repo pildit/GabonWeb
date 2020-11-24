@@ -144,7 +144,7 @@ class DevelopmentUnitController extends Controller
      */
     public function listDevelopmentUnits(Request $request)
     {
-        $concessions = DevelopmentUnit::where('Name', 'like', "%{$request->get('name')}%")
+        $concessions = DevelopmentUnit::where('Name', 'ilike', "%{$request->get('name')}%")
             ->take($request->get('limit', 100))
             ->get(['Id', 'Name']);
 

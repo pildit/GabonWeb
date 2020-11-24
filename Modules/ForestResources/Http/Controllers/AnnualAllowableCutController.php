@@ -64,7 +64,7 @@ class AnnualAllowableCutController extends Controller
 
         $AacIdName =  date("y")."_".strtoupper(substr($data['Name'], 0, 3));
         $aacNumber = DB::table('ForestResources.AnnualAllowableCuts')
-            ->where('AacId','LIKE', $AacIdName."%")
+            ->where('AacId','ilike', $AacIdName."%")
             ->count();
 
         $aacNumber = sprintf("%03d", ++$aacNumber);
