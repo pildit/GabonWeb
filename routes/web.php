@@ -36,6 +36,7 @@ Route::get('/nomenclatures/{nomenclature_type?}', 'NomenclaturesController@index
 Route::resource('/management/development-units', 'DevelopmentUnitController')->only(['create', 'edit']);
 Route::resource('/management/management-units', 'ManagementUnitController')->only(['create', 'edit']);
 Route::get('/management/{management_type?}', 'ManagementController@index');
+Route::resource('/concessions/constituent-permits', 'ConstituentPermitController')->only(['create', 'edit']);
 Route::get('/concessions/{resource_type?}', 'ConcessionsController@index');
 Route::get('/translations', 'TranslationController@index');
 Route::view('/logbooks', 'transportation.logbooks');

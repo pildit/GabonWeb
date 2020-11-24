@@ -1,12 +1,14 @@
 import Base from "../Base";
 import store from "store/store"
 import vueGrid from "./Parts/Grid/index";
+import vueForm from "./Parts/Form/index";
 
 class ConstituentPermit extends Base {
 
     static getComponents() {
         return {
-            "items-grid" : vueGrid
+            "items-grid" : vueGrid,
+            "constituent-permit-form" : vueForm
         }
     }
 

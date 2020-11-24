@@ -6,7 +6,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-4">
-      THE MAP
+      {{lang('the_map')}}
     </div>
     <div class="col-md-8">
       <div id="items-grid">
