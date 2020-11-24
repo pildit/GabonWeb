@@ -55,6 +55,8 @@ export default {
             },
             offset: 4,
             search: null,
+            start_date: null,
+            end_date: null
         }
     },
 
@@ -107,7 +109,9 @@ export default {
                 per_page: this.pagination.per_page,
                 sort: this.sort.direction,
                 sort_fields: this.sort.field,
-                search: this.search
+                search: this.search,
+                start_date: this.start_date,
+                end_date: this.end_date
             }
 
             this.$store.dispatch(this.options.store.action, data)
@@ -122,6 +126,13 @@ export default {
                 this.search = payload.search;
                 this.pagination.current_page = 1;
             }
+
+            if(payload && payload.hasOwnProperty('dateRange')) {
+                this.start_date = payload.dateRange.startDate;
+                this.end_date = payload.dateRange.endDate;
+                this.pagination.current_page = 1;
+            }
+
             this.fetchData();
         }
     }
