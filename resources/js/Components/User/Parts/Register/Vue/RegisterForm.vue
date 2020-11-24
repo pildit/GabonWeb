@@ -66,7 +66,7 @@
                         </div>
                         <div class="md-form ">
                             <template>
-                                <vue-hcaptcha sitekey="541e440b-1499-42db-a88f-28e5f066bca9" @verify="markHcaptchaAsVerified"></vue-hcaptcha>
+                                <vue-hcaptcha sitekey="541e440b-1499-42db-a88f-28e5f066bca9" @verify="markHcaptchaAsVerified" @error="markHcaptchaAsError"></vue-hcaptcha>
                             </template>
                             <div class="invalid-feedback" v-show="registerForm.hcaptchaError">{{ registerForm.captchaErrorMessage }}</div>
                         </div>
@@ -104,6 +104,11 @@ export default {
             this.registerForm.captchaErrorMessage = '';
             this.registerForm.hcaptchaVerified = true;
             this.registerForm.hcaptchaError = false;
+        },
+        markHcaptchaAsError(response) {
+            this.registerForm.captchaErrorMessage =  this.translate("captcha_error");
+            this.registerForm.hcaptchaVerified = false;
+            this.registerForm.hcaptchaError = true;
         },
         onSubmit() {
             this.$validator.validate().then((valid) => {
