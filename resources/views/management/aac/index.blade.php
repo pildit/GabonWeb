@@ -1,1 +1,1 @@
-@lang('aac')
+{{ lang('aac') }}

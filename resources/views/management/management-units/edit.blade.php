@@ -6,7 +6,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-4">
-                @lang('the_map')
+                {{ lang('the_map') }}
             </div>
             <div class="col-md-8 mt-4" id="management-unit-form">
                 <management-unit-form :management-unit-prop="management_unit" ref="management_unit_form"></management-unit-form>

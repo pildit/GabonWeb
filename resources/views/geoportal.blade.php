@@ -4,7 +4,7 @@
 
 @section('content')
     <div>
-        @lang('geoportal')
+        {{ lang('geoportal') }}
     </div>
 @endsection
 

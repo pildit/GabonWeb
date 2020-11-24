@@ -6,7 +6,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-4">
-                @lang('the_map')
+                {{ lang('the_map') }}
             </div>
             @verbatim
                 <div class="col-md-8" id="management-unit-grid">
