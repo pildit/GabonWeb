@@ -2,7 +2,7 @@
 
     <div class="grid" :ref="options.instance">
         <div class="table-responsive text-nowrap">
-            <table class="table">
+            <table class="table" style="overflow: hidden">
                 <thead class="green white-text table-hover">
                 <tr>
                     <th v-for="(value, key) in columns" @click="sortBy(key)" :style="columnStyle(key)" scope="col" class="cursor-pointer">
