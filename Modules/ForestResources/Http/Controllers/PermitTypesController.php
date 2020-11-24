@@ -117,4 +117,26 @@ class PermitTypesController extends Controller
 
         return Excel::download(new Exporter($collection,$headings), 'permit_type.xlsx');
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function listPermitTypes(Request $request)
+    {
+        $species = PermitType::where('Name', 'like', "%{$request->get('name')}%")
+            ->orWhere('Abbreviation', 'like', "%{$request->get('name')}%")
+            ->take($request->get('limit', 100))
+            ->get(['Id', 'Name', 'Abbreviation']);
+
+        return response()->json([
+            'data' => $species->map(function ($item) {
+                return [
+                    'Id' => $item->Id,
+                    'Name' => $item->Name,
+                    'Abbreviation' => $item->Abbreviation,
+                ];
+            })
+        ]);
+    }
 }

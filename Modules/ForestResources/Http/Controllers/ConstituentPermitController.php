@@ -62,7 +62,7 @@ class ConstituentPermitController extends Controller
         $constituent_permit = new ConstituentPermit;
         $constituent_permit->PermitType = $data['permit_type'];
         $constituent_permit->PermitNumber = $data['permit_number'];
-        // $constituent_permit->Geometry = $data['geometry'];
+        $constituent_permit->Geometry = $data['geometry'];
         $constituent_permit->User = $this->jwtPayload('data.id');
 
         $constituent_permit->save();

@@ -23,25 +23,35 @@
                                 :allow-empty="false"
                                 @search-change="asyncFindPermitType"
                             >
-                                <template slot="singleLabel" slot-scope="{ option }">{{ option.Name }}({{option.Id}})</template>
-                                <template slot="option" slot-scope="{option}">{{ option.Name }}({{option.Id}})</template>
+                                <template slot="singleLabel" slot-scope="{ option }">{{ option.Name }} ({{option.Abbreviation}})</template>
+                                <template slot="option" slot-scope="{option}">{{ option.Name }} ({{option.Abbreviation}})</template>
                             </multiselect>
                             <div v-show="errors.has('DevelopmentUnit')" class="invalid-feedback">{{ errors.first('DevelopmentUnit') }}</div>
                         </div>
                     </div>
-                </div>
-                <div class="form-row">
                     <div class="col">
                         <div class="md-form">
                             <input type="text" id="PermitNumber" name="PermitNumber" class="form-control"
                                    v-model="form.PermitNumber"
-                                   :data-vv-as="translate('number_management_unit_form')"
+                                   :data-vv-as="translate('permit_number_constituent_form')"
                                    v-validate="'required'"
                             >
-                            <label for="Number" :class="{'active': form.PermitNumber}">{{translate('number_management_unit_form')}}</label>
-                            <div v-show="errors.has('Number')" class="invalid-feedback">{{ errors.first('Number') }}</div>
+                            <label for="PermitNumber" :class="{'active': form.PermitNumber}">{{translate('permit_number_constituent_form')}}</label>
+                            <div v-show="errors.has('PermitNumber')" class="invalid-feedback">{{ errors.first('PermitNumber') }}</div>
                         </div>
                     </div>
+                </div>
+                <div class="md-form">
+                    <input type="text" name="Geometry" id="Geometry" class="form-control" v-model="form.Geometry" v-validate="'required'">
+                    <label for="Geometry" :class="{'active': form.Geometry}">{{translate('geometry_input_label')}}</label>
+                    <div v-show="errors.has('Geometry')" class="invalid-feedback">{{ errors.first('Geometry') }}</div>
+                </div>
+                <div class="form-row float-right">
+                    <button @click="save()" class="btn btn-info z-depth-0 my-4" :disabled="saveLoading">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="saveLoading"></span>
+                        {{ translate('save') }}
+                    </button>
+                    <a class="btn btn-warning z-depth-0 my-4" :href="indexRoute()">{{translate('cancel_button')}}</a>
                 </div>
             </form>
         </div>
@@ -49,11 +59,22 @@
 </template>
 
 <script>
+import PermitType from "components/PermitType/PermitType";
+import ConstituentPermit from "components/ConstituentPermit/ConstituentPermit";
+import Notification from "components/Common/Notifications/Notification";
+import Multiselect from "vue-multiselect";
+import _ from "lodash";
+
 export default {
+
+    props: ['constituentPermitProp'],
+
+    components: { Multiselect },
 
     data() {
       return {
           form: {},
+          saveLoading: false,
           permitTypeList: {
               data: [],
               isLoading: false
@@ -61,12 +82,52 @@ export default {
       }
     },
 
+    computed: {
+        isCreatedFormType() {
+            return _.isEmpty(this.managementUnitProp);
+        }
+    },
+
+    created() {
+        this.asyncFindPermitType('');
+    },
+
     methods: {
+        indexRoute() {
+            return ConstituentPermit.buildRoute('constituent_permits.index');
+        },
         save() {
+            this.$validator.validate().then((valid) => {
+                console.log(valid);
+                if(valid) {
+                    this.saveLoading = true;
+                    let promise = this.isCreatedFormType ? this.create : this.update
+                    return promise(this.form).finally(() => this.saveLoading = false);
+                }
+            })
+        },
+
+        create(data) {
+            data = ConstituentPermit.buildForm(data);
+            return ConstituentPermit.add(data).then((data) => {
+                Notification.success(this.translate('constituent_permit'), data.message);
+                window.location.href = this.indexRoute();
+            })
+        },
+
+        update(data) {
 
         },
-        asyncFindPermitType(query) {
 
+        asyncFindPermitType(query) {
+            this.permitTypeList.isLoading = true;
+            PermitType.listSearch(query, this.permitTypeList.limit).then((response) => {
+                this.permitTypeList.data= response.data;
+                this.permitTypeList.isLoading = false;
+                // if(this.form.permit) {
+                //     this.form.PermitType = this.permitTypeList.data.find((x) => x['Id'] == this.form.permit.id);
+                // }
+            })
         }
     }
 }

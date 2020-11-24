@@ -32,7 +32,7 @@ export default {
             return ConstituentPermit.buildRoute('constituent_permits.edit', {id: this.rowProp.Id});
         },
         approve(val) {
-            let promise = ConstituentPermit.update(this.rowProp.Id, {approved: val}).then((response) => {
+            let promise = ConstituentPermit.approve(this.rowProp.Id, {Approved: val}).then((response) => {
                 Notification.success('Constituent Permit', response.data.message)
                 return response.data;
             });

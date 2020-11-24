@@ -86,6 +86,7 @@ Route::middleware('jwt:api')->get('/site_logbook_logs/mobile', 'SiteLogbookLogCo
 Route::middleware('jwt:api')->resource('/site_logbook_logs', SiteLogbookLogController::class)->except(['edit', 'create']);
 //Permit Types
 Route::middleware('jwt:api')->get('/permit_types/export', 'PermitTypesController@export');
+Route::middleware('jwt:api')->get('/permit_types/list', "PermitTypesController@listPermitTypes");
 Route::middleware('jwt:api')->resource('/permit_types', PermitTypesController::class)->except(['edit', 'create']);
 //Species
 Route::middleware('jwt:api')->get('/species/export', 'SpeciesController@export');

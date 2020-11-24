@@ -35,9 +35,14 @@ class ConstituentPermit extends Model
     public function getGeometryAsTextAttribute()
     {
         if(!$this->Geometry) return null;
-        $reader = new EWKBReader();
-        $geom = $reader->read(hex2bin($this->Geometry));
-        return $geom->asText();
+
+        if(ctype_xdigit($this->Geometry)) {
+            $reader = new EWKBReader();
+            $geom = $reader->read(hex2bin($this->Geometry));
+            return $geom->asText();
+        }else{
+            return $this->Geometry;
+        }
     }
 
     public function PermitTypeObj()

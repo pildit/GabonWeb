@@ -48,16 +48,16 @@ export default {
                 .then((response) => response);
         },
 
+        approve({}, payload) {
+            let id = payload.id;
+            let data = payload.data;
+            return axios.patch(`api/constituent_permits/approve/${id}`, data)
+                .then((response) => response.data);
+        },
+
         listSearch({}, payload) {
             return axios.get(`api/constituent_permits/list?name=${payload.name}&limit=${payload.limit}`)
                 .then((response) => response);
         },
-        types({commit}) {
-            return axios.get(`api/permit_types`)
-                .then((response) => response.data)
-                .then((responseData) => {
-                    commit('types', responseData.data);
-                })
-        }
     }
 }

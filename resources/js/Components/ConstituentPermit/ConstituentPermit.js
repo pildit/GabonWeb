@@ -12,20 +12,34 @@ class ConstituentPermit extends Base {
         }
     }
 
+    static buildForm(data) {
+        let obj = {
+            permit_number: data.PermitNumber,
+            geometry: data.Geometry,
+            permit_type: data.PermitType.Id
+        }
+
+        return obj;
+    }
+
     static index(data) {
-        return store.dispatch('constituentPermit/index', data).then((response) => response.data);
+        return store.dispatch('constituent_permit/index', data).then((response) => response.data);
     }
 
     static add(data) {
-        return store.dispatch('constituentPermit/add', data).then((response) => response.data);
+        return store.dispatch('constituent_permit/add', data).then((response) => response.data);
     }
 
     static get(id) {
-        return store.dispatch('constituentPermit/get', {id});
+        return store.dispatch('constituent_permit/get', {id});
     }
 
     static update(id, data) {
-        return store.dispatch('constituentPermit/update', {id, data});
+        return store.dispatch('constituent_permit/update', {id, data});
+    }
+
+    static approve(id, data) {
+        return store.dispatch('constituent_permit/approve', {id, data});
     }
 
 }
