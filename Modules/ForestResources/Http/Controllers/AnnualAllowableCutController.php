@@ -7,12 +7,16 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\AnnualAllowableCut;
+use Modules\ForestResources\Entities\ManagementPlan;
+use Modules\ForestResources\Entities\ManagementUnit;
 use Modules\ForestResources\Http\Requests\CreateAnnualAllowableCutRequest;
 use Modules\ForestResources\Http\Requests\UpdateAnnualAllowableCutRequest;
 use Illuminate\Support\Facades\DB;
 use Modules\ForestResources\Services\AnnualAllowableCut as AnnualAllowableCutService;
 use Log;
 use App\Traits\Approve;
+use Modules\ForestResources\Exports\Exporter;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AnnualAllowableCutController extends Controller
 {
@@ -60,7 +64,7 @@ class AnnualAllowableCutController extends Controller
 
         $AacIdName =  date("y")."_".strtoupper(substr($data['Name'], 0, 3));
         $aacNumber = DB::table('ForestResources.AnnualAllowableCuts')
-            ->where('AacId','LIKE', $AacIdName."%")
+            ->where('AacId','ilike', $AacIdName."%")
             ->count();
 
         $aacNumber = sprintf("%03d", ++$aacNumber);
@@ -131,12 +135,48 @@ class AnnualAllowableCutController extends Controller
         ]);
 
         return response()->json([
-            'data' => [
-                'type' => 'FeatureCollection',
-                'name' => 'annual_allowable_cut',
-                'features' => $aacService->getVectors($request->get('bbox', config('forestresources.default_bbox')),$request->get('Name'))
-            ]
+            'type' => 'FeatureCollection',
+            'name' => 'annual_allowable_cut',
+            'features' => $aacService->getVectors($request->get('bbox', config('forestresources.default_bbox')),$request->get('Name'))
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+
+    public function export(Request $request)
+    {
+        $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
+        $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
+
+        $headings  = ['Name','AacId','ManagementUnit','ManagementPlan'];
+        $collection = AnnualAllowableCut::select('Id', 'Name','AacId','ManagementUnit','ManagementPlan');
+
+        if($request->get('date_from')){
+            $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
+        }
+        if($request->get('date_to')){
+            $collection = $collection->where("CreatedAt","<=",$request->get('date_to'));
+        }
+        $collection = $collection->get();
+
+        $collection = $collection->map(function ($item) {
+
+            $ManagementUnit = (ManagementUnit::select("Name")->where("Id",$item->ManagementUnit)->first()) ?
+                ManagementUnit::select("Name")->where("Id",$item->ManagementUnit)->first()->Name  :
+                $item->ManagementUnit;
+
+            return [
+                'Name' => $item->Name,
+                'ID' => $item->AacId,
+                'ManagementUnit' => $ManagementUnit,
+                'ManagementPlan' => $item->ManagementPlan
+            ];
+        });
+
+        return Excel::download(new Exporter($collection,$headings), 'annual_allowable_cut.xlsx');
     }
 
 }

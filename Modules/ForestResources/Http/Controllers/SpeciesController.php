@@ -9,6 +9,10 @@ use Illuminate\Routing\Controller;
 use App\Services\PageResults;
 use Modules\ForestResources\Entities\Species;
 use GenTux\Jwt\GetsJwtToken;
+use Modules\ForestResources\Exports\Exporter;
+use Maatwebsite\Excel\Facades\Excel;
+use Modules\User\Entities\User;
+
 
 class SpeciesController extends Controller
 {
@@ -118,7 +122,7 @@ class SpeciesController extends Controller
      */
     public function listSpecies(Request $request)
     {
-        $species = Species::where('LatinName', 'like', "%{$request->get('name')}%")
+        $species = Species::where('LatinName', 'ilike', "%{$request->get('name')}%")
             ->take($request->get('limit', 100))
             ->get(['Id', 'LatinName', 'Code', 'CommonName']);
 
@@ -133,5 +137,39 @@ class SpeciesController extends Controller
             })
         ]);
 
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+
+    public function export(Request $request)
+    {
+        $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
+        $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
+
+        $headings  = ['Code', 'LatinName', 'CommonName'];
+        $collection = Species::select('Id', 'Code', 'LatinName', 'CommonName');
+
+        if($request->get('date_from')){
+            $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
+        }
+        if($request->get('date_to')){
+            $collection = $collection->where("CreatedAt","<=",$request->get('date_to'));
+        }
+
+        $collection = $collection->get();
+        $collection = $collection->map(function ($item) {
+
+            return [
+                'Code'=>$item->Code,
+                'LatinName'=>$item->LatinName,
+                'CommonName'=>$item->CommonName,
+
+            ];
+        });
+
+        return Excel::download(new Exporter($collection,$headings), 'species.xlsx');
     }
 }

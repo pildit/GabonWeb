@@ -29,6 +29,8 @@ class PageResults
 
     protected $where;
 
+    protected $whereBetween;
+
     /**
      * @param mixed $per_page
      */
@@ -91,6 +93,11 @@ class PageResults
         return $this;
     }
 
+    public function setWhereBetween(array $where)
+    {
+        $this->whereBetween = $where;
+    }
+
     /**
      * @param array $fields
      */
@@ -111,7 +118,7 @@ class PageResults
     {
         if($this->search) {
             foreach ($this->filters as $field) {
-                $this->query->orWhere($field, 'LIKE', "%{$this->search}%");
+                $this->query->orWhere($field, 'ilike', "%{$this->search}%");
             }
         }
 
@@ -120,6 +127,12 @@ class PageResults
                 $this->query->orWhere($field, $value);
             }
         }
+
+        if ($this->whereBetween) {
+            foreach ($this->whereBetween as $field => $value)
+                $this->query->whereBetween($field, $value);
+        }
+
         return $this->query->paginate($this->per_page);
     }
 
@@ -138,6 +151,9 @@ class PageResults
             'sort' => ['sort should match fields numbers'],
             'sort_fields' => ['sort fields should match sort ']
         ]));
+
+        if ($request->filled('start_date') && $request->filled('end_date'))
+            $this->setWhereBetween( ['CreatedAt' => [$request->get('start_date'), $request->get('end_date')]]);
 
         $request->validate([
             'page' => 'numeric',

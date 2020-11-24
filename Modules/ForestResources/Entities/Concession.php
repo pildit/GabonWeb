@@ -23,6 +23,8 @@ class Concession extends Model
 
     protected $table = "ForestResources.Concessions";
 
+    protected $with = ['constituent_permit:Id,PermitNumber'];
+
     /**
      * @var string
      */
@@ -31,4 +33,9 @@ class Concession extends Model
     protected $primaryKey = "Id";
 
     protected $hidden = ['Geometry'];
+
+    public function constituent_permit()
+    {
+        return $this->belongsTo(ConstituentPermit::class, 'ConstituentPermit');
+    }
 }

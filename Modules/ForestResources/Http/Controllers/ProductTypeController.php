@@ -8,6 +8,9 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\ProductType;
+use Maatwebsite\Excel\Facades\Excel;
+use Modules\User\Entities\User;
+use Modules\ForestResources\Exports\Exporter;
 
 class ProductTypeController extends Controller
 {
@@ -82,5 +85,42 @@ class ProductTypeController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+
+    public function export(Request $request)
+    {
+        $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
+        $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
+
+        $headings  = ['Name', 'User'];
+        $collection = ProductType::select('Id', 'Name', 'UserId');
+
+        if($request->get('date_from')){
+            $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
+        }
+        if($request->get('date_to')){
+            $collection = $collection->where("CreatedAt","<=",$request->get('date_to'));
+        }
+
+        $collection = $collection->get();
+        $collection = $collection->map(function ($item) {
+
+            $User = (User::select("firstname","lastname")->where("id", $item->UserId)->first()) ?
+                User::select("firstname")->where("id", $item->UserId)->first()->firstname ." ".User::select("lastname")->where("id", $item->UserId)->first()->lastname :
+                $item->User;
+
+            return [
+                'Name' => $item->Name,
+                'User' => $User
+            ];
+
+        });
+
+        return Excel::download(new Exporter($collection,$headings), 'product_type.xlsx');
     }
 }

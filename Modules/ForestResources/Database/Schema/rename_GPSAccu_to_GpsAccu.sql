@@ -55,7 +55,7 @@ CREATE RULE "LogbookItems_instead_of_insert" AS
 
 CREATE RULE "LogbookItems_instead_of_update" AS
     ON UPDATE TO "ForestResources"."LogbookItems" DO INSTEAD  UPDATE "ForestResources"."LogbookItemsTable" SET "AnnualAllowableCutInventory" = new."AnnualAllowableCutInventory", "HewingId" = new."HewingId", "Species" = new."Species", "MaxDiameter" = new."MaxDiameter", "MinDiameter" = new."MinDiameter", "Length" = new."Length", "Volume" = new."Volume", "Lat" = new."Lat", "Lon" = new."Lon", "GpsAccu" = new."GpsAccu", "Note" = new."Note", "ObserveAt" = new."ObserveAt", "Approved" = new."Approved", "MobileId" = new."MobileId", "UpdatedAt" = new."UpdatedAt", "DeletedAt" = new."DeletedAt"
-                                                              WHERE (old."Id" = new."Id")
+                                                              WHERE ("LogbookItemsTable"."Id" = old."Id")
                                                               RETURNING "ForestResources"."LogbookItemsTable"."Id",
                                                                   "ForestResources"."LogbookItemsTable"."Logbook",
                                                                   "ForestResources"."LogbookItemsTable"."AnnualAllowableCutInventory",

@@ -8,6 +8,9 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\PermitType;
 use App\Services\PageResults;
+use Modules\ForestResources\Exports\Exporter;
+use Maatwebsite\Excel\Facades\Excel;
+use Modules\User\Entities\User;
 
 class PermitTypesController extends Controller
 {
@@ -78,12 +81,62 @@ class PermitTypesController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Response
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
-    public function destroy($id)
+
+    public function export(Request $request)
     {
-        //
+        $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
+        $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
+
+        $headings  = ['Abbreviation', 'Name', 'User'];
+        $collection = PermitType::select('Id','Abbreviation',  'Name', 'UserId');
+
+        if($request->get('date_from')){
+            $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
+        }
+        if($request->get('date_to')){
+            $collection = $collection->where("CreatedAt","<=",$request->get('date_to'));
+        }
+
+        $collection = $collection->get();
+        $collection = $collection->map(function ($item) {
+
+            $User = (User::select("firstname","lastname")->where("id", $item->UserId)->first()) ?
+                User::select("firstname")->where("id", $item->UserId)->first()->firstname ." ".User::select("lastname")->where("id", $item->UserId)->first()->lastname :
+                $item->User;
+
+            return [
+                'Abbreviation' => $item->Abbreviation,
+                'Name' => $item->Name,
+                'User' => $User
+            ];
+
+        });
+
+        return Excel::download(new Exporter($collection,$headings), 'permit_type.xlsx');
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function listPermitTypes(Request $request)
+    {
+        $species = PermitType::where('Name', 'ilike', "%{$request->get('name')}%")
+            ->orWhere('Abbreviation', 'ilike', "%{$request->get('name')}%")
+            ->take($request->get('limit', 100))
+            ->get(['Id', 'Name', 'Abbreviation']);
+
+        return response()->json([
+            'data' => $species->map(function ($item) {
+                return [
+                    'Id' => $item->Id,
+                    'Name' => $item->Name,
+                    'Abbreviation' => $item->Abbreviation,
+                ];
+            })
+        ]);
     }
 }

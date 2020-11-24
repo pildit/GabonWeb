@@ -5,13 +5,18 @@ namespace Modules\ForestResources\Http\Controllers;
 use Illuminate\Contracts\Support\Response;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Modules\ForestResources\Entities\ConstituentPermit;
 use App\Services\PageResults;
+use Modules\ForestResources\Entities\PermitType;
 use Modules\ForestResources\Http\Requests\CreateConstituentPermitRequest;
 use GenTux\Jwt\GetsJwtToken;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Auth;
 use App\Traits\Approve;
+use Modules\ForestResources\Exports\Exporter;
+use Maatwebsite\Excel\Facades\Excel;
+use Modules\User\Entities\User;
 
 class ConstituentPermitController extends Controller
 {
@@ -41,7 +46,7 @@ class ConstituentPermitController extends Controller
     {
         $pr->setSortFields(['Id']);
 
-        return response()->json($pr->getPaginator($request, ConstituentPermit::class , ['PermitType', 'PermitNumber', 'Email'], ['PermitTypeObj']));
+        return response()->json($pr->getPaginator($request, ConstituentPermit::class , ['PermitType', 'PermitNumber', 'Email'], ['permit_type']));
     }
 
 
@@ -57,7 +62,7 @@ class ConstituentPermitController extends Controller
         $constituent_permit = new ConstituentPermit;
         $constituent_permit->PermitType = $data['permit_type'];
         $constituent_permit->PermitNumber = $data['permit_number'];
-        // $constituent_permit->Geometry = $data['geometry'];
+        $constituent_permit->Geometry = $data['geometry'];
         $constituent_permit->User = $this->jwtPayload('data.id');
 
         $constituent_permit->save();
@@ -103,6 +108,10 @@ class ConstituentPermitController extends Controller
             $constituent_permit->Geometry = $data['geometry'];
 
         $constituent_permit->save();
+
+        return response()->json([
+            'message' => lang('constituent_permit_updated_succcesfully')
+        ], 200);
     }
 
     /**
@@ -117,5 +126,48 @@ class ConstituentPermitController extends Controller
         return response()->json([
             'message' => lang('constituent_permit_deleted')
         ], 204);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+
+    public function export(Request $request)
+    {
+        $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
+        $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
+
+        $headings = [ 'User', 'Email', 'PermitType', 'PermitNumber'];
+        $collection = ConstituentPermit::select('Id', 'User', 'Email', 'PermitType', 'PermitNumber');
+
+        if ($request->get('date_from')) {
+            $collection = $collection->where("CreatedAt", ">=", $request->get('date_from'));
+        }
+        if ($request->get('date_to')) {
+            $collection = $collection->where("CreatedAt", "<=", $request->get('date_to'));
+        }
+        $collection = $collection->get();
+
+        $collection = $collection->map(function ($item) {
+
+            $PermitType = (PermitType::select("Name")->where("Id", $item->PermitType)->first()) ?
+                PermitType::select("Name")->where("Id", $item->PermitType)->first()->Name :
+                $item->PermitType;
+
+
+            $User = (User::select("firstname","lastname")->where("id", $item->User)->first()) ?
+                User::select("firstname")->where("id", $item->User)->first()->firstname ." ".User::select("lastname")->where("id", $item->User)->first()->lastname :
+                $item->User;
+
+            return [
+                'User' => $User,
+                'Email' => $item->Email,
+                'PermitType' => $PermitType,
+                'PermitNumber' => $item->PermitNumber
+            ];
+        });
+
+        return Excel::download(new Exporter($collection, $headings), 'constituent_permit.xlsx');
     }
 }

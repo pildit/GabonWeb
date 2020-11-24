@@ -17,6 +17,8 @@ use Illuminate\Http\Request;
 use Modules\User\Http\Requests\CreateUserRequest;
 use Modules\User\Http\Requests\UpdateUserRequest;
 use Modules\User\Http\Requests\ForgotPasswordRequest;
+use Modules\User\Exports\Exporter;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -329,5 +331,47 @@ class UserController extends Controller
     public function listTypes()
     {
         return response()->json(['data' => EmployeeType::all()]);
+    }
+
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+
+    public function export(Request $request)
+    {
+        $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
+        $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
+
+        $headings  = ['Firstname', 'Lastname', 'Email', 'Status', 'Employee type', 'Company'];
+        $collection = User::select("id",'firstname', 'lastname', 'email', 'status', 'employee_type', 'company_id');
+
+        if($request->get('date_from')){
+            $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
+        }
+        if($request->get('date_to')){
+            $collection = $collection->where("CreatedAt","<=",$request->get('date_to'));
+        }
+
+        $collection = $collection->get();
+        $collection = $collection->map(function ($item) {
+
+
+            $EmployeeType = (EmployeeType::select("name")->where("id", $item->employee_type)->first()) ?
+                EmployeeType::select("name")->where("id", $item->employee_type)->first()->name :
+                $item->employee_type;
+
+            return [
+                'Firstname'=>$item->firstname,
+                'Lastname'=>$item->lastname,
+                'Email'=>$item->email,
+                'Status'=>$item->status,
+                'EmployeeType'=>$EmployeeType,
+                'Company'=>$item->company_id
+            ];
+        });
+
+        return Excel::download(new Exporter($collection,$headings), 'users.xlsx');
     }
 }

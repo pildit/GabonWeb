@@ -26,6 +26,10 @@ class Parcel extends Base {
         return store.dispatch('parcels/update', {id, data});
     }
 
+    static approve(id, data) {
+        return store.dispatch('parcels/approve', {id, data});
+    }
+
 }
 
 export default Parcel;

@@ -8,11 +8,15 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
+use Modules\ForestResources\Entities\Concession;
+use Modules\ForestResources\Entities\DevelopmentPlan;
 use Modules\ForestResources\Entities\DevelopmentUnit;
 use Modules\ForestResources\Http\Requests\CreateDevelopmentUnitRequest;
 use Modules\ForestResources\Http\Requests\UpdateDevelopmentUnitRequest;
 use Modules\ForestResources\Services\DevelopmentUnit as DevelopmentUnitService;
 use App\Traits\Approve;
+use Modules\ForestResources\Exports\Exporter;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DevelopmentUnitController extends Controller
 {
@@ -126,11 +130,9 @@ class DevelopmentUnitController extends Controller
         $request->validate(['bbox' => 'string']);
 
         return response()->json([
-            'data' => [
-                'type' => 'FeatureCollection',
-                'name' => 'development_unit',
-                'features' => $developmentUnitService->getVectors($request->get('bbox', config('forestresources.default_bbox')))
-            ]
+            'type' => 'FeatureCollection',
+            'name' => 'development_unit',
+            'features' => $developmentUnitService->getVectors($request->get('bbox', config('forestresources.default_bbox')))
         ]);
     }
 
@@ -140,7 +142,7 @@ class DevelopmentUnitController extends Controller
      */
     public function listDevelopmentUnits(Request $request)
     {
-        $concessions = DevelopmentUnit::where('Name', 'like', "%{$request->get('name')}%")
+        $concessions = DevelopmentUnit::where('Name', 'ilike', "%{$request->get('name')}%")
             ->take($request->get('limit', 100))
             ->get(['Id', 'Name']);
 
@@ -152,6 +154,43 @@ class DevelopmentUnitController extends Controller
                 ];
             })
         ]);
+    }
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function export(Request $request)
+    {
+        $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
+        $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
+
+        $headings  = ['Name', 'Concession', 'Plan ID', 'Start', 'End'];
+        $collection = DevelopmentUnit::select('Id', 'Name', 'Concession', 'Start', 'End');
+
+        if($request->get('date_from')){
+            $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
+        }
+        if($request->get('date_to')){
+            $collection = $collection->where("CreatedAt","<=",$request->get('date_to'));
+        }
+
+        $collection = $collection->get();
+        $collection = $collection->map(function ($item) {
+            $concession = (Concession::select("Name")->where("Id",$item->Concession)->first()) ?
+                Concession::select("Name")->where("Id",$item->Concession)->first()->Name :
+                $item->Concession;
+
+            $plans = implode(",",array_column(DevelopmentPlan::select("Id")->where("DevelopmentUnit",$item->Id)->get()->toArray(),"Id"));
+            return [
+                'Name' => $item->Name,
+                'Concession' => $concession,
+                'Plan ID' => $plans,
+                'Start' => $item->Start,
+                'End' => $item->End,
+            ];
+        });
+
+        return Excel::download(new Exporter($collection,$headings), 'development_unit.xlsx');
     }
 }

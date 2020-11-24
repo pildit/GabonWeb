@@ -3,15 +3,19 @@
 namespace Modules\ForestResources\Http\Controllers;
 
 
+use Illuminate\Http\Request;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\SiteLogbookLog;
+use Modules\ForestResources\Entities\Species;
 use Modules\ForestResources\Http\Requests\CreateSiteLogbookLogRequest;
 use Modules\ForestResources\Http\Requests\UpdateSiteLogbookLogRequest;
 use Modules\ForestResources\Services\SiteLogbookLog as SiteLogbookLogService;
 use Modules\ForestResources\Entities\SiteLogbookItem;
 use Illuminate\Validation\ValidationException;
 use App\Traits\Approve;
+use Modules\ForestResources\Exports\Exporter;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SiteLogbookLogController extends Controller
 {
@@ -119,5 +123,54 @@ class SiteLogbookLogController extends Controller
         return response()->json([
             "data" => $form
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+
+    public function export(Request $request)
+    {
+        $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
+        $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
+
+        $headings  = ['SiteLogbookItem','LogId','HewingId','Species','MaxDiameter','MinDiameter','AverageDiameter','Length','Volume','Note','EvacuationDate','Lat','Lon','GpsAccu','ObserveAt'];
+        $collection = SiteLogbookLog::select('Id','SiteLogbookItem','LogId','HewingId','Species','MaxDiameter','MinDiameter','AverageDiameter','Length','Volume','Note','EvacuationDate','Lat','Lon','GpsAccu','ObserveAt');
+
+        if($request->get('date_from')){
+            $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
+        }
+        if($request->get('date_to')){
+            $collection = $collection->where("CreatedAt","<=",$request->get('date_to'));
+        }
+
+        $collection = $collection->get();
+        $collection = $collection->map(function ($item) {
+
+            $Species = (Species::select("CommonName")->where("Id", $item->Species)->first()) ?
+                Species::select("CommonName")->where("Id", $item->Species)->first()->CommonName :
+                $item->Species;
+
+            return [
+                'SiteLogbookItem'=> $item->SiteLogbookItem,
+                'LogId'=> $item->LogId,
+                'HewingId'=> $item->HewingId,
+                'Species'=>$Species,
+                'MaxDiameter'=> $item->MaxDiameter,
+                'MinDiameter'=> $item->MinDiameter,
+                'AverageDiameter'=> $item->AverageDiameter,
+                'Length'=> $item->Length,
+                'Volume'=> $item->Volume,
+                'Note'=> $item->Note,
+                'EvacuationDate'=> $item->EvacuationDate,
+                'Lat'=> $item->Lat,
+                'Lon'=> $item->Lon,
+                'GpsAccu'=> $item->GpsAccu,
+                'ObserveAt'=> $item->ObserveAt
+            ];
+        });
+
+        return Excel::download(new Exporter($collection,$headings), 'sitelogbook_log.xlsx');
     }
 }

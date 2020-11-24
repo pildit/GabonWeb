@@ -6,9 +6,31 @@ use Illuminate\Http\Request;
 
 class ConcessionsController extends Controller
 {
-    public function index($resource_type = null)
+    /**
+     * @return \Illuminate\View\View
+     */
+    public function resources()
     {
-        return !is_null($resource_type) && view()->exists($resource_type . ".index") ?
-             view($resource_type . ".index") : view('concessions.index');
+        return view('concessions.resources');
+    }
+
+    public function parcels()
+    {
+        return view('parcels.index');
+    }
+
+    public function index()
+    {
+        return view('concessions.index');
+    }
+
+    public function create()
+    {
+        //
+    }
+
+    public function edit($id)
+    {
+        //
     }
 }

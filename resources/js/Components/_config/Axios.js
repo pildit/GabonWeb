@@ -21,7 +21,9 @@ axios.interceptors.request.use((config) => {
     if(Vue.$jwt.hasToken()) {
         config.headers['Authorization'] = `Bearer ${Vue.$jwt.getToken()}`
     }
-
+    if(!config.data) {
+        config.data = JSON.stringify({});
+    }
     return config;
 })
 

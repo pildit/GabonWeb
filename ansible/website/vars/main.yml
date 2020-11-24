@@ -17,3 +17,5 @@ baseline_packages:
   - php-opcache
   - php-pgsql
   - php-readline
+  - php-gd
+  - php-zip

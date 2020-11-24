@@ -3,9 +3,11 @@
 namespace Modules\ForestResources\Entities;
 
 use App\Traits\Geometry;
+use Brick\Geo\IO\EWKBReader;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Sortable;
+use Illuminate\Support\Facades\DB;
 
 class ConstituentPermit extends Model
 {
@@ -24,11 +26,24 @@ class ConstituentPermit extends Model
     const UPDATED_AT = 'UpdatedAt';
     const DELETED_AT = 'DeletedAt';
 
-    protected $hidden = ['PermitType'];
+    protected $hidden = ['Geometry'];
 
-    public static $snakeAttributes = false;
+    protected $appends = ['geometry_as_text'];
 
-    public function PermitTypeObj()
+    public function getGeometryAsTextAttribute()
+    {
+        if(!$this->Geometry) return null;
+
+        if(ctype_xdigit($this->Geometry)) {
+            $reader = new EWKBReader();
+            $geom = $reader->read(hex2bin($this->Geometry));
+            return $geom->asText();
+        }else{
+            return $this->Geometry;
+        }
+    }
+
+    public function permit_type()
     {
         return $this->belongsTo('Modules\ForestResources\Entities\PermitType', 'PermitType');
     }

@@ -8,12 +8,21 @@ use GenTux\Jwt\GetsJwtToken;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
+use Modules\Admin\Entities\Company;
+use Modules\ForestResources\Entities\AnnualAllowableCut;
+use Modules\ForestResources\Entities\Concession;
+use Modules\ForestResources\Entities\DevelopmentUnit;
+use Modules\ForestResources\Entities\ManagementUnit;
+use Modules\ForestResources\Entities\ProductType;
 use Modules\Transport\Entities\Permit as PermitEntity;
 use Modules\Transport\Entities\Tracking;
 use Modules\Transport\Http\Requests\CreatePermitRequest;
 use Modules\Transport\Http\Requests\UpdatePermitRequest;
 use Modules\Transport\Services\Permit;
 use App\Services\PageResults;
+use Modules\Transport\Exports\Exporter;
+use Maatwebsite\Excel\Facades\Excel;
+use Modules\User\Entities\User;
 
 class PermitController extends Controller
 {
@@ -76,17 +85,15 @@ class PermitController extends Controller
         ]);
 
         return response()->json([
-            'data' => [
-                'type' => 'FeatureCollection',
-                'name' => 'permits',
-                'features' => $permitService->getVectors(
-                    $request->get('bbox', config('transport.default_bbox')),
-                    $request->get('LicensePlate'),$request->get('DateFrom'),
-                    $request->get('DateTo'),
-                    $request->get('Date'),
-                    $request->get('PermitNo')
-                )
-            ]
+            'type' => 'FeatureCollection',
+            'name' => 'permits',
+            'features' => $permitService->getVectors(
+                $request->get('bbox', config('transport.default_bbox')),
+                $request->get('LicensePlate'),$request->get('DateFrom'),
+                $request->get('DateTo'),
+                $request->get('Date'),
+                $request->get('PermitNo')
+            )
         ]);
     }
 
@@ -203,5 +210,93 @@ class PermitController extends Controller
         return response()->json([
             'message' => 'tracking_success'
         ],201);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+
+    public function export(Request $request)
+    {
+        $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
+        $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
+
+        $headings  = [ "PermitNo", "Concession", "ManagementUnit", "DevelopmentUnit", "AnnualAllowableCut", "ClientCompany", "ConcessionaireCompany", "TransporterCompany", "User", "ProductType", "Status", "DriverName", "LicensePlate", "Province", "Destination", "ScanLat", "ScanLon", "ScanGpsAccu", "Lat", "Lon", "GpsAccu", "ObserveAt"];
+        $collection = PermitEntity::select("Id", "PermitNo", "Concession", "ManagementUnit", "DevelopmentUnit", "AnnualAllowableCut", "ClientCompany", "ConcessionaireCompany", "TransporterCompany", "User", "ProductType", "Status", "DriverName", "LicensePlate", "Province", "Destination", "ScanLat", "ScanLon", "ScanGpsAccu", "Lat", "Lon", "GpsAccu", "ObserveAt");
+
+        if($request->get('date_from')){
+            $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
+        }
+        if($request->get('date_to')){
+            $collection = $collection->where("CreatedAt","<=",$request->get('date_to'));
+        }
+
+        $collection = $collection->get();
+        $collection = $collection->map(function ($item) {
+
+            $Concession = (Concession::select("Name")->where("Id",$item->Concession)->first()) ?
+                Concession::select("Name")->where("Id",$item->Concession)->first()->Name :
+                $item->Concession;
+
+            $AnnualAllowableCut = (AnnualAllowableCut::select("Name")->where("Id", $item->AnnualAllowableCut)->first()) ?
+                AnnualAllowableCut::select("Name")->where("Id", $item->AnnualAllowableCut)->first()->Name :
+                $item->AnnualAllowableCut;
+
+            $DevelopmentUnit = (DevelopmentUnit::select("Name")->where("Id", $item->DevelopmentUnit)->first()) ?
+                DevelopmentUnit::select("Name")->where("Id", $item->DevelopmentUnit)->first()->Name :
+                $item->DevelopmentUnit;
+
+            $ManagementUnit = (ManagementUnit::select("Name")->where("Id", $item->ManagementUnit)->first()) ?
+                ManagementUnit::select("Name")->where("Id", $item->ManagementUnit)->first()->Name :
+                $item->ManagementUnit;
+
+            $ClientCompany = (Company::select("Name")->where("Id", $item->ClientCompany)->first()) ?
+                Company::select("Name")->where("Id", $item->ClientCompany)->first()->Name :
+                $item->ClientCompany;
+
+            $ConcessionaireCompany = (Company::select("Name")->where("Id", $item->ConcessionaireCompany)->first()) ?
+                Company::select("Name")->where("Id", $item->ConcessionaireCompany)->first()->Name :
+                $item->ConcessionaireCompany;
+
+            $TransporterCompany = (Company::select("Name")->where("Id", $item->TransporterCompany)->first()) ?
+                Company::select("Name")->where("Id", $item->TransporterCompany)->first()->Name :
+                $item->TransporterCompany;
+
+            $User = (User::select("firstname","lastname")->where("id", $item->User)->first()) ?
+                User::select("firstname")->where("id", $item->User)->first()->firstname ." ".User::select("lastname")->where("id", $item->User)->first()->lastname :
+                $item->User;
+
+            $ProductType = (ProductType::select("Name")->where("Id", $item->ProductType)->first()) ?
+                ProductType::select("Name")->where("Id", $item->ProductType)->first()->Name :
+                $item->ProductType;
+
+            return [
+                "PermitNo" => $item->PermitNo,
+                "Concession" => $Concession,
+                "ManagementUnit" => $ManagementUnit,
+                "DevelopmentUnit" => $DevelopmentUnit,
+                "AnnualAllowableCut" => $AnnualAllowableCut,
+                "ClientCompany" => $ClientCompany,
+                "ConcessionaireCompany" => $ConcessionaireCompany,
+                "TransporterCompany" => $TransporterCompany,
+                "User" => $User,
+                "ProductType" => $ProductType,
+                "Status" => $item->Status,
+                "DriverName" => $item->DriverName,
+                "LicensePlate" => $item->LicensePlate,
+                "Province" => $item->Province,
+                "Destination" => $item->Destination,
+                "ScanLat" => $item->ScanLat,
+                "ScanLon" => $item->ScanLon,
+                "ScanGpsAccu" => $item->ScanGpsAccu,
+                "Lat" => $item->Lat,
+                "Lon" => $item->Lon,
+                "GpsAccu" => $item->GpsAccu,
+                "ObserveAt" => $item->ObserveAt
+            ];
+        });
+
+        return Excel::download(new Exporter($collection,$headings), 'permit.xlsx');
     }
 }

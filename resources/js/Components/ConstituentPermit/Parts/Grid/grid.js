@@ -3,10 +3,10 @@ import ActionColumn from "./Vue/ActionColumn";
 export default (options) => {
     return {
         options: {
-            instance: "constituentPermit",
+            instance: "constituent_permit",
             store: {
-                getter: 'constituentPermit/items',
-                action: 'constituentPermit/index'
+                getter: 'constituent_permit/items',
+                action: 'constituent_permit/index'
             },
             sort: {
                 direction: "desc",
@@ -15,22 +15,20 @@ export default (options) => {
         },
         columns: {
             Id: {
-                header: "Id"
+                header: "id"
             },
-            "PermitTypeObj.Abbreviation" : {
-                header: "Permit Type"
+            "permit_type.Abbreviation" : {
+                header: "permit_type"
             },
             PermitNumber: {
-                header: "Permit No"
-            },
-            Approved: {
-                header: "Approved"
+                header: "permit_number"
             },
             Email: {
-                header: "Email",
+                header: "email",
             },
             CreatedAt: {
-                header: "Date",
+                header: "date",
+                render: (row) => `<span>${moment(row.CreatedAt).format('YYYY-MM-DD HH:mm:ss')}</span>`
             },
             actions: {
                 header: 'Actions',

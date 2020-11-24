@@ -5,17 +5,18 @@ DROP VIEW IF EXISTS "ForestResources"."ConstituentPermits";
 --
 
 CREATE VIEW "ForestResources"."ConstituentPermits" AS
- SELECT cpt."Id",
-    cpt."User",
-    acc."email" as "Email",
-	cpt."PermitType",
-    cpt."PermitNumber",
-    cpt."Geometry",
-    cpt."CreatedAt",
-    cpt."UpdatedAt",
-    cpt."DeletedAt"
-   FROM "ForestResources"."ConstituentPermitsTable" cpt, "admin"."accounts" acc
-   WHERE cpt."User" = acc."id" ;
+SELECT cpt."Id",
+       cpt."User",
+       acc.email AS "Email",
+       cpt."PermitType",
+       cpt."PermitNumber",
+       cpt."Geometry",
+       cpt."Approved",
+       cpt."CreatedAt",
+       cpt."UpdatedAt",
+       cpt."DeletedAt"
+FROM "ForestResources"."ConstituentPermitsTable" cpt left join
+     admin.accounts acc on cpt."User" = acc.id;
 
 
 

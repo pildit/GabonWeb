@@ -51,7 +51,7 @@ CREATE RULE "Logbooks_instead_of_insert" AS
 
 CREATE RULE "Logbooks_instead_of_update" AS
     ON UPDATE TO "ForestResources"."Logbooks" DO INSTEAD  UPDATE "ForestResources"."LogbooksTable" SET "Concession" = new."Concession", "DevelopmentUnit" = new."DevelopmentUnit", "ManagementUnit" = new."ManagementUnit", "AnnualAllowableCut" = new."AnnualAllowableCut", "ObserveAt" = new."ObserveAt", "Approved" = new."Approved", "MobileId" = new."MobileId", "UpdatedAt" = new."UpdatedAt", "DeletedAt" = new."DeletedAt"
-                                                          WHERE (old."Id" = new."Id")
+                                                          WHERE ("LogbooksTable"."Id" = old."Id")
                                                           RETURNING "ForestResources"."LogbooksTable"."Id",
                                                               "ForestResources"."LogbooksTable"."Concession",
                                                               "ForestResources"."LogbooksTable"."DevelopmentUnit",
@@ -113,7 +113,7 @@ CREATE RULE "SiteLogbooks_instead_of_insert" AS
 
 CREATE RULE "SiteLogbooks_instead_of_update" AS
     ON UPDATE TO "ForestResources"."SiteLogbooks" DO INSTEAD  UPDATE "ForestResources"."SiteLogbooksTable" SET "AnnualAllowableCut" = new."AnnualAllowableCut", "ManagementUnit" = new."ManagementUnit", "DevelopmentUnit" = new."DevelopmentUnit", "Concession" = new."Concession", "Company" = new."Company", "Hammer" = new."Hammer", "Localization" = new."Localization", "ReportNo" = new."ReportNo", "ReportNote" = new."ReportNote", "ObserveAt" = new."ObserveAt", "Approved" = new."Approved", "MobileId" = new."MobileId", "CreatedAt" = new."CreatedAt", "UpdatedAt" = new."UpdatedAt", "DeletedAt" = new."DeletedAt"
-                                                              WHERE (old."Id" = new."Id")
+                                                              WHERE ("SiteLogbooksTable"."Id" = old."Id")
                                                               RETURNING "ForestResources"."SiteLogbooksTable"."Id",
                                                                   "ForestResources"."SiteLogbooksTable"."AnnualAllowableCut",
                                                                   "ForestResources"."SiteLogbooksTable"."ManagementUnit",
@@ -186,7 +186,7 @@ CREATE RULE "LogbookItems_instead_of_insert" AS
 
 CREATE RULE "LogbookItems_instead_of_update" AS
     ON UPDATE TO "ForestResources"."LogbookItems" DO INSTEAD  UPDATE "ForestResources"."LogbookItemsTable" SET "AnnualAllowableCutInventory" = new."AnnualAllowableCutInventory", "HewingId" = new."HewingId", "Species" = new."Species", "MaxDiameter" = new."MaxDiameter", "MinDiameter" = new."MinDiameter", "Length" = new."Length", "Volume" = new."Volume", "Lat" = new."Lat", "Lon" = new."Lon", "GPSAccu" = new."GPSAccu", "Note" = new."Note", "ObserveAt" = new."ObserveAt", "Approved" = new."Approved", "MobileId" = new."MobileId", "UpdatedAt" = new."UpdatedAt", "DeletedAt" = new."DeletedAt"
-                                                              WHERE (old."Id" = new."Id")
+                                                              WHERE ("LogbookItemsTable"."Id" = old."Id")
                                                               RETURNING "ForestResources"."LogbookItemsTable"."Id",
                                                                   "ForestResources"."LogbookItemsTable"."Logbook",
                                                                   "ForestResources"."LogbookItemsTable"."AnnualAllowableCutInventory",
@@ -254,7 +254,7 @@ CREATE RULE "SiteLogbookItems_instead_of_insert" AS
 
 CREATE RULE "SiteLogbookItems_instead_of_update" AS
     ON UPDATE TO "ForestResources"."SiteLogbookItems" DO INSTEAD  UPDATE "ForestResources"."SiteLogbookItemsTable" SET "HewingId" = new."HewingId", "Date" = new."Date", "MaxDiameter" = new."MaxDiameter", "MinDiameter" = new."MinDiameter", "AverageDiameter" = new."AverageDiameter", "Length" = new."Length", "Volume" = new."Volume", "ObserveAt" = new."ObserveAt", "Approved" = new."Approved", "MobileId" = new."MobileId", "UpdatedAt" = new."UpdatedAt", "DeletedAt" = new."DeletedAt"
-                                                                  WHERE (old."Id" = new."Id")
+                                                                  WHERE ("SiteLogbookItemsTable"."Id" = old."Id")
                                                                   RETURNING "ForestResources"."SiteLogbookItemsTable"."Id",
                                                                       "ForestResources"."SiteLogbookItemsTable"."SiteLogbook",
                                                                       "ForestResources"."SiteLogbookItemsTable"."HewingId",
@@ -330,7 +330,7 @@ CREATE RULE "SiteLogbookLogs_instead_of_insert" AS
 
 CREATE RULE "SiteLogbookLogs_instead_of_update" AS
     ON UPDATE TO "ForestResources"."SiteLogbookLogs" DO INSTEAD  UPDATE "ForestResources"."SiteLogbookLogsTable" SET "SiteLogbookItem" = new."SiteLogbookItem", "HewingId" = new."HewingId", "Species" = new."Species", "MaxDiameter" = new."MaxDiameter", "MinDiameter" = new."MinDiameter", "AverageDiameter" = new."AverageDiameter", "Length" = new."Length", "Volume" = new."Volume", "Note" = new."Note", "EvacuationDate" = new."EvacuationDate", "Lat" = new."Lat", "Lon" = new."Lon", "GPSAccu" = new."GPSAccu", "ObserveAt" = new."ObserveAt", "Approved" = new."Approved", "MobileId" = new."MobileId", "UpdatedAt" = new."UpdatedAt", "DeletedAt" = new."DeletedAt"
-                                                                 WHERE (old."Id" = new."Id")
+                                                                 WHERE ("SiteLogbookLogsTable"."Id" = old."Id")
                                                                  RETURNING "ForestResources"."SiteLogbookLogsTable"."Id",
                                                                      "ForestResources"."SiteLogbookLogsTable"."SiteLogbookItem",
                                                                      "ForestResources"."SiteLogbookLogsTable"."HewingId",

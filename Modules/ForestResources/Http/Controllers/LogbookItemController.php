@@ -8,12 +8,15 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\LogbookItem;
+use Modules\ForestResources\Entities\Species;
 use Modules\ForestResources\Http\Requests\CreateLogbookItemRequest;
 use Modules\ForestResources\Http\Requests\UpdateLogbookItemRequest;
 use Modules\ForestResources\Services\Logbook as LogbookService;
 use Modules\ForestResources\Services\LogbookItem as LogbookItemService;
 use Modules\ForestResources\Entities\Logbook;
 use Illuminate\Validation\ValidationException;
+use Modules\ForestResources\Exports\Exporter;
+use Maatwebsite\Excel\Facades\Excel;
 
 class LogbookItemController extends Controller
 {
@@ -136,4 +139,50 @@ class LogbookItemController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+
+    public function export(Request $request)
+    {
+        $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
+        $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
+
+        $headings  = ['Logbook','TreeId','HewingId','Species','MaxDiameter','MinDiameter','Length','Volume','Lat','Lon','GpsAccu','Note','ObserveAt'];
+        $collection = LogbookItem::select('Id', 'Logbook','TreeId','HewingId','Species','MaxDiameter','MinDiameter','Length','Volume','Lat','Lon','GpsAccu','Note','ObserveAt');
+
+        if($request->get('date_from')){
+            $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
+        }
+        if($request->get('date_to')){
+            $collection = $collection->where("CreatedAt","<=",$request->get('date_to'));
+        }
+
+        $collection = $collection->get();
+        $collection = $collection->map(function ($item) {
+
+            $Species = (Species::select("CommonName")->where("Id", $item->Species)->first()) ?
+                Species::select("CommonName")->where("Id", $item->Species)->first()->CommonName :
+                $item->Species;
+
+            return [
+                'Logbook'=> $item->Logbook,
+                'TreeId'=> $item->TreeId,
+                'HewingId'=> $item->HewingId,
+                'Species'=> $Species,
+                'MaxDiameter'=> $item->MaxDiameter,
+                'MinDiameter'=> $item->MinDiameter,
+                'Length'=> $item->Length,
+                'Volume'=> $item->Volume,
+                'Lat'=> $item->Lat,
+                'Lon'=> $item->Lon,
+                'GpsAccu'=> $item->GpsAccu,
+                'Note'=> $item->Note,
+                'ObserveAt'=> $item->ObserveAt
+            ];
+        });
+
+        return Excel::download(new Exporter($collection,$headings), 'logbook_item.xlsx');
+    }
 }

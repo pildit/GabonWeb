@@ -7,11 +7,15 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Validation\ValidationException;
+use Modules\ForestResources\Entities\Species;
+use Modules\Transport\Entities\Permit;
 use Modules\Transport\Entities\Permit as PermitEntity;
 use Modules\Transport\Entities\Item as ItemEntity;
 use Modules\Transport\Http\Requests\CreatePermitItemRequest;
 use Modules\Transport\Http\Requests\UpdatePermitItemRequest;
 use Modules\Transport\Services\Item;
+use Modules\Transport\Exports\Exporter;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PermitItemController extends Controller
 {
@@ -122,5 +126,52 @@ class PermitItemController extends Controller
         return response()->json([
             "data" => $form
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+
+    public function export(Request $request)
+    {
+        $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
+        $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
+
+        $headings  = ["Permit", "LogId", "Species", "MinDiameter", "MaxDiameter", "AverageDiameter", "Length", "Volume"];
+        $collection = ItemEntity::select("Id","Permit", "LogId", "Species", "MinDiameter", "MaxDiameter", "AverageDiameter", "Length", "Volume");
+
+        if($request->get('date_from')){
+            $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
+        }
+        if($request->get('date_to')){
+            $collection = $collection->where("CreatedAt","<=",$request->get('date_to'));
+        }
+
+        $collection = $collection->get();
+        $collection = $collection->map(function ($item) {
+
+            $Species = (Species::select("CommonName")->where("Id", $item->Species)->first()) ?
+                Species::select("CommonName")->where("Id", $item->Species)->first()->CommonName :
+                $item->Species;
+
+            $Permit = (Permit::select("PermitNo")->where("Id", $item->Permit)->first()) ?
+                Permit::select("PermitNo")->where("Id", $item->Permit)->first()->PermitNo :
+                $item->Permit;
+
+            return [
+                "Permit"=>$Permit,
+                "LogId"=>$item->LogId,
+                "Species"=>$Species,
+                "MinDiameter"=>$item->MinDiameter,
+                "MaxDiameter"=>$item->MaxDiameter,
+                "AverageDiameter"=>$item->AverageDiameter,
+                "Length"=>$item->Length,
+                "Volume"=>$item->Volume,
+
+            ];
+        });
+
+        return Excel::download(new Exporter($collection,$headings), 'permit_item.xlsx');
     }
 }

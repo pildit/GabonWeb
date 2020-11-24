@@ -155,7 +155,7 @@ as
             "UpdatedAt" = new."UpdatedAt",
             "DeletedAt" = new."DeletedAt"
         where
-            old."Id" = new."Id"
+            "SiteLogbookItemsTable"."Id" = old."Id"
         returning
             "Id",
             "SiteLogbook",

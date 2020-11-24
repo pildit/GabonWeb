@@ -19,6 +19,7 @@ Route::prefix('users')->group(function () {
     Route::post('/verify', 'UserController@verify');
     Route::post('/{user}/forgot', 'UserController@forgotPassword');
     Route::post('/password', 'UserController@changePassword');
+    Route::middleware('jwt:api')->get('/export', 'UserController@export');
     Route::middleware('jwt:api')->get('/types', 'UserController@listTypes');
     Route::middleware('jwt:api')->post('/{user}/role', 'UserController@assignRoleToUser');
     Route::middleware('jwt:api')->post('/{user}/approve', 'UserController@approve');

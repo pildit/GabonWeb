@@ -59,6 +59,7 @@ export default {
     data() {
         return {
             sizeClasses: {
+                xtralarge: 'modal-xl',
                 large: 'modal-lg',
                 small: 'modal-sm',
                 medium: 'modal-md',
@@ -119,6 +120,6 @@ export default {
 .modal-full {
     margin-left: 16px;
     margin-right: 16px;
-    width: auto;
+    max-width: 100%;
 }
 </style>

@@ -6,11 +6,15 @@ use App\Services\PageResults;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\ForestResources\Entities\AnnualAllowableCut;
 use Modules\ForestResources\Entities\AnnualOperationPlan;
+use Modules\ForestResources\Entities\Species;
 use Modules\ForestResources\Http\Requests\CreateAnnualOperationPlanRequest;
 use Modules\ForestResources\Http\Requests\UpdateAnnualOperationPlanRequest;
 use Illuminate\Support\Facades\DB;
 use App\Traits\Approve;
+use Modules\ForestResources\Exports\Exporter;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AnnualOperationPlanController extends Controller
 {
@@ -92,4 +96,48 @@ class AnnualOperationPlanController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+
+    public function export(Request $request)
+    {
+        $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
+        $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
+
+        $headings = ['AnnualAllowableCut','Species','ExploitableVolume','NonExploitableVolume','VolumePerHectare','AverageVolume','TotalVolume'];
+        $collection = AnnualAllowableCutInventory::select('Id','AnnualAllowableCut','Species','ExploitableVolume','NonExploitableVolume','VolumePerHectare','AverageVolume','TotalVolume');
+
+        if ($request->get('date_from')) {
+            $collection = $collection->where("CreatedAt", ">=", $request->get('date_from'));
+        }
+        if ($request->get('date_to')) {
+            $collection = $collection->where("CreatedAt", "<=", $request->get('date_to'));
+        }
+        $collection = $collection->get();
+
+        $collection = $collection->map(function ($item) {
+
+            $AnnualAllowableCut = (AnnualAllowableCut::select("Name")->where("Id", $item->AnnualAllowableCut)->first()) ?
+                AnnualAllowableCut::select("Name")->where("Id", $item->AnnualAllowableCut)->first()->Name :
+                $item->AnnualAllowableCut;
+
+            $Species = (Species::select("CommonName")->where("Id", $item->Species)->first()) ?
+                Species::select("CommonName")->where("Id", $item->Species)->first()->CommonName :
+                $item->Species;
+
+            return [
+                'AnnualAllowableCut' => $AnnualAllowableCut,
+                'Species' => $Species,
+                'ExploitableVolume'=>$item->ExploitableVolume,
+                'NonExploitableVolume'=>$item->NonExploitableVolume,
+                'VolumePerHectare'=>$item->VolumePerHectare,
+                'AverageVolume'=>$item->AverageVolume,
+                'TotalVolume'=>$item->TotalVolume
+            ];
+        });
+
+        return Excel::download(new Exporter($collection, $headings), 'annual_operation_plan.xlsx');
+    }
 }

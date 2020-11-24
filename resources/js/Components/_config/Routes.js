@@ -14,5 +14,17 @@ export default {
         index: '/management/management-units',
         create: '/management/management-units/create',
         edit: '/management/management-units/{id}/edit',
+    },
+
+    constituent_permits: {
+        index: '/concessions/constituent-permits',
+        create: '/concessions/constituent-permits/create',
+        edit: '/concessions/constituent-permits/{id}/edit',
+    },
+
+    concessions: {
+        index: '/concessions/list',
+        create: '/concessions/create',
+        edit: '/concessions/{id}/edit'
     }
 }

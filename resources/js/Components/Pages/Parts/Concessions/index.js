@@ -13,7 +13,7 @@ export default (selector, options) => {
             concessions : [
                 {'title' : 'Parcels', 'link' :  '/concessions/parcels', 'resource' : 'parcels', 'text' : 'Some quick example text to build on the card title and make up the bulk of the card\'s content.'},
                 {'title' : 'Constituent permits', 'link' :  '/concessions/constituent-permits', 'resource' : 'constituent_permits', 'text' : 'Some quick example text to build on the card title and make up the bulk of the card\'s content.'},
-                {'title' : 'Concessions', 'link' :  '/concessions/concessions', 'resource' : 'concessions', 'text' : 'Some quick example text to build on the card title and make up the bulk of the card\'s content.'},
+                {'title' : 'Concessions', 'link' :  '/concessions/list', 'resource' : 'concessions', 'text' : 'Some quick example text to build on the card title and make up the bulk of the card\'s content.'},
             ]
         },
         computed: {

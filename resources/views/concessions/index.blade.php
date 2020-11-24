@@ -1,30 +1,47 @@
 @extends('layouts.app')
 
-@section('title', 'Concessions')
+@section('title', @lang('concessions'))
 
 @section('content')
-
-<main class="page landing-page text-center" ref="main-section">
-
-    <section class="clean-block clean-services dark">
-        <div class="container p-5">
-            <div class="block-heading p-5">
-                <h2 class="text-success" style="color: rgb(90,135,8);opacity: 1;filter: blur(0px);">Concessions</h2>
-                <p></p>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                {{lang('the_map')}}
             </div>
-            <div class="row" id="concessions">
-                <box-resource v-for="item in concessions" :item="item"></box-resource>
+            <div class="col-md-8">
+                <div id="concessions-grid">
+                    @verbatim
+                        <h5 class="text-center green-text mb-2">{{translate('concessions_title')}}</h5>
+                        <div class="row">
+                            <div class="col-sm-8 d-flex align-items-center">
+                                <a class="btn btn-md" :href="createRoute()">
+                                    <i class="fas fa-plus-circle"></i> {{translate('add_concessions')}}
+                                </a>
+                            </div>
+                            <div class="md-form col-sm-4">
+                                <div class="form-row justify-content-end">
+                                    <div class="col-sm-10">
+                                        <label for="company_name">{{translate('Search')}}</label>
+                                        <input @keyup.enter="fetchData" class="form-control" v-model="search" type="text" Placeholder="" name="concessions_name" id="concessions_name" />
+                                    </div>
+                                    <button @click="fetchData" class="btn btn-sm btn-green  px-2" id="filter">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <grid :columns="grid.columns" :options="grid.options"></grid>
+                    @endverbatim
+                </div>
             </div>
         </div>
-    </section>
-</main>
-
+    </div>
 @endsection
 
 @section('scripts')
-<script>
-    Gabon.Base.getTranslations().then(() => {
-        Gabon.Pages.render('concessions');
-    });
-</script>
+    <script>
+        Gabon.Base.getTranslations().then(() => {
+            Gabon.Concession.render('concessions-grid');
+        });
+    </script>
 @endsection
