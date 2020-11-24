@@ -18,7 +18,7 @@
         :lat-lng="l.latlng"
         :icon="icon"
       >
-        <v-popup :content="l.text"></v-popup>
+        <v-popup :content="translate(l.text)"></v-popup>
       </v-marker>
     </v-marker-cluster>
   </v-map>
@@ -30,6 +30,9 @@ import { latLng, Icon, icon } from "leaflet";
 import Vue2LeafletMarkercluster from "./MapLeaflet/Vue2LeafletMarkercluster";
 import iconUrl from "leaflet/dist/images/marker-icon.png";
 import shadowUrl from "leaflet/dist/images/marker-shadow.png";
+
+/* Translation */
+// import * as Translator from "./../../../../../Components/Mixins/Translation";
 
 /* Vuex */
 import store from "store/store";
@@ -124,8 +127,7 @@ export default {
 
       let onEachFeature = (feature, layer) => {
         if (feature.properties && feature.properties.id) {
-          console.log(feature.properties.id)
-          layer.bindPopup('Id: ' + feature.properties.id);
+          layer.bindPopup(this.translate("Id: " + feature.properties.id));
         }
       };
 
@@ -144,8 +146,7 @@ export default {
 
       let onEachFeature = (feature, layer) => {
         if (feature.properties && feature.properties.id) {
-          console.log(feature.properties.id)
-          layer.bindPopup('Id: ' + feature.properties.id);
+          layer.bindPopup(this.translate("Id:" + feature.properties.id));
         }
       };
 
