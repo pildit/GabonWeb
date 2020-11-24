@@ -40,6 +40,10 @@
                                 <a href="/forgot_password" class="text-success">{{translate("forgot_password")}}?</a>
                             </div>
                         </div>
+                        <div class="md-form ">
+                            <vue-hcaptcha sitekey="541e440b-1499-42db-a88f-28e5f066bca9" @verify="markHcaptchaAsVerified" @error="markHcaptchaAsError"></vue-hcaptcha>
+                            <div class="invalid-feedback" v-show="loginForm.hcaptchaError">{{ loginForm.captchaErrorMessage }}</div>
+                        </div>
                         <!-- Sign in button -->
                         <button type="submit" class="btn btn-outline-success btn-rounded btn-block my-4 waves-effect z-depth-0" >{{translate("sign_in")}}</button>
                         <!-- Register -->
@@ -58,20 +62,40 @@
 <script>
 
 import User from "components/User/User";
+import VueHcaptcha from '@hcaptcha/vue-hcaptcha';
 
 export default {
     data() {
         return {
-            loginForm: {},
+            loginForm: {
+                hcaptchaVerified: false,
+                hcaptchaError: false,
+                captchaErrorMessage: ''
+            },
             rememberMe: false,
-            failed: null
+            failed: null,
         }
     },
-
+    components: { VueHcaptcha },
     methods: {
+        markHcaptchaAsVerified(response) {
+            this.loginForm.captchaErrorMessage = '';
+            this.loginForm.hcaptchaVerified = true;
+            this.loginForm.hcaptchaError = false;
+        },
+        markHcaptchaAsError(response) {
+            this.loginForm.captchaErrorMessage =  this.translate("captcha_error");
+            this.loginForm.hcaptchaVerified = false;
+            this.loginForm.hcaptchaError = true;
+        },
         onSubmit() {
             this.$validator.validate().then((valid) => {
                 if(valid) {
+                    if (!this.loginForm.hcaptchaVerified) {
+                        this.loginForm.hcaptchaError = true;
+                        this.loginForm.captchaErrorMessage = this.translate("captcha_error");
+                        return true;
+                    }
                     User.login(this.loginForm.email, this.loginForm.password)
                         .then((data) => {
                             this.failed = null;
@@ -81,6 +105,8 @@ export default {
                         .catch((error) => {
                             console.log(error);
                             if(error) {
+                                window.hcaptcha.reset();
+                                this.loginForm.hcaptchaVerified = false;
                                 if([401,404].includes(error.status)) {
                                     this.failed = error.data.message;
                                 }
@@ -91,6 +117,7 @@ export default {
             });
         }
     }
+
 }
 </script>
 
