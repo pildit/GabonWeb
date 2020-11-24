@@ -41,9 +41,7 @@
                             </div>
                         </div>
                         <div class="md-form ">
-                            <template>
-                                <vue-hcaptcha sitekey="541e440b-1499-42db-a88f-28e5f066bca9" @verify="markHcaptchaAsVerified" @error="markHcaptchaAsError"></vue-hcaptcha>
-                            </template>
+                            <vue-hcaptcha sitekey="541e440b-1499-42db-a88f-28e5f066bca9" @verify="markHcaptchaAsVerified" @error="markHcaptchaAsError"></vue-hcaptcha>
                             <div class="invalid-feedback" v-show="loginForm.hcaptchaError">{{ loginForm.captchaErrorMessage }}</div>
                         </div>
                         <!-- Sign in button -->
