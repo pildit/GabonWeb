@@ -3,7 +3,7 @@
     ref="map"
     :zoom="7"
     :center="initialLocation"
-    style="height: 750px; width: 100%"
+    :style="{ height: window.height + 'px', width: '100%' }"
   >
     <v-icondefault></v-icondefault>
     <v-tilelayer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></v-tilelayer>
@@ -65,6 +65,11 @@ export default {
       ),
       clusterOptions: {},
       initialLocation: latLng(-0.803698, 11.609454),
+
+      window: {
+        width: 0,
+        height: 0,
+      },
     };
   },
 
@@ -76,6 +81,10 @@ export default {
     ...mapGetters({ concessionsPerimeters: "geoportal/concessions" }),
   },
 
+  destroyed() {
+    window.removeEventListener("resize", this.handleResize);
+  },
+  
   methods: {
     ...mapActions({
       getPoints: "geoportal/getAnnualAllowableCutInventory",
@@ -159,6 +168,13 @@ export default {
         onEachFeature: onEachFeature,
       }).addTo(map);
     },
+
+    handleResize() {
+      this.window.width = window.innerWidth;
+      this.window.height = window.innerHeight;
+
+      console.log("MODIFY: ", this.window.width, " x ", this.window.height);
+    },
   },
 
   mounted() {
@@ -179,6 +195,10 @@ export default {
     /* Get parcels */
     this.getParcelsPerimeters().then(() => {
       this.onGetParcels();
+    });
+
+    window.addEventListener("resize", () => {
+      this.window.height = window.innerHeight;
     });
   },
 };
