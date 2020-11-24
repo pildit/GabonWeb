@@ -20,5 +20,11 @@ export default {
         index: '/concessions/constituent-permits',
         create: '/concessions/constituent-permits/create',
         edit: '/concessions/constituent-permits/{id}/edit',
+    },
+
+    concessions: {
+        index: '/concessions/list',
+        create: '/concessions/create',
+        edit: '/concessions/{id}/edit'
     }
 }

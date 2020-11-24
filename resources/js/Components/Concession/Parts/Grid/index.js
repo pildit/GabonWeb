@@ -1,10 +1,9 @@
 import store from "store/store";
 import grid from './grid';
-import ConstituentPermit from "../../ConstituentPermit";
-
+import Concession from "../../Concession";
 
 export default (selector, options) => {
-    return ConstituentPermit.renderTable(selector, grid(options), {
+    return Concession.renderTable(selector, grid(options), {
         store,
         data: {
             sort: {
@@ -17,10 +16,10 @@ export default (selector, options) => {
             fetchData() {
                 Vent.$emit('grid-refresh', {search: this.search});
             },
+
             createRoute() {
-                return ConstituentPermit.buildRoute('constituent_permits.create');
+                return Concession.buildRoute('concessions.create');
             }
         }
-    });
-
+    })
 }

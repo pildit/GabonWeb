@@ -1,5 +1,5 @@
 <template>
-    <div class="text-right">
+    <div>
         <a class="text-success aligned fz-16" :href="editRoute()"
            :title="translate('Edit')"
            v-tooltip>
@@ -13,10 +13,9 @@
 <script>
 import Switches from 'vue-switches';
 import Notification from "components/Common/Notifications/Notification";
-import ConstituentPermit from "components/ConstituentPermit/ConstituentPermit";
+import Concession from "../../../Concession";
 
 export default {
-
     props: ["rowProp", "optionsProp"],
 
     components: {Switches},
@@ -29,20 +28,18 @@ export default {
 
     methods: {
         editRoute() {
-            return ConstituentPermit.buildRoute('constituent_permits.edit', {id: this.rowProp.Id});
+            return Concession.buildRoute('concessions.edit', {id: this.rowProp.Id});
         },
         approve(val) {
-            let promise = ConstituentPermit.update(this.rowProp.Id, {approved: val}).then((response) => {
-                Notification.success('Constituent Permit', response.data.message)
+            let promise = Concession.approve(this.rowProp.Id, {Approved: val}).then((response) => {
+                Notification.success(this.translate('concessions'), response.data.message)
                 return response.data;
             });
 
             return promise.finally(() => this.rowProp.Approved = val);
         },
-
     }
 }
-
 </script>
 
 <style scoped>
