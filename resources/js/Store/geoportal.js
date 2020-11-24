@@ -134,7 +134,6 @@ export default {
         /* Requests */
         getAnnualAllowableCutInventory({ commit }, payload) {
             return axios.get(`/api/annual_allowable_cut_inventory/vectors`)
-                .then((response) => response.data)
                 .then((responseData) => commit('mutateAnnualAllowableCutInventory', responseData.data)
                 );
         },
@@ -148,35 +147,30 @@ export default {
             }
 
             return axios.get(``)
-                .then((response) => response.data)
                 .then((responseData) => commit('mutateAnnualAllowableCuts', responseData.data)
                 );
         },
 
         getConcessions({ commit }, payload) {
             return axios.get(`/api/concessions/vectors`)
-                .then((response) => response.data)
                 .then((responseData) => commit('mutateConcessions', responseData.data)
                 );
         },
 
         getDevelopmentUnits({ commit }, payload) {
             return axios.get(`/api/development_units/vectors`)
-                .then((response) => response.data)
                 .then((responseData) => commit('mutableDevelopmentUnits', responseData.data)
                 );
         },
 
         getManagmentUnits({ commit }, payload) {
             return axios.get(`/api/management_units/vectors`)
-                .then((response) => response.data)
                 .then((responseData) => commit('mutableManagmentUnits', responseData.data)
                 );
         },
 
         getParcelsVectors({ commit }, payload) {
             return axios.get(`/api/parcels/vectors`)
-                .then((response) => response.data)
                 .then((responseData) => commit('mutableParcels', responseData.data)
                 );
         },
@@ -190,7 +184,6 @@ export default {
             }
 
             return axios.get(apiString)
-                .then((response) => response.data)
                 .then((responseData) => commit('mutablePermits', responseData.data)
                 );
         }
