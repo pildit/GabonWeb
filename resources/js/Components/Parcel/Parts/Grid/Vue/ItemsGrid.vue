@@ -1,41 +1,48 @@
 <template>
-  <div class="container mt-40">
-    <h5 class="text-center green-text mb-2">{{translate('Parcels')}}</h5>
+  <div class="container-fluid mt-40">
     <div class="row">
-      <div class="col-sm-6 d-flex align-items-center">
-        <button class="btn btn-md" @click="modals.form = true">
-          <i class="fas fa-plus-circle"></i> {{translate('Add Parcel')}}
-        </button>
-      </div>
-      <div class="md-form col-sm-6">
-        <div class="form-row justify-content-end">
-            <div class="col text-center pt-2">
-                <date-range-picker
-                    opens="center"
-                    ref="picker"
-                    :singleDatePicker="false"
-                    v-model="dateRange"
-                    :autoApply="true"
-                    :linkedCalendars="true"
-                    @update="updateDates"
-                >
-                    <template v-slot:input="picker" style="min-width: 350px;">
-                        {{ picker.startDate | date(translate('start_date')) }} - {{ picker.endDate | date(translate('end_date'))}}
-                    </template>
-                </date-range-picker>
-            </div>
-          <div class="col">
-            <label for="item_name">{{translate('Search')}}</label>
-            <input @keyup.enter="getItems" class="form-control" v-model="search" type="text" Placeholder="" name="item_name" id="item_name" />
-          </div>
-          <button @click="getItems" class="btn btn-sm btn-green  px-2" id="filter">
-            <i class="fas fa-search"></i>
-          </button>
+        <div class="col-md-4">
+            {{translate('the_map')}}
         </div>
-      </div>
+        <div class="col-md-8">
+            <h5 class="text-center green-text mb-2">{{translate('Parcels')}}</h5>
+            <div class="row">
+                <div class="col-sm-6 d-flex align-items-center">
+                    <button class="btn btn-md" @click="modals.form = true">
+                        <i class="fas fa-plus-circle"></i> {{translate('Add Parcel')}}
+                    </button>
+                </div>
+                <div class="md-form col-sm-6">
+                    <div class="form-row justify-content-end">
+                        <div class="col text-center pt-2">
+                            <date-range-picker
+                                opens="center"
+                                ref="picker"
+                                :singleDatePicker="false"
+                                v-model="dateRange"
+                                :autoApply="true"
+                                :linkedCalendars="true"
+                                @update="updateDates"
+                            >
+                                <template v-slot:input="picker" style="min-width: 350px;">
+                                    {{ picker.startDate | date(translate('start_date')) }} - {{ picker.endDate | date(translate('end_date'))}}
+                                </template>
+                            </date-range-picker>
+                        </div>
+                        <div class="col">
+                            <label for="item_name">{{translate('Search')}}</label>
+                            <input @keyup.enter="getItems" class="form-control" v-model="search" type="text" Placeholder="" name="item_name" id="item_name" />
+                        </div>
+                        <button @click="getItems" class="btn btn-sm btn-green  px-2" id="filter">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <grid :columns="grid.columns" :options="grid.options"></grid>
+            <item-modal :type-prop="formType" v-model="modals.form" @done="getItems"></item-modal>
+        </div>
     </div>
-    <grid :columns="grid.columns" :options="grid.options"></grid>
-    <item-modal :type-prop="formType" v-model="modals.form" @done="getItems"></item-modal>
   </div>
 </template>
 
