@@ -38,3 +38,4 @@ Route::resource('/management/management-units', 'ManagementUnitController')->onl
 Route::get('/management/{management_type?}', 'ManagementController@index');
 Route::get('/concessions/{resource_type?}', 'ConcessionsController@index');
 Route::get('/translations', 'TranslationController@index');
+Route::view('/permits', 'transportation.permits');

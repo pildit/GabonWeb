@@ -17,11 +17,11 @@ class PermitItemController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:permit.view')->only('index', 'show');
+        //$this->middleware('permission:permit.view')->only('index', 'show');
 
-        $this->middleware('permission:permit.add')->only('store');
+        //$this->middleware('permission:permit.add')->only('store');
 
-        $this->middleware('permission:permit.edit')->only('update');
+        //$this->middleware('permission:permit.edit')->only('update');
 
 //        $this->middleware('role:admin')->only('delete');
 
@@ -42,7 +42,7 @@ class PermitItemController extends Controller
         }
         $request->merge(['search'=>$request->get("Permit")]);
 
-        return response()->json($pr->getPaginator($request, ItemEntity::class, ["Permit"]));
+        return response()->json($pr->getPaginator($request, ItemEntity::class, ["Permit"], ['species']));
 
     }
 

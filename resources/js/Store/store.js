@@ -17,6 +17,7 @@ import management_plan from "./Management/management_plan";
 import constituentPermit         from './constituentpermit';
 import concession         from './concession';
 import translation from "./translation";
+import permit from "./permit";
 
 Vue.use(Vuex);
 Vue.use(cookie)
@@ -93,6 +94,7 @@ export default new Vuex.Store({
         management_unit,
         management_plan,
         concession,
-        translation
+        translation,
+        permit
     }
 });
