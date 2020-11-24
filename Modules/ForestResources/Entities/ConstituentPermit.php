@@ -26,9 +26,7 @@ class ConstituentPermit extends Model
     const UPDATED_AT = 'UpdatedAt';
     const DELETED_AT = 'DeletedAt';
 
-    protected $hidden = ['PermitType', 'Geometry'];
-
-    public static $snakeAttributes = false;
+    protected $hidden = ['Geometry'];
 
     protected $appends = ['geometry_as_text'];
 
@@ -45,7 +43,7 @@ class ConstituentPermit extends Model
         }
     }
 
-    public function PermitTypeObj()
+    public function permit_type()
     {
         return $this->belongsTo('Modules\ForestResources\Entities\PermitType', 'PermitType');
     }

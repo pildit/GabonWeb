@@ -4,12 +4,15 @@ export default {
     namespaced: true,
     state: {
         items: [],
-        item: {},
+        constituent_permit: {},
         types: []
     },
     getters: {
         items(state) {
             return state.items;
+        },
+        constituent_permit(state) {
+            return state.constituent_permit
         },
         types(state) {
             return state.types;
@@ -18,6 +21,9 @@ export default {
     mutations: {
         items(state, items) {
             state.items = items;
+        },
+        constituent_permit(state, data) {
+            state.constituent_permit = data;
         },
         types(state, types) {
             state.types = types;
@@ -35,7 +41,7 @@ export default {
         get({commit}, payload) {
             return axios.get(`api/constituent_permits/${payload.id}`)
                 .then((response) => response.data)
-                .then((responseData) => commit('item', responseData.data));
+                .then((responseData) => commit('constituent_permit', responseData.data));
         },
 
         add({}, payload) {

@@ -46,7 +46,7 @@ class ConstituentPermitController extends Controller
     {
         $pr->setSortFields(['Id']);
 
-        return response()->json($pr->getPaginator($request, ConstituentPermit::class , ['PermitType', 'PermitNumber', 'Email'], ['PermitTypeObj']));
+        return response()->json($pr->getPaginator($request, ConstituentPermit::class , ['PermitType', 'PermitNumber', 'Email'], ['permit_type']));
     }
 
 
@@ -108,6 +108,10 @@ class ConstituentPermitController extends Controller
             $constituent_permit->Geometry = $data['geometry'];
 
         $constituent_permit->save();
+
+        return response()->json([
+            'message' => lang('constituent_permit_updated_succcesfully')
+        ], 200);
     }
 
     /**

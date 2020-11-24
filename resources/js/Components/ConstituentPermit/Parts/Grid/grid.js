@@ -17,7 +17,7 @@ export default (options) => {
             Id: {
                 header: "id"
             },
-            "PermitTypeObj.Abbreviation" : {
+            "permit_type.Abbreviation" : {
                 header: "permit_type"
             },
             PermitNumber: {

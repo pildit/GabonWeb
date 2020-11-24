@@ -21,6 +21,7 @@
                                 :searchable="true"
                                 :loading="permitTypeList.isLoading"
                                 :allow-empty="false"
+                                @select="$forceUpdate()"
                                 @search-change="asyncFindPermitType"
                             >
                                 <template slot="singleLabel" slot-scope="{ option }">{{ option.Name }} ({{option.Abbreviation}})</template>
@@ -84,7 +85,7 @@ export default {
 
     computed: {
         isCreatedFormType() {
-            return _.isEmpty(this.managementUnitProp);
+            return _.isEmpty(this.constituentPermitProp);
         }
     },
 
@@ -116,7 +117,11 @@ export default {
         },
 
         update(data) {
-
+            data = ConstituentPermit.buildForm(data);
+            return ConstituentPermit.update(this.constituentPermitProp.Id, data).then((data) => {
+                Notification.success(this.translate('constituent_permit'), data.message);
+                window.location.href = this.indexRoute();
+            })
         },
 
         asyncFindPermitType(query) {
@@ -124,10 +129,21 @@ export default {
             PermitType.listSearch(query, this.permitTypeList.limit).then((response) => {
                 this.permitTypeList.data= response.data;
                 this.permitTypeList.isLoading = false;
-                // if(this.form.permit) {
-                //     this.form.PermitType = this.permitTypeList.data.find((x) => x['Id'] == this.form.permit.id);
-                // }
+                if(this.form.permit_type) {
+                    this.form.PermitType = this.permitTypeList.data.find((x) => x['Id'] == this.form.permit_type.Id);
+                }
             })
+        }
+    },
+
+    watch: {
+        constituentPermitProp(value) {
+            if(value) {
+                this.form = _.merge(this.form, value);
+                this.form.Geometry = value.geometry_as_text;
+                this.form.PermitType = this.permitTypeList.data.find((x) => x.Id == value.PermitType);
+                this.$forceUpdate();
+            }
         }
     }
 }

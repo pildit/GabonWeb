@@ -35,7 +35,7 @@ class ConstituentPermit extends Base {
     }
 
     static update(id, data) {
-        return store.dispatch('constituent_permit/update', {id, data});
+        return store.dispatch('constituent_permit/update', {id, data}).then((response) => response.data);
     }
 
     static approve(id, data) {
