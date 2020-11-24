@@ -35,7 +35,7 @@ class AnnualAllowableCut extends Model
 
     protected $primaryKey = "Id";
 
-    public function mangementunit(){
+    public function managementunit(){
         return $this->belongsTo(ManagementUnit::class,"ManagementUnit");
     }
 

@@ -130,11 +130,9 @@ class ManagementUnitController extends Controller
         $request->validate(['bbox' => 'string']);
 
         return response()->json([
-            'data' => [
-                'type' => 'FeatureCollection',
-                'name' => 'management_unit',
-                'features' => $managementUnitService->getVectors($request->get('bbox', config('forestresources.default_bbox')))
-            ]
+            'type' => 'FeatureCollection',
+            'name' => 'management_unit',
+            'features' => $managementUnitService->getVectors($request->get('bbox', config('forestresources.default_bbox')))
         ]);
     }
 

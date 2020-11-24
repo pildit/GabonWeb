@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use Modules\Admin\Entities\Company;
 use Modules\Transport\Entities\Permit as PermitEntity;
 
+
 class Permit extends PageResults
 {
 
@@ -21,14 +22,14 @@ class Permit extends PageResults
     public function getVectors($bbox,$LicensePlate,$DateFrom,$DateTo,$Date,$PermitNo)
     {
         $srid = config('transport.srid');
-        $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_flipcoordinates(public.st_transform(public.st_setsrid("Geometry",'.$srid.'),4256))) as geom');
+        $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_transform(public.st_setsrid("Geometry",'.$srid.'),4256)) as geom');
         $whereIntersects = "public.ST_Intersects(public.st_setsrid(\"Geometry\", {$srid}), public.st_setsrid(public.ST_MakeEnvelope({$bbox}), {$srid}))";
 
-        $collection = PermitEntity::select(['Id', $geomCol])
+        $collection = PermitEntity::select(['Id', $geomCol, "PermitNo", "Concession", "ManagementUnit", "DevelopmentUnit", "AnnualAllowableCut", "ClientCompany", "ConcessionaireCompany", "TransporterCompany", "Province", "Destination"])
             ->whereRaw($whereIntersects);
 
         if($LicensePlate){
-            $collection = $collection->where('LicensePlate','=',$LicensePlate);
+            $collection = $collection->where('LicensePlate','ilike',"%".$LicensePlate."%");
         }
         if($DateFrom){
             $collection = $collection->where('ObserveAt','>=',$DateFrom);
@@ -46,11 +47,22 @@ class Permit extends PageResults
         $collection = $collection->get();
 
         return $collection->map(function ($item) {
+
             return [
                 'type' => 'Feature',
                 'geometry' => json_decode($item->geom),
                 'properties' => [
-                    'id' => $item->Id
+                    "id" => $item->Id,
+                    "PermitNo" => $item->PermitNo,
+                    "Concession" => $item->concession ? $item->concessions->Name : $item->Concession,
+                    "ManagementUnit" => $item->managementunit ? $item->managementunit->Name : $item->ManagementUnit,
+                    "DevelopmentUnit" => $item->developmentunit ? $item->developmentunit->Name : $item->DevelopmentUnit,
+                    "AnnualAllowableCut" => $item->annualallowablecut ? $item->annualallowablecut->Name : $item->AnnualAllowableCut,
+                    "ClientCompany" => $item->clientcompany ? $item->clientcompany->Name : $item->ClientCompany,
+                    "ConcessionaireCompany" =>  $item->concessionairecompany ? $item->concessionairecompany->Name : $item->ConcessionaireCompany,
+                    "TransporterCompany" =>  $item->transportercompany ? $item->transportercompany->Name : $item->TransporterCompany,
+                    "Province" => $item->Province,
+                    "Destination" => $item->Destination,
                 ]
             ];
         });

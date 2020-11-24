@@ -130,11 +130,9 @@ class DevelopmentUnitController extends Controller
         $request->validate(['bbox' => 'string']);
 
         return response()->json([
-            'data' => [
-                'type' => 'FeatureCollection',
-                'name' => 'development_unit',
-                'features' => $developmentUnitService->getVectors($request->get('bbox', config('forestresources.default_bbox')))
-            ]
+            'type' => 'FeatureCollection',
+            'name' => 'development_unit',
+            'features' => $developmentUnitService->getVectors($request->get('bbox', config('forestresources.default_bbox')))
         ]);
     }
 

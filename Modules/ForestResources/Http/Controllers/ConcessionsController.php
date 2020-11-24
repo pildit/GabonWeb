@@ -116,11 +116,9 @@ class ConcessionsController extends Controller
         $request->validate(['bbox' => 'string']);
 
         return response()->json([
-            'data' => [
-                'type' => 'FeatureCollection',
-                'name' => 'concessions',
-                'features' => $concessionService->getVectors($request->get('bbox', config('forestresources.default_bbox')))
-            ]
+            'type' => 'FeatureCollection',
+            'name' => 'concessions',
+            'features' => $concessionService->getVectors($request->get('bbox', config('forestresources.default_bbox')))
         ]);
     }
 
