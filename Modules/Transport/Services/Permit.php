@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Modules\Admin\Entities\Company;
 use Modules\Transport\Entities\Permit as PermitEntity;
+use Modules\Transport\Entities\Tracking;
 
 
 class Permit extends PageResults
@@ -67,6 +68,39 @@ class Permit extends PageResults
             ];
         });
     }
+
+    /**
+     * @param $bbox
+     * @return mixed
+     */
+    public function getTrackingVectors($bbox)
+    {
+        $srid = config('transport.srid');
+        $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_transform(public.st_setsrid("Geometry",'.$srid.'),4256)) as geom');
+        $whereIntersects = "public.ST_Intersects(public.st_setsrid(\"Geometry\", {$srid}), public.st_setsrid(public.ST_MakeEnvelope({$bbox}), {$srid}))";
+
+        $collection = Tracking::select(['Id', $geomCol, "Permit"])
+            ->whereRaw($whereIntersects);
+
+        $collection = $collection->get();
+
+        return $collection->map(function ($item) {
+
+            return [
+                'type' => 'Feature',
+                'geometry' => $item->geom,
+                'properties' => [
+                    "id" => $item->Id,
+                    "LicensePlate" => $item->permit ? $item->permit->LicensePlate : '',
+                    "DriverName" => $item->permit ? $item->permit->DriverName : '',
+                    "PermitNo" => $item->permit ? $item->permit->PermitNo : '',
+                    "Destination" => $item->permit ? $item->permit->Destination : '',
+                    "Province" => $item->permit ? $item->permit->Province : '',
+                ]
+            ];
+        });
+    }
+
 
     /**
      * Logic from old mobile.php encapsulated

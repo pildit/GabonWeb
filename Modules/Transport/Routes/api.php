@@ -23,4 +23,5 @@ Route::middleware('jwt:api')->get('/permit_items/export', 'PermitItemController@
 Route::middleware('jwt:api')->get('/permit_items/mobile', 'PermitItemController@mobile');
 Route::middleware('jwt:api')->resource('/permit_items', PermitItemController::class)->except(['create', 'edit']);
 //Permit tracking
+Route::middleware('jwt:api')->get('/permits_tracking/vectors', 'PermitController@trackingVectors');
 Route::middleware('jwt:api')->post('/permits_tracking', 'PermitController@storeTracking');
