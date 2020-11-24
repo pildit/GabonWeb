@@ -8,6 +8,8 @@ import axios from 'axios'; // Will be used for requests once we have the endpoin
 /* Helper function to parametrize strings */
 function getParametrizedString(apiString, payload) {
 
+    const originalApiString = apiString
+
     const filters = payload
     const filterLenght = Object.keys(filters).length
 
@@ -19,12 +21,23 @@ function getParametrizedString(apiString, payload) {
     Object.keys(filters).forEach(function (key) {
 
         const value = filters[key]
-        apiString += `${key}=${value}`
+        let paramValue = value
 
+        if (value === undefined) {
+            return originalApiString
+        }
+
+        if (Array.isArray(value)) {
+            paramValue = value.join(',')
+        }
+        
+        apiString += `${key}=${paramValue}`
+        
         /* Prepare for the next parameter */
         ++iterator < filterLenght ? apiString += '&' : null
     });
-
+    
+    console.log(apiString)
     return apiString
 }
 
@@ -133,7 +146,14 @@ export default {
 
         /* Requests */
         getAnnualAllowableCutInventory({ commit }, payload) {
-            return axios.get(`/api/annual_allowable_cut_inventory/vectors`)
+
+            let apiString = `/api/annual_allowable_cut_inventory/vectors`
+
+            if (payload) {
+                apiString = getParametrizedString(apiString, payload)
+            }
+
+            return axios.get(apiString)
                 .then((responseData) => commit('mutateAnnualAllowableCutInventory', responseData.data)
                 );
         },
@@ -152,25 +172,53 @@ export default {
         },
 
         getConcessions({ commit }, payload) {
-            return axios.get(`/api/concessions/vectors`)
+
+            let apiString = `/api/concessions/vectors`
+
+            if (payload) {
+                apiString = getParametrizedString(apiString, payload)
+            }
+
+            return axios.get(apiString)
                 .then((responseData) => commit('mutateConcessions', responseData.data)
                 );
         },
 
         getDevelopmentUnits({ commit }, payload) {
-            return axios.get(`/api/development_units/vectors`)
+
+            let apiString = `/api/development_units/vectors`
+
+            if (payload) {
+                apiString = getParametrizedString(apiString, payload)
+            }
+
+            return axios.get(apiString)
                 .then((responseData) => commit('mutableDevelopmentUnits', responseData.data)
                 );
         },
 
         getManagmentUnits({ commit }, payload) {
-            return axios.get(`/api/management_units/vectors`)
+
+            let apiString = `/api/management_units/vectors`
+
+            if (payload) {
+                apiString = getParametrizedString(apiString, payload)
+            }
+
+            return axios.get(apiString)
                 .then((responseData) => commit('mutableManagmentUnits', responseData.data)
                 );
         },
 
         getParcelsVectors({ commit }, payload) {
-            return axios.get(`/api/parcels/vectors`)
+
+            let apiString = `/api/parcels/vectors`
+
+            if (payload) {
+                apiString = getParametrizedString(apiString, payload)
+            }
+
+            return axios.get(apiString)
                 .then((responseData) => commit('mutableParcels', responseData.data)
                 );
         },
