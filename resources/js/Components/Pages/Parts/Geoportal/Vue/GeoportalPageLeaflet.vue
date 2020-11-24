@@ -1,5 +1,10 @@
 <template>
-  <v-map :zoom="7" :center="initialLocation" style="height: 750px; width: 100%">
+  <v-map
+    ref="map"
+    :zoom="7"
+    :center="initialLocation"
+    style="height: 750px; width: 100%"
+  >
     <v-icondefault></v-icondefault>
     <v-tilelayer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></v-tilelayer>
     <v-marker-cluster
@@ -61,51 +66,118 @@ export default {
   },
 
   computed: {
-    ...mapGetters({ points: "geoportal/annualAllowableCutInventory" }),
+    ...mapGetters({
+      annualAllowableCutInventory: "geoportal/annualAllowableCutInventory",
+    }),
+    ...mapGetters({ parcelsPerimeters: "geoportal/parcels" }),
+    ...mapGetters({ concessionsPerimeters: "geoportal/concessions" }),
   },
 
   methods: {
     ...mapActions({
       getPoints: "geoportal/getAnnualAllowableCutInventory",
+      getParcelsPerimeters: "geoportal/getParcelsVectors",
+      getConcessionsPerimeters: "geoportal/getConcessions",
     }),
 
     click: (e) => console.log("clusterclick", e),
     ready: (e) => console.log("ready", e),
 
-    clusterSetup() {
+    clusterSetup(points) {
       var len;
-      if (this.points.length == 0) {
+      if (points.length == 0) {
         len = 0;
       } else {
-        len = this.points.features.length;
+        len = points.features.length;
       }
-      console.log(this.points.features);
 
       let locations = [];
       for (var i = 0; i < len; ++i) {
-        let latitude = this.points.features[i].geometry.coordinates[0];
-        let longitude = this.points.features[i].geometry.coordinates[1];
+        let latitude = points.features[i].geometry.coordinates[0];
+        let longitude = points.features[i].geometry.coordinates[1];
 
         locations.push({
           id: i,
           latlng: latLng(latitude, longitude),
-          text: "Hola " + i,
+          text: "Point " + i,
         });
       }
       this.locations = locations;
     },
+
+    onMoveEnd() {
+      let map = this.$refs.map.mapObject;
+
+      let northEast = map.getBounds()._northEast;
+      let southWest = map.getBounds()._southWest;
+      console.log(northEast, southWest);
+
+      // this.getPoints({
+      //   bbox: [northEast.lat, northEast.lng, southWest.lat, southWest.lng],
+      // }).then(() => {
+      //   this.clusterSetup(this.annualAllowableCutInventory);
+      // });
+    },
+
+    onGetParcels() {
+      let map = this.$refs.map.mapObject;
+
+      let onEachFeature = (feature, layer) => {
+        if (feature.properties && feature.properties.id) {
+          console.log(feature.properties.id)
+          layer.bindPopup('Id: ' + feature.properties.id);
+        }
+      };
+
+      L.geoJSON(this.parcelsPerimeters, {
+        style: (feature) => {
+          return {
+            color: "#34A34F",
+          };
+        },
+        onEachFeature: onEachFeature,
+      }).addTo(map);
+    },
+
+    onGetConcessions() {
+      let map = this.$refs.map.mapObject;
+
+      let onEachFeature = (feature, layer) => {
+        if (feature.properties && feature.properties.id) {
+          console.log(feature.properties.id)
+          layer.bindPopup('Id: ' + feature.properties.id);
+        }
+      };
+
+      L.geoJSON(this.concessionsPerimeters, {
+        style: (feature) => {
+          return {
+            color: "#34A34F",
+          };
+        },
+        onEachFeature: onEachFeature,
+      }).addTo(map);
+    },
   },
 
   mounted() {
-    setTimeout(() => {
-      console.log("done");
-      this.$nextTick(() => {
-        this.clusterOptions = { disableClusteringAtZoom: 11 };
-      });
-    }, 5000);
+    /* On move end event */
+    let map = this.$refs.map.mapObject;
+    map.on("moveend", this.onMoveEnd);
 
+    /* Cluster setup */
     this.getPoints().then(() => {
-      this.clusterSetup();
+      this.clusterSetup(this.annualAllowableCutInventory);
+    });
+
+    /* Get concessions */
+    this.getConcessionsPerimeters().then(() => {
+      this.onGetConcessions();
+    });
+
+    /* Get parcels */
+    this.getParcelsPerimeters().then(() => {
+      this.onGetParcels();
     });
   },
 };
