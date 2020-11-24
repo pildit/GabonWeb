@@ -31,9 +31,6 @@ import Vue2LeafletMarkercluster from "./MapLeaflet/Vue2LeafletMarkercluster";
 import iconUrl from "leaflet/dist/images/marker-icon.png";
 import shadowUrl from "leaflet/dist/images/marker-shadow.png";
 
-/* Translation */
-// import * as Translator from "./../../../../../Components/Mixins/Translation";
-
 /* Vuex */
 import store from "store/store";
 import { mapGetters, mapState, mapMutations, mapActions } from "vuex";
@@ -56,6 +53,11 @@ export default {
 
   data() {
     return {
+      renderParcels: true,
+      renderConcessions: true,
+      renderClusters: true,
+      bbox: undefined,
+
       locations: [],
       icon: icon(
         Object.assign({}, Icon.Default.prototype.options, {
@@ -67,8 +69,8 @@ export default {
       initialLocation: latLng(-0.803698, 11.609454),
 
       window: {
-        width: 0,
-        height: 0,
+        width: window.innerWidth,
+        height: window.innerHeight,
       },
     };
   },
@@ -118,11 +120,65 @@ export default {
     },
 
     onMoveEnd() {
+      /* Get the map ref */
       let map = this.$refs.map.mapObject;
 
-      let northEast = map.getBounds()._northEast;
-      let southWest = map.getBounds()._southWest;
-      console.log(northEast, southWest);
+      /* Get the bounds */
+      const currentBounds = map.getBounds();
+      const currentNorthEast = currentBounds._northEast;
+      const currentSouthWest = currentBounds._southWest;
+
+      /* Previous state */
+      const prevBbox = this.bbox;
+
+      if (prevBbox !== undefined) {
+        /* Is our new bbox contained in our old one? */
+        if (prevBbox.contains(currentBounds)) {
+          /* Skip updating anything else bbox related */
+          return;
+        }
+      }
+
+      // const queryBbox = [
+      //   currentNorthEast.lat,
+      //   currentNorthEast.lng,
+      //   currentSouthWest.lat,
+      //   currentSouthWest.lng,
+      // ];
+
+      const queryBbox = undefined // TODO
+
+      console.log("QueryBbox", queryBbox);
+
+      /* Get concessions */
+      if (this.renderConcessions) {
+        this.getConcessionsPerimeters({
+          bbox: queryBbox,
+        }).then(() => {
+          this.onGetConcessions();
+        });
+      }
+
+      /* Get parcels */
+      if (this.renderParcels) {
+        this.getParcelsPerimeters({
+          bbox: queryBbox,
+        }).then(() => {
+          this.onGetParcels();
+        });
+      }
+
+      /* Cluster setup */
+      if (this.renderClusters) {
+        this.getPoints({
+          bbox: queryBbox,
+        }).then(() => {
+          this.clusterSetup(this.annualAllowableCutInventory);
+        });
+      }
+
+      /* Set the new Bbox */
+      this.bbox = currentBounds;
 
       // this.getPoints({
       //   bbox: [northEast.lat, northEast.lng, southWest.lat, southWest.lng],
@@ -175,27 +231,19 @@ export default {
 
       console.log("MODIFY: ", this.window.width, " x ", this.window.height);
     },
+
+    
   },
 
   mounted() {
     /* On move end event */
     let map = this.$refs.map.mapObject;
     map.on("moveend", this.onMoveEnd);
+    // map.on("zoomend", this.onMoveEnd);
 
-    /* Cluster setup */
-    this.getPoints().then(() => {
-      this.clusterSetup(this.annualAllowableCutInventory);
-    });
+    /* Load concessions and others based on the current zoom level */
+    this.onMoveEnd();
 
-    /* Get concessions */
-    this.getConcessionsPerimeters().then(() => {
-      this.onGetConcessions();
-    });
-
-    /* Get parcels */
-    this.getParcelsPerimeters().then(() => {
-      this.onGetParcels();
-    });
 
     window.addEventListener("resize", () => {
       this.window.height = window.innerHeight;
