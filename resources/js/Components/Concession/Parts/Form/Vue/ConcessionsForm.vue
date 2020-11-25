@@ -59,7 +59,9 @@
                     <div class="col">
                         <div class="md-form">
                             <multiselect
+                                name="Company"
                                 v-model="form.Company"
+                                v-validate="'required'"
                                 :options="companyList.data"
                                 :placeholder="translate('company_select_label')"
                                 track-by="Id"
@@ -72,6 +74,7 @@
                                 @select="$forceUpdate()"
                                 @search-change="asyncFindCompany"
                             ></multiselect>
+                            <div v-show="errors.has('Company')" class="invalid-feedback">{{ errors.first('Company') }}</div>
                         </div>
                     </div>
                 </div>
@@ -79,6 +82,8 @@
                     <div class="col">
                         <div class="md-form">
                             <multiselect
+                                name="Continent"
+                                v-validate="'required'"
                                 v-model="form.Continent"
                                 :options="continents"
                                 :placeholder="translate('continent_select_label')"
@@ -88,6 +93,7 @@
                                 <template slot="singleLabel" slot-scope="{ option }">{{ option.Name }} ({{option.Code}})</template>
                                 <template slot="option" slot-scope="{option}">{{ option.Name }} ({{option.Code}})</template>
                             </multiselect>
+                            <div v-show="errors.has('Continent')" class="invalid-feedback">{{ errors.first('Continent') }}</div>
                         </div>
                     </div>
                     <div class="col">
