@@ -69,6 +69,8 @@ class ConcessionsController extends Controller
      */
     public function show(Concession $concession)
     {
+//        $concession->load(['constituent_permit', 'company']);
+
         return response()->json([
             'data' => $concession
         ], 200);
@@ -113,12 +115,16 @@ class ConcessionsController extends Controller
      */
     public function vectors(Request $request, ConcessionService $concessionService)
     {
-        $request->validate(['bbox' => 'string']);
+        $request->validate(
+            [
+                'bbox' => 'string',
+                'Id' => 'nullable|exists:Modules\ForestResources\Entities\Concession,Id'
+            ]);
 
         return response()->json([
             'type' => 'FeatureCollection',
             'name' => 'concessions',
-            'features' => $concessionService->getVectors($request->get('bbox', config('forestresources.default_bbox')))
+            'features' => $concessionService->getVectors($request->get('bbox', config('forestresources.default_bbox')),$request->get('Id'))
         ]);
     }
 

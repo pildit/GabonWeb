@@ -15,13 +15,16 @@ class Parcel extends PageResults
      * @param $bbox
      * @return mixed
      */
-    public function getVectors($bbox)
+    public function getVectors($bbox,$Id)
     {
         $srid = config('forestresources.srid');
         $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_transform("Geometry",4256)) as geom');
         $whereIntersects = "public.ST_Intersects(public.st_setsrid(\"Geometry\", {$srid}), public.st_setsrid(public.ST_MakeEnvelope({$bbox}), {$srid}))";
-        $collection = ParcelEntity::select(['Id', $geomCol])
-            ->whereRaw($whereIntersects)->get();
+        $collection = ParcelEntity::select(['Id', $geomCol]);
+          if($Id){
+              $collection = $collection->where("Id","=",$Id);
+          }
+        $collection = $collection->whereRaw($whereIntersects)->get();
 
         return $collection->map(function ($item) {
             return [

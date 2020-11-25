@@ -199,12 +199,16 @@ class ParcelController extends Controller
      */
     public function vectors(Request $request, ParcelService $parcelService)
     {
-        $request->validate(['bbox' => 'string']);
+        $request->validate(
+            [
+                'bbox' => 'string',
+                'Id' => 'nullable|exists:Modules\ForestResources\Entities\Concession,Id'
+            ]);
 
         return response()->json([
             'type' => 'FeatureCollection',
             'name' => 'parcels',
-            'features' => $parcelService->getVectors($request->get('bbox', config('forestresources.default_bbox')))
+            'features' => $parcelService->getVectors($request->get('bbox', config('forestresources.default_bbox')),$request->get('Id'))
         ]);
     }
 

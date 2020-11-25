@@ -148,12 +148,17 @@ class AnnualAllowableCutInventoryController extends Controller
      */
     public function vectors(Request $request, AnnualAllowableCutInventoryService $aaciService)
     {
-        $request->validate(['bbox' => 'string']);
+        $request->validate(
+            [
+                'bbox' => 'string',
+                'Id' => 'nullable|exists:Modules\ForestResources\Entities\AnnualAllowableCutInventory,Id'
+            ]
+        );
 
         return response()->json([
             'type' => 'FeatureCollection',
             'name' => 'annual_allowable_cut_inventory',
-            'features' => $aaciService->getVectors($request->get('bbox', config('forestresources.default_bbox')))
+            'features' => $aaciService->getVectors($request->get('bbox', config('forestresources.default_bbox')),$request->get('Id'))
         ]);
     }
 

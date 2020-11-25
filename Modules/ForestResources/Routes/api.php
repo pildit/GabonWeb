@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 
 //constituent permit
 Route::middleware('jwt:api')->get('/constituent_permits/export', 'ConstituentPermitController@export');
+Route::middleware('jwt:api')->get('/constituent_permits/list', 'ConstituentPermitController@listConstituentPermits');
 Route::middleware('jwt:api')->patch('/constituent_permits/approve/{id}', 'ConstituentPermitController@approve');
 Route::middleware('jwt:api')->resource('/constituent_permits', ConstituentPermitController::class)->except(['create', 'edit']);
 //Parcel

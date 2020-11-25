@@ -2,17 +2,21 @@ alter table "ForestResources"."ConcessionsTable"
     add "User" int;
 
 alter table "ForestResources"."ConcessionsTable"
+    add "Number" varchar not null default '';
+
+alter table "ForestResources"."ConcessionsTable"
     add constraint concessionstable_accounts_id_fk
         foreign key ("User") references admin.accounts;
 
 
 drop view if exists "ForestResources"."Concessions";
 
-create view "ForestResources"."Concessions"
-            ("Id", "Name", "Continent", "ConstituentPermit", "Geometry", "Company", "Approved", "User", "Email", "CreatedAt",
-             "UpdatedAt", "DeletedAt")
+create or replace view "ForestResources"."Concessions"
+            ("Id", "Number", "Name", "Continent", "ConstituentPermit", "Geometry", "Company", "Approved", "User", "Email",
+             "CreatedAt", "UpdatedAt", "DeletedAt")
 as
 SELECT ct."Id",
+       ct."Number",
        ct."Name",
        ct."Continent",
        ct."ConstituentPermit",
@@ -20,38 +24,38 @@ SELECT ct."Id",
        ct."Company",
        ct."Approved",
        ct."User",
-       acc.email as "Email",
+       acc.email AS "Email",
        ct."CreatedAt",
        ct."UpdatedAt",
        ct."DeletedAt"
 FROM "ForestResources"."ConcessionsTable" ct
-left join admin.accounts acc on ct."User" = acc.id;
+         LEFT JOIN admin.accounts acc ON ct."User" = acc.id;
 
 CREATE RULE "Concessions_instead_of_insert" AS
-    ON INSERT TO "ForestResources"."Concessions" DO INSTEAD
-INSERT INTO "ForestResources"."ConcessionsTable" ("Id",
-                                                  "ResourceType",
-                                                  "Name",
-                                                  "Continent",
-                                                  "ConstituentPermit",
-                                                  "Geometry",
-                                                  "Company",
-                                                  "Approved",
-                                                  "User",
-                                                  "CreatedAt",
-                                                  "UpdatedAt")
+    ON INSERT TO "ForestResources"."Concessions"
+    DO INSTEAD INSERT INTO "ForestResources"."ConcessionsTable" (
+                                                                 "Id",
+                                                              "ResourceType",
+                                                              "Number",
+                                                              "Name",
+                                                              "Continent",
+                                                              "ConstituentPermit",
+                                                              "Geometry",
+                                                              "Company",
+                                                              "Approved",
+                                                              "User",
+                                                              "CreatedAt",
+                                                              "UpdatedAt")
                                                             VALUES (nextval('"ForestResources"."SEQ_BaseResources"'::regclass),
                                                                     (SELECT rt."Id"
                                                                      FROM "ForestResources"."ResourceTypes" rt
                                                                      WHERE rt."Name" = 'Concession'::text
-                                                                     LIMIT 1), new."Name", new."Continent",
+                                                                     LIMIT 1), new."Name", new."Number", new."Continent",
                                                                     new."ConstituentPermit", new."Geometry",
-                                                                    new."Company", new."Approved",
-                                                                    new."User",
-                                                                    new."CreatedAt",
-                                                                    new."UpdatedAt")
-                                                            RETURNING
-                                                                "Id",
+                                                                    new."Company", new."Approved", new."User",
+                                                                    new."CreatedAt", new."UpdatedAt")
+                                                            RETURNING "Id",
+                                                                "Number",
                                                                 "Name",
                                                                 "Continent",
                                                                 "ConstituentPermit",
@@ -60,8 +64,9 @@ INSERT INTO "ForestResources"."ConcessionsTable" ("Id",
                                                                 "Approved",
                                                                 "User",
                                                                 (SELECT acc.email
-                                                                 FROM admin.accounts acc
-                                                                 WHERE "ConcessionsTable"."User" = acc.id limit 1) AS email,
+                                                                      FROM admin.accounts acc
+                                                                      WHERE "ConcessionsTable"."User" = acc.id
+                                                                      LIMIT 1) AS email,
                                                                 "CreatedAt",
                                                                 "UpdatedAt",
                                                                 "DeletedAt";
@@ -69,6 +74,7 @@ INSERT INTO "ForestResources"."ConcessionsTable" ("Id",
 CREATE RULE "Concessions_instead_of_update" AS
     ON UPDATE TO "ForestResources"."Concessions" DO INSTEAD UPDATE "ForestResources"."ConcessionsTable"
                                                             SET "Name"              = new."Name",
+                                                                "Number"            = new."Number",
                                                                 "Continent"         = new."Continent",
                                                                 "ConstituentPermit" = new."ConstituentPermit",
                                                                 "Geometry"          = new."Geometry",
@@ -79,6 +85,7 @@ CREATE RULE "Concessions_instead_of_update" AS
                                                                 "DeletedAt"         = new."DeletedAt"
                                                             WHERE "ConcessionsTable"."Id" = old."Id"
                                                             RETURNING "Id",
+                                                                "Number",
                                                                 "Name",
                                                                 "Continent",
                                                                 "ConstituentPermit",
@@ -88,11 +95,14 @@ CREATE RULE "Concessions_instead_of_update" AS
                                                                 "User",
                                                                 (SELECT acc.email
                                                                  FROM admin.accounts acc
-                                                                 WHERE "ConcessionsTable"."User" = acc.id limit 1) AS email,
+                                                                 WHERE "ConcessionsTable"."User" = acc.id
+                                                                 LIMIT 1) AS email,
                                                                 "CreatedAt",
                                                                 "UpdatedAt",
                                                                 "DeletedAt";
 
 CREATE RULE "Concessions_instead_of_delete" AS
-    ON DELETE TO "ForestResources"."Concessions" DO INSTEAD  DELETE FROM "ForestResources"."ConcessionsTable"
-  WHERE "ConcessionsTable"."Id" = old."Id";
+    ON DELETE TO "ForestResources"."Concessions" DO INSTEAD DELETE
+                                                            FROM "ForestResources"."ConcessionsTable"
+                                                            WHERE "ConcessionsTable"."Id" = old."Id";
+

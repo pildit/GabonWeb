@@ -18,9 +18,15 @@ class Permit extends PageResults
 
     /**
      * @param $bbox
+     * @param $LicensePlate
+     * @param $DateFrom
+     * @param $DateTo
+     * @param $Date
+     * @param $PermitNo
+     * @param $Id
      * @return mixed
      */
-    public function getVectors($bbox,$LicensePlate,$DateFrom,$DateTo,$Date,$PermitNo)
+    public function getVectors($bbox,$LicensePlate,$DateFrom,$DateTo,$Date,$PermitNo,$Id)
     {
         $srid = config('transport.srid');
         $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_transform(public.st_setsrid("Geometry",'.$srid.'),4256)) as geom');
@@ -29,6 +35,9 @@ class Permit extends PageResults
         $collection = PermitEntity::select(['Id', $geomCol, "PermitNo", "Concession", "ManagementUnit", "DevelopmentUnit", "AnnualAllowableCut", "ClientCompany", "ConcessionaireCompany", "TransporterCompany", "Province", "Destination"])
             ->whereRaw($whereIntersects);
 
+        if($Id){
+            $collection = $collection->where("Id","=",$Id);
+        }
         if($LicensePlate){
             $collection = $collection->where('LicensePlate','ilike',"%".$LicensePlate."%");
         }
@@ -39,7 +48,7 @@ class Permit extends PageResults
             $collection = $collection->where('ObserveAt','<=',$DateTo);
         }
         if($Date){
-            $collection = $collection->where('ObserveAt','=',$Date);
+            $collection = $collection->where('ObserveAt','>',$Date.' 00:00:00')->where('ObserveAt','<=',$Date.' 23:59:59');
         }
         if($PermitNo){
             $collection = $collection->where('PermitNo','=',$PermitNo);

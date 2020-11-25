@@ -42,4 +42,12 @@ class AnnualAllowableCut extends Model
     public function managementplan(){
         return $this->belongsTo(ManagementPlan::class,"ManagementPlan");
     }
+
+    public function annualoperationplans(){
+        return $this->hasMany(AnnualOperationPlan::class,"AnnualAllowableCut","Id");
+    }
+
+    public function producttype(){
+        return $this->belongsTo(ProductType::class,"ProductType");
+    }
 }
