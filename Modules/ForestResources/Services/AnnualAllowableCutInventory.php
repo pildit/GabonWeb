@@ -12,18 +12,21 @@ use Modules\ForestResources\Entities\AnnualAllowableCutInventory as AnnualAllowa
 class AnnualAllowableCutInventory extends PageResults
 {
 
-
     /**
      * @param $bbox
+     * @param $Id
      * @return mixed
      */
-    public function getVectors($bbox)
+    public function getVectors($bbox,$Id)
     {
         $srid = config('forestresources.srid');
         $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_transform("Geometry",4256)) as geom');
         $whereIntersects = "public.ST_Intersects(public.st_setsrid(\"Geometry\", {$srid}), public.st_setsrid(public.ST_MakeEnvelope({$bbox}), {$srid}))";
-        $collection = AnnualAllowableCutInventoryEntity::select(['Id', $geomCol])
-            ->whereRaw($whereIntersects)->get();
+        $collection = AnnualAllowableCutInventoryEntity::select(['Id', $geomCol]);
+        if($Id){
+            $collection = $collection->where("Id","=",$Id);
+        }
+        $collection = $collection->whereRaw($whereIntersects)->get();
 
         return $collection->map(function ($item) {
             return [

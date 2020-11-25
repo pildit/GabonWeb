@@ -12,25 +12,43 @@ use Modules\ForestResources\Entities\AnnualAllowableCut as AnnualAllowableCutEnt
 class AnnualAllowableCut extends PageResults
 {
 
+
     /**
      * @param $bbox
+     * @param $Name
+     * @param $AacId
+     * @param $Id
      * @return mixed
      */
-    public function getVectors($bbox,$Name)
+    public function getVectors($bbox,$Name,$AacId,$Id)
     {
         $srid = config('forestresources.srid');
         $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_transform("Geometry",4256)) as geom');
         $whereIntersects = "public.ST_Intersects(public.st_setsrid(\"Geometry\", {$srid}), public.st_setsrid(public.ST_MakeEnvelope({$bbox}), {$srid}))";
-        $collection = AnnualAllowableCutEntity::select(['Id', $geomCol,'Name','AacId','ManagementUnit','ManagementPlan'])
+        $collection = AnnualAllowableCutEntity::select(['Id', $geomCol,'Name','AacId','ManagementUnit','ManagementPlan','ProductType'])
             ->whereRaw($whereIntersects);
 
+        if($Id){
+            $collection = $collection->where("Id","=",$Id);
+        }
         if($Name){
-            $collection = $collection->where('Name','ilike',"%".$Name."%")->orWhere('AacId','ilike',"%".$Name."%");
+            $collection = $collection->where('Name','ilike',"%".$Name."%")->orWhere('AacId','ilike',"%".$AacId."%");
         }
 
         $collection = $collection->get();
 
         return $collection->map(function ($item) {
+            $annualoperationplan = $item->annualoperationplans()->get()->map(function ($item) {
+                return [
+                    'Id' => $item->Id,
+                    'Species'=> $item->species ? $item->species->CommonName : $item->Species,
+                    'ExploitableVolume'=> $item->ExploitableVolume,
+                    'NonExploitableVolume'=> $item->NonExploitableVolume,
+                    'VolumePerHectare'=> $item->VolumePerHectare,
+                    'AverageVolume'=> $item->AverageVolume,
+                    'TotalVolume'=> $item->TotalVolume
+                ];
+            });
 
             return [
                 'type' => 'Feature',
@@ -40,7 +58,8 @@ class AnnualAllowableCut extends PageResults
                     'Name' => $item->Name,
                     'ID' => $item->AacId,
                     'ManagementUnit' => $item->managementunit ? $item->managementunit->Name : $item->ManagementUnit,
-                    'ManagementPlan' => $item->ManagementPlan
+                    'ManagementPlan' => $item->ManagementPlan,
+                    'ProductType' => $item->producttype ? $item->producttype->Name : $item->ProductType
                 ]
             ];
         });

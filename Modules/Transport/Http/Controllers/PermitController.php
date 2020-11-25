@@ -85,21 +85,25 @@ class PermitController extends Controller
         $request->validate([
             'bbox' => 'string',
             'LicensePlate' => 'nullable|string',
-            'DateFrom' => 'nullable|date_format:Y-m-d',
-            'DateTo' => 'nullable|date_format:Y-m-d',
+            'DateFrom' => 'nullable|date_format:Y-m-d H:i:s',
+            'DateTo' => 'nullable|date_format:Y-m-d H:i:s',
             'PermitNo'=>'nullable|string',
-            'Date' => 'nullable|date_format:Y-m-d'
+            'Date' => 'nullable|date_format:Y-m-d',
+            'Id' => 'nullable|exists:Modules\ForestResources\Entities\Concession,Id'
         ]);
+
 
         return response()->json([
             'type' => 'FeatureCollection',
             'name' => 'permits',
             'features' => $permitService->getVectors(
                 $request->get('bbox', config('transport.default_bbox')),
-                $request->get('LicensePlate'),$request->get('DateFrom'),
+                $request->get('LicensePlate'),
+                $request->get('DateFrom'),
                 $request->get('DateTo'),
                 $request->get('Date'),
-                $request->get('PermitNo')
+                $request->get('PermitNo'),
+                $request->get('Id')
             )
         ]);
     }

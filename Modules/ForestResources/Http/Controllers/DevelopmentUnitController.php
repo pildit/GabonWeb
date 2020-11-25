@@ -127,12 +127,16 @@ class DevelopmentUnitController extends Controller
      */
     public function vectors(Request $request, DevelopmentUnitService $developmentUnitService)
     {
-        $request->validate(['bbox' => 'string']);
+        $request->validate(
+            [
+                'bbox' => 'string',
+                'Id' => 'nullable|exists:Modules\ForestResources\Entities\Concession,Id'
+            ]);
 
         return response()->json([
             'type' => 'FeatureCollection',
             'name' => 'development_unit',
-            'features' => $developmentUnitService->getVectors($request->get('bbox', config('forestresources.default_bbox')))
+            'features' => $developmentUnitService->getVectors($request->get('bbox', config('forestresources.default_bbox')),$request->get('Id'))
         ]);
     }
 

@@ -127,12 +127,16 @@ class ManagementUnitController extends Controller
      */
     public function vectors(Request $request, ManagementUnitService $managementUnitService)
     {
-        $request->validate(['bbox' => 'string']);
+        $request->validate(
+            [
+                'bbox' => 'string',
+                'Id' => 'nullable|exists:Modules\ForestResources\Entities\Concession,Id'
+            ]);
 
         return response()->json([
             'type' => 'FeatureCollection',
             'name' => 'management_unit',
-            'features' => $managementUnitService->getVectors($request->get('bbox', config('forestresources.default_bbox')))
+            'features' => $managementUnitService->getVectors($request->get('bbox', config('forestresources.default_bbox')),$request->get('Id'))
         ]);
     }
 
