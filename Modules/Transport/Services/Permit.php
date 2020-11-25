@@ -80,9 +80,12 @@ class Permit extends PageResults
         $whereIntersects = "public.ST_Intersects(public.st_setsrid(\"Geometry\", {$srid}), public.st_setsrid(public.ST_MakeEnvelope({$bbox}), {$srid}))";
 
         $collection = Tracking::select(['Id', $geomCol, "Permit"])
+            ->whereHas('permit', function ($query) {
+                $query->where('Status', '=', PermitEntity::STATUS_IN_PROGRESS);
+            })
             ->whereRaw($whereIntersects);
 
-        $collection = $collection->get();
+        $collection = $collection->get();;
 
         return $collection->map(function ($item) {
 
