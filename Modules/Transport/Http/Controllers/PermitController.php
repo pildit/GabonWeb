@@ -125,7 +125,7 @@ class PermitController extends Controller
         $data['User'] = $this->jwtPayload('data.id');
 
         $srid = config('forestresources.srid');
-        $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$data['Lon']}, {$data['Lat']}),4326),$srid)";
+        $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$data['Lat']}, {$data['Lon']}),4326),$srid)";
         $data['Geometry'] = isset($data['Geometry']) ? DB::raw("public.st_geomfromtext('".$data['Geometry']."', 5223)") : DB::raw("(select $geomQuery)");
 
         $permit = PermitEntity::create($data);
@@ -148,7 +148,7 @@ class PermitController extends Controller
         $data['User'] = $this->jwtPayload('data.id');
 
         $srid = config('forestresources.srid');
-        $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$data['Lon']}, {$data['Lat']}),4326),$srid)";
+        $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$data['Lat']}, {$data['Lon']}),4326),$srid)";
         $data['Geometry'] = isset($data['Geometry']) ? DB::raw("public.st_geomfromtext('".$data['Geometry']."', 5223)") : DB::raw("(select $geomQuery)");
 
         $permit->update($data);
@@ -201,7 +201,7 @@ class PermitController extends Controller
             $tracking = $permit->tracking()->where('Lat', $coordinate['Lat'])->where('Lon', $coordinate['Lon'])->first();
 
             $srid = config('forestresources.srid');
-            $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$coordinate['Lon']}, {$coordinate['Lat']}),4326),$srid)";
+            $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$coordinate['Lat']}, {$coordinate['Lon']}),4326),$srid)";
 
             $trackings[$k] = (!is_null($tracking)) ? $tracking : new Tracking();
             $trackings[$k]->User = $this->jwtPayload('data.id');
