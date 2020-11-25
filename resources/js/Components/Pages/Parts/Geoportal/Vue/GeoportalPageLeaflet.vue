@@ -292,16 +292,16 @@ export default {
         }
       }
 
-      // const queryBbox = [
-      //   currentNorthEast.lat,
-      //   currentNorthEast.lng,
-      //   currentSouthWest.lat,
-      //   currentSouthWest.lng,
-      // ];
+      const queryBbox = [
+        currentNorthEast.lat,
+        currentNorthEast.lng,
+        currentSouthWest.lat,
+        currentSouthWest.lng,
+      ];
 
-      const queryBbox = {
-        bbox: undefined,
-      }; // TODO
+      // const queryBbox = {
+      //   bbox: undefined,
+      // }; // TODO
 
       console.log("QueryBbox", queryBbox);
 
