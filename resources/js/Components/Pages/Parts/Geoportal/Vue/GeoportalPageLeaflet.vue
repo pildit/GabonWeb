@@ -1,33 +1,38 @@
 <template>
-  <v-map
-    ref="map"
-    :zoom="7"
-    :center="initialLocation"
-    :style="{ height: window.height + 'px', width: '100%' }"
-  >
-    <v-icondefault></v-icondefault>
-    <v-tilelayer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></v-tilelayer>
-    <v-marker-cluster
-      :options="clusterOptions"
-      @clusterclick="click()"
-      @ready="ready"
+  <div>
+    <v-map-sidebar :map="map"></v-map-sidebar>
+
+    <v-map
+      ref="map"
+      :zoom="7"
+      :center="initialLocation"
+      :style="{ height: window.height + 'px', width: '100%' }"
     >
-      <v-marker
-        v-for="l in locations"
-        :key="l.id"
-        :lat-lng="l.latlng"
-        :icon="icon"
+      <v-icondefault></v-icondefault>
+      <v-tilelayer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></v-tilelayer>
+      <v-marker-cluster
+        :options="clusterOptions"
+        @clusterclick="click()"
+        @ready="ready"
       >
-        <v-popup :content="translate(l.text)"></v-popup>
-      </v-marker>
-    </v-marker-cluster>
-  </v-map>
+        <v-marker
+          v-for="l in locations"
+          :key="l.id"
+          :lat-lng="l.latlng"
+          :icon="icon"
+        >
+          <v-popup :content="translate(l.text)"></v-popup>
+        </v-marker>
+      </v-marker-cluster>
+    </v-map>
+  </div>
 </template>
 
 <script>
 import * as Vue2Leaflet from "vue2-leaflet";
 import { latLng, Icon, icon } from "leaflet";
 import Vue2LeafletMarkercluster from "./MapLeaflet/Vue2LeafletMarkercluster";
+import MapSidebar from "./MapLeaflet/MapSidebar";
 import iconUrl from "leaflet/dist/images/marker-icon.png";
 import shadowUrl from "leaflet/dist/images/marker-shadow.png";
 
@@ -49,6 +54,7 @@ export default {
     "v-marker": Vue2Leaflet.LMarker,
     "v-popup": Vue2Leaflet.LPopup,
     "v-marker-cluster": Vue2LeafletMarkercluster,
+    "v-map-sidebar": MapSidebar,
   },
 
   data() {
@@ -72,6 +78,7 @@ export default {
         width: window.innerWidth,
         height: window.innerHeight,
       },
+      map: null
     };
   },
 
@@ -238,6 +245,7 @@ export default {
   mounted() {
     /* On move end event */
     let map = this.$refs.map.mapObject;
+    this.map = map;
     map.on("moveend", this.onMoveEnd);
     // map.on("zoomend", this.onMoveEnd);
 
@@ -256,6 +264,7 @@ export default {
 @import "~leaflet/dist/leaflet.css";
 @import "~leaflet.markercluster/dist/MarkerCluster.css";
 @import "~leaflet.markercluster/dist/MarkerCluster.Default.css";
+@import "./Imports/leaflet-sidebar.css";
 html,
 body {
   height: 100%;
