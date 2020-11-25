@@ -16,14 +16,14 @@
                   </menu-item>
                   <!-- if guest -->
                   <li v-if="!logged_in" class="nav-item">
-                    <a class="nav-link text-nowrap" href="/login">{{translate('Login')}}</a>
+                    <a class="nav-link text-nowrap" href="/login">{{ translate('login') }}</a>
                   </li>
                   <!-- if logged in -->
                   <li v-else class="nav-item dropdown">
                     <a href="#" class=" nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{  username }}<span class="caret"></span></a>
                     <ul class="nav-item dropdown-menu dropdown-default" aria-labelledby="about-us">
                       <li class="nav-item">
-                        <a class="dropdown-item text-nowrap" href="/logout">{{ translate ("logout") }}</a>
+                        <a class="dropdown-item text-nowrap" href="/logout">{{ translate("logout") }}</a>
                       </li>
                       <li class="nav-item">
                         <a class="dropdown-item text-nowrap" href="/settings">{{ translate("account_settings") }}</a>
@@ -41,7 +41,7 @@
                         <ul class="nav-item dropdown-menu dropdown-default" aria-labelledby="lang">
                             <li class="nav-item" v-for="(country,lang) in languages">
                                 <a @click="setLang(lang)" class="dropdown-item text-nowrap waves-effect waves-light">
-                                    <i :class="['flag', languages[lang]]"></i>{{translate(country)}}
+                                    <i :class="['flag', languages[lang]]"></i>{{ translate(country) }}
                                 </a>
                             </li>
                         </ul>

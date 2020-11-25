@@ -23,12 +23,16 @@ import Parcel from './Components/Parcel/Parcel';
 import Quality from './Components/Quality/Quality';
 import ProductType from './Components/ProductType/ProductType';
 import Logbook from './Components/Logbook/Logbook';
+import Permit from "./Components/Permit/Permit";
 import DevelopmentUnit from "./Components/Management/DevelopmentUnit/DevelopmentUnit";
 import ConstituentPermit from './Components/ConstituentPermit/ConstituentPermit';
 import Concession from './Components/Concession/Concession';
 import Translation from './Components/Translations/Translation'
 import DevelopmentPlan from "./Components/Management/DevelopmentPlan/DevelopmentPlan";
 import ManagementUnit from "./Components/Management/ManagementUnit/ManagementUnit";
+
+import SiteLogbook from "./Components/SiteLogbook/SiteLogbook";
+import SiteLogbookItem from "./Components/SiteLogbookItem/SiteLogbookItem";
 
 Vue.config.devtools = true;
 window.Vent         = new Vue;
@@ -68,6 +72,9 @@ Gabon.Quality = Quality;
 Gabon.ProductType = ProductType;
 Gabon.Concession = Concession;
 Gabon.Logbook = Logbook;
+Gabon.SiteLogbook = SiteLogbook;
+Gabon.SiteLogbookItem = SiteLogbookItem;
+Gabon.Permit = Permit;
 
 Gabon.Management = {
     DevelopmentUnit: DevelopmentUnit,

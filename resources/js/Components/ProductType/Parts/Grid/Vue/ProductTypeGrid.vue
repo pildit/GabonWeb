@@ -1,16 +1,16 @@
 <template>
   <div class="container mt-40">
-    <h5 class="text-center green-text mb-2">{{translate('Product Types')}}</h5>
+    <h5 class="text-center green-text mb-2">{{ translate('product_types') }}</h5>
     <div class="row">
       <div class="col-sm-8 d-flex align-items-center">
         <button class="btn btn-md" @click="modals.form = true">
-          <i class="fas fa-plus-circle"></i> {{translate('Add ProductType')}}
+          <i class="fas fa-plus-circle"></i> {{translate('add_product_type')}}
         </button>
       </div>
       <div class="md-form col-sm-4">
         <div class="form-row justify-content-end">
           <div class="col-sm-10">
-            <label for="product_typename">{{translate('Search')}}</label>
+            <label for="product_typename">{{ translate('search') }}</label>
             <input @keyup.enter="getProductTypes" class="form-control" v-model="search" type="text" Placeholder="" name="product_typename" id="product_typename" />
           </div>
           <button @click="getProductTypes" class="btn btn-sm btn-green  px-2" id="filter">

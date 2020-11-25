@@ -30,7 +30,7 @@ class PermitController extends Controller
 
     public function __construct()
     {
-        $this->middleware('permission:permit.view')->only('index', 'show');
+        $this->middleware('permission:permit.view')->only('index', 'show', 'trackingVectors');
 
         $this->middleware('permission:permit.add')->only('store');
 
@@ -53,8 +53,13 @@ class PermitController extends Controller
     {
 
         $pr->setSortFields(['Id']);
-
-        return response()->json($pr->getPaginator($request, PermitEntity::class, ["PermitNo"],['annualallowablecut','clientcompany','concessionairecompany','transportercompany']));
+        // CHECKME: not sure we need all these relationships.
+//        $request->merge(['search'=>$request->get("search")]);
+        // TODO: search does'nt work.
+        return response()->json($pr->getPaginator($request, PermitEntity::class,
+            ['AnnualAllowableCutName', 'TransporterCompanyName'],
+            ['annualallowablecut', 'clientcompany', 'concessionairecompany', 'transportercompany']
+        ));
 
     }
 
@@ -64,7 +69,9 @@ class PermitController extends Controller
      */
     public function show(PermitEntity $permit)
     {
-        $permit['permit_child'] = PermitEntity::where("PermitNoMobile","=",$permit->PermitNoMobile)->where("Id","!=",$permit->Id)->get();
+        $permit['permit_child'] = PermitEntity::where('PermitNoMobile', $permit->PermitNoMobile)->where('Id', '!=', $permit->Id)->get();
+        $permit->load(['annualallowablecut', 'clientcompany', 'concessionairecompany', 'transportercompany',
+            'concession', 'managementunit', 'developmentunit']);
         return response()->json(['data' => $permit]);
     }
 
@@ -118,7 +125,7 @@ class PermitController extends Controller
         $data['User'] = $this->jwtPayload('data.id');
 
         $srid = config('forestresources.srid');
-        $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$data['Lon']}, {$data['Lat']}),4326),$srid)";
+        $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$data['Lat']}, {$data['Lon']}),4326),$srid)";
         $data['Geometry'] = isset($data['Geometry']) ? DB::raw("public.st_geomfromtext('".$data['Geometry']."', 5223)") : DB::raw("(select $geomQuery)");
 
         $permit = PermitEntity::create($data);
@@ -141,7 +148,7 @@ class PermitController extends Controller
         $data['User'] = $this->jwtPayload('data.id');
 
         $srid = config('forestresources.srid');
-        $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$data['Lon']}, {$data['Lat']}),4326),$srid)";
+        $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$data['Lat']}, {$data['Lon']}),4326),$srid)";
         $data['Geometry'] = isset($data['Geometry']) ? DB::raw("public.st_geomfromtext('".$data['Geometry']."', 5223)") : DB::raw("(select $geomQuery)");
 
         $permit->update($data);
@@ -194,7 +201,7 @@ class PermitController extends Controller
             $tracking = $permit->tracking()->where('Lat', $coordinate['Lat'])->where('Lon', $coordinate['Lon'])->first();
 
             $srid = config('forestresources.srid');
-            $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$coordinate['Lon']}, {$coordinate['Lat']}),4326),$srid)";
+            $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$coordinate['Lat']}, {$coordinate['Lon']}),4326),$srid)";
 
             $trackings[$k] = (!is_null($tracking)) ? $tracking : new Tracking();
             $trackings[$k]->User = $this->jwtPayload('data.id');
@@ -214,8 +221,23 @@ class PermitController extends Controller
 
     /**
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @param Permit $permitService
+     * @return \Illuminate\Http\JsonResponse
      */
+
+    public function trackingVectors(Request $request, Permit $permitService){
+        $request->validate([
+            'bbox' => 'string',
+        ]);
+
+        return response()->json([
+            'type' => 'FeatureCollection',
+            'name' => 'tracking',
+            'features' => $permitService->getTrackingVectors(
+                $request->get('bbox', config('transport.default_bbox'))
+            )
+        ]);
+    }
 
     public function export(Request $request)
     {

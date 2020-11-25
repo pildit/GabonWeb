@@ -24,4 +24,8 @@ class Tracking extends Model
         return json_decode($value);
     }
 
+    public function permit()
+    {
+        return $this->belongsTo(Permit::class,"Permit");
+    }
 }

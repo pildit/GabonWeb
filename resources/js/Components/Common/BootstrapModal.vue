@@ -6,7 +6,7 @@
                 <div v-if="needHeader" class="modal-header">
                     <h4 class="modal-title">
                         <slot name="title">
-                            Modal
+                            {{ translate('modal') }}
                         </slot>
                     </h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="close()">
@@ -15,7 +15,7 @@
                 </div>
                 <div class="modal-body">
                     <slot name="body">
-                        Body
+                        {{ translate('body') }}
                     </slot>
                 </div>
                 <div v-if="needFooter" class="modal-footer">

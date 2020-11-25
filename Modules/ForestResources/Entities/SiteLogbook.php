@@ -5,6 +5,7 @@ namespace Modules\ForestResources\Entities;
 use App\Traits\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Admin\Entities\Company;
 
 class SiteLogbook extends Model
 {
@@ -58,6 +59,13 @@ class SiteLogbook extends Model
 
     public function anuualallowablecut(){
         return $this->belongsTo(AnnualAllowableCut::class,'AnnualAllowableCut');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function company () {
+        return $this->belongsTo(Company::class, 'Company');
     }
 
 }

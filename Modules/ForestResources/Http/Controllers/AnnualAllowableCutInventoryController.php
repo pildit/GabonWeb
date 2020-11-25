@@ -61,7 +61,7 @@ class AnnualAllowableCutInventoryController extends Controller
         $data = $request->validated();
 
         $srid = config('forestresources.srid');
-        $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$data['Lon']}, {$data['Lat']}),4326),$srid)";
+        $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$data['Lat']}, {$data['Lon']}),4326),$srid)";
         $data['Geometry'] = isset($data['Geometry']) ? DB::raw("public.st_geomfromtext('" . $data['Geometry'] . "', 5223)") : DB::raw("(select $geomQuery)");
 
         $AacId = AnnualAllowableCut::where("Id", $data['AnnualAllowableCut'])->value('AacId');
@@ -99,7 +99,7 @@ class AnnualAllowableCutInventoryController extends Controller
         $data = $request->validated();
 
         $srid = config('forestresources.srid');
-        $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$data['Lon']}, {$data['Lat']}),4326),$srid)";
+        $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$data['Lat']}, {$data['Lon']}),4326),$srid)";
         $data['Geometry'] = isset($data['Geometry']) ? DB::raw("public.st_geomfromtext('" . $data['Geometry'] . "', 5223)") : DB::raw("(select $geomQuery)");
 
         $annual_allowable_cut_inventory->update($data);

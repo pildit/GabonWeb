@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Nomenclatures')
+@section('title', @lang('nomenclatures'))
 
 @section('content')
 
@@ -9,7 +9,7 @@
   <section class="clean-block clean-services dark">
     <div class="container p-5">
       <div class="block-heading p-5">
-        <h2 class="text-success" style="color: rgb(90,135,8);opacity: 1;filter: blur(0px);">Nomenclatures</h2>
+        <h2 class="text-success" style="color: rgb(90,135,8);opacity: 1;filter: blur(0px);">{{ lang('nomenclatures') }}</h2>
         <p></p>
       </div>
       <div class="row" id="nomenclatures">

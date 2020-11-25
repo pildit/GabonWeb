@@ -18,6 +18,9 @@ import constituent_permit         from './constituent_permit';
 import concession         from './concession';
 import translation from "./translation";
 import logbooks from './logbooks';
+import sitelogbooks from "./sitelogbooks";
+import sitelogbookitems from "./sitelogbookitems";
+import permit from "./permit";
 import geoportal from './geoportal';
 
 Vue.use(Vuex);
@@ -98,6 +101,9 @@ export default new Vuex.Store({
         translation,
         logbooks,
         concession,
-        geoportal
+        geoportal,
+        sitelogbooks,
+        sitelogbookitems,
+        permit
     }
 });

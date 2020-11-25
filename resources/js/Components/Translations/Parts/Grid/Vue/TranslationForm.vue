@@ -1,19 +1,19 @@
 <template>
     <div>
         <div class="md-form mb-5">
-            <input type="text" v-model="form.text_key" id="text_key" name="text_key" class="form-control" v-validate="'required'">
+            <input type="text" v-model="form.text_key" name="text_key" class="form-control" v-validate="'required'">
             <label data-error="wrong" data-success="right" for="text_key" :class="{'active': form.text_key}">{{ translate('text_key') }}</label>
             <div v-show="errors.has('text_key')" class="invalid-feedback">{{ errors.first('text_key') }}</div>
         </div>
 
         <div class="md-form mb-5">
-            <input type="text" v-model="form.text_us" id="text_us" name="text_us" class="form-control" v-validate="'required'">
+            <input type="text" v-model="form.text_us" name="text_us" class="form-control" v-validate="'required'">
             <label data-error="wrong" data-success="right" for="text_us" :class="{'active': form.text_us}">{{ translate('text_us') }}</label>
             <div v-show="errors.has('text_us')" class="invalid-feedback">{{ errors.first('text_us') }}</div>
         </div>
 
         <div class="md-form mb-5">
-            <input type="text" v-model="form.text_ga" id="text_ga" name="text_ga" class="form-control" v-validate="'required'">
+            <input type="text" v-model="form.text_ga" name="text_ga" class="form-control" v-validate="'required'">
             <label data-error="wrong" data-success="right" for="text_ga" :class="{'active': form.text_ga}">{{ translate('text_ga') }}</label>
             <div v-show="errors.has('text_ga')" class="invalid-feedback">{{ errors.first('text_ga') }}</div>
         </div>

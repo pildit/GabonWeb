@@ -1,8 +1,8 @@
 <template>
     <div class="text-right">
-        <span class="btn btn-sm btn-outline-success" @click="edit()" ><i class="fas fa-edit"></i> {{translate('Edit')}}</span>
+        <span class="btn btn-sm btn-outline-success" @click="edit()" ><i class="fas fa-edit"></i> {{ translate('edit') }}</span>
         <item-modal :row-prop="rowProp" type-prop="edit" v-model="modals.form"></item-modal>
-        <switches v-model="isApproved" color="green" title="Approve Item" @input="approve" :emit-on-mount="false" v-tooltip></switches>
+        <switches v-model="isApproved" color="green" :title="translate('approve_item')" @input="approve" :emit-on-mount="false" v-tooltip></switches>
     </div>
 </template>
 
@@ -34,7 +34,7 @@ export default {
         },
       approve(val) {
         let promise =  Item.approve(this.rowProp.Id, {Approved: val}).then((response) => {
-          Notification.success('Parcel', response.data.message)
+          Notification.success(translate('parcel'), response.data.message)
           return response.data;
         });
 

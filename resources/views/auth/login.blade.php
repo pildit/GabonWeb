@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Login')
+@section('title', @lang('login'))
 
 @section('content')
     <div id="login-form">
