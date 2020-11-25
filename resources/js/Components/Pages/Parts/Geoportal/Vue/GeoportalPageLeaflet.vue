@@ -59,10 +59,27 @@ export default {
 
   data() {
     return {
-      renderParcels: true,
-      renderConcessions: true,
-      renderClusters: true,
+      renderAnnualAllowableCut: false,
+      renderParcels: false,
+      renderConcessions: false,
+      renderClusters: false,
+      renderUFA: false,
+      renderUFG: false,
+      renderAAC: false,
+      renderTrees: false,
       bbox: undefined,
+
+      dataCheckAAC: null,
+      dataViewAAC: null,
+
+      colorAnnualAllowableCut: "#ff0013",
+      colorParcels: "#34A34F",
+      colorConcessions: "#7c00ff",
+      colorClusters: "#0015ff",
+      colorUFA: "#00c4ff",
+      colorUFG: "#ebf30c",
+      colorAAC: "#ff9b00",
+      colorTrees: "#ff00c0",
 
       locations: [],
       icon: icon(
@@ -78,7 +95,7 @@ export default {
         width: window.innerWidth,
         height: window.innerHeight,
       },
-      map: null
+      map: null,
     };
   },
 
@@ -86,19 +103,26 @@ export default {
     ...mapGetters({
       annualAllowableCutInventory: "geoportal/annualAllowableCutInventory",
     }),
+    ...mapGetters({ annualAllowableCuts: "geoportal/annualAllowableCuts" }),
     ...mapGetters({ parcelsPerimeters: "geoportal/parcels" }),
     ...mapGetters({ concessionsPerimeters: "geoportal/concessions" }),
+    ...mapGetters({ developmentUnits: "geoportal/developmentUnits" }),
+    ...mapGetters({ managementUnits: "geoportal/managmentUnits" }),
   },
 
   destroyed() {
     window.removeEventListener("resize", this.handleResize);
   },
-  
+
   methods: {
     ...mapActions({
-      getPoints: "geoportal/getAnnualAllowableCutInventory",
+      getAnnualAllowableCutInventory:
+        "geoportal/getAnnualAllowableCutInventory",
+      getAnnualAllowableCuts: "geoportal/getAnnualAllowableCuts",
       getParcelsPerimeters: "geoportal/getParcelsVectors",
       getConcessionsPerimeters: "geoportal/getConcessions",
+      getDevelopmentUnits: "geoportal/getDevelopmentUnits",
+      getManagementUnits: "geoportal/getManagmentUnits",
     }),
 
     click: (e) => console.log("clusterclick", e),
@@ -153,9 +177,16 @@ export default {
       //   currentSouthWest.lng,
       // ];
 
-      const queryBbox = undefined // TODO
+      const queryBbox = undefined; // TODO
 
       console.log("QueryBbox", queryBbox);
+
+      /* Get AnnualAllowableCut */
+      if (this.renderAnnualAllowableCut) {
+        this.getAnnualAllowableCuts({ Name: "AAC2015" }).then(() => {
+          this.onGetCheckAAC();
+        });
+      }
 
       /* Get concessions */
       if (this.renderConcessions) {
@@ -175,9 +206,30 @@ export default {
         });
       }
 
-      /* Cluster setup */
-      if (this.renderClusters) {
-        this.getPoints({
+      /* Get UFA */
+      if (this.renderUFA) {
+        this.getDevelopmentUnits().then(() => {
+          this.onGetUFA();
+        });
+      }
+
+      /* Get UFG */
+      if (this.renderUFG) {
+        this.getManagementUnits().then(() => {
+          this.onGetUFG();
+        });
+      }
+
+      /* Get AAC */
+      if (this.renderAAC) {
+        this.getAnnualAllowableCuts().then(() => {
+          this.onGetViewAAC();
+        });
+      }
+
+      /* Get Trees */
+      if (this.renderTrees) {
+        this.getAnnualAllowableCutInventory({
           bbox: queryBbox,
         }).then(() => {
           this.clusterSetup(this.annualAllowableCutInventory);
@@ -187,13 +239,43 @@ export default {
       /* Set the new Bbox */
       this.bbox = currentBounds;
 
-      // this.getPoints({
+      // this.getAnnualAllowableCutInventory({
       //   bbox: [northEast.lat, northEast.lng, southWest.lat, southWest.lng],
       // }).then(() => {
       //   this.clusterSetup(this.annualAllowableCutInventory);
       // });
     },
 
+    /* ANNUAL ALLOWABLE CUT */
+    onGetCheckAAC() {
+      let map = this.$refs.map.mapObject;
+      this.dataCheckAAC = this.annualAllowableCuts;
+
+      let onEachFeature = (feature, layer) => {
+        if (
+          feature.properties &&
+          feature.properties.id &&
+          feature.properties.Name
+        ) {
+          layer.bindPopup(
+            this.translate("Id: " + feature.properties.id) +
+              " " +
+              this.translate("Name: " + feature.properties.Name)
+          );
+        }
+      };
+
+      L.geoJSON(this.dataCheckAAC, {
+        style: (feature) => {
+          return {
+            color: this.colorAnnualAllowableCut,
+          };
+        },
+        onEachFeature: onEachFeature,
+      }).addTo(map);
+    },
+
+    /* PARCELS */
     onGetParcels() {
       let map = this.$refs.map.mapObject;
 
@@ -206,31 +288,115 @@ export default {
       L.geoJSON(this.parcelsPerimeters, {
         style: (feature) => {
           return {
-            color: "#34A34F",
+            color: this.colorParcels,
           };
         },
         onEachFeature: onEachFeature,
       }).addTo(map);
     },
 
+    /* CONCESSIONS */
     onGetConcessions() {
       let map = this.$refs.map.mapObject;
 
       let onEachFeature = (feature, layer) => {
         if (feature.properties && feature.properties.id) {
-          layer.bindPopup(this.translate("Id:" + feature.properties.id));
+          layer.bindPopup(
+            this.translate("Concession Id:" + feature.properties.id)
+          );
         }
       };
 
       L.geoJSON(this.concessionsPerimeters, {
         style: (feature) => {
           return {
-            color: "#34A34F",
+            color: this.colorConcessions,
           };
         },
         onEachFeature: onEachFeature,
       }).addTo(map);
     },
+
+    /* UFA */
+    onGetUFA() {
+      let map = this.$refs.map.mapObject;
+
+      let onEachFeature = (feature, layer) => {
+        if (feature.properties && feature.properties.id) {
+          layer.bindPopup(this.translate("UFA Id:" + feature.properties.id));
+        }
+      };
+
+      L.geoJSON(this.developmentUnits, {
+        style: (feature) => {
+          return {
+            color: this.colorUFA,
+          };
+        },
+        onEachFeature: onEachFeature,
+      }).addTo(map);
+    },
+
+    /* UFG */
+    onGetUFG() {
+      let map = this.$refs.map.mapObject;
+
+      let onEachFeature = (feature, layer) => {
+        if (feature.properties && feature.properties.id) {
+          layer.bindPopup(this.translate("UFG Id:" + feature.properties.id));
+        }
+      };
+
+      L.geoJSON(this.managementUnits, {
+        style: (feature) => {
+          return {
+            color: this.colorUFG,
+          };
+        },
+        onEachFeature: onEachFeature,
+      }).addTo(map);
+    },
+
+    /* AAC */
+    onGetViewAAC() {
+      let map = this.$refs.map.mapObject;
+      this.dataViewAAC = this.annualAllowableCuts;
+
+      let onEachFeature = (feature, layer) => {
+        if (feature.properties && feature.properties.id) {
+          layer.bindPopup(this.translate("AAC Id:" + feature.properties.id));
+        }
+      };
+
+      L.geoJSON(this.dataViewAAC, {
+        style: (feature) => {
+          return {
+            color: this.colorAAC,
+          };
+        },
+        onEachFeature: onEachFeature,
+      }).addTo(map);
+    },
+
+    /* TREES */
+    // onGetTrees() {
+    //   let map = this.$refs.map.mapObject;
+
+    //   let onEachFeature = (feature, layer) => {
+    //     if (feature.properties && feature.properties.id) {
+    //       layer.bindPopup(this.translate("Tree Id:" + feature.properties.id));
+    //     }
+    //   };
+
+    //   L.geoJSON(this.annualAllowableCutInventory, {
+    //     style: (feature) => {
+    //       return {
+    //         color: this.colorAAC,
+    //       };
+    //     },
+    //     onEachFeature: onEachFeature,
+    //   }).addTo(map);
+    // },
 
     handleResize() {
       this.window.width = window.innerWidth;
@@ -238,8 +404,6 @@ export default {
 
       console.log("MODIFY: ", this.window.width, " x ", this.window.height);
     },
-
-    
   },
 
   mounted() {
@@ -251,7 +415,6 @@ export default {
 
     /* Load concessions and others based on the current zoom level */
     this.onMoveEnd();
-
 
     window.addEventListener("resize", () => {
       this.window.height = window.innerHeight;
