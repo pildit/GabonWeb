@@ -63,6 +63,7 @@ Route::middleware('jwt:api')->resource('/logbook_items', LogbookItemController::
 
 
 Route::middleware('jwt:api')->get('/site_logbooks/mobile', 'SiteLogbookController@mobile');
+Route::middleware('jwt:api')->patch('/site_logbooks/approve/{id}', 'SiteLogbookController@approve');
 Route::middleware('jwt:api')->resource('/site_logbooks', SiteLogbookController::class)->except(['edit', 'create']);
 Route::middleware('jwt:api')->get('/site_logbook_items/mobile', 'SiteLogbookItemController@mobile');
 Route::middleware('jwt:api')->resource('/site_logbook_items', SiteLogbookItemController::class)->except(['edit', 'create']);

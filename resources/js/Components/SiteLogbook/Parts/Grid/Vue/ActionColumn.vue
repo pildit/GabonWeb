@@ -27,7 +27,7 @@
 
         methods: {
             approve (val) {
-                SiteLogbook.approve(this.rowProp.Id).finally(() => this.rowProp.Approved = val);
+                SiteLogbook.approve(this.rowProp.Id, {Approved: val}).finally(() => this.rowProp.Approved = val);
             }
         }
     }

@@ -43,7 +43,7 @@ export default {
          * @returns {Promise<AxiosResponse<any>>}
          */
         approve({}, payload) {
-            return axios.patch(`api/site_logbooks/approve/${payload.id}`)
+            return axios.patch(`api/site_logbooks/approve/${payload.id}`, payload.data)
                 .then((response) => response);
         },
 
