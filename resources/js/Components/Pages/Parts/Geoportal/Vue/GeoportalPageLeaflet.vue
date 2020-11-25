@@ -22,7 +22,7 @@
       <v-tilelayer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></v-tilelayer>
       <v-marker-cluster
         :options="clusterOptions"
-        @clusterclick="click()"
+        @clusterclick="onTreeClusterClicked()"
         @ready="ready"
       >
         <v-marker
@@ -37,6 +37,8 @@
     </v-map>
   </div>
 </template>
+
+
 
 <script>
 import * as Vue2Leaflet from "vue2-leaflet";
@@ -86,6 +88,8 @@ export default {
       dataViewAAC: null,
       dataTrees: [],
 
+      featureHighlightColor: "#333333",
+
       colorAnnualAllowableCut: "#ff0013",
       colorParcels: "#34A34F",
       colorConcessions: "#7c00ff",
@@ -102,7 +106,9 @@ export default {
           shadowUrl,
         })
       ),
-      clusterOptions: {},
+      clusterOptions: {
+        chunkedLoading: true,
+      },
       initialLocation: latLng(-0.803698, 11.609454),
 
       window: {
@@ -139,7 +145,10 @@ export default {
       getManagementUnits: "geoportal/getManagmentUnits",
     }),
 
-    click: (e) => console.log("clusterclick", e),
+    onTreeClusterClicked: (e) => {
+      // TODO: More possible features
+      console.log("clusterclick", e);
+    },
     ready: (e) => console.log("ready", e),
 
     /* Execute methods */
@@ -303,8 +312,6 @@ export default {
       //   bbox: undefined,
       // }; // TODO
 
-      console.log("QueryBbox", queryBbox);
-
       /* Get AnnualAllowableCut */
       if (this.renderAnnualAllowableCut) {
         this.executeOnCheckAAC(this.annualAllowableCutNameId, queryBbox);
@@ -395,7 +402,19 @@ export default {
           };
         },
         onEachFeature: onEachFeature,
-      }).addTo(map);
+      });
+
+      this.dataParcels.on("click", (event) => {
+        const prevStyleColor = event.layer.options.color;
+        this.dataParcels.resetStyle();
+
+        if (prevStyleColor !== this.featureHighlightColor)
+          event.layer.setStyle({ color: this.featureHighlightColor });
+
+        const bounds = event.layer.getBounds();
+        map.fitBounds(bounds, { padding: [200, 200] });
+      });
+      this.dataParcels.addTo(map);
     },
 
     /* CONCESSIONS */
@@ -417,7 +436,19 @@ export default {
           };
         },
         onEachFeature: onEachFeature,
-      }).addTo(map);
+      });
+
+      this.dataConcessions.on("click", (event) => {
+        const prevStyleColor = event.layer.options.color;
+        this.dataConcessions.resetStyle();
+
+        if (prevStyleColor !== this.featureHighlightColor)
+          event.layer.setStyle({ color: this.featureHighlightColor });
+
+        const bounds = event.layer.getBounds();
+        map.fitBounds(bounds, { padding: [200, 200] });
+      });
+      this.dataConcessions.addTo(map);
     },
 
     /* UFA */
@@ -425,6 +456,11 @@ export default {
       let map = this.$refs.map.mapObject;
 
       let onEachFeature = (feature, layer) => {
+        // /* Bind click event */
+        // layer.on({
+        //   click: this.onUFAClicked,
+        // });
+
         if (feature.properties && feature.properties.id) {
           layer.bindPopup(this.translate("UFA Id:" + feature.properties.id));
         }
@@ -437,7 +473,19 @@ export default {
           };
         },
         onEachFeature: onEachFeature,
-      }).addTo(map);
+      });
+
+      this.dataUFA.on("click", (event) => {
+        const prevStyleColor = event.layer.options.color;
+        this.dataUFA.resetStyle();
+
+        if (prevStyleColor !== this.featureHighlightColor)
+          event.layer.setStyle({ color: this.featureHighlightColor });
+
+        const bounds = event.layer.getBounds();
+        map.fitBounds(bounds, { padding: [200, 200] });
+      });
+      this.dataUFA.addTo(map);
     },
 
     /* UFG */
@@ -450,6 +498,7 @@ export default {
         }
       };
 
+      console.log(this.managementUnits);
       this.dataUFG = L.geoJSON(this.managementUnits, {
         style: (feature) => {
           return {
@@ -457,7 +506,21 @@ export default {
           };
         },
         onEachFeature: onEachFeature,
-      }).addTo(map);
+      });
+
+      this.dataUFG.on("click", (event) => {
+        const prevStyleColor = event.layer.options.color;
+        this.dataUFG.resetStyle();
+
+        if (prevStyleColor !== this.featureHighlightColor)
+          event.layer.setStyle({ color: this.featureHighlightColor });
+
+        /* Bounds fitting */
+        const bounds = event.layer.getBounds();
+        map.fitBounds(bounds, { padding: [200, 200] });
+      });
+
+      this.dataUFG.addTo(map);
     },
 
     /* AAC */
@@ -465,6 +528,11 @@ export default {
       let map = this.$refs.map.mapObject;
 
       let onEachFeature = (feature, layer) => {
+        /* Bind click event */
+        layer.on({
+          click: () => this.onFeatureClicked(layer),
+        });
+
         if (feature.properties && feature.properties.id) {
           layer.bindPopup(this.translate("AAC Id:" + feature.properties.id));
         }
