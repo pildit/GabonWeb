@@ -15,22 +15,22 @@ export default (options) => {
         },
         columns: {
             Id: {
-                header: "Id"
+                header: "id"
             },
             Name: {
-                header: "Abbreviation"
+                header: "abbreviation"
             },
             Approved: {
-                header: "Approved"
+                header: "approved"
             },
             Email: {
-                header: "Email",
+                header: "email",
             },
             CreatedAt: {
-                header: "Created At",
+                header: "created_at",
             },
             actions: {
-                header: 'Actions',
+                header: 'actions',
                 sort: false,
                 css: {
                   textAlign: "right"

@@ -40,7 +40,7 @@ class SiteLogbookItem extends Model
     public function logs(){
         return $this->hasMany(SiteLogbookLog::class,'SiteLogbookItem');
     }
-    public function species(){
+    public function family(){
         return $this->belongsTo(Species::class,'Species');
     }
 

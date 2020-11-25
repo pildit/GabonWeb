@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Api DOCS</title>
+    <title>@lang('api_docs')</title>
     <link href="/css/all.css" rel="stylesheet">
 </head>
 <body>

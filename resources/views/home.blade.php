@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', "Home")
+@section('title', @lang('home'))
 
 @section('content')
     <div id="landingpage">

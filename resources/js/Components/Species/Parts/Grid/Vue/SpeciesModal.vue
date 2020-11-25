@@ -1,7 +1,7 @@
 <template>
   <bmodal ref="speciesModal" size="medium" :closed="() => $emit('display', false)">
     <div slot="title">
-      <h4 class="modal-title w-100 font-weight-bold">{{translate('add_species')}}</h4>
+      <h4 class="modal-title w-100 font-weight-bold">{{ translate('add_species') }}</h4>
     </div>
     <div slot="body">
       <species-form ref="SpeciesForm" @done="closeModal"></species-form>

@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Management Unit Create')
+@section('title', @lang('management_unit_create'))
 
 @section('content')
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-4">
-                THE MAP
+                {{ lang('the_map') }}
             </div>
             <div class="col-md-8 mt-4" id="management-unit-form">
                 <management-unit-form></management-unit-form>

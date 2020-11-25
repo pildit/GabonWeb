@@ -2,7 +2,7 @@
     <div class="text-right">
         <button class="btn btn-sm btn-outline-success" @click="editRole(rowProp.id)" v-if="rowProp.name != 'admin'">
             <i class="fas fa-edit"></i>
-            {{translate('edit')}}
+            {{ translate('edit') }}
         </button>
         <role-modal type-prop="edit" v-model="modals.form"></role-modal>
     </div>

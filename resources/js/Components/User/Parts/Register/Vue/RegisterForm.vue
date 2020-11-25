@@ -3,12 +3,12 @@
         <div class="container text-center pt-5">
             <div class="card mx-auto mb-5" style="width:500px">
                 <h5 class="card-header success-color white-text text-center py-4">
-                    <strong>{{translate('sign_up')}}</strong>
+                    <strong>{{ translate('sign_up') }}</strong>
                 </h5>
                 <div class="card-body px-lg-5 ">
                     <form @submit.prevent="onSubmit" id='sign_up_form' novalidate>
                         <div class="md-form ">
-                            <label for="firstname">{{translate('first_name')}}</label>
+                            <label for="firstname">{{ translate('first_name') }}</label>
                             <input type="text"
                                    v-model="registerForm.firstname"
                                    v-validate="'required'"
@@ -19,7 +19,7 @@
                             <div v-show="errors.has('firstname')" class="invalid-feedback">{{ errors.first('firstname') }}</div>
                         </div>
                         <div class="md-form ">
-                            <label for="lastname">{{translate('last_name')}}</label>
+                            <label for="lastname">{{ translate('last_name') }}</label>
                             <input type="text"
                                    v-model="registerForm.lastname"
                                    v-validate="'required'"
@@ -30,7 +30,7 @@
                             <div v-show="errors.has('lastname')" class="invalid-feedback">{{ errors.first('lastname') }}</div>
                         </div>
                         <div class="md-form">
-                            <label for="email">{{translate('email')}}</label>
+                            <label for="email">{{ translate('email') }}</label>
                             <input type="email"
                                    v-model="registerForm.email"
                                    v-validate="'required|email'"
@@ -41,7 +41,7 @@
                             <div v-show="errors.has('email')" class="invalid-feedback">{{ errors.first('email') }}</div>
                         </div>
                         <div class="md-form">
-                            <label for="password">{{translate('password')}}</label>
+                            <label for="password">{{ translate('password') }}</label>
                             <input type="password"
                                    ref="password"
                                    v-model="registerForm.password"
@@ -54,7 +54,7 @@
                         </div>
 
                         <div class="md-form">
-                            <label for="confirm_password">{{translate('confirm_password')}}</label>
+                            <label for="confirm_password">{{ translate('confirm_password') }}</label>
                             <input type="password"
                                    v-model="registerForm.password_confirmation"
                                    v-validate="'required|confirmed:password'"
@@ -70,8 +70,8 @@
                         </div>
                         <button type='submit' class='btn btn-outline-success btn-rounded btn-block my-4 waves-effect z-depth-0'>{{translate('sign_up')}}</button>
                     </form>
-                    <div class="alert alert-danger" v-show="failed">{{translate(failed)}}</div>
-                    <div class="alert alert-success" v-show="success">{{translate(success)}}</div>
+                    <div class="alert alert-danger" v-show="failed">{{ translate(failed) }}</div>
+                    <div class="alert alert-success" v-show="success">{{ translate(success) }}</div>
 
                 </div>
             </div>

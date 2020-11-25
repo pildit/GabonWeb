@@ -75,14 +75,17 @@ Route::middleware('jwt:api')->resource('/logbook_items', LogbookItemController::
 //Sitelogbook
 Route::middleware('jwt:api')->get('/site_logbooks/export', 'SiteLogbookController@export');
 Route::middleware('jwt:api')->get('/site_logbooks/mobile', 'SiteLogbookController@mobile');
+Route::middleware('jwt:api')->patch('/site_logbooks/approve/{id}', 'SiteLogbookController@approve');
 Route::middleware('jwt:api')->resource('/site_logbooks', SiteLogbookController::class)->except(['edit', 'create']);
 //Sitelogbook items
 Route::middleware('jwt:api')->get('/site_logbook_items/export', 'SiteLogbookItemController@export');
 Route::middleware('jwt:api')->get('/site_logbook_items/mobile', 'SiteLogbookItemController@mobile');
+Route::middleware('jwt:api')->patch('/site_logbook_items/approve/{id}', 'SiteLogbookItemController@approve');
 Route::middleware('jwt:api')->resource('/site_logbook_items', SiteLogbookItemController::class)->except(['edit', 'create']);
 //Sitelogbook logs
 Route::middleware('jwt:api')->get('/site_logbook_logs/export', 'SiteLogbookLogController@export');
 Route::middleware('jwt:api')->get('/site_logbook_logs/mobile', 'SiteLogbookLogController@mobile');
+Route::middleware('jwt:api')->patch('/site_logbook_logs/approve/{id}', 'SiteLogbookLogController@approve');
 Route::middleware('jwt:api')->resource('/site_logbook_logs', SiteLogbookLogController::class)->except(['edit', 'create']);
 //Permit Types
 Route::middleware('jwt:api')->get('/permit_types/export', 'PermitTypesController@export');

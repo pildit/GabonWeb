@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Register')
+@section('title', @lang('register'))
 
 @section('content')
     <div id="register-form">

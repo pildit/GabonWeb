@@ -48,6 +48,8 @@ Route::middleware('auth.jwt')->group(function () {
 
     Route::get('/translations', 'TranslationController@index');
     Route::view('/logbooks', 'transportation.logbooks');
-});
+    Route::get('/sitelogbooks', 'SiteLogbookItemsController@index');
+    Route::get('/sitelogbook', 'SiteLogbookItemsController@view');
 
+});
 

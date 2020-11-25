@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Species')
+@section('title', @lang('species'))
 
 @section('content')
 <div id="species-grid">

@@ -15,8 +15,8 @@
     </div>
 
     <div class="md-form mb-5">
-      <input type="text" v-model="form.PermitNumber" name="PermitNumber" class="form-control" v-validate="'required'">
-      <label data-error="wrong" data-success="right" for="PermitNumber" :class="{'active': form.PermitNumber}">{{ translate('Permit Number') }}</label>
+      <input type="text" v-model="form.PermitNumber" id="PermitNumber" name="PermitNumber" class="form-control" v-validate="'required'">
+      <label data-error="wrong" data-success="right" for="PermitNumber" :class="{'active': form.PermitNumber}">{{ translate('permit_number') }}</label>
       <div v-show="errors.has('PermitNumber')" class="invalid-feedback">{{ errors.first('PermitNumber') }}</div>
     </div>
 

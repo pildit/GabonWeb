@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section('title', "Home")
+@section('title', @lang('geoportal'))
 
 @section('content')
     <div>
-        GEOPORTAL
+        {{ lang('geoportal') }}
     </div>
 @endsection
 

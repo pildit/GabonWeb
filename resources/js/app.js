@@ -30,6 +30,9 @@ import Translation from './Components/Translations/Translation'
 import DevelopmentPlan from "./Components/Management/DevelopmentPlan/DevelopmentPlan";
 import ManagementUnit from "./Components/Management/ManagementUnit/ManagementUnit";
 
+import SiteLogbook from "./Components/SiteLogbook/SiteLogbook";
+import SiteLogbookItem from "./Components/SiteLogbookItem/SiteLogbookItem";
+
 Vue.config.devtools = true;
 window.Vent         = new Vue;
 
@@ -68,6 +71,8 @@ Gabon.Quality = Quality;
 Gabon.ProductType = ProductType;
 Gabon.Concession = Concession;
 Gabon.Logbook = Logbook;
+Gabon.SiteLogbook = SiteLogbook;
+Gabon.SiteLogbookItem = SiteLogbookItem;
 
 Gabon.Management = {
     DevelopmentUnit: DevelopmentUnit,

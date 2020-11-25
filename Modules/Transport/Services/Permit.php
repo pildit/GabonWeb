@@ -55,7 +55,7 @@ class Permit extends PageResults
                 'properties' => [
                     "id" => $item->Id,
                     "PermitNo" => $item->PermitNo,
-                    "Concession" => $item->concession ? $item->concessions->Name : $item->Concession,
+                    "Concession" => $item->concession ? $item->concession->Name : $item->Concession,
                     "ManagementUnit" => $item->managementunit ? $item->managementunit->Name : $item->ManagementUnit,
                     "DevelopmentUnit" => $item->developmentunit ? $item->developmentunit->Name : $item->DevelopmentUnit,
                     "AnnualAllowableCut" => $item->annualallowablecut ? $item->annualallowablecut->Name : $item->AnnualAllowableCut,
