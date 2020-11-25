@@ -40,7 +40,7 @@
             v-model="checkPicked"
             v-on:click="onCheckNone"
           />
-          <label class="form-check-label" for="none">None</label>
+          <label  class="form-check-label" for="none"><h5 class="text-dark">None</h5></label>
           <br />
 
           <!-- Check plate number -->
@@ -52,7 +52,7 @@
             v-model="checkPicked"
           />
           <label class="form-check-label" for="checkPlateNumber"
-            >Check plate number</label
+            ><h5 class="text-dark">Check plate number</h5></label
           >
           <br />
           <div class="row">
@@ -126,7 +126,7 @@
             v-model="checkPicked"
           />
           <label class="form-check-label" for="checkAnnualAllowableCut"
-            >Check Annual Allowable cut</label
+            ><h5 class="text-dark">Check Annual Allowable cut</h5></label
           >
           <br />
 
@@ -179,7 +179,7 @@
             v-model="checkPicked"
           />
           <label class="form-check-label" for="checkTransportPermit"
-            >Check Transport Permit</label
+            ><h5 class="text-dark">Check Transport Permit</h5></label
           >
           <br v-if="checkPicked == 'checkTransportPermit'" />
 
