@@ -29,7 +29,7 @@ class UserController extends Controller
     {
         $this->middleware('permission:users.view')->only('index', 'show', 'listTypes');
 
-        $this->middleware('permission:users.add')->only('store');
+        $this->middleware('permission:users.add')->only('createAccount');
 
         $this->middleware('permission:users.edit')->only('update');
 
