@@ -6,7 +6,7 @@
       ref="map"
       :zoom="7"
       :center="initialLocation"
-      :style="{ height: window.height + 'px', width: '100%' }"
+      :style="{ height: window.height - 78 + 'px', width: '100%' }"
     >
       <v-icondefault></v-icondefault>
       <v-tilelayer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></v-tilelayer>
