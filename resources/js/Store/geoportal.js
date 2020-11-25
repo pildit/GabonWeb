@@ -148,7 +148,7 @@ export default {
                 apiString = getParametrizedString(apiString, payload)
             }
 
-            return axios.get(``)
+            return axios.get(apiString)
                 .then((responseData) => commit('mutateAnnualAllowableCuts', responseData.data)
                 );
         },
