@@ -40,7 +40,7 @@
                 this.modals.info = true
             },
             approve (val) {
-                SiteLogbookItem.approve(this.rowProp.Id).finally(() => this.rowProp.Approved = val);
+                SiteLogbookItem.approve(this.rowProp.Id, {Approved: val}).finally(() => this.rowProp.Approved = val);
             },
             displayEvent (value) {
                 this.modal.info = value

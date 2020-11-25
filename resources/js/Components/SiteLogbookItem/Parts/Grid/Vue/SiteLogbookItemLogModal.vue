@@ -74,7 +74,7 @@
                             <td class="bold">{{ item.species.CommonName }}</td>
                             <th>{{ translate('actions') }}</th>
                             <td class="bold">
-                                <switches v-model="item.Approved" color="green" :title="translate('approve_logbook_item')" @input="approveLog(item.Id)" :emit-on-mount="false" v-tooltip></switches>
+                                <switches v-model="item.Approved" color="green" :title="translate('approve_logbook_item')" @input="approveLog($event,item.Id)" :emit-on-mount="false" v-tooltip></switches>
                             </td>
                         </tr>
                         </tbody>
@@ -92,6 +92,7 @@
     import bmodal from 'components/Common/BootstrapModal.vue';
     import {mapGetters} from 'vuex';
     import Switches from 'vue-switches';
+    import SiteLogbookItem from "../../../SiteLogbookItem";
 
     export default {
         model: {
@@ -120,8 +121,8 @@
             }
         },
         methods: {
-            approveLog (id) {
-                // TODO
+            approveLog (val, id) {
+                SiteLogbookItem.approveLog(id, {Approved: val}).finally(() => this.rowProp.Approved = val);
             }
         }
     }

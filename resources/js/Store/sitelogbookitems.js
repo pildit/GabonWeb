@@ -57,13 +57,12 @@ export default {
                 .then((responseData) => commit('itemLogs', responseData.data));
         },
 
-        /**
-         * TODO Approve pe backend. Oricum las asta aici.
-         * @param payload
-         * @returns {Promise<AxiosResponse<any>>}
-         */
         approve({}, payload) {
-            return axios.patch(`api/site_logbook_items/approve/${payload.id}`)
+            return axios.patch(`api/site_logbook_items/approve/${payload.id}`, payload.data)
+                .then((response) => response);
+        },
+        approveLog({}, payload) {
+            return axios.patch(`api/site_logbook_logs/approve/${payload.id}`, payload.data)
                 .then((response) => response);
         },
 

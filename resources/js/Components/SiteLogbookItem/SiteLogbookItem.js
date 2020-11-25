@@ -18,8 +18,12 @@ class SiteLogbookItem extends Base {
         return store.dispatch('sitelogbookitems/get', {id});
     }
 
-    static approve(id) {
-        return store.dispatch('sitelogbookitems/approve', {id});
+    static approve(id, data) {
+        return store.dispatch('sitelogbookitems/approve', {id, data});
+    }
+
+    static approveLog(id, data) {
+        return store.dispatch('sitelogbookitems/approveLog', {id, data});
     }
 
 }
