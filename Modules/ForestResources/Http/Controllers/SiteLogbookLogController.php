@@ -6,7 +6,6 @@ namespace Modules\ForestResources\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\PageResults;
 use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\SiteLogbookLog;
 use Modules\ForestResources\Entities\Species;
