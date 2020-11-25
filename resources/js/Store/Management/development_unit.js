@@ -54,7 +54,7 @@ export default {
             let id = payload.id;
             let data = payload.data;
             return axios.patch(`api/development_units/approve/${id}`, data)
-                .then((response) => response.data);
+                .then((response) => response);
         },
         listSearch({}, payload) {
             return axios.get(`api/development_units/list?name=${payload.name}&limit=${payload.limit}`)

@@ -69,6 +69,8 @@ class ConcessionsController extends Controller
      */
     public function show(Concession $concession)
     {
+//        $concession->load(['constituent_permit', 'company']);
+
         return response()->json([
             'data' => $concession
         ], 200);

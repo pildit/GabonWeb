@@ -34,6 +34,36 @@ export default new Vuex.Store({
         },
         lang: Vue.prototype.$cookies.language || 'en',
         menu: [],
+        continents: [
+            {
+                "Code": "AF",
+                "Name": "Africa"
+            },
+            {
+                "Code": "NA",
+                "Name": "North America"
+            },
+            {
+                "Code": "OC",
+                "Name": "Oceania"
+            },
+            {
+                "Code": "AN",
+                "Name": "Antarctica"
+            },
+            {
+                "Code": "AS",
+                "Name": "Asia"
+            },
+            {
+                "Code": "EU",
+                "Name": "Europe"
+            },
+            {
+                "Code": "SA",
+                "Name": "South America"
+            }
+        ],
         loggedUser: {},
         logged_in: Vue.prototype.$cookies.jwt ? true:false
     },

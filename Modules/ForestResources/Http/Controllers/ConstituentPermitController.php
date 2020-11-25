@@ -170,4 +170,24 @@ class ConstituentPermitController extends Controller
 
         return Excel::download(new Exporter($collection, $headings), 'constituent_permit.xlsx');
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function listConstituentPermits(Request $request)
+    {
+        $cp = ConstituentPermit::where('PermitNumber', 'ilike', "%{$request->get('name')}%")
+            ->take($request->get('limit', 100))
+            ->get(['Id', 'PermitNumber']);
+
+        return response()->json([
+            'data' => $cp->map(function ($item) {
+                return [
+                    'Id' => $item->Id,
+                    'PermitNumber' => $item->PermitNumber
+                ];
+            })
+        ]);
+    }
 }

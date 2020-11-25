@@ -13,7 +13,7 @@
                                 v-validate="'required'"
                                 v-model="form.PermitType"
                                 :options="permitTypeList.data"
-                                :placeholder="translate('development_unit_select_label')"
+                                :placeholder="translate('permit_type_select_label')"
                                 track-by="Id"
                                 label="Name"
                                 :hide-selected="true"
@@ -27,7 +27,7 @@
                                 <template slot="singleLabel" slot-scope="{ option }">{{ option.Name }} ({{option.Abbreviation}})</template>
                                 <template slot="option" slot-scope="{option}">{{ option.Name }} ({{option.Abbreviation}})</template>
                             </multiselect>
-                            <div v-show="errors.has('DevelopmentUnit')" class="invalid-feedback">{{ errors.first('DevelopmentUnit') }}</div>
+                            <div v-show="errors.has('PermitType')" class="invalid-feedback">{{ errors.first('PermitType') }}</div>
                         </div>
                     </div>
                     <div class="col">
@@ -99,7 +99,6 @@ export default {
         },
         save() {
             this.$validator.validate().then((valid) => {
-                console.log(valid);
                 if(valid) {
                     this.saveLoading = true;
                     let promise = this.isCreatedFormType ? this.create : this.update

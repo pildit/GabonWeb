@@ -26,11 +26,11 @@ class ConcessionsController extends Controller
 
     public function create()
     {
-        //
+        return view('concessions.create');
     }
 
     public function edit($id)
     {
-        //
+        return view('concessions.edit', ['id' => $id]);
     }
 }
