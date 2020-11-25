@@ -1,14 +1,14 @@
 <template>
   <bmodal ref="ProductTypesModal"  size="medium" :closed="() => $emit('display', false)">
   <div slot="title">
-    <h4 class="modal-title w-100 font-weight-bold">{{translate('add_product_type')}}</h4>
+    <h4 class="modal-title w-100 font-weight-bold">{{ translate('add_product_type') }}</h4>
   </div>
     <div slot="body">
       <product-type-form ref="ProductTypeForm" @done="closeModal"></product-type-form>
     </div>
     <div slot="footer">
-      <button @click="submit" class="btn btn-default">Save</button>
-      <button @click="closeModal" class="btn btn-warning">Cancel</button>
+      <button @click="submit" class="btn btn-default">{{ translate('save')}}</button>
+      <button @click="closeModal" class="btn btn-warning">{{ translate('cancel') }}</button>
     </div>
   </bmodal>
 </template>

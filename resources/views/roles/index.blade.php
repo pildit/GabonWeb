@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Roles')
+@section('title', @lang('roles'))
 
 @section('content')
     <div id="roles-grid">

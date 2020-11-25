@@ -1,8 +1,8 @@
 <template>
     <bmodal ref="translationsModal" size="medium" :closed="() => $emit('display', false)">
         <div slot="title">
-            <h4 class="modal-title w-100 font-weight-bold" v-if="typeProp === 'create'">{{translate('add_translation')}}</h4>
-            <h4 class="modal-title w-100 font-weight-bold" v-else>{{translate('edit_translation')}}</h4>
+            <h4 class="modal-title w-100 font-weight-bold" v-if="typeProp === 'create'">{{ translate('add_translation') }}</h4>
+            <h4 class="modal-title w-100 font-weight-bold" v-else>{{ translate('edit_translation') }}</h4>
         </div>
         <div slot="body">
             <translation-form ref="translationsForm" @done="closeModal"></translation-form>

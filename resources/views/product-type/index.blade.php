@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Product types')
+@section('title', @lang('product_types'))
 
 @section('content')
 <div id="product-types-grid">

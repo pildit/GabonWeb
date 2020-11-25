@@ -1,14 +1,14 @@
 <template>
     <bmodal ref="roleModal" size="medium" :closed="() => $emit('display', false)">
         <div slot="title">
-            <h4 class="modal-title w-100 font-weight-bold">{{translate('add_role')}}</h4>
+            <h4 class="modal-title w-100 font-weight-bold">{{ translate('add_role') }}</h4>
         </div>
         <div slot="body">
             <role-form ref="roleForm" @done="closeModal"></role-form>
         </div>
         <div slot="footer">
-            <button @click="submit" class="btn btn-default">{{translate('save')}}</button>
-            <button @click="closeModal"class="btn btn-warning">{{translate('cancel')}}</button>
+            <button @click="submit" class="btn btn-default">{{ translate('save') }}</button>
+            <button @click="closeModal"class="btn btn-warning">{{ translate('cancel') }}</button>
         </div>
     </bmodal>
 </template>

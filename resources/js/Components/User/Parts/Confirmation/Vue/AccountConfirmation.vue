@@ -8,7 +8,7 @@
                     </div>
                     <div v-else>
                         <h3 class="card-title h3-responsive pt-3 mb-5 font-bold">
-                            <strong>{{message}}</strong>
+                            <strong>{{ message }}</strong>
                         </h3>
                     </div>
                 </div>

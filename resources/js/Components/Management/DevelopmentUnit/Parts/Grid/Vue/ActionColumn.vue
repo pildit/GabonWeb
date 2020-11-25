@@ -1,11 +1,11 @@
 <template>
     <div>
         <a :href="editRoute()" class="text-success aligned fz-16"
-           :title="translate('Edit')"
+           :title="translate('edit')"
            v-tooltip>
             <i class="fas fa-edit"></i>
         </a>
-        <switches v-model="isApproved" color="green" title="Approve Item" @input="approve" :emit-on-mount="false" v-tooltip></switches>
+        <switches v-model="isApproved" color="green" :title="translate('approve_item')" @input="approve" :emit-on-mount="false" v-tooltip></switches>
     </div>
 </template>
 
@@ -32,7 +32,7 @@ export default {
 
         approve(value) {
             DevelopmentUnit.approve(this.rowProp.Id, {Approved: value}).then((response) => {
-                Notification.success('Development Unit', response.message);
+                Notification.success(translate('development_unit'), response.message);
                 this.rowProp.Approved = value;
             });
         }

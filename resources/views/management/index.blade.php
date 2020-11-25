@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Mangement')
+@section('title', @lang('management'))
 
 @section('content')
 
@@ -10,7 +10,7 @@
             <div class="container p-5">
                 @verbatim
                 <div class="block-heading p-5">
-                    <h2 class="text-success" style="color: rgb(90,135,8);opacity: 1;filter: blur(0px);">{{translate('management')}}</h2>
+                    <h2 class="text-success" style="color: rgb(90,135,8);opacity: 1;filter: blur(0px);">{{ translate('management') }}</h2>
                     <p></p>
                 </div>
                 @endverbatim

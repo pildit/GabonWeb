@@ -23,6 +23,9 @@ export default (options) => {
             PermitNumber: {
                 header: "permit_number"
             },
+            Approved: {
+                header: "approved"
+            },
             Email: {
                 header: "email",
             },
@@ -31,7 +34,7 @@ export default (options) => {
                 render: (row) => `<span>${moment(row.CreatedAt).format('YYYY-MM-DD HH:mm:ss')}</span>`
             },
             actions: {
-                header: 'Actions',
+                header: 'actions',
                 sort: false,
                 css: {
                     textAlign: "right"
