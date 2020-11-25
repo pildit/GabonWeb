@@ -114,6 +114,14 @@ export default {
                 end_date: this.end_date
             }
 
+            const queryString = window.location.search
+            const urlParams = new URLSearchParams(queryString)
+            const entries = urlParams.entries();
+
+            for(const entry of entries) {
+                data[entry[0]] = entry[1]
+            }
+
             this.$store.dispatch(this.options.store.action, data)
                 .then((response) => response.data)
                 .then((pagination) => {
