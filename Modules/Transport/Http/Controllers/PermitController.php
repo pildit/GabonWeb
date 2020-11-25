@@ -30,7 +30,7 @@ class PermitController extends Controller
 
     public function __construct()
     {
-        $this->middleware('permission:permit.view')->only('index', 'show');
+        $this->middleware('permission:permit.view')->only('index', 'show', 'trackingVectors');
 
         $this->middleware('permission:permit.add')->only('store');
 
@@ -221,8 +221,23 @@ class PermitController extends Controller
 
     /**
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @param Permit $permitService
+     * @return \Illuminate\Http\JsonResponse
      */
+
+    public function trackingVectors(Request $request, Permit $permitService){
+        $request->validate([
+            'bbox' => 'string',
+        ]);
+
+        return response()->json([
+            'type' => 'FeatureCollection',
+            'name' => 'tracking',
+            'features' => $permitService->getTrackingVectors(
+                $request->get('bbox', config('transport.default_bbox'))
+            )
+        ]);
+    }
 
     public function export(Request $request)
     {
