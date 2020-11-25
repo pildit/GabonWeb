@@ -91,7 +91,7 @@ class ParcelController extends Controller
 
           */
 
-        $data['User']  = $this->JwtPayload(' data.id');
+        $data['User']  = $this->jwtPayload('data.id');
 
         $parcel = Parcel::create($data);
 
