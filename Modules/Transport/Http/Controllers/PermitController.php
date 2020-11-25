@@ -45,9 +45,12 @@ class PermitController extends Controller
 
         $pr->setSortFields(['Id']);
         // CHECKME: not sure we need all these relationships.
-        $request->merge(['search'=>$request->get("search")]);
+//        $request->merge(['search'=>$request->get("search")]);
         // TODO: search does'nt work.
-        return response()->json($pr->getPaginator($request, PermitEntity::class, ['AnnualAllowableCut', 'TransporterCompany'],['annualallowablecut', 'clientcompany', 'concessionairecompany', 'transportercompany']));
+        return response()->json($pr->getPaginator($request, PermitEntity::class,
+            ['AnnualAllowableCutName', 'TransporterCompanyName'],
+            ['annualallowablecut', 'clientcompany', 'concessionairecompany', 'transportercompany']
+        ));
 
     }
 
