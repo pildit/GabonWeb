@@ -393,7 +393,7 @@ class Permit extends PageResults
         /**
          * TODO check if there are cases where we have permits without parent ( PermitNoMobile = MobileId )
          */
-        $this->query->whereColumn('PermitNoMobile','MobileId');
+//        $this->query->whereColumn('PermitNoMobile','MobileId');
 
         return $this->setFilters($searchFields)->getResults();
     }

@@ -50,6 +50,6 @@ Route::middleware('auth.jwt')->group(function () {
     Route::view('/logbooks', 'transportation.logbooks');
     Route::get('/sitelogbooks', 'SiteLogbookItemsController@index');
     Route::get('/sitelogbook', 'SiteLogbookItemsController@view');
+    Route::view('/permits', 'transportation.permits');
 
 });
-

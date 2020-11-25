@@ -20,6 +20,7 @@ import translation from "./translation";
 import logbooks from './logbooks';
 import sitelogbooks from "./sitelogbooks";
 import sitelogbookitems from "./sitelogbookitems";
+import permit from "./permit";
 
 Vue.use(Vuex);
 Vue.use(cookie)
@@ -99,6 +100,7 @@ export default new Vuex.Store({
         translation,
         logbooks,
         sitelogbooks,
-        sitelogbookitems
+        sitelogbookitems,
+        permit
     }
 });

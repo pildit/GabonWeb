@@ -53,8 +53,13 @@ class PermitController extends Controller
     {
 
         $pr->setSortFields(['Id']);
-
-        return response()->json($pr->getPaginator($request, PermitEntity::class, ["PermitNo"],['annualallowablecut','clientcompany','concessionairecompany','transportercompany']));
+        // CHECKME: not sure we need all these relationships.
+//        $request->merge(['search'=>$request->get("search")]);
+        // TODO: search does'nt work.
+        return response()->json($pr->getPaginator($request, PermitEntity::class,
+            ['AnnualAllowableCutName', 'TransporterCompanyName'],
+            ['annualallowablecut', 'clientcompany', 'concessionairecompany', 'transportercompany']
+        ));
 
     }
 
@@ -64,7 +69,9 @@ class PermitController extends Controller
      */
     public function show(PermitEntity $permit)
     {
-        $permit['permit_child'] = PermitEntity::where("PermitNoMobile","=",$permit->PermitNoMobile)->where("Id","!=",$permit->Id)->get();
+        $permit['permit_child'] = PermitEntity::where('PermitNoMobile', $permit->PermitNoMobile)->where('Id', '!=', $permit->Id)->get();
+        $permit->load(['annualallowablecut', 'clientcompany', 'concessionairecompany', 'transportercompany',
+            'concession', 'managementunit', 'developmentunit']);
         return response()->json(['data' => $permit]);
     }
 

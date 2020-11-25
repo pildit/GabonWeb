@@ -23,6 +23,7 @@ import Parcel from './Components/Parcel/Parcel';
 import Quality from './Components/Quality/Quality';
 import ProductType from './Components/ProductType/ProductType';
 import Logbook from './Components/Logbook/Logbook';
+import Permit from "./Components/Permit/Permit";
 import DevelopmentUnit from "./Components/Management/DevelopmentUnit/DevelopmentUnit";
 import ConstituentPermit from './Components/ConstituentPermit/ConstituentPermit';
 import Concession from './Components/Concession/Concession';
@@ -73,6 +74,7 @@ Gabon.Concession = Concession;
 Gabon.Logbook = Logbook;
 Gabon.SiteLogbook = SiteLogbook;
 Gabon.SiteLogbookItem = SiteLogbookItem;
+Gabon.Permit = Permit;
 
 Gabon.Management = {
     DevelopmentUnit: DevelopmentUnit,
