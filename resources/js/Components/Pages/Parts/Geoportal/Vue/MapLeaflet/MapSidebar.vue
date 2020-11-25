@@ -40,7 +40,7 @@
             v-model="checkPicked"
             v-on:click="onCheckNone"
           />
-          <label  class="form-check-label" for="none"><h5 class="text-dark">None</h5></label>
+          <label  class="form-check-label" for="none"><h6 class="text-dark">None</h6></label>
           <br />
 
           <!-- Check plate number -->
@@ -52,7 +52,7 @@
             v-model="checkPicked"
           />
           <label class="form-check-label" for="checkPlateNumber"
-            ><h5 class="text-dark">Check plate number</h5></label
+            ><h6 class="text-dark">Check plate number</h6></label
           >
           <br />
           <div class="row">
@@ -126,7 +126,7 @@
             v-model="checkPicked"
           />
           <label class="form-check-label" for="checkAnnualAllowableCut"
-            ><h5 class="text-dark">Check Annual Allowable cut</h5></label
+            ><h6 class="text-dark">Check Annual Allowable cut</h6></label
           >
           <br />
 
@@ -179,7 +179,7 @@
             v-model="checkPicked"
           />
           <label class="form-check-label" for="checkTransportPermit"
-            ><h5 class="text-dark">Check Transport Permit</h5></label
+            ><h6 class="text-dark">Check Transport Permit</h6></label
           >
           <br v-if="checkPicked == 'checkTransportPermit'" />
 
@@ -461,6 +461,7 @@ export default {
   overflow: hidden;
   z-index: 2000;
 }
+
 .leaflet-sidebar.collapsed {
   width: 40px;
 }
@@ -545,7 +546,7 @@ export default {
 .leaflet-sidebar-tabs > li.active,
 .leaflet-sidebar-tabs > ul > li.active {
   color: #fff;
-  background-color: #0074d9;
+  background-color: #259d36;
 }
 .leaflet-sidebar-tabs > li.disabled,
 .leaflet-sidebar-tabs > ul > li.disabled {
@@ -631,7 +632,7 @@ export default {
   line-height: 40px;
   font-size: 14.4pt;
   color: #fff;
-  background-color: #0074d9;
+  background-color: #259d36;
 }
 .leaflet-sidebar-right .leaflet-sidebar-header {
   padding-left: 40px;

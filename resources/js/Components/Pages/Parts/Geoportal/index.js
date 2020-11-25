@@ -43,7 +43,7 @@ Vue.component('rcp-checkbox', {
             />
             <label 
                 class="form-check-label"
-                v-bind:for="text"><h5 class="text-dark">{{ text }}</h4></label>
+                v-bind:for="text"><h6 class="text-dark">{{ text }}</h6></label>
         </div>
     `
 })
