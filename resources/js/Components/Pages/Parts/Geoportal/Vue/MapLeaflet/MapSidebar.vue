@@ -464,6 +464,7 @@ export default {
 
 .leaflet-sidebar.collapsed {
   width: 40px;
+  height: 40px;
 }
 @media (min-width: 768px) {
   .leaflet-sidebar {
