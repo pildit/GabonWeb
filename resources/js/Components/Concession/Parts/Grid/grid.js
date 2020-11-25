@@ -17,6 +17,9 @@ export default (options) => {
             Id: {
                 header: "id"
             },
+            Number: {
+                header: 'concession_no'
+            },
             'constituent_permit.PermitNumber': {
                 header: 'constituent_permit'
             },

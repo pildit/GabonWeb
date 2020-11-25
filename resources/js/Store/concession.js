@@ -31,11 +31,27 @@ export default {
                 });
         },
 
+        get({commit}, payload) {
+            return axios.get(`api/concessions/${payload.id}`)
+                .then((response) => response.data)
+                .then((responseData) => commit('concession', responseData.data));
+        },
+
+        add({}, payload) {
+            return axios.post('api/concessions', payload)
+                .then((response) => response)
+        },
+
+        update({}, payload) {
+            return axios.patch(`api/concessions/${payload.id}`, payload.data)
+                .then((response) => response);
+        },
+
         approve({}, payload) {
             let id = payload.id;
             let data = payload.data;
             return axios.patch(`api/concessions/approve/${id}`, data)
-                .then((response) => response.data);
+                .then((response) => response);
         },
 
         listSearch({}, payload) {

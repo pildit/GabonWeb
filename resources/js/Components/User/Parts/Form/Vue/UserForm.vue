@@ -38,7 +38,7 @@
             <multiselect
                 v-model="form.company"
                 :options="companyList.data"
-                :placeholder="translate('company')"
+                :placeholder="translate('company_select_label')"
                 track-by="Id"
                 label="Name"
                 :hide-selected="true"

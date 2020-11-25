@@ -32,7 +32,7 @@ export default {
 
         approve(value) {
             DevelopmentUnit.approve(this.rowProp.Id, {Approved: value}).then((response) => {
-                Notification.success(translate('development_unit'), response.message);
+                Notification.success(this.translate('development_unit'), response.message);
                 this.rowProp.Approved = value;
             });
         }

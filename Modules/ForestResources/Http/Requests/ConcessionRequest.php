@@ -14,11 +14,12 @@ class ConcessionRequest extends FormRequest
     public function rules()
     {
         return [
-            'Name' => 'string|required',
-            'Company' => 'integer|required|', // exists:pgsql.admin.companies,id',
-            'Continent' => 'integer|required|', //exists:Taxonomy.continents,id',
+            'Number' => 'string|required|sometimes',
+            'Name' => 'string|required|sometimes',
+            'Company' => 'integer|required|sometimes', // exists:pgsql.admin.companies,id',
+            'Continent' => 'string|required|sometimes', //exists:Taxonomy.continents,id',
             'Geometry' => 'string',
-            'ConstituentPermit' => 'integer|required|exists:pgsql.ForestResources.ConstituentPermits,Id',
+            'ConstituentPermit' => 'integer|required|sometimes|exists:pgsql.ForestResources.ConstituentPermits,Id',
         ];
     }
 

@@ -3,9 +3,11 @@
 namespace Modules\ForestResources\Entities;
 
 use App\Traits\Geometry;
+use Brick\Geo\IO\EWKBReader;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Sortable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Admin\Entities\Company;
 
 class Concession extends Model
 {
@@ -18,7 +20,7 @@ class Concession extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'Name', 'Company', 'Geometry', 'Continent', 'ConstituentPermit','Approved'
+        'Number', 'Name', 'Company', 'Geometry', 'Continent', 'ConstituentPermit','Approved'
     ];
 
     protected $table = "ForestResources.Concessions";
@@ -34,8 +36,28 @@ class Concession extends Model
 
     protected $hidden = ['Geometry'];
 
+    protected $appends = ['geometry_as_text'];
+
+    public function getGeometryAsTextAttribute()
+    {
+        if(!$this->Geometry) return null;
+
+        if(ctype_xdigit($this->Geometry)) {
+            $reader = new EWKBReader();
+            $geom = $reader->read(hex2bin($this->Geometry));
+            return $geom->asText();
+        }else{
+            return $this->Geometry;
+        }
+    }
+
     public function constituent_permit()
     {
         return $this->belongsTo(ConstituentPermit::class, 'ConstituentPermit');
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'Company');
     }
 }
