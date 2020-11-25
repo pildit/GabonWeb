@@ -30,7 +30,13 @@
         <hr />
 
         <!-- Check None -->
-        <input type="radio" id="none" value="none" v-model="checkPicked" />
+        <input
+          type="radio"
+          id="none"
+          value="none"
+          v-model="checkPicked"
+          v-on:click="onCheckNone"
+        />
         <p-radio
           color="success-o"
           name="none"
@@ -219,10 +225,26 @@
           v-on:click="onViewConcessionsClick"
           text="View Concessions"
         ></rcp-checkbox>
-        <rcp-checkbox v-model="viewUFA" text="View UFA"></rcp-checkbox>
-        <rcp-checkbox v-model="viewUFG" text="View UFG"></rcp-checkbox>
-        <rcp-checkbox v-model="viewAAC" text="View AAC"></rcp-checkbox>
-        <rcp-checkbox v-model="viewTrees" text="View Trees"></rcp-checkbox>
+        <rcp-checkbox
+          v-model="viewUFA"
+          v-on:click="onViewUFA"
+          text="View UFA"
+        ></rcp-checkbox>
+        <rcp-checkbox
+          v-model="viewUFG"
+          v-on:click="onViewUFG"
+          text="View UFG"
+        ></rcp-checkbox>
+        <rcp-checkbox
+          v-model="viewAAC"
+          v-on:click="onViewAAC"
+          text="View AAC"
+        ></rcp-checkbox>
+        <rcp-checkbox
+          v-model="viewTrees"
+          v-on:click="onViewTrees"
+          text="View Trees"
+        ></rcp-checkbox>
       </div>
     </div>
   </div>
@@ -312,8 +334,12 @@ export default {
     },
   },
   methods: {
+    onCheckNone() {
+      this.$emit("onCheckNone");
+    },
+
     onCheckPlateNumber() {
-      if (this.plateNumber.length > 2) {
+      if (this.plateNumber.length >= 2) {
         this.checkPlateNumberError = false;
       } else {
         this.checkPlateNumberError = true;
@@ -321,22 +347,17 @@ export default {
     },
 
     onCheckAnnualAllowableCut() {
-      if (this.annualAllowableCut.length > 2) {
+      if (this.annualAllowableCut.length >= 2) {
         this.checkAnnualAllowableCutError = false;
 
-        if (this.isTest) {
-          this.$emit("volSideCommandFunction", "Just a text for now");
-        } else {
-          this.$emit("volSideCommandFunction", "Just another text for now");
-        }
-        this.isTest = !this.isTest;
+        this.$emit("onCheckAAC", this.annualAllowableCut);
       } else {
         this.checkAnnualAllowableCutError = true;
       }
     },
 
     onCheckTransportPermitId() {
-      if (this.transportPermitId.length > 2) {
+      if (this.transportPermitId.length >= 2) {
         this.checkTransportPermitIdError = false;
       } else {
         this.checkTransportPermitIdError = true;
@@ -357,6 +378,22 @@ export default {
 
     onViewConcessionsClick() {
       this.$emit("onViewConcessions", !this.viewConcessions);
+    },
+
+    onViewUFA() {
+      this.$emit("onViewUFA", !this.viewUFA);
+    },
+
+    onViewUFG() {
+      this.$emit("onViewUFG", !this.viewUFG);
+    },
+
+    onViewAAC() {
+      this.$emit("onViewAAC", !this.viewAAC);
+    },
+
+    onViewTrees() {
+      this.$emit("onViewTrees", !this.viewTrees);
     },
   },
 };

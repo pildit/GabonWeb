@@ -1,6 +1,16 @@
 <template>
   <div>
-    <v-map-sidebar :map="map"></v-map-sidebar>
+    <v-map-sidebar
+      :map="map"
+      @onCheckNone="executeOnCheckNone($event)"
+      @onCheckAAC="executeOnCheckAAC($event)"
+      @onViewParcels="executeOnViewParcels($event)"
+      @onViewConcessions="executeOnViewConcessions($event)"
+      @onViewUFA="executeOnViewUFA($event)"
+      @onViewUFG="executeOnViewUFG($event)"
+      @onViewAAC="executeOnViewAAC($event)"
+      @onViewTrees="executeOnViewTrees($event)"
+    ></v-map-sidebar>
 
     <v-map
       ref="map"
@@ -16,7 +26,7 @@
         @ready="ready"
       >
         <v-marker
-          v-for="l in locations"
+          v-for="l in dataTrees"
           :key="l.id"
           :lat-lng="l.latlng"
           :icon="icon"
@@ -59,10 +69,9 @@ export default {
 
   data() {
     return {
-      renderAnnualAllowableCut: false,
+      annualAllowableCutNameId: "",
       renderParcels: false,
       renderConcessions: false,
-      renderClusters: false,
       renderUFA: false,
       renderUFG: false,
       renderAAC: false,
@@ -70,7 +79,12 @@ export default {
       bbox: undefined,
 
       dataCheckAAC: null,
+      dataParcels: null,
+      dataConcessions: null,
+      dataUFA: null,
+      dataUFG: null,
       dataViewAAC: null,
+      dataTrees: [],
 
       colorAnnualAllowableCut: "#ff0013",
       colorParcels: "#34A34F",
@@ -128,7 +142,115 @@ export default {
     click: (e) => console.log("clusterclick", e),
     ready: (e) => console.log("ready", e),
 
-    clusterSetup(points) {
+    /* Execute methods */
+    executeOnCheckNone() {
+      console.log("CHECK NONE");
+      if (this.dataCheckAAC) this.dataCheckAAC.remove();
+      // TODO: Add PLATE_NUMBER and TRANSPORT_PERMIT
+    },
+
+    executeOnCheckAAC(value = "", params = null) {
+      if (value === "") return;
+      this.annualAllowableCutNameId = value;
+
+      let fParams = params;
+      if (!fParams) fParams = {};
+      fParams["Name"] = value;
+
+      this.getAnnualAllowableCuts(fParams).then(() => {
+        if (this.dataCheckAAC) this.dataCheckAAC.remove();
+        this.onGetCheckAAC();
+      });
+    },
+
+    executeOnViewParcels(value, params = null) {
+      this.renderParcels = value;
+
+      if (value) {
+        this.getParcelsPerimeters(params).then(() => {
+          if (this.dataParcels) this.dataParcels.remove();
+          if (!this.renderParcels) return;
+          this.onGetParcels();
+        });
+      } else if (this.dataParcels) {
+        this.dataParcels.remove();
+      }
+    },
+
+    executeOnViewConcessions(value, params = null) {
+      this.renderConcessions = value;
+
+      if (value) {
+        this.getConcessionsPerimeters(params).then(() => {
+          if (this.dataConcessions) this.dataConcessions.remove();
+          if (!this.renderConcessions) return;
+          this.onGetConcessions();
+        });
+      } else if (this.dataConcessions) {
+        this.dataConcessions.remove();
+      }
+    },
+
+    executeOnViewUFA(value, params = null) {
+      this.renderUFA = value;
+
+      if (value) {
+        this.getDevelopmentUnits(params).then(() => {
+          if (this.dataUFA) this.dataUFA.remove();
+          if (!this.renderUFA) return;
+          this.onGetUFA();
+        });
+      } else if (this.dataUFA) {
+        this.dataUFA.remove();
+      }
+    },
+
+    executeOnViewUFG(value, params = null) {
+      this.renderUFG = value;
+
+      if (value) {
+        this.getManagementUnits(params).then(() => {
+          if (this.dataUFG) this.dataUFG.remove();
+          if (!this.renderUFG) return;
+          this.onGetUFG();
+        });
+      } else if (this.dataUFG) {
+        this.dataUFG.remove();
+      }
+    },
+
+    executeOnViewAAC(value, params = null) {
+      this.renderAAC = value;
+
+      if (value) {
+        this.getAnnualAllowableCuts(params).then(() => {
+          if (this.dataViewAAC) this.dataViewAAC.remove();
+          if (!this.renderAAC) return;
+          this.onGetViewAAC();
+        });
+      } else if (this.dataViewAAC) {
+        this.dataViewAAC.remove();
+      }
+    },
+
+    executeOnViewTrees(value, params = null) {
+      this.renderTrees = value;
+
+      if (value) {
+        this.getAnnualAllowableCutInventory(params).then(() => {
+          if (this.dataTrees.length > 0) this.dataTrees = [];
+          if (!this.renderTrees) return;
+          this.onGetTrees();
+        });
+      } else if (this.dataTrees.length > 0) {
+        this.dataTrees = [];
+      }
+    },
+
+    /* Render methods */
+    onGetTrees() {
+      let points = this.annualAllowableCutInventory;
+
       var len;
       if (points.length == 0) {
         len = 0;
@@ -147,7 +269,7 @@ export default {
           text: "Point " + i,
         });
       }
-      this.locations = locations;
+      this.dataTrees = locations;
     },
 
     onMoveEnd() {
@@ -177,63 +299,45 @@ export default {
       //   currentSouthWest.lng,
       // ];
 
-      const queryBbox = undefined; // TODO
+      const queryBbox = {
+        bbox: undefined,
+      }; // TODO
 
       console.log("QueryBbox", queryBbox);
 
       /* Get AnnualAllowableCut */
       if (this.renderAnnualAllowableCut) {
-        this.getAnnualAllowableCuts({ Name: "AAC2015" }).then(() => {
-          this.onGetCheckAAC();
-        });
-      }
-
-      /* Get concessions */
-      if (this.renderConcessions) {
-        this.getConcessionsPerimeters({
-          bbox: queryBbox,
-        }).then(() => {
-          this.onGetConcessions();
-        });
+        this.executeOnCheckAAC(this.annualAllowableCutNameId, queryBbox);
       }
 
       /* Get parcels */
       if (this.renderParcels) {
-        this.getParcelsPerimeters({
-          bbox: queryBbox,
-        }).then(() => {
-          this.onGetParcels();
-        });
+        this.executeOnViewParcels(this.renderParcels, queryBbox);
+      }
+
+      /* Get concessions */
+      if (this.renderConcessions) {
+        this.executeOnViewConcessions(this.renderConcessions, queryBbox);
       }
 
       /* Get UFA */
       if (this.renderUFA) {
-        this.getDevelopmentUnits().then(() => {
-          this.onGetUFA();
-        });
+        this.executeOnViewUFA(this.renderUFA, queryBbox);
       }
 
       /* Get UFG */
       if (this.renderUFG) {
-        this.getManagementUnits().then(() => {
-          this.onGetUFG();
-        });
+        this.executeOnViewUFG(this.renderUFG, queryBbox);
       }
 
       /* Get AAC */
       if (this.renderAAC) {
-        this.getAnnualAllowableCuts().then(() => {
-          this.onGetViewAAC();
-        });
+        this.executeOnViewAAC(this.renderAAC, queryBbox);
       }
 
       /* Get Trees */
       if (this.renderTrees) {
-        this.getAnnualAllowableCutInventory({
-          bbox: queryBbox,
-        }).then(() => {
-          this.clusterSetup(this.annualAllowableCutInventory);
-        });
+        this.executeOnViewTrees(this.renderTrees, queryBbox);
       }
 
       /* Set the new Bbox */
@@ -249,7 +353,6 @@ export default {
     /* ANNUAL ALLOWABLE CUT */
     onGetCheckAAC() {
       let map = this.$refs.map.mapObject;
-      this.dataCheckAAC = this.annualAllowableCuts;
 
       let onEachFeature = (feature, layer) => {
         if (
@@ -265,7 +368,7 @@ export default {
         }
       };
 
-      L.geoJSON(this.dataCheckAAC, {
+      this.dataCheckAAC = L.geoJSON(this.annualAllowableCuts, {
         style: (feature) => {
           return {
             color: this.colorAnnualAllowableCut,
@@ -285,7 +388,7 @@ export default {
         }
       };
 
-      L.geoJSON(this.parcelsPerimeters, {
+      this.dataParcels = L.geoJSON(this.parcelsPerimeters, {
         style: (feature) => {
           return {
             color: this.colorParcels,
@@ -307,7 +410,7 @@ export default {
         }
       };
 
-      L.geoJSON(this.concessionsPerimeters, {
+      this.dataConcessions = L.geoJSON(this.concessionsPerimeters, {
         style: (feature) => {
           return {
             color: this.colorConcessions,
@@ -327,7 +430,7 @@ export default {
         }
       };
 
-      L.geoJSON(this.developmentUnits, {
+      this.dataUFA = L.geoJSON(this.developmentUnits, {
         style: (feature) => {
           return {
             color: this.colorUFA,
@@ -347,7 +450,7 @@ export default {
         }
       };
 
-      L.geoJSON(this.managementUnits, {
+      this.dataUFG = L.geoJSON(this.managementUnits, {
         style: (feature) => {
           return {
             color: this.colorUFG,
@@ -360,7 +463,6 @@ export default {
     /* AAC */
     onGetViewAAC() {
       let map = this.$refs.map.mapObject;
-      this.dataViewAAC = this.annualAllowableCuts;
 
       let onEachFeature = (feature, layer) => {
         if (feature.properties && feature.properties.id) {
@@ -368,7 +470,7 @@ export default {
         }
       };
 
-      L.geoJSON(this.dataViewAAC, {
+      this.dataViewAAC = L.geoJSON(this.annualAllowableCuts, {
         style: (feature) => {
           return {
             color: this.colorAAC,
