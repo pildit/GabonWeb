@@ -44,24 +44,6 @@ function getParametrizedString(apiString, payload) {
 export default {
     namespaced: true,
     state: {
-
-        map: new Map({
-            // the map will be created using the 'map-root' ref
-            // target: this.$refs["map-root"],
-            layers: [
-                // adding a background tiled layer
-                new TileLayer({
-                    source: new OSM(), // tiles are served by OpenStreetMap
-                }),
-            ],
-            // the map view will initially show the whole world
-            view: new View({
-                zoom: 7,
-                center: fromLonLat([11.609454, -0.803698]), // Gabon coord
-                constrainResolution: true,
-            }),
-        }),
-
         annualAllowableCutInventory: [],
         annualAllowableCuts: [],
         concessions: [],
