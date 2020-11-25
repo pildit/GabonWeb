@@ -14,20 +14,8 @@ class SiteLogbook extends Base {
         return store.dispatch('sitelogbooks/index', data).then((response) => response.data);
     }
 
-    static get(id) {
-        return store.dispatch('sitelogbooks/get', {id});
-    }
-
-    static getItemLogs (id) {
-        return store.dispatch('sitelogbooks/getItemLogs', {id});
-    }
-
     static approve(id) {
         return store.dispatch('sitelogbooks/approve', {id});
-    }
-
-    static approve_item (id) {
-        return store.dispatch('sitelogbooks/approve_item', {id});
     }
 
     static update(id, data) {

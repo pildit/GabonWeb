@@ -10,9 +10,9 @@
                     <tbody>
                     <tr>
                         <td>{{ translate('concession') }}</td>
-                        <td class="bold"> {{ rowProp.concession.Name }} </td>
+                        <td class="bold"> {{ rowProp.concession_name }} </td>
                         <td>{{ translate('aac') }}</td>
-                        <td class="bold">{{ rowProp.anuualallowablecut.Name }}</td>
+                        <td class="bold">{{ rowProp.aac_name }}</td>
                     </tr>
                     <tr>
                         <td>{{ translate('localization') }}</td>
@@ -28,12 +28,12 @@
                 </table>
             </div>
 
-            <div class="items" v-if="siteLogbookItemLogs.length > 0">
+            <div class="items" v-if="itemLogs.length > 0">
                 <p class="lead text-center">
                     {{ translate('site_logbook_items') }}
                 </p>
                 <div class="text-left">
-                    <table class="table table-stripped table-bordered" v-for="(item, i) in siteLogbookItemLogs" :key="'log-' + i">
+                    <table class="table table-stripped table-bordered" v-for="(item, i) in itemLogs" :key="'log-' + i">
                         <tbody>
                         <tr>
                             <th>{{ translate('date') }}</th>
@@ -106,12 +106,11 @@
             return {
                 modal: {
                     logs: false,
-                },
-                logs: this.siteLogbookItemLogs
+                }
             }
         },
         computed: {
-            ...mapGetters('sitelogbooks', ['siteLogbookItemLogs'])
+            ...mapGetters('sitelogbookitems', ['itemLogs'])
         },
 
         watch: {

@@ -18,6 +18,7 @@ import constituentPermit         from './constituentpermit';
 import concession         from './concession';
 import translation from "./translation";
 import sitelogbooks from "./sitelogbooks";
+import sitelogbookitems from "./sitelogbookitems";
 
 Vue.use(Vuex);
 Vue.use(cookie)
@@ -95,6 +96,7 @@ export default new Vuex.Store({
         management_plan,
         concession,
         translation,
-        sitelogbooks
+        sitelogbooks,
+        sitelogbookitems
     }
 });

@@ -39,4 +39,5 @@ Route::get('/management/{management_type?}', 'ManagementController@index');
 Route::get('/concessions/{resource_type?}', 'ConcessionsController@index');
 Route::get('/translations', 'TranslationController@index');
 
-Route::view('/sitelogbooks', 'site-logbooks.index');
+Route::get('/sitelogbooks', 'SiteLogbookItemsController@index');
+Route::get('/sitelogbook', 'SiteLogbookItemsController@view');
