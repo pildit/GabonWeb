@@ -11,6 +11,10 @@ import PrettyCheckbox from 'pretty-checkbox-vue';
 import VCalendar from 'v-calendar';
 import VueRangeSlider from "vue-range-component";
 
+/* Bootstrap */
+import "bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+
 /* Load the map */
 Vue.use(VueLayers)
 Vue.use(PrettyCheckbox);
@@ -28,15 +32,18 @@ Vue.component('rcp-checkbox', {
     },
     props: ['text'],
     template: `
-        <div>
-            <input type="checkbox" v-model="checked"
+        <div class="form-check">
+            <input type="checkbox" 
+                class="form-check-input"
+                v-model="checked"
                 v-bind:id="text"
                 v-bind:value="checked"
                 v-on:click="$emit('click')"
                 v-on:input="$emit('input', $event.target.checked)"
             />
-            <p-check class="p-default p-curve" name="check" color="success" v-model="checked"></p-check>
-            <label v-bind:for="text">{{ text }}</label>
+            <label 
+                class="form-check-label"
+                v-bind:for="text">{{ text }}</label>
         </div>
     `
 })
@@ -57,7 +64,9 @@ Vue.component('rcp-button', {
     },
     props: ['text'],
     template: `
-            <button v-on:click="$emit('click')">
+            <button
+                class="btn btn-primary mt-0"
+                v-on:click="$emit('click')">
                 {{ text }}
                 <slot></slot>
             </button>`

@@ -29,190 +29,242 @@
         ></rcp-checkbox>
         <hr />
 
-        <!-- Check None -->
-        <input
-          type="radio"
-          id="none"
-          value="none"
-          v-model="checkPicked"
-          v-on:click="onCheckNone"
-        />
-        <p-radio
-          color="success-o"
-          name="none"
-          value="none"
-          v-model="checkPicked"
-        ></p-radio>
-        <label for="none">None</label>
-        <br />
+        <!-- Radio buttons -->
+        <div class="form-check">
+          <!-- Check None -->
+          <input
+            id="none"
+            class="form-check-input"
+            type="radio"
+            value="none"
+            v-model="checkPicked"
+            v-on:click="onCheckNone"
+          />
+          <label class="form-check-label" for="none">None</label>
+          <br />
 
-        <!-- Check plate number -->
-        <input
-          type="radio"
-          id="checkPlateNumber"
-          value="checkPlateNumber"
-          v-model="checkPicked"
-        />
-        <p-radio
-          color="success-o"
-          name="checkPlateNumber"
-          value="checkPlateNumber"
-          v-model="checkPicked"
-        ></p-radio>
-        <label for="checkPlateNumber">Check plate number</label>
-        <br />
-        <input
-          v-if="checkPicked == 'checkPlateNumber'"
-          v-model="plateNumber"
-          placeholder="ex: PH 01 UNU"
-        />
-        <rcp-button
-          v-if="checkPicked == 'checkPlateNumber'"
-          v-on:click="onCheckPlateNumber"
-        >
-          Search
-        </rcp-button>
-        <rcp-alert-box
-          v-if="checkPicked == 'checkPlateNumber' && checkPlateNumberError"
-        >
-          Invalid plate number
-        </rcp-alert-box>
-        <p v-if="checkPicked == 'checkPlateNumber'"></p>
-        <v-date-picker
-          v-if="checkPicked == 'checkPlateNumber'"
-          is-range
-          v-model="checkPlateNumberRange"
-        >
-          <template v-slot="{ inputValue, inputEvents }">
-            <div class="flex justify-center items-center">
-              <input
-                :value="inputValue.start"
-                v-on="inputEvents.start"
-                class="border px-2 py-1 w-32 rounded focus:outline-none focus:border-indigo-300"
-              />
-              -
-              <input
-                :value="inputValue.end"
-                v-on="inputEvents.end"
-                class="border px-2 py-1 w-32 rounded focus:outline-none focus:border-indigo-300"
-              />
+          <!-- Check plate number -->
+          <input
+            id="checkPlateNumber"
+            class="form-check-input"
+            type="radio"
+            value="checkPlateNumber"
+            v-model="checkPicked"
+          />
+          <label class="form-check-label" for="checkPlateNumber"
+            >Check plate number</label
+          >
+          <br />
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="input-group input-group-md">
+                <input
+                  class="form-control"
+                  v-if="checkPicked == 'checkPlateNumber'"
+                  v-model="plateNumber"
+                  placeholder="ex: PH 01 UNU"
+                />
+                <span class="input-group-btn input-group-md">
+                  <rcp-button
+                    type="submit"
+                    v-if="checkPicked == 'checkPlateNumber'"
+                    v-on:click="onCheckPlateNumber"
+                  >
+                    Search
+                  </rcp-button>
+                </span>
+              </div>
             </div>
-          </template>
-        </v-date-picker>
-        <hr v-if="checkPicked == 'checkPlateNumber'" />
+          </div>
 
-        <!-- Check Annual Allowable cut -->
-        <input
-          type="radio"
-          id="checkAnnualAllowableCut"
-          value="checkAnnualAllowableCut"
-          v-model="checkPicked"
-        />
-        <p-radio
-          color="success-o"
-          name="checkAnnualAllowableCut"
-          value="checkAnnualAllowableCut"
-          v-model="checkPicked"
-        ></p-radio>
-        <label for="checkAnnualAllowableCut">Check Annual Allowable cut</label>
-        <br />
-        <input
-          v-if="checkPicked == 'checkAnnualAllowableCut'"
-          v-model="annualAllowableCut"
-          placeholder="Annual allowable cut name/id"
-        />
-        <rcp-button
-          v-if="checkPicked == 'checkAnnualAllowableCut'"
-          v-on:click="onCheckAnnualAllowableCut"
-        >
-          Search
-        </rcp-button>
-        <rcp-alert-box
-          v-if="
-            checkPicked == 'checkAnnualAllowableCut' &&
-            checkAnnualAllowableCutError
-          "
-        >
-          Invalid annual allowable cut name/id
-        </rcp-alert-box>
-        <hr v-if="checkPicked == 'checkAnnualAllowableCut'" />
+          <rcp-alert-box
+            v-if="checkPicked == 'checkPlateNumber' && checkPlateNumberError"
+          >
+            Invalid plate number
+          </rcp-alert-box>
+          <p v-if="checkPicked == 'checkPlateNumber'"></p>
 
-        <!-- Check Transport Permit -->
-        <input
-          type="radio"
-          id="checkTransportPermit"
-          value="checkTransportPermit"
-          v-model="checkPicked"
-        />
-        <p-radio
-          color="success-o"
-          name="checkTransportPermit"
-          value="checkTransportPermit"
-          v-model="checkPicked"
-        ></p-radio>
-        <label for="checkTransportPermit">Check Transport Permit</label>
-        <br v-if="checkPicked == 'checkTransportPermit'" />
+          <!-- Select date interval -->
+          <form>
+            <v-date-picker
+              v-if="checkPicked == 'checkPlateNumber'"
+              is-range
+              v-model="checkPlateNumberRange"
+            >
+              <template v-slot="{ inputValue, inputEvents }">
+                <div class="form-group">
+                  <label for="startDate">From</label>
+                  <input
+                    id="startDate"
+                    class="form-control"
+                    :value="inputValue.start"
+                    v-on="inputEvents.start"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="endDate">To</label>
+                  <input
+                    id="endDate"
+                    class="form-control"
+                    :value="inputValue.end"
+                    v-on="inputEvents.end"
+                  />
+                </div>
+              </template>
+            </v-date-picker>
+          </form>
 
-        <input
-          v-if="checkPicked == 'checkTransportPermit'"
-          v-model="transportPermitId"
-          placeholder="Transport permit ID"
-        />
-        <rcp-button
-          v-if="checkPicked == 'checkTransportPermit'"
-          v-on:click="onCheckTransportPermitId"
-        >
-          Search by id
-        </rcp-button>
-        <rcp-alert-box
-          v-if="
-            checkPicked == 'checkTransportPermit' && checkTransportPermitIdError
-          "
-        >
-          Invalid transport permit id
-        </rcp-alert-box>
-        <p v-if="checkPicked == 'checkTransportPermit'" />
+          <hr v-if="checkPicked == 'checkPlateNumber'" />
 
-        <v-date-picker
-          v-if="checkPicked == 'checkTransportPermit'"
-          v-model="transportPermitDate"
-          mode="date"
-        >
-          <template v-slot="{ inputValue, inputEvents }">
-            <input
-              class="px-2 py-1 border rounded focus:outline-none focus:border-blue-300"
-              :value="inputValue"
-              v-on="inputEvents"
-            />
-          </template>
-        </v-date-picker>
-        <rcp-button
-          v-if="checkPicked == 'checkTransportPermit'"
-          v-on:click="onCheckTransportPermitDate"
-        >
-          Search by date
-        </rcp-button>
-        <rcp-alert-box
-          v-if="
-            checkPicked == 'checkTransportPermit' &&
-            checkTransportPermitDateError
-          "
-        >
-          Invalid transport permit date
-        </rcp-alert-box>
-        <vue-range-slider
-          style="margin-top: 50px"
-          v-if="checkPicked == 'checkTransportPermit'"
-          v-model="transportPermitHourInterval"
-          :min="transportPermitHourMin"
-          :max="transportPermitHourMax"
-          :formatter="transportPermitHourFormatter"
-          :tooltip-merge="false"
-          :enable-cross="false"
-        ></vue-range-slider>
+          <!-- Check Annual Allowable cut -->
 
-        <br />
-        <hr />
+          <input
+            id="checkAnnualAllowableCut"
+            class="form-check-input"
+            type="radio"
+            value="checkAnnualAllowableCut"
+            v-model="checkPicked"
+          />
+          <label class="form-check-label" for="checkAnnualAllowableCut"
+            >Check Annual Allowable cut</label
+          >
+          <br />
+
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="input-group input-group-md">
+                <input
+                  class="form-control"
+                  v-if="checkPicked == 'checkAnnualAllowableCut'"
+                  v-model="annualAllowableCut"
+                  placeholder="ACC name/id"
+                />
+                <span class="input-group-btn input-group-md">
+                  <rcp-button
+                    v-if="checkPicked == 'checkAnnualAllowableCut'"
+                    v-on:click="onCheckAnnualAllowableCut"
+                  >
+                    Search
+                  </rcp-button>
+                </span>
+              </div>
+            </div>
+            <div
+              class="col-lg-12 ml-2"
+              v-if="checkPicked == 'checkAnnualAllowableCut'"
+            >
+              <small class="form-text text-muted"
+                >ACC - Annual Allowable Cut.</small
+              >
+            </div>
+          </div>
+
+          <rcp-alert-box
+            v-if="
+              checkPicked == 'checkAnnualAllowableCut' &&
+              checkAnnualAllowableCutError
+            "
+          >
+            Invalid annual allowable cut name/id
+          </rcp-alert-box>
+
+          <hr v-if="checkPicked == 'checkAnnualAllowableCut'" />
+
+          <!-- Check Transport Permit -->
+          <input
+            id="checkTransportPermit"
+            class="form-check-input"
+            type="radio"
+            value="checkTransportPermit"
+            v-model="checkPicked"
+          />
+          <label class="form-check-label" for="checkTransportPermit"
+            >Check Transport Permit</label
+          >
+          <br v-if="checkPicked == 'checkTransportPermit'" />
+
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="input-group input-group-md">
+                <input
+                  class="form-control"
+                  v-if="checkPicked == 'checkTransportPermit'"
+                  v-model="transportPermitId"
+                  placeholder="Transport permit ID"
+                />
+                <span class="input-group-btn input-group-md">
+                  <rcp-button
+                    v-if="checkPicked == 'checkTransportPermit'"
+                    v-on:click="onCheckTransportPermitId"
+                  >
+                    Search by id
+                  </rcp-button>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <rcp-alert-box
+            v-if="
+              checkPicked == 'checkTransportPermit' &&
+              checkTransportPermitIdError
+            "
+          >
+            Invalid transport permit id
+          </rcp-alert-box>
+          <p v-if="checkPicked == 'checkTransportPermit'" />
+
+          <v-date-picker
+            v-if="checkPicked == 'checkTransportPermit'"
+            v-model="transportPermitDate"
+            mode="date"
+          >
+            <template v-slot="{ inputValue, inputEvents }">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="input-group input-group-md">
+                    <input
+                      class="form-control"
+                      :value="inputValue"
+                      v-on="inputEvents"
+                    />
+
+                    <span class="input-group-btn input-group-md">
+                      <rcp-button
+                        v-if="checkPicked == 'checkTransportPermit'"
+                        v-on:click="onCheckTransportPermitDate"
+                      >
+                        Search by date
+                      </rcp-button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </template>
+          </v-date-picker>
+
+          <rcp-alert-box
+            v-if="
+              checkPicked == 'checkTransportPermit' &&
+              checkTransportPermitDateError
+            "
+          >
+            Invalid transport permit date
+          </rcp-alert-box>
+          <vue-range-slider
+            style="margin-top: 50px"
+            v-if="checkPicked == 'checkTransportPermit'"
+            v-model="transportPermitHourInterval"
+            :min="transportPermitHourMin"
+            :max="transportPermitHourMax"
+            :formatter="transportPermitHourFormatter"
+            :tooltip-merge="false"
+            :enable-cross="false"
+          ></vue-range-slider>
+
+          <br />
+          <hr />
+        </div>
 
         <!-- View -->
         <rcp-checkbox
@@ -256,6 +308,7 @@ import { findRealParent, propsBinder } from "vue2-leaflet";
 import { DomEvent } from "leaflet";
 import "leaflet-sidebar-v2";
 import * as L from "leaflet";
+
 import "pretty-checkbox/src/pretty-checkbox.scss";
 import "vue-range-component/dist/vue-range-slider.css";
 
@@ -426,8 +479,8 @@ export default {
 }
 @media (min-width: 992px) and (max-width: 1199px) {
   .leaflet-sidebar {
-    width: 390px;
-    max-width: 390px;
+    width: 400px;
+    max-width: 400px;
   }
 }
 @media (min-width: 1200px) {
