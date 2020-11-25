@@ -3,7 +3,7 @@ create table "ForestResources"."PermitTypesTable"
     "Id" int not null,
     "Name" text,
     "Abbreviation" text not null,
-    "UserId"       integer,
+    "User"       integer,
     constraint "PK_ForestResources.PermitTypesTable" primary key("Id"),
     constraint "CHK_ForestResources.PermitTypesTable.Abbreviation" check (length("Abbreviation") > 0),
     constraint "UNIQ_ForestResources.PermitTypesTable.Name" unique("Name"),
@@ -43,22 +43,22 @@ alter table "ForestResources"."PermitTypesTable"
 alter table "ForestResources"."PermitTypesTable"
     add "DeletedAt" timestamp null;
 
-create view "ForestResources"."PermitTypes"("Id", "Name", "Abbreviation", "UserId", "CreatedAt", "UpdatedAt") as
+create or replace  view "ForestResources"."PermitTypes"("Id", "Name", "Abbreviation", "User", "CreatedAt", "UpdatedAt") as
 SELECT pt."Id",
        pt."Name",
        pt."Abbreviation",
-       pt."UserId",
+       pt."User",
        pt."CreatedAt",
        pt."UpdatedAt"
 FROM "ForestResources"."PermitTypesTable" pt;
 
 CREATE RULE "PermitTypes_instead_of_insert" AS
-    ON INSERT TO "ForestResources"."PermitTypes" DO INSTEAD  INSERT INTO "ForestResources"."PermitTypesTable" ("Id", "Name", "Abbreviation", "UserId", "CreatedAt", "UpdatedAt")
-  VALUES (nextval('"ForestResources"."SEQ_PermitTypes"'::regclass), new."Name", new."Abbreviation", new."UserId", new."CreatedAt", new."UpdatedAt")
+    ON INSERT TO "ForestResources"."PermitTypes" DO INSTEAD  INSERT INTO "ForestResources"."PermitTypesTable" ("Id", "Name", "Abbreviation", "User", "CreatedAt", "UpdatedAt")
+  VALUES (nextval('"ForestResources"."SEQ_PermitTypes"'::regclass), new."Name", new."Abbreviation", new."User", new."CreatedAt", new."UpdatedAt")
   RETURNING "ForestResources"."PermitTypesTable"."Id",
     "ForestResources"."PermitTypesTable"."Name",
     "ForestResources"."PermitTypesTable"."Abbreviation",
-    "ForestResources"."PermitTypesTable"."UserId",
+    "ForestResources"."PermitTypesTable"."User",
     "ForestResources"."PermitTypesTable"."CreatedAt",
     "ForestResources"."PermitTypesTable"."UpdatedAt";
 
@@ -71,7 +71,7 @@ CREATE RULE "PermitTypes_instead_of_update" AS
   RETURNING "ForestResources"."PermitTypesTable"."Id",
     "ForestResources"."PermitTypesTable"."Name",
     "ForestResources"."PermitTypesTable"."Abbreviation",
-    "ForestResources"."PermitTypesTable"."UserId",
+    "ForestResources"."PermitTypesTable"."User",
     "ForestResources"."PermitTypesTable"."CreatedAt",
     "ForestResources"."PermitTypesTable"."UpdatedAt";
 

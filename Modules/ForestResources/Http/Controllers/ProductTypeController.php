@@ -45,7 +45,7 @@ class ProductTypeController extends Controller
 
         ProductType::create([
             'Name' => $data['name'],
-            'UserId' => $this->jwtPayload('data.id')
+            'User' => $this->jwtPayload('data.id')
         ]);
 
         return \response()->json([
@@ -98,7 +98,7 @@ class ProductTypeController extends Controller
         $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
 
         $headings  = ['Name', 'User'];
-        $collection = ProductType::select('Id', 'Name', 'UserId');
+        $collection = ProductType::select('Id', 'Name', 'User');
 
         if($request->get('date_from')){
             $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
@@ -110,8 +110,8 @@ class ProductTypeController extends Controller
         $collection = $collection->get();
         $collection = $collection->map(function ($item) {
 
-            $User = (User::select("firstname","lastname")->where("id", $item->UserId)->first()) ?
-                User::select("firstname")->where("id", $item->UserId)->first()->firstname ." ".User::select("lastname")->where("id", $item->UserId)->first()->lastname :
+            $User = (User::select("firstname","lastname")->where("id", $item->User)->first()) ?
+                User::select("firstname")->where("id", $item->User)->first()->firstname ." ".User::select("lastname")->where("id", $item->User)->first()->lastname :
                 $item->User;
 
             return [

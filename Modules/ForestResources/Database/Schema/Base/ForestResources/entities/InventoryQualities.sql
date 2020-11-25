@@ -12,7 +12,7 @@ create table "ForestResources"."InventoryQualitiesTable"
     "Value"       integer                             not null
         constraint "UNIQ_ForestResources.InventoryQualitiesTable.Value"
             unique,
-    "UserId"      integer,
+    "User"      integer,
     "CreatedAt"   timestamp default CURRENT_TIMESTAMP not null,
     "UpdatedAt"   timestamp default CURRENT_TIMESTAMP not null,
     "DeletedAt"   timestamp

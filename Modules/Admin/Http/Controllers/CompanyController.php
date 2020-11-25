@@ -46,7 +46,7 @@ class CompanyController extends Controller
         $company->GroupName = $data['group-name'] ?? null;
         $company->TradeRegister = $data['trade-register'] ?? null;
 
-        $company->UserId = $this->jwtPayload('data.id');
+        $company->User = $this->jwtPayload('data.id');
 
         $company->save();
 

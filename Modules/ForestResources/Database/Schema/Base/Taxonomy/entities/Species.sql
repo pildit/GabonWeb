@@ -7,7 +7,7 @@ create table "Taxonomy"."SpeciesTable"
     "CreatedAt"   timestamp,
     "UpdatedAt"   timestamp,
     "DeletedAt"   timestamp,
-    "UserId"      integer,
+    "User"      integer,
     constraint "PK_SpeciesTable" primary key ("Id"),
     constraint "CHK_SpeciesTable_Code" check (length("Code") > 0),
     constraint "CHK_SpeciesTable_LatinName" check (length("LatinName") > 0),
@@ -46,7 +46,7 @@ as
         , st."Code"
         , st."LatinName"
         , st."CommonName"
-        , st."UserId"
+        , st."User"
         , st."CreatedAt"
         , st."UpdatedAt"
         , st."DeletedAt"
@@ -54,7 +54,7 @@ as
     from
         "Taxonomy"."SpeciesTable" as st LEFT JOIN
             "admin".accounts acc
-    ON st."UserId" = acc.id
+    ON st."User" = acc.id
 ;
 
 create or replace rule "Species_instead_of_delete"
@@ -71,15 +71,15 @@ as
     on insert to "Taxonomy"."Species"
     do instead
         insert into "Taxonomy"."SpeciesTable"
-            ("Id", "Code", "LatinName", "CommonName", "UserId", "CreatedAt")
+            ("Id", "Code", "LatinName", "CommonName", "User", "CreatedAt")
         values
-            (nextval('"Taxonomy"."SEQ_Species"'), new."Code", new."LatinName", new."CommonName", new."UserId", new."CreatedAt")
+            (nextval('"Taxonomy"."SEQ_Species"'), new."Code", new."LatinName", new."CommonName", new."User", new."CreatedAt")
         returning
     "Id"
      , "Code"
      , "LatinName"
      , "CommonName"
-     , "UserId"
+     , "User"
      , "CreatedAt"
      , "UpdatedAt"
      , "DeletedAt"
@@ -103,7 +103,7 @@ as
             "Code",
             "LatinName",
             "CommonName",
-            "UserId",
+            "User",
             "CreatedAt",
             "UpdatedAt",
             "DeletedAt";

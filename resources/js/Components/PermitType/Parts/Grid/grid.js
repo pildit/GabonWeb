@@ -23,11 +23,11 @@ export default (options) => {
             Abbreviation: {
                 header: "abbreviation"
             },
-            email: {
-                header: "email",
+            Email: {
+                header: "Email",
             },
             CreatedAt: {
-                header: "created_at",
+                header: "CreatedAt",
             },
             actions: {
                 header: 'actions',

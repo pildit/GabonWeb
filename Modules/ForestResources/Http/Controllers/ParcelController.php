@@ -17,9 +17,12 @@ use Shapefile\Geometry\Polygon;
 use Illuminate\Support\Facades\File;
 use Modules\ForestResources\Exports\Exporter;
 use Maatwebsite\Excel\Facades\Excel;
+use GenTux\Jwt\GetsJwtToken;
 
 class ParcelController extends Controller
 {
+
+    use GetsJwtToken;
 
     /**
      * Display a listing of the resource.
@@ -87,6 +90,8 @@ class ParcelController extends Controller
         $data['Geometry'] = isset($polygon) ? $polygon : '';
 
           */
+
+        $data['User']  = $this->JwtPayload(' data.id');
 
         $parcel = Parcel::create($data);
 

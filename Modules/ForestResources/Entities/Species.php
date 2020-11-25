@@ -11,7 +11,7 @@ class Species extends Model
     use Sortable, UserEmailAttribute;
 
     // protected $guarded = ['Id'];
-    protected $fillable = ['Code', 'LatinName', 'CommonName', 'UserId'];
+    protected $fillable = ['Code', 'LatinName', 'CommonName', 'User'];
 
     const CREATED_AT = "CreatedAt";
     const UPDATED_AT = "UpdatedAt";

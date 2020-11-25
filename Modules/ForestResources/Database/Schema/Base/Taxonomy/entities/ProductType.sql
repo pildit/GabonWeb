@@ -7,16 +7,16 @@ create table "Taxonomy"."ProductTypeTable"
     "Name"      varchar,
     "CreatedAt" timestamp,
     "UpdatedAt" timestamp,
-    "UserId"    integer
+    "User"    integer
 );
 
 
-create or replace view "Taxonomy"."ProductType"("Id", "Name", "CreatedAt", "UpdatedAt", "UserId") as
+create or replace view "Taxonomy"."ProductType"("Id", "Name", "CreatedAt", "UpdatedAt", "User") as
 SELECT "ProductTypeTable"."Id",
        "ProductTypeTable"."Name",
        "ProductTypeTable"."CreatedAt",
        "ProductTypeTable"."UpdatedAt",
-       "ProductTypeTable"."UserId"
+       "ProductTypeTable"."User"
 FROM "Taxonomy"."ProductTypeTable";
 
 
@@ -26,13 +26,13 @@ CREATE or replace RULE "ProductType_instead_of_delete" AS
 
 
 CREATE or replace RULE "ProductType_instead_of_insert" AS
-    ON INSERT TO "Taxonomy"."ProductType" DO INSTEAD  INSERT INTO "Taxonomy"."ProductTypeTable" ("Name", "UserId", "CreatedAt")
-                                                      VALUES (new."Name", new."UserId", new."CreatedAt")
+    ON INSERT TO "Taxonomy"."ProductType" DO INSTEAD  INSERT INTO "Taxonomy"."ProductTypeTable" ("Name", "User", "CreatedAt")
+                                                      VALUES (new."Name", new."User", new."CreatedAt")
                                                       RETURNING "ProductTypeTable"."Id",
                                                           "ProductTypeTable"."Name",
                                                           "ProductTypeTable"."CreatedAt",
                                                           "ProductTypeTable"."UpdatedAt",
-                                                          "ProductTypeTable"."UserId";
+                                                          "ProductTypeTable"."User";
 
 
 
@@ -46,6 +46,6 @@ CREATE or replace RULE "ProductType_instead_of_update" AS
                     "ProductTypeTable"."Name",
                     "ProductTypeTable"."CreatedAt",
                     "ProductTypeTable"."UpdatedAt",
-                    "ProductTypeTable"."UserId";
+                    "ProductTypeTable"."User";
 
-insert into "Taxonomy"."ProductType" ("Id", "Name", "CreatedAt", "UpdatedAt", "UserId") values (1, 'Log', now(), now(), null);
+insert into "Taxonomy"."ProductType" ("Id", "Name", "CreatedAt", "UpdatedAt", "User") values (1, 'Log', now(), now(), null);
