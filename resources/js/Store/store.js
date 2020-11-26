@@ -15,6 +15,7 @@ import development_plan from "./Management/development_plan";
 import management_unit from "./Management/management_unit";
 import management_plan from "./Management/management_plan";
 import aac from "./Management/aac";
+import aac_plan from "./Management/aac_plan";
 import constituent_permit         from './constituent_permit';
 import concession         from './concession';
 import translation from "./translation";
@@ -128,6 +129,7 @@ export default new Vuex.Store({
         management_unit,
         management_plan,
         aac,
+        aac_plan,
         concession,
         translation,
         logbooks,

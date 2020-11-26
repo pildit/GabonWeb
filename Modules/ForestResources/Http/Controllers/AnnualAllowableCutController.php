@@ -75,7 +75,8 @@ class AnnualAllowableCutController extends Controller
         $annual_allowable_cut = AnnualAllowableCut::create($data);
 
         return response()->json([
-            'message' => lang("annual_allowable_cut_created_successfully")
+            'message' => lang("annual_allowable_cut_created_successfully"),
+            'id' => $annual_allowable_cut->Id
         ], 201);
     }
 

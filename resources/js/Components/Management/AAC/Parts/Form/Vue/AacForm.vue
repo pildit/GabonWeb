@@ -41,6 +41,22 @@
                     <div class="col">
                         <div class="md-form">
                             <multiselect
+                                name="ProductType"
+                                v-validate="'required'"
+                                v-model="form.ProductType"
+                                :options="productTypeList"
+                                :placeholder="translate('resource_type_label')"
+                                track-by="Id"
+                                label="Name"
+                                :allow-empty="false"
+                                @select="$forceUpdate()"
+                            ></multiselect>
+                            <div v-show="errors.has('ProductType')" class="invalid-feedback">{{ errors.first('ProductType') }}</div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="md-form">
+                            <multiselect
                                 name="ManagementUnit"
                                 v-validate="'required'"
                                 v-model="form.ManagementUnit"
@@ -106,6 +122,7 @@ import _ from "lodash";
 import ManagementUnit from "../../../../ManagementUnit/ManagementUnit";
 import Notification from "../../../../../Common/Notifications/Notification";
 import {mapGetters} from "vuex";
+import AACOperationPlan from "../../../AACOperationPlan";
 
 export default {
     name: 'aac-form',
@@ -175,12 +192,12 @@ export default {
                 return data.id
             }).then((id) => {
                 _.each(this.plansForm, (plan, index) => {
-                    let data = ManagementPlan.buildForm(plan, id);
-                    ManagementPlan.add(data).then((data) => {
+                    let data = AACOperationPlan.buildForm(plan, id);
+                    AACOperationPlan.add(data).then((data) => {
                         Notification.success(this.translate('Management Plan'), data.message);
                     })
                 })
-                window.location.href = AAC.buildRoute('aac.index');
+                // window.location.href = AAC.buildRoute('aac.index');
             })
         },
         update(data) {
@@ -189,8 +206,9 @@ export default {
                 Notification.success(this.translate('aac'), data.message);
             }).then(() => {
                 _.each(this.plansForm, (plan, index) => {
-                    let data = ManagementPlan.buildForm(plan, this.form.Id);
-                    ManagementPlan.update(plan.Id, data).then((data) => {
+                    let data = AACOperationPlan.buildForm(plan, this.form.Id);
+                    let promise = plan.Id ? AACOperationPlan.update(plan.Id, data) : ManagementPlan.add(data);
+                    promise.then((data) => {
                         Notification.success(this.translate('Management Plan'), data.message);
                     })
                 })
@@ -205,7 +223,11 @@ export default {
             })
         },
         asyncFindManagementPlan(query = '') {
-
+            this.managementPlanList.isLoading = true;
+            ManagementPlan.listSearch(query, this.managementPlanList.limit).then((response) => {
+                this.managementPlanList.data = response.data;
+                this.managementPlanList.isLoading = false;
+            })
         },
         indexRoute() {
             return AAC.buildRoute('aac.index');
@@ -222,6 +244,9 @@ export default {
                 this.form = _.merge(this.form, value);
                 this.form.Geometry = value.geometry_as_text;
                 this.form.ManagementUnit = this.managementUnitList.data.find((x) => x.Id == value.ManagementUnit);
+                if(value.ManagementPlan) {
+                    this.form.ManagementPlan = this.managementPlanList.data.find((x) => x.Id == value.ManagementPlan);
+                }
                 this.form.ProductType = this.productTypeList.find((x) => x.Id == this.form.ProductType);
                 this.formPlansCount = value.plans.length;
                 this.plansForm = value.plans;

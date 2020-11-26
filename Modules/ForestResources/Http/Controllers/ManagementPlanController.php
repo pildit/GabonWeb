@@ -156,6 +156,7 @@ class ManagementPlanController extends Controller
     public function listManagementPlans(Request $request)
     {
         $management_plans = ManagementPlan::where('Number', 'ilike', "%{$request->get('name')}%")
+            ->where('Approved', true)
             ->take($request->get('limit', 100))
             ->get(['Id', 'Number']);
 

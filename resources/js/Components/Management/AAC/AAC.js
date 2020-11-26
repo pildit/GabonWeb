@@ -17,7 +17,11 @@ class AAC extends Base {
             Number : data.Number,
             Name : data.Name,
             ProductType : data.ProductType.Id,
-            DevelopmentUnit : data.DevelopmentUnit.Id
+            ManagementUnit : data.ManagementUnit.Id
+        }
+
+        if(data.ManagementPlan) {
+            obj['ManagementPlan'] = data.ManagementPlan.Id;
         }
 
         if(data.Geometry) {
@@ -28,19 +32,19 @@ class AAC extends Base {
     }
 
     static index(data) {
-        return store.dispatch('management_unit/index', data).then((response) => response.data);
+        return store.dispatch('aac/index', data).then((response) => response.data);
     }
 
     static add(data) {
-        return store.dispatch('management_unit/add', data);
+        return store.dispatch('aac/add', data);
     }
 
     static update(id, data) {
-        return store.dispatch('management_unit/update', {id, data});
+        return store.dispatch('aac/update', {id, data});
     }
 
     static approve(id, data) {
-        return store.dispatch('management_unit/approve', {id, data});
+        return store.dispatch('aac/approve', {id, data});
     }
 
 }

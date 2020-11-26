@@ -32,7 +32,7 @@ export default {
 
         approve(value) {
             AAC.approve(this.rowProp.Id, {Approved: value}).then((response) => {
-                Notification.success(this.translate('management_unit'), response.message);
+                Notification.success(this.translate('aac'), response.message);
                 this.rowProp.Approved = value;
             });
         }

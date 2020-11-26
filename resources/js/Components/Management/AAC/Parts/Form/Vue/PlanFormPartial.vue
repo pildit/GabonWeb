@@ -5,7 +5,7 @@
             <div class="col">
                 <div class="md-form">
                     <input type="text" :id="`planNumber-${index}`"  class="form-control" v-model="formData.Number">
-                    <label :for="`planNumber-${index}}`" :class="{'active': formData.Number}">{{translate('number_management_plan_form')}}</label>
+                    <label :for="`planNumber-${index}}`" :class="{'active': formData.Number}">{{translate('number_aac_plan_form')}}</label>
                 </div>
             </div>
             <div class="col">
@@ -35,41 +35,50 @@
         <div class="form-row">
             <div class="col">
                 <div class="md-form">
-                    <input type="text" :id="`GrossVolumeUFG-${index}`" name="GrossVolumeUFG" class="form-control"
-                           v-model="formData.GrossVolumeUFG"
+                    <input type="text" :id="`ExploitableVolume-${index}`" name="ExploitableVolume" class="form-control"
+                           v-model="formData.ExploitableVolume"
                            v-validate="'required|numeric'"
                     >
-                    <label :for="`GrossVolumeUFG-${index}`" :class="{'active': formData.GrossVolumeUFG}">{{translate('gross_volume_ufg_management_plan_form_label')}}</label>
-                    <div v-show="errors.has(`GrossVolumeUFG`)" class="invalid-feedback">{{ errors.first(`GrossVolumeUFG`) }}</div>
+                    <label :for="`ExploitableVolume-${index}`" :class="{'active': formData.ExploitableVolume}">{{translate('exploitable_volum_aac_plan_form_label')}}</label>
+                    <div v-show="errors.has(`ExploitableVolume`)" class="invalid-feedback">{{ errors.first(`ExploitableVolume`) }}</div>
                 </div>
             </div>
             <div class="col">
                 <div class="md-form">
-                    <input type="text" :id="`GrossVolumeYear-${index}`" class="form-control"
-                           v-model="formData.GrossVolumeYear"
+                    <input type="text" :id="`NonExploitableVolume-${index}`" name="NonExploitableVolume" class="form-control"
+                           v-model="formData.NonExploitableVolume"
                            v-validate="'required|numeric'"
                     >
-                    <label :for="`GrossVolumeYear-${index}`" :class="{'active': formData.GrossVolumeYear}">{{translate('gross_volume_year_management_plan_form_label')}}</label>
+                    <label :for="`NonExploitableVolume-${index}`" :class="{'active': formData.NonExploitableVolume}">{{translate('non_exploitable_volume_aac_plan_form_label')}}</label>
                 </div>
             </div>
         </div>
         <div class="form-row">
             <div class="col">
                 <div class="md-form">
-                    <input type="text" :id="`YieldVolumeYear-${index}`" class="form-control"
-                           v-model="formData.YieldVolumeYear"
+                    <input type="text" :id="`VolumePerHectare-${index}`" name="VolumePerHectare"  class="form-control"
+                           v-model="formData.VolumePerHectare"
                            v-validate="'required|numeric'"
                     >
-                    <label :for="`YieldVolumeYear-${index}`" :class="{'active': formData.YieldVolumeYear}">{{translate('yield_volume_year_management_plan_form_label')}}</label>
+                    <label :for="`VolumePerHectare-${index}`" :class="{'active': formData.VolumePerHectare}">{{translate('volume_per_hectare_aac_plan_form_label')}}</label>
                 </div>
             </div>
             <div class="col">
                 <div class="md-form">
-                    <input type="text" :id="`CommercialVolumeYear-${index}`" class="form-control"
-                           v-model="formData.CommercialVolumeYear"
+                    <input type="text" :id="`AverageVolume-${index}`" name="AverageVolume" class="form-control"
+                           v-model="formData.AverageVolume"
                            v-validate="'required|numeric'"
                     >
-                    <label :for="`CommercialVolumeYear-${index}`" :class="{'active': formData.CommercialVolumeYear}">{{translate('comercial_volume_year_management_plan_form_label')}}</label>
+                    <label :for="`AverageVolume-${index}`" :class="{'active': formData.AverageVolume}">{{translate('average_volume_aac_plan_form_label')}}</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="md-form">
+                    <input type="text" :id="`TotalVolume-${index}`" name="TotalVolume" class="form-control"
+                           v-model="formData.TotalVolume"
+                           v-validate="'required|numeric'"
+                    >
+                    <label :for="`TotalVolume-${index}`" :class="{'active': formData.TotalVolume}">{{translate('total_volume_aac_plan_form_label')}}</label>
                 </div>
             </div>
         </div>
