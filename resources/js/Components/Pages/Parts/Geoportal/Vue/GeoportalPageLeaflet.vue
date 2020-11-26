@@ -704,11 +704,6 @@ export default {
       let map = this.$refs.map.mapObject;
 
       let onEachFeature = (feature, layer) => {
-        /* Bind click event */
-        layer.on({
-          click: () => this.onFeatureClicked(layer),
-        });
-
         if (feature.properties && feature.properties.id) {
           layer.bindPopup(this.translate("AAC Id:" + feature.properties.id));
         }
@@ -721,7 +716,21 @@ export default {
           };
         },
         onEachFeature: onEachFeature,
-      }).addTo(map);
+      });
+
+      this.dataViewAAC.on("click", (event) => {
+        const prevStyleColor = event.layer.options.color;
+        this.dataViewAAC.resetStyle();
+
+        if (prevStyleColor !== this.featureHighlightColor)
+          event.layer.setStyle({ color: this.featureHighlightColor });
+
+        /* Bounds fitting */
+        const bounds = event.layer.getBounds();
+        map.fitBounds(bounds, { padding: [200, 200] });
+      });
+
+      this.dataViewAAC.addTo(map);
     },
 
     /* TREES */
