@@ -190,6 +190,44 @@ export default {
     },
     ready: (e) => console.log("ready", e),
 
+    getJSONToString(json) {
+      const objectConstructor = {}.constructor;
+      let resultedString = "";
+
+      const jsonLenght = Object.keys(json).length;
+      if (jsonLenght <= 0) return null; // Nothing to show
+
+      let iterator = 0;
+      Object.keys(json).forEach(function (key) {
+        const value = json[key];
+        let paramValue = value;
+
+        if (value === undefined || value === null || !value) {
+          return;
+        }
+
+        /* Look for arrays */
+        if (Array.isArray(value)) {
+          paramValue = value.join(",");
+        }
+
+        /* Look for other jsons */
+        if (value.constructor === objectConstructor) {
+          paramValue = this.getJSONToString(value);
+        }
+
+        resultedString += `${key}: ${paramValue}`;
+
+        /* Prepare for the next parameter */
+        if (++iterator < jsonLenght) {
+          resultedString += "<br>";
+        }
+      });
+
+      console.log(resultedString);
+      return resultedString;
+    },
+
     /* Execute methods */
     executeOnCheckNone() {
       if (this.dataCheckAAC) this.dataCheckAAC.remove();
@@ -416,7 +454,7 @@ export default {
         locations.push({
           id: i,
           latlng: latLng(latitude, longitude),
-          text: "Point " + i,
+          text: this.getJSONToString(points.features[i].properties),
         });
       }
       this.dataTrees = locations;
@@ -529,16 +567,8 @@ export default {
       let map = this.$refs.map.mapObject;
 
       let onEachFeature = (feature, layer) => {
-        if (
-          feature.properties &&
-          feature.properties.id &&
-          feature.properties.Name
-        ) {
-          layer.bindPopup(
-            this.translate("Id: " + feature.properties.id) +
-              " " +
-              this.translate("Name: " + feature.properties.Name)
-          );
+        if (feature.properties) {
+          layer.bindPopup(this.getJSONToString(feature.properties));
         }
       };
 
@@ -608,8 +638,8 @@ export default {
       let map = this.$refs.map.mapObject;
 
       let onEachFeature = (feature, layer) => {
-        if (feature.properties && feature.properties.id) {
-          layer.bindPopup(this.translate("Id: " + feature.properties.id));
+        if (feature.properties) {
+          layer.bindPopup(this.getJSONToString(feature.properties));
         }
       };
 
@@ -640,10 +670,8 @@ export default {
       let map = this.$refs.map.mapObject;
 
       let onEachFeature = (feature, layer) => {
-        if (feature.properties && feature.properties.id) {
-          layer.bindPopup(
-            this.translate("Concession Id:" + feature.properties.id)
-          );
+        if (feature.properties) {
+          layer.bindPopup(this.getJSONToString(feature.properties));
         }
       };
 
@@ -679,8 +707,8 @@ export default {
         //   click: this.onUFAClicked,
         // });
 
-        if (feature.properties && feature.properties.id) {
-          layer.bindPopup(this.translate("UFA Id:" + feature.properties.id));
+        if (feature.properties) {
+          layer.bindPopup(this.getJSONToString(feature.properties));
         }
       };
 
@@ -711,8 +739,8 @@ export default {
       let map = this.$refs.map.mapObject;
 
       let onEachFeature = (feature, layer) => {
-        if (feature.properties && feature.properties.id) {
-          layer.bindPopup(this.translate("UFG Id:" + feature.properties.id));
+        if (feature.properties) {
+          layer.bindPopup(this.getJSONToString(feature.properties));
         }
       };
 
@@ -746,8 +774,8 @@ export default {
       let map = this.$refs.map.mapObject;
 
       let onEachFeature = (feature, layer) => {
-        if (feature.properties && feature.properties.id) {
-          layer.bindPopup(this.translate("AAC Id:" + feature.properties.id));
+        if (feature.properties) {
+          layer.bindPopup(this.getJSONToString(feature.properties));
         }
       };
 
