@@ -20,7 +20,7 @@ class Concession extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'Number', 'Name', 'Company', 'Geometry', 'Continent', 'ConstituentPermit','Approved'
+        'Number', 'Name', 'Company', 'Geometry', 'ProductType', 'Continent', 'ConstituentPermit','Approved'
     ];
 
     protected $table = "ForestResources.Concessions";
@@ -59,5 +59,13 @@ class Concession extends Model
     public function company()
     {
         return $this->belongsTo(Company::class, 'Company');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function product_type()
+    {
+        return $this->hasOne(ProductType::class, "ProductType");
     }
 }

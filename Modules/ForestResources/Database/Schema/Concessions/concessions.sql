@@ -5,6 +5,9 @@ alter table "ForestResources"."ConcessionsTable"
     add "Number" varchar not null default '';
 
 alter table "ForestResources"."ConcessionsTable"
+    add "ProductType" int default 1 not null;
+
+alter table "ForestResources"."ConcessionsTable"
     add constraint concessionstable_accounts_id_fk
         foreign key ("User") references admin.accounts;
 
@@ -12,7 +15,7 @@ alter table "ForestResources"."ConcessionsTable"
 drop view if exists "ForestResources"."Concessions";
 
 create or replace view "ForestResources"."Concessions"
-            ("Id", "Number", "Name", "Continent", "ConstituentPermit", "Geometry", "Company", "Approved", "User", "Email",
+            ("Id", "Number", "Name", "Continent", "ConstituentPermit", "Geometry", "ProductType", "Company", "Approved", "User", "Email",
              "CreatedAt", "UpdatedAt", "DeletedAt")
 as
 SELECT ct."Id",
@@ -21,6 +24,7 @@ SELECT ct."Id",
        ct."Continent",
        ct."ConstituentPermit",
        ct."Geometry",
+       ct."ProductType",
        ct."Company",
        ct."Approved",
        ct."User",
@@ -41,6 +45,7 @@ CREATE RULE "Concessions_instead_of_insert" AS
                                                               "Continent",
                                                               "ConstituentPermit",
                                                               "Geometry",
+                                                              "ProductType",
                                                               "Company",
                                                               "Approved",
                                                               "User",
@@ -51,7 +56,7 @@ CREATE RULE "Concessions_instead_of_insert" AS
                                                                      FROM "ForestResources"."ResourceTypes" rt
                                                                      WHERE rt."Name" = 'Concession'::text
                                                                      LIMIT 1), new."Name", new."Number", new."Continent",
-                                                                    new."ConstituentPermit", new."Geometry",
+                                                                    new."ConstituentPermit", new."Geometry", new."ProductType",
                                                                     new."Company", new."Approved", new."User",
                                                                     new."CreatedAt", new."UpdatedAt")
                                                             RETURNING "Id",
@@ -60,6 +65,7 @@ CREATE RULE "Concessions_instead_of_insert" AS
                                                                 "Continent",
                                                                 "ConstituentPermit",
                                                                 "Geometry",
+                                                                "ProductType",
                                                                 "Company",
                                                                 "Approved",
                                                                 "User",
@@ -78,6 +84,7 @@ CREATE RULE "Concessions_instead_of_update" AS
                                                                 "Continent"         = new."Continent",
                                                                 "ConstituentPermit" = new."ConstituentPermit",
                                                                 "Geometry"          = new."Geometry",
+                                                                "ProductType"       = new."ProductType",
                                                                 "Company"           = new."Company",
                                                                 "Approved"          = new."Approved",
                                                                 "User"              = new."User",
@@ -90,6 +97,7 @@ CREATE RULE "Concessions_instead_of_update" AS
                                                                 "Continent",
                                                                 "ConstituentPermit",
                                                                 "Geometry",
+                                                                "ProductType",
                                                                 "Company",
                                                                 "Approved",
                                                                 "User",
