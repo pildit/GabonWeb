@@ -208,6 +208,10 @@ export default {
 
         /* Look for arrays */
         if (Array.isArray(value)) {
+
+          if (value.length <= 0)
+            return;
+
           paramValue = value.join(",");
         }
 
