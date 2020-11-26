@@ -1,30 +1,28 @@
 <template>
 
     <div class="grid" :ref="options.instance">
-        <div class="table-responsive text-nowrap">
-            <table class="table" style="overflow: hidden">
-                <thead class="green white-text table-hover">
-                <tr>
-                    <th v-for="(value, key) in columns" @click="sortBy(key)" :style="columnStyle(key)" scope="col" class="cursor-pointer">
-                        {{translate(value.header)}}
-                        <span class="sortable" v-if="canSort(key)">
+        <table class="table" style="overflow: hidden">
+            <thead class="green white-text table-hover">
+            <tr>
+                <th v-for="(value, key) in columns" @click="sortBy(key)" :style="columnStyle(key)" scope="col" class="cursor-pointer">
+                    {{translate(value.header)}}
+                    <span class="sortable" v-if="canSort(key)">
                             <i v-if="showSort(key, 'asc')" class="fas fa-sort-up"></i>
                             <i v-if="showSort(key, 'desc')" class="fas fa-sort-down"></i>
                             <i v-if="!showSort(key, 'desc') && !showSort(key, 'asc')" class="fas fa-sort"></i>
                         </span>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="(row, index) in data">
-                    <td v-for="(column, key) in columns" :style="columnStyle(key)">
-                        <grid-cell :column-prop="column" :row-prop="row" :key-prop="key" :instance="options.instance" :index="index"></grid-cell>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <vue-pagination :pagination="pagination" @paginate="fetchData()" :offset="offset"></vue-pagination>
-        </div>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="(row, index) in data">
+                <td v-for="(column, key) in columns" :style="columnStyle(key)">
+                    <grid-cell :column-prop="column" :row-prop="row" :key-prop="key" :instance="options.instance" :index="index"></grid-cell>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <vue-pagination :pagination="pagination" @paginate="fetchData()" :offset="offset"></vue-pagination>
     </div>
 
 </template>
@@ -93,7 +91,11 @@ export default {
             return Boolean(this.columns[key]['sort']);
         },
         columnStyle(key) {
-            let styles = this.columns[key].css || {};
+            let defaultCss = {};
+            if(key.toLowerCase() == 'id') {
+                defaultCss = {width: '75px'}
+            }
+            let styles = this.columns[key].css || defaultCss;
             return Object.keys(styles).reduce((memo, value)=> {
                 let prop = value.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
                 return memo += `${prop}: ${styles[value]};`;
