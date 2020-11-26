@@ -19,6 +19,7 @@ class UpdateAnnualAllowableCutRequest extends FormRequest
             'Name' => 'string',
             'Geometry' => 'string',
             'AacId' => 'string',
+            "ProductType" => 'nullable|exists:Modules\ForestResources\Entities\ProductType,Id'
         ];
     }
 

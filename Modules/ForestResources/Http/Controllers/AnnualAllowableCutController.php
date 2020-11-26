@@ -67,6 +67,8 @@ class AnnualAllowableCutController extends Controller
             ->where('AacId','ilike', $AacIdName."%")
             ->count();
 
+        $data['ProductType'] = $data['ProductType'] ?? "1";
+
         $aacNumber = sprintf("%03d", ++$aacNumber);
         $data['AacId'] = $AacIdName."_".$aacNumber;
 
@@ -131,13 +133,15 @@ class AnnualAllowableCutController extends Controller
     {
         $request->validate([
             'bbox' => 'string',
-            'Name' => 'nullable|string'
+            'Name' => 'nullable|string',
+            'Id' => 'nullable|exists:Modules\ForestResources\Entities\AnnualAllowableCut,Id',
+            'AacId' => 'nullable|string'
         ]);
 
         return response()->json([
             'type' => 'FeatureCollection',
             'name' => 'annual_allowable_cut',
-            'features' => $aacService->getVectors($request->get('bbox', config('forestresources.default_bbox')),$request->get('Name'))
+            'features' => $aacService->getVectors($request->get('bbox', config('forestresources.default_bbox')),$request->get('Name'),$request->get('AacId'),$request->get('Id'))
         ]);
     }
 
