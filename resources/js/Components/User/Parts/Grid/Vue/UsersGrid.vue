@@ -3,7 +3,7 @@
         <h5 class="text-center green-text mb-2">{{ translate('users') }}</h5>
         <div class="row">
             <div class="col-sm-8 d-flex align-items-center">
-                <button class="btn btn-md" @click="modals.form = true">
+                <button class="btn btn-md" @click="modals.form = true" v-permission="'users.add'">
                     <i class="fas fa-plus-circle"></i> {{ translate('add_user') }}
                 </button>
             </div>
@@ -19,8 +19,8 @@
                 </div>
             </div>
         </div>
-        <grid :columns="grid.columns" :options="grid.options"></grid>
-        <user-modal v-model="modals.form" @done="fetchData"></user-modal>
+        <grid :columns="grid.columns" :options="grid.options" v-permission="'users.view'"></grid>
+        <user-modal v-permission="'users.add'" v-model="modals.form" @done="fetchData"></user-modal>
     </div>
 </template>
 
@@ -33,7 +33,6 @@ import Grid from "components/Common/Grid/Grid";
 import UserModal from "./UserModal";
 
 export default {
-
 
     components: {VuePagination, Grid, UserModal},
 

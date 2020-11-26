@@ -3,7 +3,7 @@
         <h5 class="text-center green-text mb-2">{{ translate('roles') }}</h5>
         <div class="row">
             <div class="col-sm-8 d-flex align-items-center">
-                <button class="btn btn-md" @click="modals.form = true">
+                <button class="btn btn-md" @click="modals.form = true" v-permission="'roles.add'">
                     <i class="fas fa-plus-circle"></i> {{translate('add_role')}}
                 </button>
             </div>
@@ -19,8 +19,8 @@
                 </div>
             </div>
         </div>
-        <grid :columns="grid.columns" :options="grid.options"></grid>
-        <role-modal :type-prop="formType" v-model="modals.form" @done="getRoles"></role-modal>
+        <grid v-permission="'roles.view'" :columns="grid.columns" :options="grid.options"></grid>
+        <role-modal  v-permission="'roles.add'" :type-prop="formType" v-model="modals.form" @done="getRoles"></role-modal>
     </div>
 </template>
 

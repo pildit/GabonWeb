@@ -3,7 +3,7 @@
         <h5 class="card-header success-color white-text text-center py-4">
             <strong>{{ translate('management_unit_create_form_title') }}</strong>
         </h5>
-        <div class="card-body px-lg-5 pt-0">
+        <div class="card-body px-lg-5 pt-0" v-permission="'management-unit.add'">
             <form @submit.prevent="save" class="text-center" style="color: #757575;" novalidate>
                 <div class="form-row">
                     <div class="col">

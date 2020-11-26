@@ -1,7 +1,7 @@
 <template>
     <div class="text-right">
-        <span class="btn btn-sm btn-outline-info" @click="view(rowProp.Id)"><i class="fas fa-info-circle"></i> {{translate('view_logs')}}</span>
-        <switches v-model="isApproved" color="green" :title="translate('approve_site_logbook')" @input="approve" :emit-on-mount="false" v-tooltip></switches>
+        <span v-permission="'site_logbook.view'" class="btn btn-sm btn-outline-info" @click="view(rowProp.Id)"><i class="fas fa-info-circle"></i> {{translate('view_logs')}}</span>
+        <switches v-permission="'site_logbook.approve'" v-model="isApproved" color="green" :title="translate('approve_site_logbook')" @input="approve" :emit-on-mount="false" v-tooltip></switches>
         <site-logbook-item-log-modal @display="displayEvent" :row-prop="rowProp" v-model="modals.info"></site-logbook-item-log-modal>
     </div>
 </template>

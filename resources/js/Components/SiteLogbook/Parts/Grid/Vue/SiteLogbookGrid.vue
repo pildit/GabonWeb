@@ -17,7 +17,7 @@
                 </div>
             </div>
         </div>
-        <grid :columns="grid.columns" :options="grid.options"></grid>
+        <grid  v-permission="'site_logbook.view'" :columns="grid.columns" :options="grid.options"></grid>
     </div>
 </template>
 
