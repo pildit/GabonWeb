@@ -582,7 +582,24 @@ export default {
           };
         },
         onEachFeature: onEachFeature,
-      }).addTo(map);
+      })
+
+      this.dataCheckAAC.on("click", (event) => {
+        const prevStyleColor = event.layer.options.color;
+        this.dataCheckAAC.resetStyle();
+
+        if (prevStyleColor !== this.featureHighlightColor)
+          event.layer.setStyle({ color: this.featureHighlightColor });
+
+        /* Bounds fitting */
+        const bounds = event.layer.getBounds();
+        map.fitBounds(bounds, { padding: [200, 200] });
+      });
+
+      const bounds = this.dataCheckAAC.getBounds();
+      map.fitBounds(bounds, { padding: [200, 200] });
+
+      this.dataCheckAAC.addTo(map)
     },
 
     /* CHECK TRANSPORT PERMIT ID */
