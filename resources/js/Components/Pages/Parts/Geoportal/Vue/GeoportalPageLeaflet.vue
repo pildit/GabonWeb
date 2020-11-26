@@ -82,6 +82,13 @@ import MapSidebar from "./MapLeaflet/MapSidebar";
 import iconUrl from "leaflet/dist/images/marker-icon.png";
 import shadowUrl from "leaflet/dist/images/marker-shadow.png";
 
+/* eslint import/no-webpack-loader-syntax: off */
+import {
+  PruneCluster,
+  PruneClusterForLeaflet,
+} from "prunecluster/dist/PruneCluster";
+import "prunecluster/dist/LeafletStyleSheet.css";
+
 /* Vuex */
 import store from "store/store";
 import { mapGetters, mapState, mapMutations, mapActions } from "vuex";
@@ -192,23 +199,59 @@ export default {
 
     /* Execute methods */
     executeOnCheckNone() {
-      console.log("CHECK NONE");
       if (this.dataCheckAAC) this.dataCheckAAC.remove();
-      if (this.dataCheckPlateNumber) this.dataCheckPlateNumber.length = 0;
-      if (this.dataCheckTransportPermitId)
+
+      if (this.dataCheckPlateNumber) {
+        this.dataCheckPlateNumber.length = 0;
+        this.dataCheckPlateNumber = null;
+      }
+
+      if (this.dataCheckTransportPermitId) {
         this.dataCheckTransportPermitId.length = 0;
-      if (this.dataCheckTransportPermitDate)
+        this.dataCheckTransportPermitId = null;
+      }
+
+      if (this.dataCheckTransportPermitDate) {
         this.dataCheckTransportPermitDate.length = 0;
+        this.dataCheckTransportPermitDate = null;
+      }
+    },
+
+    getTimeDateFormat(date) {
+      let year = date.getFullYear().toString();
+      let month = date.getMonth().toString();
+      let day = date.getDate().toString();
+      let hours = date.getHours().toString();
+      let minutes = date.getMinutes().toString();
+      let seconds = date.getSeconds().toString();
+
+      if (parseInt(month) < 10) month = "0" + month;
+      if (parseInt(day) < 10) day = "0" + day;
+      if (parseInt(hours) < 10) hours = "0" + hours;
+      if (parseInt(minutes) < 10) minutes = "0" + minutes;
+      if (parseInt(seconds) < 10) seconds = "0" + seconds;
+
+      return (
+        year +
+        "-" +
+        month +
+        "-" +
+        day +
+        " " +
+        hours +
+        ":" +
+        minutes +
+        ":" +
+        seconds
+      );
     },
 
     executeOnCheckPlateNumber(value, params = null) {
       const { plateNumber, plateNumberRange } = value;
       let { start, end } = plateNumberRange;
 
-      let startDate =
-        start.getDate() + "-" + start.getMonth() + "-" + start.getFullYear();
-      let endDate =
-        end.getDate() + "-" + end.getMonth() + "-" + end.getFullYear();
+      let startDate = this.getTimeDateFormat(start);
+      let endDate = this.getTimeDateFormat(end);
 
       let fParams = params;
       if (!fParams) fParams = {};
@@ -237,10 +280,7 @@ export default {
     },
 
     executeOnCheckTransportPermitId(value, params = null) {
-      /* NOT USED YET */
       const { hourInterval, permitId } = value;
-      const start = hourInterval[0];
-      const end = hourInterval[1];
 
       let fParams = params;
       if (!fParams) fParams = {};
@@ -254,15 +294,24 @@ export default {
     },
 
     executeOnCheckTransportPermitDate(value, params = null) {
-      /* NOT USED YET */
       const { hourInterval, date } = value;
-      const start = hourInterval[0];
-      const end = hourInterval[1];
+      const startHour = hourInterval[0];
+      const endHour = hourInterval[1];
+
+      let startDate = new Date(date);
+      startDate.setHours(startHour);
+      startDate.setMinutes(0);
+      startDate.setSeconds(0);
+
+      let endDate = new Date(date);
+      endDate.setHours(endHour);
+      endDate.setMinutes(0);
+      endDate.setSeconds(0);
 
       let fParams = params;
       if (!fParams) fParams = {};
-      fParams["Date"] =
-        date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear();
+      fParams["DateFrom"] = this.getTimeDateFormat(startDate);
+      fParams["DateTo"] = this.getTimeDateFormat(endDate);
 
       this.getPermits(fParams).then(() => {
         if (this.dataCheckTransportPermitDate)
@@ -762,6 +811,8 @@ export default {
   },
 
   mounted() {
+    // var pruneCluster = new PruneClusterForLeaflet();
+
     /* On move end event */
     let map = this.$refs.map.mapObject;
     this.map = map;
