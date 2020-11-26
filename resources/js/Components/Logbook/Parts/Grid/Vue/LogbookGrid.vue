@@ -1,7 +1,7 @@
 <template>
     <div class="container mt-40">
         <h5 class="text-center green-text mb-2">{{translate('logbooks')}}</h5>
-        <div class="row">
+        <div class="row"  v-permission="'logbook.view'">
             <div class="col-sm-8 d-flex align-items-center">
 
             </div>
@@ -17,7 +17,7 @@
                 </div>
             </div>
         </div>
-        <grid :columns="grid.columns" :options="grid.options"></grid>
+        <grid v-permission="'logbook.view'" :columns="grid.columns" :options="grid.options"></grid>
     </div>
 </template>
 

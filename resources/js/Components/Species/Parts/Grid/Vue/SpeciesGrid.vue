@@ -3,7 +3,7 @@
     <h5 class="text-center green-text mb-2">{{ translate('species') }}</h5>
     <div class="row">
       <div class="col-sm-8 d-flex align-items-center">
-        <button class="btn btn-md" @click="modals.form = true">
+        <button class="btn btn-md" @click="modals.form = true" v-permission="'species.add'">
           <i class="fas fa-plus-circle"></i> {{ translate('add_species') }}
         </button>
       </div>
@@ -19,8 +19,8 @@
         </div>
       </div>
     </div>
-    <grid :columns="grid.columns" :options="grid.options"></grid>
-    <species-modal :type-prop="formType" v-model="modals.form" @done="getSpecies"></species-modal>
+    <grid v-permission="'species.view'" :columns="grid.columns" :options="grid.options"></grid>
+    <species-modal v-permission="'species.add'" :type-prop="formType" v-model="modals.form" @done="getSpecies"></species-modal>
   </div>
 </template>
 

@@ -1,11 +1,11 @@
 <template>
     <div>
-        <a :href="editRoute()" class="text-success aligned fz-16"
+        <a v-permission="'development-unit.add'" :href="editRoute()" class="text-success aligned fz-16"
            :title="translate('edit')"
            v-tooltip>
             <i class="fas fa-edit"></i>
         </a>
-        <switches v-model="isApproved" color="green" :title="translate('approve_item')" @input="approve" :emit-on-mount="false" v-tooltip></switches>
+        <switches v-permission="'development-unit.approve'" v-model="isApproved" color="green" :title="translate('approve_item')" @input="approve" :emit-on-mount="false" v-tooltip></switches>
     </div>
 </template>
 

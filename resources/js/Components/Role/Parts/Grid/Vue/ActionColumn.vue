@@ -1,10 +1,10 @@
 <template>
     <div class="text-right">
-        <button class="btn btn-sm btn-outline-success" @click="editRole(rowProp.id)" v-if="rowProp.name != 'admin'">
+        <button v-permission="'roles.edit'" class="btn btn-sm btn-outline-success" @click="editRole(rowProp.id)" v-if="rowProp.name != 'admin'">
             <i class="fas fa-edit"></i>
             {{ translate('edit') }}
         </button>
-        <role-modal type-prop="edit" v-model="modals.form"></role-modal>
+        <role-modal v-permission="'roles.edit'" type-prop="edit" v-model="modals.form"></role-modal>
     </div>
 </template>
 
