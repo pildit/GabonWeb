@@ -392,6 +392,11 @@ export default {
     onCheckPlateNumber() {
       if (this.plateNumber.length >= 2) {
         this.checkPlateNumberError = false;
+
+        this.$emit("onCheckPlateNumber", {
+          plateNumber: this.plateNumber,
+          plateNumberRange: this.checkPlateNumberRange,
+        });
       } else {
         this.checkPlateNumberError = true;
       }
@@ -410,6 +415,11 @@ export default {
     onCheckTransportPermitId() {
       if (this.transportPermitId.length >= 2) {
         this.checkTransportPermitIdError = false;
+
+        this.$emit("onCheckTransportPermitId", {
+          hourInterval: this.transportPermitHourInterval,
+          permitId: this.transportPermitId,
+        });
       } else {
         this.checkTransportPermitIdError = true;
       }
@@ -418,6 +428,11 @@ export default {
     onCheckTransportPermitDate() {
       if (this.transportPermitDate) {
         this.checkTransportPermitDateError = false;
+
+        this.$emit("onCheckTransportPermitDate", {
+          hourInterval: this.transportPermitHourInterval,
+          date: this.transportPermitDate,
+        });
       } else {
         this.checkTransportPermitDateError = true;
       }

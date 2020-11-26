@@ -3,7 +3,10 @@
     <v-map-sidebar
       :map="map"
       @onCheckNone="executeOnCheckNone($event)"
+      @onCheckPlateNumber="executeOnCheckPlateNumber($event)"
       @onCheckAAC="executeOnCheckAAC($event)"
+      @onCheckTransportPermitId="executeOnCheckTransportPermitId($event)"
+      @onCheckTransportPermitDate="executeOnCheckTransportPermitDate($event)"
       @onViewParcels="executeOnViewParcels($event)"
       @onViewConcessions="executeOnViewConcessions($event)"
       @onViewUFA="executeOnViewUFA($event)"
@@ -25,13 +28,44 @@
         @clusterclick="onTreeClusterClicked()"
         @ready="ready"
       >
+        <!-- Check Plate Number -->
+        <v-marker
+          v-for="l in dataCheckPlateNumber"
+          :key="l.id"
+          :lat-lng="l.latlng"
+          :icon="icon"
+        >
+          <v-popup :content="l.text"></v-popup>
+        </v-marker>
+
+        <!-- Check Transport Permit Id -->
+        <v-marker
+          v-for="l in dataCheckTransportPermitId"
+          :key="l.id"
+          :lat-lng="l.latlng"
+          :icon="icon"
+        >
+          <v-popup :content="l.text"></v-popup>
+        </v-marker>
+
+        <!-- Check Transport Permit Date -->
+        <v-marker
+          v-for="l in dataCheckTransportPermitDate"
+          :key="l.id"
+          :lat-lng="l.latlng"
+          :icon="icon"
+        >
+          <v-popup :content="l.text"></v-popup>
+        </v-marker>
+
+        <!-- View Trees -->
         <v-marker
           v-for="l in dataTrees"
           :key="l.id"
           :lat-lng="l.latlng"
           :icon="icon"
         >
-          <v-popup :content="translate(l.text)"></v-popup>
+          <v-popup :content="l.text"></v-popup>
         </v-marker>
       </v-marker-cluster>
     </v-map>
@@ -80,7 +114,10 @@ export default {
       renderTrees: false,
       bbox: undefined,
 
+      dataCheckPlateNumber: null,
       dataCheckAAC: null,
+      dataCheckTransportPermitId: null,
+      dataCheckTransportPermitDate: null,
       dataParcels: null,
       dataConcessions: null,
       dataUFA: null,
@@ -120,6 +157,7 @@ export default {
   },
 
   computed: {
+    ...mapGetters({ permits: "geoportal/permits" }),
     ...mapGetters({
       annualAllowableCutInventory: "geoportal/annualAllowableCutInventory",
     }),
@@ -136,6 +174,7 @@ export default {
 
   methods: {
     ...mapActions({
+      getPermits: "geoportal/getPermits",
       getAnnualAllowableCutInventory:
         "geoportal/getAnnualAllowableCutInventory",
       getAnnualAllowableCuts: "geoportal/getAnnualAllowableCuts",
@@ -155,7 +194,32 @@ export default {
     executeOnCheckNone() {
       console.log("CHECK NONE");
       if (this.dataCheckAAC) this.dataCheckAAC.remove();
-      // TODO: Add PLATE_NUMBER and TRANSPORT_PERMIT
+      if (this.dataCheckPlateNumber) this.dataCheckPlateNumber.length = 0;
+      if (this.dataCheckTransportPermitId)
+        this.dataCheckTransportPermitId.length = 0;
+      if (this.dataCheckTransportPermitDate)
+        this.dataCheckTransportPermitDate.length = 0;
+    },
+
+    executeOnCheckPlateNumber(value, params = null) {
+      const { plateNumber, plateNumberRange } = value;
+      let { start, end } = plateNumberRange;
+
+      let startDate =
+        start.getDate() + "-" + start.getMonth() + "-" + start.getFullYear();
+      let endDate =
+        end.getDate() + "-" + end.getMonth() + "-" + end.getFullYear();
+
+      let fParams = params;
+      if (!fParams) fParams = {};
+      fParams["LicensePlate"] = plateNumber;
+      fParams["DateFrom"] = startDate;
+      fParams["DateTo"] = endDate;
+
+      this.getPermits(fParams).then(() => {
+        if (this.dataCheckPlateNumber) this.dataCheckPlateNumber.length = 0;
+        this.onGetCheckPlateNumber();
+      });
     },
 
     executeOnCheckAAC(value = "", params = null) {
@@ -169,6 +233,41 @@ export default {
       this.getAnnualAllowableCuts(fParams).then(() => {
         if (this.dataCheckAAC) this.dataCheckAAC.remove();
         this.onGetCheckAAC();
+      });
+    },
+
+    executeOnCheckTransportPermitId(value, params = null) {
+      /* NOT USED YET */
+      const { hourInterval, permitId } = value;
+      const start = hourInterval[0];
+      const end = hourInterval[1];
+
+      let fParams = params;
+      if (!fParams) fParams = {};
+      fParams["PermitNo"] = permitId;
+
+      this.getPermits(fParams).then(() => {
+        if (this.dataCheckTransportPermitId)
+          this.dataCheckTransportPermitId.length = 0;
+        this.onGetCheckTransportPermitId();
+      });
+    },
+
+    executeOnCheckTransportPermitDate(value, params = null) {
+      /* NOT USED YET */
+      const { hourInterval, date } = value;
+      const start = hourInterval[0];
+      const end = hourInterval[1];
+
+      let fParams = params;
+      if (!fParams) fParams = {};
+      fParams["Date"] =
+        date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear();
+
+      this.getPermits(fParams).then(() => {
+        if (this.dataCheckTransportPermitDate)
+          this.dataCheckTransportPermitDate.length = 0;
+        this.onGetCheckTransportPermitDate();
       });
     },
 
@@ -247,12 +346,12 @@ export default {
 
       if (value) {
         this.getAnnualAllowableCutInventory(params).then(() => {
-          if (this.dataTrees.length > 0) this.dataTrees = [];
+          if (this.dataTrees.length > 0) this.dataTrees.length = 0;
           if (!this.renderTrees) return;
           this.onGetTrees();
         });
       } else if (this.dataTrees.length > 0) {
-        this.dataTrees = [];
+        this.dataTrees.length = 0;
       }
     },
 
@@ -301,16 +400,16 @@ export default {
         }
       }
 
-      const queryBbox = [
-        currentNorthEast.lat,
-        currentNorthEast.lng,
-        currentSouthWest.lat,
-        currentSouthWest.lng,
-      ];
+      // const queryBbox = [
+      //   currentNorthEast.lat,
+      //   currentNorthEast.lng,
+      //   currentSouthWest.lat,
+      //   currentSouthWest.lng,
+      // ];
 
-      // const queryBbox = {
-      //   bbox: undefined,
-      // }; // TODO
+      const queryBbox = {
+        bbox: undefined,
+      }; // TODO
 
       /* Get AnnualAllowableCut */
       if (this.renderAnnualAllowableCut) {
@@ -357,6 +456,32 @@ export default {
       // });
     },
 
+    /* PLATE NUMBER */
+    onGetCheckPlateNumber() {
+      let points = this.permits;
+
+      var len;
+      if (points.length == 0) {
+        len = 0;
+      } else {
+        len = points.features.length;
+      }
+
+      let locations = [];
+      for (var i = 0; i < len; ++i) {
+        let latitude = points.features[i].geometry.coordinates[0];
+        let longitude = points.features[i].geometry.coordinates[1];
+        let properties = points.features[i].properties;
+
+        locations.push({
+          id: i,
+          latlng: latLng(latitude, longitude),
+          text: "Id " + properties.id,
+        });
+      }
+      this.dataCheckPlateNumber = locations;
+    },
+
     /* ANNUAL ALLOWABLE CUT */
     onGetCheckAAC() {
       let map = this.$refs.map.mapObject;
@@ -383,6 +508,57 @@ export default {
         },
         onEachFeature: onEachFeature,
       }).addTo(map);
+    },
+
+    /* CHECK TRANSPORT PERMIT ID */
+    onGetCheckTransportPermitId() {
+      let points = this.permits;
+
+      var len;
+      if (points.length == 0) {
+        len = 0;
+      } else {
+        len = points.features.length;
+      }
+
+      let locations = [];
+      for (var i = 0; i < len; ++i) {
+        let latitude = points.features[i].geometry.coordinates[0];
+        let longitude = points.features[i].geometry.coordinates[1];
+        let properties = points.features[i].properties;
+
+        locations.push({
+          id: i,
+          latlng: latLng(latitude, longitude),
+          text: "TP Id - PermitNo " + properties.PermitNo,
+        });
+      }
+      this.dataCheckTransportPermitId = locations;
+    },
+
+    onGetCheckTransportPermitDate() {
+      let points = this.permits;
+
+      var len;
+      if (points.length == 0) {
+        len = 0;
+      } else {
+        len = points.features.length;
+      }
+
+      let locations = [];
+      for (var i = 0; i < len; ++i) {
+        let latitude = points.features[i].geometry.coordinates[0];
+        let longitude = points.features[i].geometry.coordinates[1];
+        let properties = points.features[i].properties;
+
+        locations.push({
+          id: i,
+          latlng: latLng(latitude, longitude),
+          text: "TP Date - PermitNo " + properties.PermitNo,
+        });
+      }
+      this.dataCheckTransportPermitDate = locations;
     },
 
     /* PARCELS */
