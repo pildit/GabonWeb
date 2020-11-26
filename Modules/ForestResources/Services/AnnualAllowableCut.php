@@ -59,7 +59,8 @@ class AnnualAllowableCut extends PageResults
                     'ID' => $item->AacId,
                     'ManagementUnit' => $item->managementunit ? $item->managementunit->Name : $item->ManagementUnit,
                     'ManagementPlan' => $item->ManagementPlan,
-                    'ProductType' => $item->producttype ? $item->producttype->Name : $item->ProductType
+                    'ProductType' => $item->product_type ? $item->product_type->Name : $item->ProductType,
+                    'Plans' => $annualoperationplan
                 ]
             ];
         });

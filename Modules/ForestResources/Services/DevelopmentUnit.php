@@ -20,18 +20,36 @@ class DevelopmentUnit extends PageResults
         $srid = config('forestresources.srid');
         $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_transform("Geometry",4256)) as geom');
         $whereIntersects = "public.ST_Intersects(public.st_setsrid(\"Geometry\", {$srid}), public.st_setsrid(public.ST_MakeEnvelope({$bbox}), {$srid}))";
-        $collection = DevelopmentUnitEntity::select(['Id', $geomCol]);
+        $collection = DevelopmentUnitEntity::select(['Id', $geomCol,'Name','Concession','ProductType','Start','End']);
        if($Id){
            $collection = $collection->where("Id","=",$Id);
        }
         $collection = $collection->whereRaw($whereIntersects)->get();
 
+
         return $collection->map(function ($item) {
+
+            $Plans = $item->plans()->get()->map(function ($item) {
+                return [
+                    'Id' => $item->Id,
+                    'Species'=> $item->species ? $item->species->CommonName : $item->Species,
+                    'MinimumExploitableDiameter'=> $item->MinimumExploitableDiameter,
+                    'VolumeTariff'=> $item->VolumeTariff,
+                    'Increment'=> $item->Increment
+                ];
+            });
+
             return [
                 'type' => 'Feature',
                 'geometry' => json_decode($item->geom),
                 'properties' => [
-                    'id' => $item->Id
+                    'id' => $item->Id,
+                    'Name' => $item->Name,
+                    'Concession' => $item->concession ? $item->concession->Name : $item->Concession,
+                    'ProductType' => $item->product_type ? $item->product_type->Name : $item->ProductType,
+                    'Start' => $item->Start,
+                    'End' => $item->End,
+                    'Plans' => $Plans
                 ]
             ];
         });

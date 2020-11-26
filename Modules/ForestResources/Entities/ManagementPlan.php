@@ -44,4 +44,7 @@ class ManagementPlan extends Model
     {
         return $this->hasMany(ManagementUnit::class);
     }
+    public function species () {
+        return $this->belongsTo(Species::class,'Species');
+    }
 }

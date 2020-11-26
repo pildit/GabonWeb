@@ -47,7 +47,7 @@ class AnnualAllowableCut extends Model
         return $this->hasMany(AnnualOperationPlan::class,"AnnualAllowableCut","Id");
     }
 
-    public function producttype(){
+    public function product_type(){
         return $this->belongsTo(ProductType::class,"ProductType");
     }
 }
