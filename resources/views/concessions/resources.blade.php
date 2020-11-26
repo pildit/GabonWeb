@@ -15,7 +15,8 @@
             <div class="row" id="concessions">
                 <box-resource v-for="item in concessions"
                               :item="item"
-                              v-permissions="item.permission"></box-resource>
+                              :key="item.title"
+                              v-permission="item.permission"></box-resource>
             </div>
         </div>
     </section>

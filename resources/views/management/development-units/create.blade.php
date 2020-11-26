@@ -9,7 +9,7 @@
                 {{ lang('the_map') }}
             </div>
             <div class="col-md-8 mt-4" id="development-unit-form">
-                <development-unit-form  v-permissions="'development-unit.add'"></development-unit-form>
+                <development-unit-form  v-permission="'development-unit.add'"></development-unit-form>
             </div>
         </div>
     </div>
