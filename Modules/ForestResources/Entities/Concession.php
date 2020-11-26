@@ -66,6 +66,6 @@ class Concession extends Model
      */
     public function product_type()
     {
-        return $this->hasOne(ProductType::class, "ProductType");
+        return $this->belongsTo(ProductType::class, "ProductType");
     }
 }

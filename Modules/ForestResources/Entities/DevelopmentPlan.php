@@ -37,4 +37,7 @@ class DevelopmentPlan extends Model
 
     protected $primaryKey = "Id";
 
+    public function species () {
+        return $this->belongsTo(Species::class,'Species');
+    }
 }

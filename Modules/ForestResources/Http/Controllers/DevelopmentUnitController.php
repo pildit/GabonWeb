@@ -133,6 +133,7 @@ class DevelopmentUnitController extends Controller
                 'Id' => 'nullable|exists:Modules\ForestResources\Entities\Concession,Id'
             ]);
 
+
         return response()->json([
             'type' => 'FeatureCollection',
             'name' => 'development_unit',

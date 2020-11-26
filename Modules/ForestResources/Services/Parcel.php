@@ -20,7 +20,7 @@ class Parcel extends PageResults
         $srid = config('forestresources.srid');
         $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_transform("Geometry",4256)) as geom');
         $whereIntersects = "public.ST_Intersects(public.st_setsrid(\"Geometry\", {$srid}), public.st_setsrid(public.ST_MakeEnvelope({$bbox}), {$srid}))";
-        $collection = ParcelEntity::select(['Id', $geomCol]);
+        $collection = ParcelEntity::select(['Id', $geomCol,'Name']);
           if($Id){
               $collection = $collection->where("Id","=",$Id);
           }
@@ -31,7 +31,8 @@ class Parcel extends PageResults
                 'type' => 'Feature',
                 'geometry' => json_decode($item->geom),
                 'properties' => [
-                    'id' => $item->Id
+                    'id' => $item->Id,
+                    'Name' => $item->Name
                 ]
             ];
         });
