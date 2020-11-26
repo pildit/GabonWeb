@@ -125,9 +125,8 @@ import {mapGetters} from "vuex";
 import AACOperationPlan from "../../../AACOperationPlan";
 
 export default {
-    name: 'aac-form',
 
-    props : ['managementUnitProp'],
+    props : ['aacProp'],
 
     components: { Multiselect, PlanFormPartial },
 
@@ -238,7 +237,7 @@ export default {
         },
     },
     watch: {
-        managementUnitProp(value) {
+        aacProp(value) {
             if(value) {
                 this.isCreatedFormType = false;
                 this.form = _.merge(this.form, value);
@@ -248,8 +247,8 @@ export default {
                     this.form.ManagementPlan = this.managementPlanList.data.find((x) => x.Id == value.ManagementPlan);
                 }
                 this.form.ProductType = this.productTypeList.find((x) => x.Id == this.form.ProductType);
-                this.formPlansCount = value.plans.length;
-                this.plansForm = value.plans;
+                this.formPlansCount = value.annualoperation_plans.length;
+                this.plansForm = value.annualoperation_plans;
                 this.$forceUpdate();
             }
         }

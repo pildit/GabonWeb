@@ -10,7 +10,7 @@ export default (selector, options) => {
         el: selector,
         components: { AacForm },
         computed: {
-            ...mapGetters('aac', ['annual_allowabel_cut'])
+            ...mapGetters('aac', ['annual_allowable_cut'])
         },
         mounted() {
             store.dispatch('productType/getList');

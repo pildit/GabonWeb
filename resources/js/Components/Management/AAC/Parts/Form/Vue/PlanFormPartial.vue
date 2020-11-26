@@ -37,7 +37,7 @@
                 <div class="md-form">
                     <input type="text" :id="`ExploitableVolume-${index}`" name="ExploitableVolume" class="form-control"
                            v-model="formData.ExploitableVolume"
-                           v-validate="'required|numeric'"
+                           v-validate="'required|decimal:3'"
                     >
                     <label :for="`ExploitableVolume-${index}`" :class="{'active': formData.ExploitableVolume}">{{translate('exploitable_volum_aac_plan_form_label')}}</label>
                     <div v-show="errors.has(`ExploitableVolume`)" class="invalid-feedback">{{ errors.first(`ExploitableVolume`) }}</div>
@@ -47,9 +47,10 @@
                 <div class="md-form">
                     <input type="text" :id="`NonExploitableVolume-${index}`" name="NonExploitableVolume" class="form-control"
                            v-model="formData.NonExploitableVolume"
-                           v-validate="'required|numeric'"
+                           v-validate="'required|decimal:3'"
                     >
                     <label :for="`NonExploitableVolume-${index}`" :class="{'active': formData.NonExploitableVolume}">{{translate('non_exploitable_volume_aac_plan_form_label')}}</label>
+                    <div v-show="errors.has(`NonExploitableVolume`)" class="invalid-feedback">{{ errors.first(`NonExploitableVolume`) }}</div>
                 </div>
             </div>
         </div>
@@ -58,27 +59,30 @@
                 <div class="md-form">
                     <input type="text" :id="`VolumePerHectare-${index}`" name="VolumePerHectare"  class="form-control"
                            v-model="formData.VolumePerHectare"
-                           v-validate="'required|numeric'"
+                           v-validate="'required|decimal:3'"
                     >
                     <label :for="`VolumePerHectare-${index}`" :class="{'active': formData.VolumePerHectare}">{{translate('volume_per_hectare_aac_plan_form_label')}}</label>
+                    <div v-show="errors.has(`VolumePerHectare`)" class="invalid-feedback">{{ errors.first(`VolumePerHectare`) }}</div>
                 </div>
             </div>
             <div class="col">
                 <div class="md-form">
                     <input type="text" :id="`AverageVolume-${index}`" name="AverageVolume" class="form-control"
                            v-model="formData.AverageVolume"
-                           v-validate="'required|numeric'"
+                           v-validate="'required|decimal:3'"
                     >
                     <label :for="`AverageVolume-${index}`" :class="{'active': formData.AverageVolume}">{{translate('average_volume_aac_plan_form_label')}}</label>
+                    <div v-show="errors.has(`AverageVolume`)" class="invalid-feedback">{{ errors.first(`AverageVolume`) }}</div>
                 </div>
             </div>
             <div class="col">
                 <div class="md-form">
                     <input type="text" :id="`TotalVolume-${index}`" name="TotalVolume" class="form-control"
                            v-model="formData.TotalVolume"
-                           v-validate="'required|numeric'"
+                           v-validate="'required|decimal:3'"
                     >
                     <label :for="`TotalVolume-${index}`" :class="{'active': formData.TotalVolume}">{{translate('total_volume_aac_plan_form_label')}}</label>
+                    <div v-show="errors.has(`TotalVolume`)" class="invalid-feedback">{{ errors.first(`TotalVolume`) }}</div>
                 </div>
             </div>
         </div>

@@ -88,6 +88,7 @@ class AnnualAllowableCutController extends Controller
      */
     public function show(AnnualAllowableCut $annual_allowable_cut)
     {
+        $annual_allowable_cut->load('annualoperation_plans');
         return response()->json(['data' => $annual_allowable_cut]);
     }
 
