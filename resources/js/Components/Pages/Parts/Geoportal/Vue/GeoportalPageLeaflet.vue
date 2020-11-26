@@ -82,13 +82,6 @@ import MapSidebar from "./MapLeaflet/MapSidebar";
 import iconUrl from "leaflet/dist/images/marker-icon.png";
 import shadowUrl from "leaflet/dist/images/marker-shadow.png";
 
-/* eslint import/no-webpack-loader-syntax: off */
-import {
-  PruneCluster,
-  PruneClusterForLeaflet,
-} from "prunecluster/dist/PruneCluster";
-import "prunecluster/dist/LeafletStyleSheet.css";
-
 /* Vuex */
 import store from "store/store";
 import { mapGetters, mapState, mapMutations, mapActions } from "vuex";
@@ -811,8 +804,6 @@ export default {
   },
 
   mounted() {
-    // var pruneCluster = new PruneClusterForLeaflet();
-
     /* On move end event */
     let map = this.$refs.map.mapObject;
     this.map = map;
