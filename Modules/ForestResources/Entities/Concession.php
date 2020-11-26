@@ -20,7 +20,7 @@ class Concession extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'Number', 'Name', 'Company', 'Geometry', 'ProductType', 'Continent', 'ConstituentPermit','Approved'
+        'Number', 'Name', 'Company', 'Geometry', 'ProductType', 'Continent', 'ConstituentPermit','Approved', 'User'
     ];
 
     protected $table = "ForestResources.Concessions";
