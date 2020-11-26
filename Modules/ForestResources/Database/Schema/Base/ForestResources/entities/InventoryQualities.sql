@@ -42,3 +42,8 @@ on "ForestResources"."InventoryQualitiesTable"
     )
 ;
 
+INSERT INTO "ForestResources"."InventoryQualitiesTable" ("Id", "Description", "Value", "User") VALUES (0, '1', 1, null);
+INSERT INTO "ForestResources"."InventoryQualitiesTable" ("Id", "Description", "Value", "User") VALUES (1, '3', 3, null);
+INSERT INTO "ForestResources"."InventoryQualitiesTable" ("Id", "Description", "Value", "User") VALUES (2, '2', 2, null);
+INSERT INTO "ForestResources"."InventoryQualitiesTable" ("Id", "Description", "Value", "User") VALUES (3, '4', 4, null);
+
