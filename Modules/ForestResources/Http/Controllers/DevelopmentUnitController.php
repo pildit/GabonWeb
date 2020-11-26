@@ -148,6 +148,7 @@ class DevelopmentUnitController extends Controller
     public function listDevelopmentUnits(Request $request)
     {
         $concessions = DevelopmentUnit::where('Name', 'ilike', "%{$request->get('name')}%")
+            ->where('Approved', true)
             ->take($request->get('limit', 100))
             ->get(['Id', 'Name']);
 

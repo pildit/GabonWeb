@@ -186,6 +186,7 @@ class ManagementUnitController extends Controller
     public function listManagementUnits(Request $request)
     {
         $management_units = ManagementUnit::where('Name', 'ilike', "%{$request->get('name')}%")
+            ->where('Approved', true)
             ->take($request->get('limit', 100))
             ->get(['Id', 'Name']);
 
