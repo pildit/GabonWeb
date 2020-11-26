@@ -15,7 +15,10 @@
                 </div>
                 @endverbatim
                 <div class="row">
-                    <vue-card v-for="(item, index) in management" :item="item" :key="index"></vue-card>
+                    <vue-card v-for="(item, index) in management"
+                              :item="item"
+                              :key="index"
+                              v-permissions="item.permission"></vue-card>
                 </div>
             </div>
         </section>

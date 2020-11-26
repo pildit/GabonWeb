@@ -25,21 +25,8 @@
  * @license MIT
  */
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 /*! For license information please see swagger-ui-es-bundle.js.LICENSE.txt */
 
->>>>>>> Gab-66-Transportation-Carnet-d-abattage
-=======
-/*! For license information please see swagger-ui-es-bundle.js.LICENSE.txt */
-
->>>>>>> Translations-Strings-Everywhere
-=======
-/*! For license information please see swagger-ui-es-bundle.js.LICENSE.txt */
-
->>>>>>> Gab-67-Transportation-Carnet-de-chantier
 /**
  * @license
  * Lodash <https://lodash.com/>
@@ -48,22 +35,7 @@
  * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
  * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
  */
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> Translations-Strings-Everywhere
-=======
->>>>>>> Gab-67-Transportation-Carnet-de-chantier
 
 //! moment.js
 
 //! moment.js locale configuration
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> Gab-66-Transportation-Carnet-d-abattage
-=======
->>>>>>> Translations-Strings-Everywhere
-=======
->>>>>>> Gab-67-Transportation-Carnet-de-chantier

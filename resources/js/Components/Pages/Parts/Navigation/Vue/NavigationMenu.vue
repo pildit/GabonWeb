@@ -25,9 +25,6 @@
                       <li class="nav-item">
                         <a class="dropdown-item text-nowrap" href="/logout">{{ translate("logout") }}</a>
                       </li>
-                      <li class="nav-item">
-                        <a class="dropdown-item text-nowrap" href="/settings">{{ translate("account_settings") }}</a>
-                      </li>
                     </ul>
                   </li>
 
