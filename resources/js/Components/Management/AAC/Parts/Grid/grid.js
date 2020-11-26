@@ -17,6 +17,9 @@ export default (options) => {
             Id: {
                 header: "id"
             },
+            AacId: {
+                header: "acc_id"
+            },
             Name: {
                 header: 'th_aac_name'
             },

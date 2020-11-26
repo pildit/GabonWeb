@@ -14,7 +14,7 @@ class AAC extends Base {
 
     static buildForm(data) {
         let obj = {
-            Number : data.Number,
+            AacId : data.AacId,
             Name : data.Name,
             ProductType : data.ProductType.Id,
             ManagementUnit : data.ManagementUnit.Id

@@ -6,17 +6,17 @@
         <div class="card-body px-lg-5 pt-0" v-permission="'AAC.add'">
             <form @submit.prevent="save" class="text-center" style="color: #757575;" novalidate>
                 <div class="form-row">
-                    <div class="col">
-                        <div class="md-form">
-                            <input type="text" id="Number" name="Number" class="form-control"
-                                   v-model="form.Number"
-                                   :data-vv-as="translate('number_aac_form')"
-                                   v-validate="'required'"
-                            >
-                            <label for="Number" :class="{'active': form.Number}">{{translate('number_aac_form')}}</label>
-                            <div v-show="errors.has('Number')" class="invalid-feedback">{{ errors.first('Number') }}</div>
-                        </div>
-                    </div>
+<!--                    <div class="col">-->
+<!--                        <div class="md-form">-->
+<!--                            <input type="text" id="AacId" name="AacId" class="form-control"-->
+<!--                                   v-model="form.AacId"-->
+<!--                                   :data-vv-as="translate('number_aac_form')"-->
+<!--                                   v-validate="'required'"-->
+<!--                            >-->
+<!--                            <label for="AacId" :class="{'active': form.AacId}">{{translate('number_aac_form')}}</label>-->
+<!--                            <div v-show="errors.has('AacId')" class="invalid-feedback">{{ errors.first('AacId') }}</div>-->
+<!--                        </div>-->
+<!--                    </div>-->
                     <div class="col">
                         <div class="md-form">
                             <input type="text" id="Name" name="Name" class="form-control"
@@ -196,7 +196,7 @@ export default {
                         Notification.success(this.translate('Management Plan'), data.message);
                     })
                 })
-                // window.location.href = AAC.buildRoute('aac.index');
+                window.location.href = AAC.buildRoute('aac.index');
             })
         },
         update(data) {

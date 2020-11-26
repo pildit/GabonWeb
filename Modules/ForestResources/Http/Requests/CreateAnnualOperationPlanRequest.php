@@ -16,7 +16,7 @@ class CreateAnnualOperationPlanRequest extends FormRequest
         return [
             'AnnualAllowableCut' => 'exists:Modules\ForestResources\Entities\AnnualAllowableCut,Id',
             'Species' => 'required|integer',
-            'ExploitableVolume' => 'required|integer',
+            'ExploitableVolume' => 'required|numeric',
             'NonExploitableVolume' => 'required|numeric',
             'VolumePerHectare' => 'required|numeric',
             'AverageVolume' => 'required|numeric',
