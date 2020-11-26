@@ -11,23 +11,17 @@ export default (selector, options) => {
         components: {VueCard},
         data: {
             nomenclatures : [
-                {'title' : 'companies', 'link' :  '/nomenclatures/companies', 'resource' : 'companies', 'text' : 'Some quick example text to build on the card title and make up the bulk of the card\'s content.'},
-                {'title' : 'permit_types', 'link' : '/nomenclatures/permit-types', 'resource' : 'permit-type', text: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.'},
-                {'title' : 'species', 'link' : '/nomenclatures/species', 'resource' : 'species', text: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.'},
-                {'title' : 'quality', 'link' : '/nomenclatures/quality', 'resource' : 'quality', text: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.'},
-                {'title' : 'resource_type', 'link' : '/nomenclatures/product-type', 'resource' : 'resource-type', text: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.'}
+                {'title' : 'companies', 'link' :  '/nomenclatures/companies', 'resource' : 'companies', 'text' : 'companies_unit_description', 'permission': 'companies.view'},
+                {'title' : 'permit_types', 'link' : '/nomenclatures/permit-types', 'resource' : 'permit-type', text: 'permit_types_unit_description', 'permission': 'concession.view'},
+                {'title' : 'species', 'link' : '/nomenclatures/species', 'resource' : 'species', text: 'species_unit_description', 'permission': 'species.view'},
+                {'title' : 'quality', 'link' : '/nomenclatures/quality', 'resource' : 'quality', text: 'quality_unit_description', 'permission': 'quality.view'},
+                {'title' : 'resource_type', 'link' : '/nomenclatures/product-type', 'resource' : 'resource-type', text: 'product_type_unit_description', 'permission': 'product-types.view'}
             ]
         },
         computed: {
         ...mapGetters('user', ['user'])
         },
         created() {
-/*
-            this.nomenclatures = this.nomenclatures.filter(item => {
-                return this.user.permissions.includes(item.resource);
-            });
-
- */
         }
     }
     return new Vue(_.merge(options, vueOptions));

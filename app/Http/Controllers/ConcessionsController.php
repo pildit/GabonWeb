@@ -14,11 +14,6 @@ class ConcessionsController extends Controller
         return view('concessions.resources');
     }
 
-    public function parcels()
-    {
-        return view('parcels.index');
-    }
-
     public function index()
     {
         return view('concessions.index');
