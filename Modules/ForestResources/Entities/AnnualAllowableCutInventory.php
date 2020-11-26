@@ -34,4 +34,10 @@ class AnnualAllowableCutInventory extends Model
 
     protected $primaryKey = "Id";
 
+    public function annualallowablecut(){
+        return $this->belongsTo(AnnualAllowableCut::class,"AnnualAllowableCut");
+    }
+    public function species () {
+        return $this->belongsTo(Species::class,'Species');
+    }
 }

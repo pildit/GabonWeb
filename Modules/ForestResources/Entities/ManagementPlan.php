@@ -21,7 +21,7 @@ class ManagementPlan extends Model
      *
      * @var array
      */
-    protected $fillable = ['ManagementUnit','Species','GrossVolumeUFG','GrossVolumeYear','YieldVolumeYear','CommercialVolumeYear'];
+    protected $fillable = ['ManagementUnit', 'Number', 'Species','GrossVolumeUFG','GrossVolumeYear','YieldVolumeYear','CommercialVolumeYear'];
 
     /**
      * @var string
@@ -43,5 +43,8 @@ class ManagementPlan extends Model
     public function units()
     {
         return $this->hasMany(ManagementUnit::class);
+    }
+    public function species () {
+        return $this->belongsTo(Species::class,'Species');
     }
 }

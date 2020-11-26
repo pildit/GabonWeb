@@ -18,6 +18,7 @@ class UpdateManagementPlanRequest extends FormRequest
         return [
             'ManagementUnit' => 'exists:Modules\ForestResources\Entities\ManagementUnit,Id',
             'Species' => 'integer',
+            'Number' => 'string',
             'GrossVolumeUFG' => 'numeric',
             'GrossVolumeYear' => 'numeric',
             'YieldVolumeYear' => 'numeric',

@@ -6,6 +6,7 @@ class DevelopmentPlan extends Base {
     static buildForm(data, unit_id) {
         let obj = {
             DevelopmentUnit: unit_id,
+            Number: data.Number,
             Species: data.Species.Id,
             MinimumExploitableDiameter: data.MinimumExploitableDiameter
         }

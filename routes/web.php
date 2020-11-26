@@ -38,6 +38,7 @@ Route::middleware('auth.jwt')->group(function () {
 
     Route::resource('/management/development-units', 'DevelopmentUnitController')->only(['create', 'edit']);
     Route::resource('/management/management-units', 'ManagementUnitController')->only(['create', 'edit']);
+    Route::resource('/management/aac', 'AnnualAllowableCutController')->only(['create', 'edit']);
     Route::get('/management/{management_type?}', 'ManagementController@index');
 
     Route::resource('/concessions/constituent-permits', 'ConstituentPermitController')->only(['index', 'create', 'edit']);

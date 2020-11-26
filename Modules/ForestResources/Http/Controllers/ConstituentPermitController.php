@@ -178,6 +178,7 @@ class ConstituentPermitController extends Controller
     public function listConstituentPermits(Request $request)
     {
         $cp = ConstituentPermit::where('PermitNumber', 'ilike', "%{$request->get('name')}%")
+            ->where('Approved', true)
             ->take($request->get('limit', 100))
             ->get(['Id', 'PermitNumber']);
 

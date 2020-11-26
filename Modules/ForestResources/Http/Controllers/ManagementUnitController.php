@@ -178,4 +178,25 @@ class ManagementUnitController extends Controller
 
         return Excel::download(new Exporter($collection,$headings), 'management_unit.xlsx');
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function listManagementUnits(Request $request)
+    {
+        $management_units = ManagementUnit::where('Name', 'ilike', "%{$request->get('name')}%")
+            ->where('Approved', true)
+            ->take($request->get('limit', 100))
+            ->get(['Id', 'Name']);
+
+        return response()->json([
+            'data' => $management_units->map(function ($management_unit) {
+                return [
+                    'Id' => $management_unit->Id,
+                    'Name' => $management_unit->Name
+                ];
+            })
+        ]);
+    }
 }

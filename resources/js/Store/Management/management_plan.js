@@ -12,6 +12,10 @@ export default {
             let data = payload.data;
             return axios.patch(`api/management_plans/${id}`, data)
                 .then((response) => response.data);
+        },
+        listSearch({}, payload) {
+            return axios.get(`api/management_plans/list?name=${payload.name}&limit=${payload.limit}`)
+                .then((response) => response);
         }
     }
 }

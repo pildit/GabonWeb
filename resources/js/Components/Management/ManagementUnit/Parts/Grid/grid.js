@@ -29,7 +29,7 @@ export default (options) => {
             plans: {
                 header: "th_plan_id",
                 render: (row) => {
-                    return _.map(row.plans, 'Id').join('/')
+                    return _.map(row.plans, 'Number').join('/')
                 }
             },
             Email: {

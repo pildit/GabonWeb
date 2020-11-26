@@ -216,7 +216,7 @@ export default {
                         Notification.success(this.translate('Development Plan'), data.message);
                     })
                 })
-                window.location.href = DevelopmentUnit.buildRoute('development_units.index');
+                // window.location.href = DevelopmentUnit.buildRoute('development_units.index');
             })
         },
         update(data) {
@@ -226,8 +226,9 @@ export default {
             }).then(() => {
                 _.each(this.plansForm, (plan, index) => {
                     let data = DevelopmentPlan.buildForm(plan, this.form.Id);
-                    DevelopmentPlan.update(plan.Id, data).then((data) => {
-                        Notification.success(this.translate('Development Plan'), data.message);
+                    let promise = (plan.Id) ? DevelopmentPlan.update(plan.Id,data) : DevelopmentPlan.add(data);
+                    promise.then((data) => {
+                        Notification.success(this.translate('development_plan'), data.message);
                     })
                 })
                 window.location.href = DevelopmentUnit.buildRoute('development_units.index');

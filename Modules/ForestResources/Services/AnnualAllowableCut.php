@@ -38,7 +38,7 @@ class AnnualAllowableCut extends PageResults
         $collection = $collection->get();
 
         return $collection->map(function ($item) {
-            $annualoperationplan = $item->annualoperationplans()->get()->map(function ($item) {
+            $annualoperationplan = $item->annualoperation_plans->map(function ($item) {
                 return [
                     'Id' => $item->Id,
                     'Species'=> $item->species ? $item->species->CommonName : $item->Species,
@@ -59,7 +59,8 @@ class AnnualAllowableCut extends PageResults
                     'ID' => $item->AacId,
                     'ManagementUnit' => $item->managementunit ? $item->managementunit->Name : $item->ManagementUnit,
                     'ManagementPlan' => $item->ManagementPlan,
-                    'ProductType' => $item->producttype ? $item->producttype->Name : $item->ProductType
+                    'ProductType' => $item->product_type ? $item->product_type->Name : $item->ProductType,
+                    'Plans' => $annualoperationplan
                 ]
             ];
         });

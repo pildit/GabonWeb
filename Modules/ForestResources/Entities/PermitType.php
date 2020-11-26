@@ -15,7 +15,7 @@ class PermitType extends Model
     const UPDATED_AT = "UpdatedAt";
     const DELETED_AT = "DeletedAt";
 
-    protected $dateFormat = 'Y-m-d H:i:s';
+    protected $dateFormat = 'Y-m-d H:i:s.u';
 
     protected $fillable = ['Abbreviation',  'Name', 'User'];
 

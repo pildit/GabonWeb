@@ -50,7 +50,7 @@ class AnnualAllowableCutController extends Controller
 
         $pr->setSortFields(['Id']);
 
-        return response()->json($pr->getPaginator($request, AnnualAllowableCut::class , [ 'Name'], ['mangementunit','managementplan']));
+        return response()->json($pr->getPaginator($request, AnnualAllowableCut::class , [ 'Name'], ['management_unit:Id,Name']));
     }
 
     /**
@@ -75,7 +75,8 @@ class AnnualAllowableCutController extends Controller
         $annual_allowable_cut = AnnualAllowableCut::create($data);
 
         return response()->json([
-            'message' => lang("annual_allowable_cut_created_successfully")
+            'message' => lang("annual_allowable_cut_created_successfully"),
+            'id' => $annual_allowable_cut->Id
         ], 201);
     }
 
@@ -87,6 +88,7 @@ class AnnualAllowableCutController extends Controller
      */
     public function show(AnnualAllowableCut $annual_allowable_cut)
     {
+        $annual_allowable_cut->load('annualoperation_plans');
         return response()->json(['data' => $annual_allowable_cut]);
     }
 

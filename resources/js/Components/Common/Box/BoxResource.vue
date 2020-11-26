@@ -3,9 +3,9 @@
     <div class="card">
           <div class="card-body">
               <h2 class="font-weight-bold my-4">
-                <a :href="item.link" class="btn btn-light-blue btn-rounded">{{ item.title }}</a>
+                <a :href="item.link" class="btn btn-light-blue btn-rounded">{{ translate(item.title) }}</a>
               </h2>
-              <p v-if="item.text" class="grey-text">{{ item.text }}</p>
+              <p v-if="item.text" class="grey-text">{{ translate(item.text) }}</p>
           </div>
     </div>
   </div>

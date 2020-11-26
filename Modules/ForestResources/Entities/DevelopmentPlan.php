@@ -21,7 +21,7 @@ class DevelopmentPlan extends Model
      *
      * @var array
      */
-    protected $fillable = ['DevelopmentUnit','Species','MinimumExploitableDiameter','VolumeTariff','Increment','Approved'];
+    protected $fillable = ['DevelopmentUnit', 'Number', 'Species','MinimumExploitableDiameter','VolumeTariff','Increment','Approved'];
 
     /**
      * @var string
@@ -37,4 +37,7 @@ class DevelopmentPlan extends Model
 
     protected $primaryKey = "Id";
 
+    public function species () {
+        return $this->belongsTo(Species::class,'Species');
+    }
 }

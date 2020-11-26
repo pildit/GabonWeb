@@ -177,7 +177,8 @@ export default {
             }).then(() => {
                 _.each(this.plansForm, (plan, index) => {
                     let data = ManagementPlan.buildForm(plan, this.form.Id);
-                    ManagementPlan.update(plan.Id, data).then((data) => {
+                    let promise = plan.Id ? ManagementPlan.update(plan.Id, data) : ManagementPlan.add(data);
+                    promise.then((data) => {
                         Notification.success(this.translate('Management Plan'), data.message);
                     })
                 })

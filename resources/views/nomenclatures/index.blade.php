@@ -16,7 +16,7 @@
        <vue-card v-for="(item, index) in nomenclatures"
                  :item="item"
                  :key="index"
-                 v-permissions="item.permission"></vue-card>
+                 v-permission="item.permission"></vue-card>
       </div>
     </div>
   </section>

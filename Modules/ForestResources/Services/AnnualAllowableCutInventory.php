@@ -22,7 +22,7 @@ class AnnualAllowableCutInventory extends PageResults
         $srid = config('forestresources.srid');
         $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_transform("Geometry",4256)) as geom');
         $whereIntersects = "public.ST_Intersects(public.st_setsrid(\"Geometry\", {$srid}), public.st_setsrid(public.ST_MakeEnvelope({$bbox}), {$srid}))";
-        $collection = AnnualAllowableCutInventoryEntity::select(['Id', $geomCol]);
+        $collection = AnnualAllowableCutInventoryEntity::select(['Id', $geomCol,'AnnualAllowableCut','Species','DiameterBreastHeight','Quality','Parcel']);
         if($Id){
             $collection = $collection->where("Id","=",$Id);
         }
@@ -33,7 +33,12 @@ class AnnualAllowableCutInventory extends PageResults
                 'type' => 'Feature',
                 'geometry' => json_decode($item->geom),
                 'properties' => [
-                    'id' => $item->Id
+                    'id' => $item->Id,
+                    'AnnualAllowableCut' => $item->annualallowablecut ? $item->annualallowablecut->Name : $item->AnnualAllowableCut,
+                    'Species'=> $item->species ? $item->species->CommonName : $item->Species,
+                    'DiameterBreastHeight' => $item->DiameterBreastHeight,
+                    'Quality' => $item->Quality,
+                    'Parcel' => $item->DiameterBreastHeight
                 ]
             ];
         });

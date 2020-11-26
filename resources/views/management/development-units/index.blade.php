@@ -14,12 +14,12 @@
                     <h5 class="text-center green-text mb-2">{{ translate('development_unit_title') }}</h5>
                     <div class="row">
                         <div class="col-sm-8 d-flex align-items-center">
-                            <a class="btn btn-md" :href="createRoute()" v-permissions="'development-unit.add'">
+                            <a class="btn btn-md" :href="createRoute()" v-permission="'development-unit.add'">
                                 <i class="fas fa-plus-circle"></i> {{ translate('add_development_unit') }}
                             </a>
                         </div>
                         <div class="md-form col-sm-4">
-                            <div class="form-row justify-content-end" v-permissions="'development-unit.view'">
+                            <div class="form-row justify-content-end" v-permission="'development-unit.view'">
                                 <div class="col-sm-10">
                                     <label for="company_name">{{ translate('search') }}</label>
                                     <input @keyup.enter="fetchData" class="form-control" v-model="search" type="text" Placeholder="" name="development_unit_name" id="development_unit_name" />
@@ -30,7 +30,7 @@
                             </div>
                         </div>
                     </div>
-                    <grid v-permissions="'development-unit.view'" :columns="grid.columns" :options="grid.options"></grid>
+                    <grid v-permission="'development-unit.view'" :columns="grid.columns" :options="grid.options"></grid>
                 </div>
             </div>
             @endverbatim

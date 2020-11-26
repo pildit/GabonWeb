@@ -137,6 +137,7 @@ class ConcessionsController extends Controller
     public function listConcessions(Request $request)
     {
         $concessions = Concession::where('Name', 'ilike', "%{$request->get('name')}%")
+            ->where('Approved', true)
             ->take($request->get('limit', 100))
             ->get(['Id', 'Name']);
 
