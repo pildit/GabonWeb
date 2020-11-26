@@ -10,7 +10,7 @@ class Quality extends Model
 {
     use Sortable, UserEmailAttribute;
 
-    protected $fillable = ['Value', 'Description', 'UserId'];
+    protected $fillable = ['Value', 'Description', 'User'];
 
     protected $table = "ForestResources.InventoryQualities";
 

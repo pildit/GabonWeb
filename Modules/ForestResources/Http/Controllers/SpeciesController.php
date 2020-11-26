@@ -63,7 +63,7 @@ class SpeciesController extends Controller
             'Code' => $data['code'],
             'LatinName' => $data['latin-name'] ??  null,
             'CommonName' => $data['common-name'] ??  null,
-            'UserId' => $this->jwtPayload('data.id')
+            'User' => $this->jwtPayload('data.id')
         ]);
 
         return \response()->json([

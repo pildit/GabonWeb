@@ -1,12 +1,17 @@
-
 DROP TABLE IF EXISTS "Taxonomy"."CompaniesTable" CASCADE ;
 
-CREATE TABLE "Taxonomy"."CompaniesTable"
+create table "Taxonomy"."CompaniesTable"
 (
-    "Id" serial,
-    "Name" character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    "Id"        serial       not null
+        constraint companies_pkey
+            primary key,
+    "Name"      varchar(255) not null,
     "GroupName" varchar,
-    CONSTRAINT companies_pkey PRIMARY KEY ("Id")
+    "User"    integer,
+    "CreatedAt" timestamp default now(),
+    "UpdatedAt" timestamp default now(),
+    "TradeRegister" varchar
+
 );
 
 DROP TABLE IF EXISTS  "Taxonomy"."CompanyTypesTable" CASCADE ;
@@ -26,11 +31,30 @@ CREATE TABLE "Taxonomy"."CompanyHasTypesTable"
     "CompanyTypeId" integer NOT NULL
 );
 
-DROP VIEW IF EXISTS "Taxonomy"."Companies";
 
-CREATE OR REPLACE VIEW "Taxonomy"."Companies"
-AS
-SELECT "Id", "Name", "GroupName"
+-- update_timestamp function
+CREATE OR REPLACE FUNCTION update_timestamp()
+    RETURNS TRIGGER AS $$
+BEGIN
+    NEW."UpdatedAt" = now();
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+
+CREATE TRIGGER user_timestamp BEFORE INSERT OR UPDATE ON "Taxonomy"."CompaniesTable"
+    FOR EACH ROW EXECUTE PROCEDURE update_timestamp();
+
+-- VIEWS
+
+create view "Taxonomy"."Companies" ("Id", "Name", "GroupName", "CreatedAt", "UpdatedAt", "User", "TradeRegister") as
+SELECT "CompaniesTable"."Id",
+       "CompaniesTable"."Name",
+       "CompaniesTable"."GroupName",
+       "CompaniesTable"."CreatedAt",
+       "CompaniesTable"."UpdatedAt",
+       "CompaniesTable"."User",
+       "CompaniesTable"."TradeRegister"
 FROM "Taxonomy"."CompaniesTable";
 
 CREATE OR REPLACE VIEW "Taxonomy"."CompanyTypes"
@@ -38,35 +62,27 @@ AS
 SELECT "Id", "Name"
 FROM "Taxonomy"."CompanyTypesTable";
 
+-- RULES
 
+CREATE RULE "Companies_instead_of_delete" AS
+    ON DELETE TO "Taxonomy"."Companies" DO INSTEAD DELETE
+                                                   FROM "Taxonomy"."CompaniesTable"
+                                                   WHERE "CompaniesTable"."Id" = old."Id";
 
----RULES ---
+CREATE RULE "Companies_instead_of_insert" AS
+    ON INSERT TO "Taxonomy"."Companies" DO INSTEAD INSERT INTO "Taxonomy"."CompaniesTable" ("Name", "GroupName", "User", "CreatedAt", "UpdatedAt", "TradeRegister")
+                                                   VALUES (new."Name", new."GroupName", new."User", new."CreatedAt", new."UpdatedAt", new."TradeRegister")
+                                                   Returning "Id", "Name", "GroupName", "CreatedAt", "UpdatedAt", "User", "TradeRegister";
 
-
-create or replace rule "Companies_instead_of_delete"
-    as
-    on delete to "Taxonomy"."Companies"
-    do instead
-    delete from "Taxonomy"."CompaniesTable"
-    where "Taxonomy"."CompaniesTable"."Id" = old."Id"
-;
-
-CREATE or replace rule "Companies_instead_of_insert"
-    as
-    on insert  to "Taxonomy"."Companies"
-    do instead
-    INSERT INTO "Taxonomy"."CompaniesTable"("Name", "GroupName")
-    VALUES (new."Name", new."GroupName")
-    Returning "Id", "Name", "GroupName";
-
-CREATE or replace rule "Companies_instead_of_update"
-    as
-    on UPDATE  to "Taxonomy"."Companies"
-    do instead
-    UPDATE "Taxonomy"."CompaniesTable"
-    SET "Name" = new."Name",
-        "GroupName" = new."GroupName"
-    WHERE "Id" = old."Id";
+CREATE RULE "Companies_instead_of_update" AS
+    ON UPDATE TO "Taxonomy"."Companies" DO INSTEAD UPDATE "Taxonomy"."CompaniesTable"
+                                                   SET "Name"      = new."Name",
+                                                       "GroupName" = new."GroupName",
+                                                       "User" = new."User",
+                                                       "UpdatedAt" = new."UpdatedAt",
+                                                       "TradeRegister" = new."TradeRegister"
+                                                   WHERE "CompaniesTable"."Id" = old."Id"
+                                                   Returning "Id", "Name", "GroupName", "CreatedAt", "UpdatedAt", "User", "TradeRegister";
 
 
 create or replace rule "CompanyTypes_instead_of_delete"

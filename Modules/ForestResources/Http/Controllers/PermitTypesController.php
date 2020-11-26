@@ -46,7 +46,7 @@ class PermitTypesController extends Controller
         PermitType::create([
             'Abbreviation' => $data['abbreviation'],
             'Name' => $data['name'] ?? null,
-            'UserId' => $this->JwtPayload('data.id')
+            'User' => $this->JwtPayload('data.id')
             ]);
 
         return response()->json([
@@ -91,7 +91,7 @@ class PermitTypesController extends Controller
         $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
 
         $headings  = ['Abbreviation', 'Name', 'User'];
-        $collection = PermitType::select('Id','Abbreviation',  'Name', 'UserId');
+        $collection = PermitType::select('Id','Abbreviation',  'Name', 'User');
 
         if($request->get('date_from')){
             $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
@@ -103,8 +103,8 @@ class PermitTypesController extends Controller
         $collection = $collection->get();
         $collection = $collection->map(function ($item) {
 
-            $User = (User::select("firstname","lastname")->where("id", $item->UserId)->first()) ?
-                User::select("firstname")->where("id", $item->UserId)->first()->firstname ." ".User::select("lastname")->where("id", $item->UserId)->first()->lastname :
+            $User = (User::select("firstname","lastname")->where("id", $item->User)->first()) ?
+                User::select("firstname")->where("id", $item->User)->first()->firstname ." ".User::select("lastname")->where("id", $item->User)->first()->lastname :
                 $item->User;
 
             return [

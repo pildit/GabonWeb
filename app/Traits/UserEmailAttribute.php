@@ -5,7 +5,7 @@ namespace App\Traits;
 trait UserEmailAttribute {
 
     public function user() {
-        return $this->belongsTo('Modules\User\Entities\User', 'UserId');
+        return $this->belongsTo('Modules\User\Entities\User', 'User');
     }
 
     public function getEmailAttribute() {

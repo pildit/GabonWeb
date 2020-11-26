@@ -4,16 +4,17 @@ namespace Modules\Admin\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Sortable;
+use App\Traits\UserEmailAttribute;
 
 class Company extends Model
 {
-    use Sortable;
+    use Sortable, UserEmailAttribute;
 
-    protected $fillable = ['Name'];
+    protected $fillable = ['Name', 'GroupName', 'TradeRegister'];
 
     protected $table = 'Taxonomy.Companies';
 
-    protected $with = ['types', 'user'];
+    protected $with = ['types'];
 
     const CREATED_AT = "CreatedAt";
     const UPDATED_AT = "UpdatedAt";
@@ -29,14 +30,6 @@ class Company extends Model
         )->select(['CompanyTypes.Name', 'CompanyTypes.Id']);
     }
 
-    public function user() {
-        return $this->belongsTo('Modules\User\Entities\User', 'UserId');
-    }
-
-    public function getUserEmailAttribute() {
-         return  $this->user->email;
-    }
-
-    protected $hidden = ['pivot'];
+    protected $hidden = ['pivot', 'user'];
     protected $primaryKey = "Id";
 }

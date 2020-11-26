@@ -1,12 +1,28 @@
+create table "ParcelsTable"
+(
+    "Approved" boolean default false,
+    "User"     integer,
+    constraint "PK_ParcelsTable"
+        primary key ("Id"),
+    constraint "CHK_BaseResourcesTable.Name"
+        check (length("Name") > 0)
+)
+    inherits ("BaseResourcesTable");
+
 ----------
 -- VIEW --
 ----------
-create view "ForestResources"."Parcels"
+create or replace view "ForestResources"."Parcels"
 as
     select
         pt."Id"
         , pt."Name"
         , pt."Geometry"
+        , pt."Approved"
+        , pt."User"
+        , pt."CreatedAt"
+        , pt."UpdatedAt"
+        , pt."DeletedAt"
     from "ForestResources"."ParcelsTable" as pt
 ;
 
@@ -35,6 +51,9 @@ as
                 ,"ResourceType"
                 ,"Name"
                 ,"Geometry"
+                ,"CreatedAt"
+                ,"Approved"
+                ,"User"
             )
         values
             (
@@ -46,11 +65,19 @@ as
                     limit 1)
                 , new."Name"
                 , new."Geometry"
+                , new."CreatedAt"
+                , new."Approved"
+                , new."User"
             )
         returning
             "Id",
             "Name",
-            "Geometry"
+            "Geometry",
+            "Approved",
+            "User",
+            "CreatedAt",
+            "UpdatedAt",
+            "DeletedAt"
 ;
 
 create or replace rule "Parcels_instead_of_update"
@@ -61,10 +88,18 @@ as
             set
                 "Name" = new."Name"
                 , "Geometry" = new."Geometry"
+                , "Approved" = new."Approved"
+                , "UpdatedAt" = new."UpdatedAt"
+                , "DeletedAt" = new."DeletedAt"
             where
                 "Id" = old."Id"
             returning
                 "Id",
                 "Name",
-                "Geometry"
+                "Geometry",
+                "Approved",
+                "User",
+                "CreatedAt",
+                "UpdatedAt",
+                "DeletedAt"
 ;

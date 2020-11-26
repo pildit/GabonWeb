@@ -4,6 +4,7 @@ namespace Modules\User\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class EmployeeTypesTableSeeder extends Seeder
 {
@@ -18,17 +19,17 @@ class EmployeeTypesTableSeeder extends Seeder
 
         DB::table('admin.employee_types')->insert(
             array(
-                'name' => 'Employee of Ministry'
+                'name' => 'Ministry'
             )
         );
         DB::table('admin.employee_types')->insert(
             array(
-                'name' => 'Employee of CAF'
+                'name' => 'L\'Agence'
             )
         );
         DB::table('admin.employee_types')->insert(
             array(
-                'name' => 'Employee of Concessionaire'
+                'name' => 'Concessionaire'
             )
         );
 
