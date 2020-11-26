@@ -3,7 +3,7 @@
     <h5 class="text-center green-text mb-2">{{ translate('constituent_permits') }}</h5>
     <div class="row">
       <div class="col-sm-8 d-flex align-items-center">
-        <button class="btn btn-md" @click="modals.form = true">
+        <button class="btn btn-md" @click="modals.form = true"  v-permission="'constituent-permit.add'">
           <i class="fas fa-plus-circle"></i> {{ translate('add_cp') }}
         </button>
       </div>
@@ -19,8 +19,8 @@
         </div>
       </div>
     </div>
-    <grid :columns="grid.columns" :options="grid.options"></grid>
-    <item-modal :type-prop="formType" v-model="modals.form" @done="getItems"></item-modal>
+    <grid v-permission="'constituent-permit.view'" :columns="grid.columns" :options="grid.options"></grid>
+    <item-modal v-permission="'constituent-permit.edit'" :type-prop="formType" v-model="modals.form" @done="getItems"></item-modal>
   </div>
 </template>
 

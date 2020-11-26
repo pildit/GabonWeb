@@ -3,7 +3,7 @@
         <h5 class="card-header success-color white-text text-center py-4">
             <strong>{{ translate('management_unit_create_form_title') }}</strong>
         </h5>
-        <div class="card-body px-lg-5 pt-0">
+        <div class="card-body px-lg-5 pt-0" v-permission="'management-unit.add'">
             <form @submit.prevent="save" class="text-center" style="color: #757575;" novalidate>
                 <div class="form-row">
                     <div class="col">
@@ -65,11 +65,12 @@
                         <div class="md-form">
                             <multiselect
                                 v-model="form.ProductType"
-                                :options="productTypeList.data"
+                                :options="productTypeList"
                                 :placeholder="translate('resource_type_label')"
                                 track-by="Id"
                                 label="Name"
                                 :allow-empty="false"
+                                @select="$forceUpdate()"
                             ></multiselect>
                         </div>
                     </div>
@@ -98,6 +99,7 @@ import PlanFormPartial from "./PlanFormPartial.vue";
 import _ from "lodash";
 import DevelopmentUnit from "../../../../DevelopmentUnit/DevelopmentUnit";
 import Notification from "../../../../../Common/Notifications/Notification";
+import {mapGetters} from "vuex";
 
 export default {
 
@@ -111,30 +113,19 @@ export default {
             formPlansCount: 0,
             saveLoading: false,
             plansForm: [],
-            productTypeList: {
-                data: [
-                    {
-                        Id: 1,
-                        Name: "Log"
-                    }
-                ]
-            },
             developmentUnitList: {
                 data: [],
                 isLoading: false,
                 limit: 50
-            }
+            },
+            isCreatedFormType: true
         }
     },
-
     computed: {
-        isCreatedFormType() {
-            return _.isEmpty(this.managementUnitProp);
-        }
+        ...mapGetters('productType', ['productTypeList']),
     },
 
     created() {
-        this.form.ProductType = this.productTypeList.data[0];
         this.asyncFindDevelopment('');
     },
 
@@ -190,7 +181,7 @@ export default {
                         Notification.success(this.translate('Management Plan'), data.message);
                     })
                 })
-                // window.location.href = ManagementUnit.buildRoute('management_units.index');
+                window.location.href = ManagementUnit.buildRoute('management_units.index');
             })
         },
         asyncFindDevelopment(query) {
@@ -211,10 +202,11 @@ export default {
     watch: {
         managementUnitProp(value) {
             if(value) {
-                console.log(value);
+                this.isCreatedFormType = false;
                 this.form = _.merge(this.form, value);
                 this.form.Geometry = value.geometry_as_text;
                 this.form.DevelopmentUnit = this.developmentUnitList.data.find((x) => x.Id == value.DevelopmentUnit);
+                this.form.ProductType = this.productTypeList.find((x) => x.Id == this.form.ProductType);
                 this.formPlansCount = value.plans.length;
                 this.plansForm = value.plans;
                 this.$forceUpdate();

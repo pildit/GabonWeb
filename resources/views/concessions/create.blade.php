@@ -9,7 +9,7 @@
                 {{lang('the_map')}}
             </div>
             <div class="col-md-8 mt-4" id="concessions-form">
-                <concessions-form></concessions-form>
+                <concessions-form v-permissions="'concession.add'"></concessions-form>
             </div>
         </div>
     </div>

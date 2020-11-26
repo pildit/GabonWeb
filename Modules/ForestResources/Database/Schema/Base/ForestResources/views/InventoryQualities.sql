@@ -1,13 +1,13 @@
 ----------
 -- VIEW --
 ----------
-create view "ForestResources"."InventoryQualities"
+create or replace view "ForestResources"."InventoryQualities"
 as
     select
         iqt."Id"
         , iqt."Description"
         , iqt."Value",
-        iqt."UserId",
+        iqt."User",
         iqt."CreatedAt",
         iqt."UpdatedAt",
         iqt."DeletedAt"
@@ -36,7 +36,7 @@ as
                 , "Description"
                 , "Value"
                 , "CreatedAt"
-                , "UserId"
+                , "User"
             )
         values
             (
@@ -44,13 +44,13 @@ as
                 , new."Description"
                 , new."Value"
                 , new."CreatedAt"
-                , new."UserId"
+                , new."User"
             )
         returning
             "Id"
             , "Description"
             , "Value"
-            , "UserId"
+            , "User"
             , "CreatedAt"
             , "UpdatedAt"
             , "DeletedAt"
@@ -71,7 +71,7 @@ as
             "Id"
             , "Description"
             , "Value"
-            , "UserId"
+            , "User"
             , "CreatedAt"
             , "UpdatedAt"
             , "DeletedAt"

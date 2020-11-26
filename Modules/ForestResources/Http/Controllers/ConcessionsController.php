@@ -3,6 +3,7 @@
 namespace Modules\ForestResources\Http\Controllers;
 
 use App\Traits\Approve;
+use GenTux\Jwt\GetsJwtToken;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +18,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ConcessionsController extends Controller
 {
-    use Approve;
+    use Approve, GetsJwtToken;
 
     private $modelName = Concession::class;
 
@@ -54,6 +55,7 @@ class ConcessionsController extends Controller
     public function store(ConcessionRequest $request)
     {
        $data = $request->validated();
+       $data['User'] = $this->jwtPayload('data.id');
 
         Concession::create($data);
 

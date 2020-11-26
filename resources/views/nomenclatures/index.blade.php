@@ -13,7 +13,10 @@
         <p></p>
       </div>
       <div class="row" id="nomenclatures">
-       <vue-card v-for="(item, index) in nomenclatures" :item="item" :key="index"></vue-card>
+       <vue-card v-for="(item, index) in nomenclatures"
+                 :item="item"
+                 :key="index"
+                 v-permissions="item.permission"></vue-card>
       </div>
     </div>
   </section>

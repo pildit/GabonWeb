@@ -48,7 +48,7 @@ class QualityController extends Controller
         Quality::create([
            'Value' => $data['value'],
            'Description' => $data['description'] ?? null,
-           'UserId'  => $this->JwtPayload('data.id')
+           'User'  => $this->JwtPayload('data.id')
         ]);
 
         return \response()->json([
@@ -113,7 +113,7 @@ class QualityController extends Controller
         $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
 
         $headings  = ['Value', 'Description', 'User'];
-        $collection = Quality::select('Id', 'Value', 'Description', 'UserId');
+        $collection = Quality::select('Id', 'Value', 'Description', 'User');
 
         if($request->get('date_from')){
             $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
@@ -125,8 +125,8 @@ class QualityController extends Controller
         $collection = $collection->get();
         $collection = $collection->map(function ($item) {
 
-            $User = (User::select("firstname","lastname")->where("id", $item->UserId)->first()) ?
-                User::select("firstname")->where("id", $item->UserId)->first()->firstname ." ".User::select("lastname")->where("id", $item->UserId)->first()->lastname :
+            $User = (User::select("firstname","lastname")->where("id", $item->User)->first()) ?
+                User::select("firstname")->where("id", $item->User)->first()->firstname ." ".User::select("lastname")->where("id", $item->User)->first()->lastname :
                 $item->User;
 
             return [

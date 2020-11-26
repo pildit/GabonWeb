@@ -1,6 +1,6 @@
 <template>
     <div class="text-right">
-        <a :href="editRoute()" class="text-success aligned fz-16"
+        <a v-permission="'users.edit'" :href="editRoute()" class="text-success aligned fz-16"
            :title="translate('edit')"
            v-tooltip>
             <i class="fas fa-edit"></i>
@@ -12,7 +12,7 @@
             <span v-if="resendLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             <i v-else class="far fa-envelope"></i>
         </a>
-        <switches v-model="isApproved" color="green" :title="translate('approve_user')" @input="approve" :emit-on-mount="false" v-tooltip></switches>
+        <switches v-permission="'users.approve'" v-model="isApproved" color="green" :title="translate('approve_user')" @input="approve" :emit-on-mount="false" v-tooltip></switches>
     </div>
 </template>
 

@@ -101,4 +101,5 @@ Route::middleware('jwt:api')->get('/quality/export', 'QualityController@export')
 Route::middleware('jwt:api')->resource('/quality', QualityController::class)->except(['edit', 'create']);
 //Product type
 Route::middleware('jwt:api')->get('/product_type/export', 'ProductTypeController@export');
+Route::middleware('jwt:api')->get('/product_type/list', 'ProductTypeController@listProductTypes');
 Route::middleware('jwt:api')->resource('/product_type', ProductTypeController::class)->except(['edit', 'create']);

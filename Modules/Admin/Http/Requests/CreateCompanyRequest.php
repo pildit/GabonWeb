@@ -17,7 +17,8 @@ class CreateCompanyRequest extends FormRequest
             'name' => 'sometimes|string|required',
             'types' => 'array',
             'types.*' => 'exists:Modules\Admin\Entities\CompanyType,Id',
-            'group-name' => 'string'
+            'group-name' => 'string',
+            'trade-register' => 'string'
         ];
     }
 

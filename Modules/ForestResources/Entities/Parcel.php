@@ -28,7 +28,7 @@ class Parcel extends Model
      *
      * @var array
      */
-    protected $fillable = ['Name', 'Geometry', 'Approved'];
+    protected $fillable = ['Name','Geometry', 'Approved', 'User'];
 
     /**
      * The table associated with the model.
@@ -36,6 +36,8 @@ class Parcel extends Model
      * @var string
      */
     protected $table = 'ForestResources.Parcels';
+
+    protected $hidden = ['user'];
 
     protected $primaryKey = "Id";
 

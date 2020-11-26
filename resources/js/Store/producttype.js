@@ -4,16 +4,23 @@ export default {
     namespaced: true,
     state: {
         productTypes: [],
+        productTypeList: [],
     },
     getters: {
         productTypes(state) {
             return state.productTypes;
         },
+        productTypeList(state) {
+            return state.productTypeList;
+        }
     },
     mutations: {
         productTypes(state, productTypes) {
             state.productTypes = productTypes;
         },
+        productTypeList(state, types) {
+            return state.productTypeList = types;
+        }
     },
     actions: {
         index({commit}, payload) {
@@ -22,6 +29,14 @@ export default {
                     commit('productTypes', response.data.data);
                     return response
                 });
+        },
+
+        getList({commit}, payload) {
+            return axios.get(`api/product_type/list`)
+                .then((response) => response.data)
+                .then((response) => {
+                    commit('productTypeList', response.data);
+                })
         },
 
         get({commit}, payload) {

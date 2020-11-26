@@ -4,6 +4,7 @@ namespace Modules\ForestResources\Http\Controllers;
 
 use App\Services\PageResults;
 use App\Traits\Approve;
+use GenTux\Jwt\GetsJwtToken;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -18,7 +19,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class ManagementUnitController extends Controller
 {
-    use Approve;
+    use Approve, GetsJwtToken;
 
     private $modelName = ManagementUnit::class;
 
@@ -58,6 +59,7 @@ class ManagementUnitController extends Controller
     public function store(CreateManagementUnitRequest $request)
     {
         $data = $request->validated();
+        $data['User'] = $this->jwtPayload('data.id');
 
         $management_unit = ManagementUnit::create($data);
 

@@ -44,7 +44,9 @@ class CompanyController extends Controller
 
         $company->Name = $data['name'];
         $company->GroupName = $data['group-name'] ?? null;
-        $company->UserId = $this->jwtPayload('data.id');
+        $company->TradeRegister = $data['trade-register'] ?? null;
+
+        $company->User = $this->jwtPayload('data.id');
 
         $company->save();
 
@@ -71,6 +73,7 @@ class CompanyController extends Controller
 
         $company->Name = $data['name'];
         $company->GroupName = $data['group-name'] ?? null;
+        $company->TradeRegister = $data['trade-register'] ?? null;
 
         $company->save();
 

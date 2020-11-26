@@ -33,20 +33,25 @@ class SeedPermissionsTableSeeder extends Seeder
             'site_logbook',
             'species',
             'translations',
-            'users'
+            'users',
+            'parcels',
+            'companies',
+            'permit-types',
+            'quality',
+            'product-types'
          ];
 
         $actions = [
-          'view',
+            'view',
             'add',
-          'edit',
+            'edit',
             'approve',
             'delete'
         ];
 
         foreach ($resources as $resource) {
             foreach ($actions as $action)
-                Permission::create(['name' => $resource . "." . $action]);
+                Permission::updateOrCreate(['name' => $resource . "." . $action]);
         }
     }
 }

@@ -40,7 +40,6 @@ Route::middleware('auth.jwt')->group(function () {
     Route::resource('/management/management-units', 'ManagementUnitController')->only(['create', 'edit']);
     Route::get('/management/{management_type?}', 'ManagementController@index');
 
-    Route::get('/concessions/parcels', "ConcessionsController@parcels");
     Route::resource('/concessions/constituent-permits', 'ConstituentPermitController')->only(['index', 'create', 'edit']);
     Route::get('/concessions', 'ConcessionsController@resources');
     Route::get('/concessions/list', "ConcessionsController@index");

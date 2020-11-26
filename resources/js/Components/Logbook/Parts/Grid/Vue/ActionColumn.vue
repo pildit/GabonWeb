@@ -1,8 +1,8 @@
 <template>
     <div class="text-right">
-        <span class="btn btn-sm btn-outline-info" @click="view(rowProp.Id)"><i class="fas fa-info-circle"></i> {{translate('view')}}</span>
-        <switches v-model="isApproved" color="green" :title="translate('approve_logbook')" @input="approve" :emit-on-mount="false" v-tooltip></switches>
-        <logbook-modal :row-prop="rowProp" v-model="modals.info"></logbook-modal>
+        <span v-permission="'logbook.view'" class="btn btn-sm btn-outline-info" @click="view(rowProp.Id)"><i class="fas fa-info-circle"></i> {{translate('view')}}</span>
+        <switches v-permission="'logbook.approve'" v-model="isApproved" color="green" :title="translate('approve_logbook')" @input="approve" :emit-on-mount="false" v-tooltip></switches>
+        <logbook-modal v-permission="'logbook.view'" :row-prop="rowProp" v-model="modals.info"></logbook-modal>
     </div>
 </template>
 

@@ -12,7 +12,7 @@ create table "ForestResources"."InventoryQualitiesTable"
     "Value"       integer                             not null
         constraint "UNIQ_ForestResources.InventoryQualitiesTable.Value"
             unique,
-    "UserId"      integer,
+    "User"      integer,
     "CreatedAt"   timestamp default CURRENT_TIMESTAMP not null,
     "UpdatedAt"   timestamp default CURRENT_TIMESTAMP not null,
     "DeletedAt"   timestamp
@@ -41,4 +41,9 @@ on "ForestResources"."InventoryQualitiesTable"
         "Value"
     )
 ;
+
+INSERT INTO "ForestResources"."InventoryQualitiesTable" ("Id", "Description", "Value", "User") VALUES (0, '1', 1, null);
+INSERT INTO "ForestResources"."InventoryQualitiesTable" ("Id", "Description", "Value", "User") VALUES (1, '3', 3, null);
+INSERT INTO "ForestResources"."InventoryQualitiesTable" ("Id", "Description", "Value", "User") VALUES (2, '2', 2, null);
+INSERT INTO "ForestResources"."InventoryQualitiesTable" ("Id", "Description", "Value", "User") VALUES (3, '4', 4, null);
 

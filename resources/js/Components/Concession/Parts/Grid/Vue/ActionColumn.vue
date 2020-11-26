@@ -1,11 +1,11 @@
 <template>
     <div>
-        <a class="text-success aligned fz-16" :href="editRoute()"
+        <a v-permission="'concession.edit'" class="text-success aligned fz-16" :href="editRoute()"
            :title="translate('Edit')"
            v-tooltip>
             <i class="fas fa-edit"></i>
         </a>
-        <switches v-model="isApproved" color="green" title="Approve Item" @input="approve" :emit-on-mount="false"
+        <switches v-permission="'concession.approve'" v-model="isApproved" color="green" title="Approve Item" @input="approve" :emit-on-mount="false"
                   v-tooltip></switches>
     </div>
 </template>

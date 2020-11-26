@@ -100,11 +100,12 @@
                         <div class="md-form">
                             <multiselect
                                 v-model="form.ProductType"
-                                :options="productTypeList.data"
+                                :options="productTypeList"
                                 :placeholder="translate('resource_type_label')"
                                 track-by="Id"
                                 label="Name"
                                 :allow-empty="false"
+                                @select="$forceUpdate()"
                             ></multiselect>
                         </div>
                     </div>
@@ -122,7 +123,7 @@
 </template>
 
 <script>
-import {mapState} from 'vuex';
+import {mapState, mapGetters} from 'vuex';
 import Multiselect from 'vue-multiselect';
 import Company from "components/Company/Company";
 import Concession from "components/Concession/Concession";
@@ -153,26 +154,16 @@ export default {
             continentList: {
                 data: []
             },
-            productTypeList: {
-                data: [
-                    {
-                        Id: 1,
-                        Name: "Log"
-                    }
-                ]
-            }
+            isCreatedFormType: true
         }
     },
 
     computed: {
         ...mapState(['continents']),
-        isCreatedFormType() {
-            return _.isEmpty(this.concessionProp);
-        }
+        ...mapGetters('productType', ['productTypeList']),
     },
 
     created() {
-        this.form.ProductType = this.productTypeList.data[0];
         this.asyncFindCompany();
         this.asyncFindCP();
     },
@@ -226,11 +217,13 @@ export default {
     watch: {
         concessionProp(value) {
             if(value) {
+                this.isCreatedFormType = false;
                 this.form = _.merge(this.form, value);
                 this.form.Geometry = value.geometry_as_text;
                 this.form.ConstituentPermit = this.constituentPermitList.data.find((x) => x.Id == value.ConstituentPermit);
                 this.form.Company = this.companyList.data.find((x) => x.Id == value.Company);
                 this.form.Continent = this.continents.find((x) => x.Name == value.Continent);
+                this.form.ProductType = this.productTypeList.find((x) => x.Id == this.form.ProductType);
                 this.$forceUpdate();
             }
         }

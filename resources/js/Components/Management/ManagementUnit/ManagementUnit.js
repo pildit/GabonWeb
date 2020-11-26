@@ -16,6 +16,7 @@ class ManagementUnit extends Base {
         let obj = {
             Number : data.Number,
             Name : data.Name,
+            ProductType : data.ProductType.Id,
             DevelopmentUnit : data.DevelopmentUnit.Id
         }
 
