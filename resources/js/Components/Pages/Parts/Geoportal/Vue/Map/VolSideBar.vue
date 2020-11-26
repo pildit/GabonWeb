@@ -42,7 +42,7 @@
       <input
         v-if="checkPicked == 'checkPlateNumber'"
         v-model="plateNumber"
-        placeholder="ex: PH 01 UNU"
+        placeholder="ex: CC-444-AA"
       />
       <rcp-button
         v-if="checkPicked == 'checkPlateNumber'"
