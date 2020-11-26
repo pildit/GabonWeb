@@ -20,7 +20,7 @@ class ManagementUnit extends Model
      *
      * @var array
      */
-    protected $fillable = ['Name','Number', 'User', 'DevelopmentUnit','Geometry','Approved'];
+    protected $fillable = ['Name','Number', 'User', 'ProductType', 'DevelopmentUnit','Geometry','Approved'];
 
     /**
      * @var string
@@ -49,6 +49,14 @@ class ManagementUnit extends Model
     public function developmentUnit()
     {
         return $this->belongsTo(DevelopmentUnit::class,"DevelopmentUnit");
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function product_type()
+    {
+        return $this->hasOne(ProductType::class, "ProductType");
     }
 
 }

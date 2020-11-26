@@ -16,6 +16,7 @@ class UpdateManagementUnitRequest extends FormRequest
         return [
             'Number' => 'string',
             'Name' => 'string',
+            'ProductType' => 'integer|exists:Modules\ForestResources\Entities\ProductType,Id',
             'DevelopmentUnit' => 'exists:Modules\ForestResources\Entities\DevelopmentUnit,Id',
             'Geometry' => 'string',
             'Approved'=>'bool',

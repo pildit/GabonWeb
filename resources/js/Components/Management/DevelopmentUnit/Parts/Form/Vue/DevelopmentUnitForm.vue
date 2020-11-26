@@ -170,7 +170,6 @@ export default {
     },
 
     created() {
-        console.log(this.isCreatedFormType);
         this.form.Start = this.dateRange.startDate.format('YYYY-MM-DD');
         this.form.End = this.dateRange.endDate.format('YYYY-MM-DD');
         this.asyncFindConcession('');
