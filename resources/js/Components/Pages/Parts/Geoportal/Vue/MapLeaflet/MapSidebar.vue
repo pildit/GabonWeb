@@ -31,18 +31,7 @@
 
         <!-- Radio buttons -->
         <div class="form-check">
-          <!-- Check None -->
-          <input
-            id="none"
-            class="form-check-input"
-            type="radio"
-            value="none"
-            v-model="checkPicked"
-            v-on:click="onCheckNone"
-          />
-          <label  class="form-check-label" for="none"><h6 class="text-dark">None</h6></label>
-          <br />
-
+          
           <!-- Check plate number -->
           <input
             id="checkPlateNumber"
@@ -50,6 +39,7 @@
             type="radio"
             value="checkPlateNumber"
             v-model="checkPicked"
+            v-on:click="onCheckNone"
           />
           <label class="form-check-label" for="checkPlateNumber"
             ><h6 class="text-dark">Check plate number</h6></label
@@ -124,6 +114,7 @@
             type="radio"
             value="checkAnnualAllowableCut"
             v-model="checkPicked"
+            v-on:click="onCheckNone"
           />
           <label class="form-check-label" for="checkAnnualAllowableCut"
             ><h6 class="text-dark">Check Annual Allowable cut</h6></label
@@ -177,6 +168,7 @@
             type="radio"
             value="checkTransportPermit"
             v-model="checkPicked"
+            v-on:click="onCheckNone"
           />
           <label class="form-check-label" for="checkTransportPermit"
             ><h6 class="text-dark">Check Transport Permit</h6></label
@@ -388,7 +380,10 @@ export default {
   },
   methods: {
     onCheckNone() {
-      this.$emit("onCheckNone");
+      if(this.checkPicked !== "none") {
+        this.$emit("onCheckNone");
+        this.checkPicked = "none"
+      }
     },
 
     onCheckPlateNumber() {
