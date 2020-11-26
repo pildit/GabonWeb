@@ -80,6 +80,7 @@
               v-if="checkPicked == 'checkPlateNumber'"
               is-range
               v-model="checkPlateNumberRange"
+              :popover="popover"
             >
               <template v-slot="{ inputValue, inputEvents }">
                 <div class="form-group">
@@ -209,7 +210,7 @@
           <v-date-picker
             v-if="checkPicked == 'checkTransportPermit'"
             v-model="transportPermitDate"
-            mode="date"
+            :popover="popover"
           >
             <template v-slot="{ inputValue, inputEvents }">
               <div class="row">
@@ -308,6 +309,8 @@ export default {
   props: ["map"],
   data() {
     return {
+      popover: { visibility: 'focus' },
+
       transportPermitHourInterval: [10, 13],
       transportPermitHourMin: 0,
       transportPermitHourMax: 24,
@@ -380,9 +383,9 @@ export default {
   },
   methods: {
     onCheckNone() {
-      if(this.checkPicked !== "none") {
+      if (this.checkPicked !== "none") {
         this.$emit("onCheckNone");
-        this.checkPicked = "none"
+        this.checkPicked = "none";
       }
     },
 
