@@ -3,10 +3,10 @@ import ActionColumn from "./Vue/ActionColumn.vue";
 export default (options) => {
     return {
         options: {
-            instance: "management_unit",
+            instance: "annual_allowable_cut",
             store: {
-                getter: 'management_unit/management_units',
-                action: 'management_unit/index'
+                getter: 'aac/annual_allowable_cuts',
+                action: 'aac/index'
             },
             sort: {
                 direction: "desc",
@@ -17,19 +17,16 @@ export default (options) => {
             Id: {
                 header: "id"
             },
-            Number: {
-                header: 'th_management_unit_id'
-            },
             Name: {
-                header: "th_management_unit_name",
+                header: 'th_aac_name'
             },
-            'development_unit.Name' : {
-                header: "th_dev_unit_name"
+            "management_unit.Name": {
+                header: "th_ufg"
             },
-            plans: {
+            management_plans: {
                 header: "th_plan_id",
                 render: (row) => {
-                    return _.map(row.plans, 'Number').join('/')
+                    return _.map(row.management_plans, 'Number').join('/')
                 }
             },
             Email: {

@@ -15,6 +15,7 @@ class CreateDevelopmentPlanRequest extends FormRequest
     {
         return [
             'DevelopmentUnit' => 'required|exists:Modules\ForestResources\Entities\DevelopmentUnit,Id',
+            'Number' => 'required|string',
             'Species' => 'required|integer',
             'MinimumExploitableDiameter' => 'required|numeric',
             'VolumeTariff' => 'string',

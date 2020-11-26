@@ -148,4 +148,24 @@ class ManagementPlanController extends Controller
 
         return Excel::download(new Exporter($collection,$headings), 'management_plan.xlsx');
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function listManagementPlans(Request $request)
+    {
+        $management_plans = ManagementPlan::where('Number', 'ilike', "%{$request->get('name')}%")
+            ->take($request->get('limit', 100))
+            ->get(['Id', 'Number']);
+
+        return response()->json([
+            'data' => $management_plans->map(function ($management_plan) {
+                return [
+                    'Id' => $management_plan->Id,
+                    'Number' => $management_plan->Number
+                ];
+            })
+        ]);
+    }
 }

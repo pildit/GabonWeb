@@ -15,6 +15,7 @@ class CreateManagementPlanRequest extends FormRequest
     {
         return [
             'ManagementUnit' => 'required|exists:Modules\ForestResources\Entities\ManagementUnit,Id',
+            'Number' => 'required|string',
             'Species' => 'required|integer',
             'GrossVolumeUFG' => 'required|numeric',
             'GrossVolumeYear' => 'required|numeric',

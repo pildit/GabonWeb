@@ -4,6 +4,7 @@ namespace Modules\ForestResources\Entities;
 
 use App\Traits\Geometry;
 use App\Traits\Sortable;
+use Brick\Geo\IO\EWKBReader;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -33,17 +34,40 @@ class AnnualAllowableCut extends Model
      */
     protected $table = 'ForestResources.AnnualAllowableCuts';
 
+    protected $hidden = ['Geometry'];
+
+    protected $appends = ['geometry_as_text', 'management_plans'];
+
+    public function getGeometryAsTextAttribute()
+    {
+        if(!$this->Geometry) return null;
+
+        if(ctype_xdigit($this->Geometry)) {
+            $reader = new EWKBReader();
+            $geom = $reader->read(hex2bin($this->Geometry));
+            return $geom->asText();
+        }else{
+            return $this->Geometry;
+        }
+    }
+
     protected $primaryKey = "Id";
 
-    public function managementunit(){
+    public function management_unit(){
         return $this->belongsTo(ManagementUnit::class,"ManagementUnit");
     }
 
-    public function managementplan(){
+    public function getManagementPlansAttribute() {
+        if($this->management_unit) {
+            return collect($this->management_unit->plans)->merge([$this->management_plan]);
+        }
+    }
+
+    public function management_plan(){
         return $this->belongsTo(ManagementPlan::class,"ManagementPlan");
     }
 
-    public function annualoperationplans(){
+    public function annualoperation_plans(){
         return $this->hasMany(AnnualOperationPlan::class,"AnnualAllowableCut","Id");
     }
 

@@ -3,12 +3,12 @@ import vueGrid from './Parts/Grid/index';
 import vueForm from './Parts/Form/index';
 import store from "store/store";
 
-class ManagementUnit extends Base {
+class AAC extends Base {
 
     static getComponents() {
         return {
-            "management-unit-grid" : vueGrid,
-            "management-unit-form" : vueForm
+            "aac-grid" : vueGrid,
+            "aac-form" : vueForm
         }
     }
 
@@ -43,10 +43,6 @@ class ManagementUnit extends Base {
         return store.dispatch('management_unit/approve', {id, data});
     }
 
-    static listSearch(name, limit = 100) {
-        return store.dispatch('management_unit/listSearch', {name, limit}).then(response => response.data);
-    }
-
 }
 
-export default ManagementUnit
+export default AAC

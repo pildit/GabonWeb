@@ -16,6 +16,12 @@ export default {
         edit: '/management/management-units/{id}/edit',
     },
 
+    aac: {
+        index: '/management/aac',
+        create: '/management/aac/create',
+        edit: '/management/aac/{id}/edit',
+    },
+
     constituent_permits: {
         index: '/concessions/constituent-permits',
         create: '/concessions/constituent-permits/create',

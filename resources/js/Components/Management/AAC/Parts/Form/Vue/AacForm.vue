@@ -1,19 +1,19 @@
 <template>
     <div class="card" ref="management-unit-form">
         <h5 class="card-header success-color white-text text-center py-4">
-            <strong>{{ translate('management_unit_create_form_title') }}</strong>
+            <strong>{{ translate('aac_create_form_title') }}</strong>
         </h5>
-        <div class="card-body px-lg-5 pt-0" v-permission="'management-unit.add'">
+        <div class="card-body px-lg-5 pt-0" v-permission="'AAC.add'">
             <form @submit.prevent="save" class="text-center" style="color: #757575;" novalidate>
                 <div class="form-row">
                     <div class="col">
                         <div class="md-form">
                             <input type="text" id="Number" name="Number" class="form-control"
                                    v-model="form.Number"
-                                   :data-vv-as="translate('number_management_unit_form')"
+                                   :data-vv-as="translate('number_aac_form')"
                                    v-validate="'required'"
                             >
-                            <label for="Number" :class="{'active': form.Number}">{{translate('number_management_unit_form')}}</label>
+                            <label for="Number" :class="{'active': form.Number}">{{translate('number_aac_form')}}</label>
                             <div v-show="errors.has('Number')" class="invalid-feedback">{{ errors.first('Number') }}</div>
                         </div>
                     </div>
@@ -21,10 +21,10 @@
                         <div class="md-form">
                             <input type="text" id="Name" name="Name" class="form-control"
                                    v-model="form.Name"
-                                   :data-vv-as="translate('name_management_unit_form')"
+                                   :data-vv-as="translate('name_aac_form')"
                                    v-validate="'required'"
                             >
-                            <label for="Name" :class="{'active': form.Name}">{{translate('name_management_unit_form')}}</label>
+                            <label for="Name" :class="{'active': form.Name}">{{translate('name_aac_form')}}</label>
                             <div v-show="errors.has('Name')" class="invalid-feedback">{{ errors.first('Name') }}</div>
                         </div>
                     </div>
@@ -41,43 +41,49 @@
                     <div class="col">
                         <div class="md-form">
                             <multiselect
-                                name="DevelopmentUnit"
+                                name="ManagementUnit"
                                 v-validate="'required'"
-                                v-model="form.DevelopmentUnit"
-                                :options="developmentUnitList.data"
-                                :placeholder="translate('development_unit_select_label')"
+                                v-model="form.ManagementUnit"
+                                :options="managementUnitList.data"
+                                :placeholder="translate('management_unit_select_label')"
                                 track-by="Id"
                                 label="Name"
                                 :hide-selected="true"
                                 :options-limit="50"
                                 :searchable="true"
-                                :loading="developmentUnitList.isLoading"
+                                :loading="managementUnitList.isLoading"
                                 :allow-empty="false"
-                                @search-change="asyncFindDevelopment"
-                            >
-                                <template slot="singleLabel" slot-scope="{ option }">{{ option.Name }}({{option.Id}})</template>
-                                <template slot="option" slot-scope="{option}">{{ option.Name }}({{option.Id}})</template>
-                            </multiselect>
-                            <div v-show="errors.has('DevelopmentUnit')" class="invalid-feedback">{{ errors.first('DevelopmentUnit') }}</div>
+                                @search-change="asyncFindManagementUnit"
+                            ></multiselect>
+                            <div v-show="errors.has('ManagementUnit')" class="invalid-feedback">{{ errors.first('ManagementUnit') }}</div>
                         </div>
                     </div>
                     <div class="col">
                         <div class="md-form">
                             <multiselect
-                                v-model="form.ProductType"
-                                :options="productTypeList"
-                                :placeholder="translate('resource_type_label')"
+                                name="ManagementPlan"
+                                v-model="form.ManagementPlan"
+                                :options="managementPlanList.data"
+                                :placeholder="translate('management_plan_select_label')"
                                 track-by="Id"
                                 label="Name"
+                                :hide-selected="true"
+                                :options-limit="50"
+                                :searchable="true"
+                                :loading="managementPlanList.isLoading"
                                 :allow-empty="false"
-                                @select="$forceUpdate()"
-                            ></multiselect>
+                                @search-change="asyncFindManagementPlan"
+                            >
+                                <template slot="singleLabel" slot-scope="{ option }">{{ option.Name }}({{option.Id}})</template>
+                                <template slot="option" slot-scope="{option}">{{ option.Name }}({{option.Id}})</template>
+                            </multiselect>
+                            <div v-show="errors.has('ManagementPlan')" class="invalid-feedback">{{ errors.first('ManagementPlan') }}</div>
                         </div>
                     </div>
                 </div>
                 <plan-form-partial v-for="index in formPlansCount" v-model="plansForm[index-1]" :index="index" :key="index" :ref="`devPlan${index}`"></plan-form-partial>
                 <div class="form-row">
-                    <a class="btn btn-info" @click="addPlan()">{{translate('add_ufg_plan')}}</a>
+                    <a class="btn btn-info" @click="addPlan()">{{translate('add_aac_plan')}}</a>
                 </div>
                 <div class="form-row float-right">
                     <button @click="save()" class="btn btn-info z-depth-0 my-4" :disabled="saveLoading">
@@ -93,15 +99,16 @@
 
 <script>
 import Multiselect from 'vue-multiselect';
-import ManagementUnit from "../../../ManagementUnit";
+import AAC from "../../../AAC";
 import ManagementPlan from "../../../../ManagementPlan/ManagementPlan";
 import PlanFormPartial from "./PlanFormPartial.vue";
 import _ from "lodash";
-import DevelopmentUnit from "../../../../DevelopmentUnit/DevelopmentUnit";
+import ManagementUnit from "../../../../ManagementUnit/ManagementUnit";
 import Notification from "../../../../../Common/Notifications/Notification";
 import {mapGetters} from "vuex";
 
 export default {
+    name: 'aac-form',
 
     props : ['managementUnitProp'],
 
@@ -113,7 +120,12 @@ export default {
             formPlansCount: 0,
             saveLoading: false,
             plansForm: [],
-            developmentUnitList: {
+            managementUnitList: {
+                data: [],
+                isLoading: false,
+                limit: 50
+            },
+            managementPlanList: {
                 data: [],
                 isLoading: false,
                 limit: 50
@@ -126,7 +138,8 @@ export default {
     },
 
     created() {
-        this.asyncFindDevelopment('');
+        this.asyncFindManagementUnit();
+        this.asyncFindManagementPlan();
     },
 
     methods: {
@@ -156,9 +169,9 @@ export default {
 
         },
         create(data) {
-            data = ManagementUnit.buildForm(data);
-            return ManagementUnit.add(data).then((data) => {
-                Notification.success(this.translate('Management Unit'), data.message);
+            data = AAC.buildForm(data);
+            return AAC.add(data).then((data) => {
+                Notification.success(this.translate('aac'), data.message);
                 return data.id
             }).then((id) => {
                 _.each(this.plansForm, (plan, index) => {
@@ -167,33 +180,35 @@ export default {
                         Notification.success(this.translate('Management Plan'), data.message);
                     })
                 })
-                window.location.href = ManagementUnit.buildRoute('management_units.index');
+                window.location.href = AAC.buildRoute('aac.index');
             })
         },
         update(data) {
-            data = ManagementUnit.buildForm(data);
-            return ManagementUnit.update(this.form.Id, data).then((data) => {
-                Notification.success(this.translate('Management Unit'), data.message);
+            data = AAC.buildForm(data);
+            return AAC.update(this.form.Id, data).then((data) => {
+                Notification.success(this.translate('aac'), data.message);
             }).then(() => {
                 _.each(this.plansForm, (plan, index) => {
                     let data = ManagementPlan.buildForm(plan, this.form.Id);
-                    let promise = plan.Id ? ManagementPlan.update(plan.Id, data) : ManagementPlan.add(data);
-                    promise.then((data) => {
+                    ManagementPlan.update(plan.Id, data).then((data) => {
                         Notification.success(this.translate('Management Plan'), data.message);
                     })
                 })
-                window.location.href = ManagementUnit.buildRoute('management_units.index');
+                window.location.href = AAC.buildRoute('aac.index');
             })
         },
-        asyncFindDevelopment(query) {
-            this.developmentUnitList.isLoading = true;
-            DevelopmentUnit.listSearch(query, this.developmentUnitList.limit).then((response) => {
-                this.developmentUnitList.data = response.data;
-                this.developmentUnitList.isLoading = false;
+        asyncFindManagementUnit(query = '') {
+            this.managementUnitList.isLoading = true;
+            ManagementUnit.listSearch(query, this.managementUnitList.limit).then((response) => {
+                this.managementUnitList.data = response.data;
+                this.managementUnitList.isLoading = false;
             })
+        },
+        asyncFindManagementPlan(query = '') {
+
         },
         indexRoute() {
-            return ManagementUnit.buildRoute('management_units.index');
+            return AAC.buildRoute('aac.index');
         },
         addPlan() {
             this.formPlansCount++;
@@ -206,7 +221,7 @@ export default {
                 this.isCreatedFormType = false;
                 this.form = _.merge(this.form, value);
                 this.form.Geometry = value.geometry_as_text;
-                this.form.DevelopmentUnit = this.developmentUnitList.data.find((x) => x.Id == value.DevelopmentUnit);
+                this.form.ManagementUnit = this.managementUnitList.data.find((x) => x.Id == value.ManagementUnit);
                 this.form.ProductType = this.productTypeList.find((x) => x.Id == this.form.ProductType);
                 this.formPlansCount = value.plans.length;
                 this.plansForm = value.plans;

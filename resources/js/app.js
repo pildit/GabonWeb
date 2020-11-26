@@ -30,6 +30,7 @@ import Concession from './Components/Concession/Concession';
 import Translation from './Components/Translations/Translation'
 import DevelopmentPlan from "./Components/Management/DevelopmentPlan/DevelopmentPlan";
 import ManagementUnit from "./Components/Management/ManagementUnit/ManagementUnit";
+import AAC from "./Components/Management/AAC/AAC";
 
 import SiteLogbook from "./Components/SiteLogbook/SiteLogbook";
 import SiteLogbookItem from "./Components/SiteLogbookItem/SiteLogbookItem";
@@ -80,6 +81,7 @@ Gabon.Management = {
     DevelopmentUnit: DevelopmentUnit,
     DevelopmentPlan: DevelopmentPlan,
     ManagementUnit: ManagementUnit,
+    AAC: AAC
 }
 
 Gabon.Translation = Translation;

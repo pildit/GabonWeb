@@ -40,6 +40,7 @@ Route::middleware('jwt:api')->patch('/management_plans/approve/{id}', 'Managemen
 Route::middleware('jwt:api')->resource('/management_plans', ManagementPlanController::class)->except(['edit', 'create']);
 //management unit
 Route::middleware('jwt:api')->get('/management_units/export', 'ManagementUnitController@export');
+Route::middleware('jwt:api')->get('/management_units/list', 'ManagementUnitController@listManagementUnits');
 Route::get('/management_units/vectors', 'ManagementUnitController@vectors');
 Route::middleware('jwt:api')->patch('/management_units/approve/{id}', 'ManagementUnitController@approve');
 Route::middleware('jwt:api')->resource('/management_units', ManagementUnitController::class)->except(['edit', 'create']);

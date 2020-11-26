@@ -6,6 +6,7 @@ class ManagementPlan extends Base {
     static buildForm(data, unit_id) {
         let obj = {
             ManagementUnit: unit_id,
+            Number: data.Number,
             Species: data.Species.Id,
             GrossVolumeUFG: data.GrossVolumeUFG,
             GrossVolumeYear: data.GrossVolumeYear,
@@ -22,6 +23,10 @@ class ManagementPlan extends Base {
 
     static update(id, data) {
         return store.dispatch('management_plan/update', {id,data});
+    }
+
+    static listSearch(name, limit = 100) {
+        return store.dispatch('management_plan/listSearch', {name, limit}).then(response => response.data);
     }
 
 }

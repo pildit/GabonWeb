@@ -12,7 +12,7 @@ export default (selector, options) => {
         data: {
             concessions : [
                 {'title' : 'constituent_permits', 'link' :  '/concessions/constituent-permits', 'resource' : 'constituent_permits', 'text' : 'constituent_permits_unit_description', 'permission': 'constituent-permit.view'},
-                {'title' : 'concessions', 'link' :  '/concessions/concessions', 'resource' : 'concessions', 'text' : 'concessions_unit_description', 'permission': 'concession.view'},
+                {'title' : 'concessions', 'link' :  '/concessions/list', 'resource' : 'concessions', 'text' : 'concessions_unit_description', 'permission': 'concession.view'},
             ]
         },
         computed: {

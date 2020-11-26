@@ -17,6 +17,7 @@ class UpdateDevelopmentPlanRequest extends FormRequest
 
         return [
             'DevelopmentUnit' => 'exists:Modules\ForestResources\Entities\DevelopmentUnit,Id',
+            'Number' => 'string',
             'Species' => 'integer',
             'MinimumExploitableDiameter' => 'numeric',
             'VolumeTariff' => 'string',
