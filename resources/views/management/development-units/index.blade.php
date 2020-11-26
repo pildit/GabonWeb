@@ -7,6 +7,10 @@
         <div class="row">
             <div class="col-md-4">
                 {{ lang('the_map') }}
+                
+                <div id="sidemap">
+                    <side-map></side-map>
+                </div>
             </div>
             @verbatim
             <div class="col-md-8" id="development-unit-grid">
@@ -42,6 +46,7 @@
     <script>
         Gabon.Base.getTranslations().then(() => {
             Gabon.Management.DevelopmentUnit.render('development-unit-grid');
+            Gabon.Geomap.render('sidemap');
         });
     </script>
 @endsection
