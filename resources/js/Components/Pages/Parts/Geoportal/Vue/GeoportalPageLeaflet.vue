@@ -224,7 +224,6 @@ export default {
         }
       });
 
-      console.log(resultedString);
       return resultedString;
     },
 
@@ -744,7 +743,6 @@ export default {
         }
       };
 
-      console.log(this.managementUnits);
       this.dataUFG = L.geoJSON(this.managementUnits, {
         style: (feature) => {
           return {
@@ -826,8 +824,6 @@ export default {
     handleResize() {
       this.window.width = window.innerWidth;
       this.window.height = window.innerHeight;
-
-      console.log("MODIFY: ", this.window.width, " x ", this.window.height);
     },
   },
 
