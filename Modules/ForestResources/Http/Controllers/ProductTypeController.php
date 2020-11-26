@@ -123,4 +123,22 @@ class ProductTypeController extends Controller
 
         return Excel::download(new Exporter($collection,$headings), 'product_type.xlsx');
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function listProductTypes()
+    {
+        $productTypes = ProductType::all(['Id', 'Name']);
+
+        return response()->json([
+            'data' => $productTypes->map(function ($productType) {
+                return [
+                    'Id' => $productType->Id,
+                    'Name' => $productType->Name
+                ];
+            })
+        ]);
+    }
 }

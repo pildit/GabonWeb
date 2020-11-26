@@ -23,7 +23,7 @@ class DevelopmentUnit extends Model
      *
      * @var array
      */
-    protected $fillable = ['Name','Number','User', 'Concession','Start','End','Geometry','Approved'];
+    protected $fillable = ['Name','Number','User', 'ProductType', 'Concession','Start','End','Geometry','Approved'];
 
     /**
      * @var string
@@ -82,6 +82,14 @@ class DevelopmentUnit extends Model
     public function plans()
     {
         return $this->hasMany(DevelopmentPlan::class,"DevelopmentUnit");
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function product_type()
+    {
+        return $this->hasOne(ProductType::class, "ProductType");
     }
 
 }

@@ -13,6 +13,7 @@ export default (selector, options) => {
             ...mapGetters('development_unit', ['development_unit'])
         },
         mounted() {
+            store.dispatch('productType/getList');
             if(options.id) {
                 let id = options.id;
                 store.dispatch('development_unit/get', {id});

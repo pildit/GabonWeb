@@ -70,12 +70,14 @@
                     <div class="col">
                         <div class="md-form">
                             <multiselect
+                                name="ProdcutType"
+                                v-validate="'required'"
                                 v-model="form.ProductType"
-                                :options="productTypeList.data"
+                                :options="productTypeList"
                                 :placeholder="translate('resource_type_label')"
                                 track-by="Id"
                                 label="Name"
-                                :allow-empty="false"
+                                @select="$forceUpdate()"
                             ></multiselect>
                         </div>
                     </div>
@@ -130,6 +132,7 @@
 
 <script>
 import _ from 'lodash';
+import {mapGetters} from 'vuex';
 import DevelopmentUnit from "components/Management/DevelopmentUnit/DevelopmentUnit";
 import Multiselect from 'vue-multiselect';
 import DateRangePicker from 'vue2-daterange-picker';
@@ -158,25 +161,16 @@ export default {
               data: [],
               isLoading: false,
           },
-          productTypeList: {
-              data: [
-                  {
-                      Id: 1,
-                      Name: "Log"
-                  }
-              ]
-          }
+          isCreatedFormType: true
       }
     },
 
     computed: {
-        isCreatedFormType() {
-            return _.isEmpty(this.developmentUnitProp);
-        }
+        ...mapGetters('productType', ['productTypeList']),
     },
 
     created() {
-        this.form.ProductType = this.productTypeList.data[0];
+        console.log(this.isCreatedFormType);
         this.form.Start = this.dateRange.startDate.format('YYYY-MM-DD');
         this.form.End = this.dateRange.endDate.format('YYYY-MM-DD');
         this.asyncFindConcession('');
@@ -265,10 +259,11 @@ export default {
     watch: {
         developmentUnitProp(value) {
             if(value) {
-                // console.log(value);
+                this.isCreatedFormType = false;
                 this.form = _.merge(this.form, value);
                 this.form.Geometry = value.geometry_as_text;
                 this.form.Concession = this.concessionsList.data.find((x) => x.Id == value.concession.Id);
+                this.form.ProductType = this.productTypeList.find((x) => x.Id == this.form.ProductType);
                 this.formPlansCount = value.plans.length;
                 this.plansForm = value.plans;
                 this.$forceUpdate();

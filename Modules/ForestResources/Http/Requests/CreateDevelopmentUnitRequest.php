@@ -17,6 +17,7 @@ class CreateDevelopmentUnitRequest extends FormRequest
             'Number' => 'required|string',
             'Name' => 'required|string',
             'Concession' => 'required|integer',
+            'ProductType' => 'require|integer|exists:Modules\ForestResources\Entities\ProductType,Id',
             'Start' => 'required|date_format:Y-m-d',
             'End' => 'required|date_format:Y-m-d',
             'Geometry' => 'string',

@@ -17,6 +17,7 @@ class UpdateDevelopmentUnitRequest extends FormRequest
             'Number' => 'string',
             'Name' => 'string',
             'Concession' => 'integer',
+            'ProductType' => 'integer|exists:Modules\ForestResources\Entities\ProductType,Id',
             'Start' => 'date_format:Y-m-d',
             'End' => 'date_format:Y-m-d',
             'Geometry' => 'string',

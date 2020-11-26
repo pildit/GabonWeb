@@ -17,6 +17,7 @@ class DevelopmentUnit extends Base {
             Number : data.Number,
             Name : data.Name,
             Concession : data.Concession.Id,
+            ProductType : data.ProductType.Id,
             Start: data.Start,
             End: data.End
         }
