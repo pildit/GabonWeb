@@ -3,6 +3,7 @@
 namespace Modules\Admin\Entities;
 
 use App\Traits\Sortable;
+use Modules\User\Entities\EmployeeType;
 
 class Role extends \Spatie\Permission\Models\Role
 {
@@ -15,6 +16,12 @@ class Role extends \Spatie\Permission\Models\Role
     ];
 
     protected $hidden = ['guard_name'];
+
+    protected $with = ['employee_type'];
+
+    public function employee_type() {
+        return $this->belongsTo(EmployeeType::class, 'type');
+    }
 
     public function pages()
     {

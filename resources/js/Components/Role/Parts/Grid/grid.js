@@ -16,7 +16,7 @@ export default (options) => {
             name: {
                 header: "th_role"
             },
-            type: {
+            'employee_type.name': {
                 header: "th_role_type"
             },
             created_at: {

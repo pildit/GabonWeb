@@ -29,7 +29,8 @@ export default {
     components: {bmodal, RoleForm},
 
     computed: {
-       ...mapGetters('role', ['role'])
+        ...mapGetters('role', ['role']),
+        ...mapGetters('user', ['employeeTypes'])
     },
 
     methods: {
@@ -52,6 +53,7 @@ export default {
             if(!val) return;
             if(this.typeProp != 'create') {
                 this.$refs.roleForm.form = this.role;
+                this.$refs.roleForm.form.type = this.employeeTypes.find((x) => x.id == this.role.type);
             }else{
                 this.$refs.roleForm.form = {};
             }

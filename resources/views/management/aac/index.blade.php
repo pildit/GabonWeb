@@ -11,7 +11,7 @@
                 </div>
             </div>
             @verbatim
-                <div class="col-md-8" id="aac-grid">
+                <div class="col-md-8" id="aac-grid" v-permission="'AAC.view'">
                     <div class="mt-4">
                         <h5 class="text-center green-text mb-2">{{ translate('aac_title') }}</h5>
                         <div class="row">
