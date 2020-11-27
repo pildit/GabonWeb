@@ -17,6 +17,7 @@ use Log;
 use App\Traits\Approve;
 use Modules\ForestResources\Exports\Exporter;
 use Maatwebsite\Excel\Facades\Excel;
+use Brick\Geo\MultiPolygon;
 
 class AnnualAllowableCutController extends Controller
 {
@@ -184,5 +185,20 @@ class AnnualAllowableCutController extends Controller
 
         return Excel::download(new Exporter($collection,$headings), 'annual_allowable_cut.xlsx');
     }
+    public function parcels(AnnualAllowableCut $annual_allowable_cut){
 
+
+/**
+        SELECT "Parcels"."Id", "Parcels"."Name"
+FROM "ForestResources"."Parcels"
+WHERE public.st_contains((SELECT "ForestResources"."AnnualAllowableCuts"."Geometry" FROM "ForestResources"."AnnualAllowableCuts" WHERE "ForestResources"."AnnualAllowableCuts"."Id" = 10), "Parcels"."Geometry")
+*/
+
+        $multipolygons = MultiPolygon::fromText($annual_allowable_cut->geometry_as_text)->geometries();
+
+        foreach($multipolygons as $polygon ){
+            dd($polygon->toArray());
+        }
+
+    }
 }
