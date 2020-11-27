@@ -25,6 +25,7 @@
         "jquery": "^3.5.1",
         "laravel-mix-alias": "^1.0.2",
         "leaflet": "^1.7.1",
+        "leaflet-draw": "^1.0.4",
         "leaflet-sidebar-v2": "^3.2.3",
         "moment": "^2.29.1",
         "ol": "^6.4.3",
