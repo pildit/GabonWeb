@@ -39,7 +39,7 @@ class ConstituentPermit extends Base {
     }
 
     static approve(id, data) {
-        return store.dispatch('constituent_permit/approve', {id, data});
+        return store.dispatch('constituent_permit/approve', {id, data}).then();
     }
 
     static listSearch(name, limit = 100) {
