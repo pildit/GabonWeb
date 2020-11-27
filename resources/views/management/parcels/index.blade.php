@@ -4,7 +4,7 @@
 
 @section('content')
     <div id="items-grid">
-        <items-grid></items-grid>
+        <items-grid v-permission="'parcels.view'"></items-grid>
     </div>
 @endsection
 

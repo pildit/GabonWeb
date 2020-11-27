@@ -1,8 +1,8 @@
 <template>
     <div class="text-right">
-        <span class="btn btn-sm btn-outline-success" @click="edit()" ><i class="fas fa-edit"></i> {{ translate('edit') }}</span>
+        <a v-permission="'parcels.edit'" class="text-success aligned fz-16" @click="edit()" :title="translate('edit')" v-tooltip><i class="fas fa-edit"></i></a>
         <item-modal :row-prop="rowProp" type-prop="edit" v-model="modals.form"></item-modal>
-        <switches v-model="isApproved" color="green" :title="translate('approve_item')" @input="approve" :emit-on-mount="false" v-tooltip></switches>
+        <switches v-permission="'parcels.approve'" v-model="isApproved" color="green" :title="translate('approve_item')" @input="approve" :emit-on-mount="false" v-tooltip></switches>
     </div>
 </template>
 
