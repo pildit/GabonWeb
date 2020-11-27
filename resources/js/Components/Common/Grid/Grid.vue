@@ -93,7 +93,7 @@ export default {
         columnStyle(key) {
             let defaultCss = {};
             if(key.toLowerCase() == 'id') {
-                defaultCss = {width: '75px'}
+                defaultCss = {width: '85px'}
             }
             let styles = this.columns[key].css || defaultCss;
             return Object.keys(styles).reduce((memo, value)=> {

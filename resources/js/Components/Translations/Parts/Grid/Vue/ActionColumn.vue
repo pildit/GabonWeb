@@ -1,9 +1,9 @@
 <template>
     <div class="text-right">
-        <button v-permission="'translations.edit'" class="btn btn-sm btn-outline-success" @click="editTranslation(rowProp.id)" v-if="rowProp.name != 'admin'">
+        <a v-permission="'translations.edit'" class="text-success aligned fz-16" @click="editTranslation(rowProp.id)" v-if="rowProp.name != 'admin'"
+                :title="translate('edit')" v-tooltip>
             <i class="fas fa-edit"></i>
-            {{ translate('edit') }}
-        </button>
+        </a>
         <translation-modal v-permission="'translations.edit'" type-prop="edit" v-model="modals.form"></translation-modal>
     </div>
 </template>

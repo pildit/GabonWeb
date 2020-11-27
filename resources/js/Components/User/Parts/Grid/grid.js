@@ -12,6 +12,9 @@ export default (options) => {
             sort: {
                 direction: "asc",
                 field: "status"
+            },
+            rowHightlight: {
+                'ffbb3354' : (row) => ['0','1'].includes(row.status)
             }
         },
         columns: {
@@ -28,10 +31,16 @@ export default (options) => {
                 header: "email"
             },
             company_name: {
-                header: "company"
+                header: "company",
+                css: {
+                    width: '120px'
+                }
             },
             status: {
                 header: "status",
+                css:{
+                    width: '100px'
+                },
                 render: (row) => {
                     return `<span class="badge ${User.getStatusClass(row.status)}">${User.getStatusLabel(row.status)}</span>`
                 }
@@ -43,6 +52,7 @@ export default (options) => {
                 header: "actions",
                 sort: false,
                 css: {
+                    width: '110px',
                     textAlign: "right"
                 },
                 component: ActionColumn
