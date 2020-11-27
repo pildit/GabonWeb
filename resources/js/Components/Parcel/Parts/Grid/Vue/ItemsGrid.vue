@@ -2,7 +2,9 @@
   <div class="container-fluid mt-40">
     <div class="row parcels">
         <div class="col-md-4">
-            {{translate('the_map')}}
+            <div id="geoportalpage" class="col-md-4" style="position: fixed; padding: 10px">
+              <geoportal-page hide-sidebar-prop="true" endpoint-name="parcels"></geoportal-page>
+            </div>
         </div>
         <div class="col-md-8">
             <h5 class="text-center green-text mb-2">{{translate('Parcels')}}</h5>
@@ -55,9 +57,10 @@ import DateRangePicker from 'vue2-daterange-picker';
 
 import grid from "../grid";
 import Grid from "components/Common/Grid/Grid";
+import GeoportalPage from "../../../../Pages/Parts/Geoportal/Vue/GeoportalPageLeaflet.vue";
 
 export default {
-  components: {ItemModal, VuePagination, Grid, DateRangePicker},
+  components: {ItemModal, VuePagination, Grid, DateRangePicker, "geoportal-page": GeoportalPage},
   data() {
     return {
       grid: grid(),

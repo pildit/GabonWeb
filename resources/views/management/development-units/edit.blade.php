@@ -6,10 +6,12 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-4">
-                {{ lang('the_map') }}
+                <div id="sidemap" class="col-md-4" style="position: fixed; padding: 10px">
+                    <side-map endpoint-name="development-unit"></side-map>
+                </div>
             </div>
             <div class="col-md-8 mt-4" id="development-unit-form">
-                <development-unit-form v-permission="'development-unit.edit'" :development-unit-prop="development_unit" ref="development_unit_form"></development-unit-form>
+                <development-unit-form style="overflow-x: scroll" v-permission="'development-unit.edit'" :development-unit-prop="development_unit" ref="development_unit_form"></development-unit-form>
             </div>
         </div>
     </div>
@@ -21,6 +23,7 @@
             Gabon.Management.DevelopmentUnit.render('development-unit-form', {
                 id : {{$id}}
             });
+            Gabon.Geomap.render('sidemap');
         })
     </script>
 @endsection

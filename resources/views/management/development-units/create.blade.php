@@ -6,12 +6,12 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-4">
-                <div id="sidemap">
+                <div id="sidemap" class="col-md-4" style="position: fixed; padding: 10px">
                     <side-map endpoint-name="development-unit"></side-map>
                 </div>
             </div>
             <div class="col-md-8 mt-4" id="development-unit-form">
-                <development-unit-form  v-permission="'development-unit.add'"></development-unit-form>
+                <development-unit-form style="overflow-x: scroll" v-permission="'development-unit.add'"></development-unit-form>
             </div>
         </div>
     </div>
