@@ -3,7 +3,7 @@
     <h5 class="text-center green-text mb-2">{{ translate('product_types') }}</h5>
     <div class="row">
       <div class="col-sm-8 d-flex align-items-center">
-        <button class="btn btn-md" @click="modals.form = true">
+        <button v-permission="'product-types.add'" class="btn btn-md" @click="modals.form = true">
           <i class="fas fa-plus-circle"></i> {{translate('add_product_type')}}
         </button>
       </div>
