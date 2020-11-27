@@ -18,6 +18,7 @@
     <v-map
       ref="map"
       :zoom="7"
+      :maxZoom="16"
       :center="initialLocation"
       :style="{ height: window.height - 78 + 'px', width: '100%' }"
     >
@@ -59,14 +60,14 @@
         </v-marker>
 
         <!-- View Trees -->
-        <v-marker
+        <!-- <v-marker
           v-for="l in dataTrees"
           :key="l.id"
           :lat-lng="l.latlng"
           :icon="icon"
         >
           <v-popup :content="l.text"></v-popup>
-        </v-marker>
+        </v-marker> -->
       </v-marker-cluster>
     </v-map>
   </div>
@@ -81,6 +82,9 @@ import Vue2LeafletMarkercluster from "./MapLeaflet/Vue2LeafletMarkercluster";
 import MapSidebar from "./MapLeaflet/MapSidebar";
 import iconUrl from "leaflet/dist/images/marker-icon.png";
 import shadowUrl from "leaflet/dist/images/marker-shadow.png";
+
+// import { PruneCluster, PruneClusterForLeaflet } from '../utilsPruneCluster'
+// import '../utilsPruneCluster.css'
 
 /* Vuex */
 import store from "store/store";
@@ -123,7 +127,13 @@ export default {
       dataUFA: null,
       dataUFG: null,
       dataViewAAC: null,
-      dataTrees: [],
+      dataTrees: null,
+
+      treeMarkers: L.markerClusterGroup({
+        chunkedLoading: true,
+      }),
+
+      // treesPruneCluster: new PruneClusterForLeaflet(),
 
       featureHighlightColor: "#333333",
 
@@ -208,9 +218,7 @@ export default {
 
         /* Look for arrays */
         if (Array.isArray(value)) {
-
-          if (value.length <= 0)
-            return;
+          if (value.length <= 0) return;
 
           paramValue = value.join(",");
         }
@@ -424,43 +432,79 @@ export default {
       }
     },
 
+    /* Render methods */
+    onGetTrees() {
+      let map = this.$refs.map.mapObject;
+      // TODO
+      // let localPruneCluster = this.treesPruneCluster;
+      // localPruneCluster.Cluster.Size = 160;
+      // localPruneCluster.PrepareLeafletMarker = function (leafletMarker, data) {
+      //   // leafletMarker.bindPopup(data.properties.name);
+      //   // leafletMarker.on("click", function (evt) {
+      //   //   console.log(data);
+      //   // });
+      // };
+
+      // this.dataTrees = L.geoJSON(this.annualAllowableCutInventory, {
+      //   pointToLayer: function (feature, latLng) {
+      //     var marker = new PruneCluster.Marker(latLng.lat, latLng.lng);
+      //     marker.data.properties = feature.properties;
+      //     localPruneCluster.RegisterMarker(marker);
+      //   },
+      // });
+
+      // map.addLayer(localPruneCluster);
+
+      let onEachFeature = (feature, layer) => {
+        if (feature.properties) {
+          layer.bindPopup(this.getJSONToString(feature.properties));
+        }
+      };
+
+      this.dataTrees = L.geoJson(this.annualAllowableCutInventory, {
+        onEachFeature: onEachFeature,
+      });
+
+      this.treeMarkers.addLayer(this.dataTrees);
+      map.addLayer(this.treeMarkers);
+
+      // map.fitBounds(markers.getBounds());
+
+      // var len;
+      // if (points.length == 0) {
+      //   len = 0;
+      // } else {
+      //   len = points.features.length;
+      // }
+
+      // let locations = [];
+      // for (var i = 0; i < len; ++i) {
+      //   let latitude = points.features[i].geometry.coordinates[0];
+      //   let longitude = points.features[i].geometry.coordinates[1];
+
+      //   locations.push({
+      //     id: i,
+      //     latlng: latLng(latitude, longitude),
+      //     text: this.getJSONToString(points.features[i].properties),
+      //   });
+      // }
+      // this.dataTrees = locations;
+    },
+
     executeOnViewTrees(value, params = null) {
       this.renderTrees = value;
 
       if (value) {
         this.getAnnualAllowableCutInventory(params).then(() => {
-          if (this.dataTrees.length > 0) this.dataTrees.length = 0;
+          if (this.treeMarkers) {this.treeMarkers.remove(); this.treeMarkers.clearLayers()};
+          if (this.dataTrees) this.dataTrees.remove();
           if (!this.renderTrees) return;
           this.onGetTrees();
         });
-      } else if (this.dataTrees.length > 0) {
-        this.dataTrees.length = 0;
-      }
-    },
-
-    /* Render methods */
-    onGetTrees() {
-      let points = this.annualAllowableCutInventory;
-
-      var len;
-      if (points.length == 0) {
-        len = 0;
       } else {
-        len = points.features.length;
+        if (this.dataTrees) this.dataTrees.remove();
+        if (this.treeMarkers) this.treeMarkers.remove();
       }
-
-      let locations = [];
-      for (var i = 0; i < len; ++i) {
-        let latitude = points.features[i].geometry.coordinates[0];
-        let longitude = points.features[i].geometry.coordinates[1];
-
-        locations.push({
-          id: i,
-          latlng: latLng(latitude, longitude),
-          text: this.getJSONToString(points.features[i].properties),
-        });
-      }
-      this.dataTrees = locations;
     },
 
     onMoveEnd() {
@@ -582,7 +626,7 @@ export default {
           };
         },
         onEachFeature: onEachFeature,
-      })
+      });
 
       this.dataCheckAAC.on("click", (event) => {
         const prevStyleColor = event.layer.options.color;
@@ -599,7 +643,7 @@ export default {
       const bounds = this.dataCheckAAC.getBounds();
       map.fitBounds(bounds, { padding: [200, 200] });
 
-      this.dataCheckAAC.addTo(map)
+      this.dataCheckAAC.addTo(map);
     },
 
     /* CHECK TRANSPORT PERMIT ID */
@@ -852,7 +896,10 @@ export default {
     /* On move end event */
     let map = this.$refs.map.mapObject;
     this.map = map;
+
     map.on("moveend", this.onMoveEnd);
+    // map.addLayer(this.treeMarkers);
+
     // map.on("zoomend", this.onMoveEnd);
 
     /* Load concessions and others based on the current zoom level */
