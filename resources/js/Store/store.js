@@ -23,6 +23,7 @@ import logbooks from './logbooks';
 import sitelogbooks from "./sitelogbooks";
 import sitelogbookitems from "./sitelogbookitems";
 import permit from "./permit";
+import geoportal from './geoportal';
 
 Vue.use(Vuex);
 Vue.use(cookie)
@@ -133,6 +134,8 @@ export default new Vuex.Store({
         concession,
         translation,
         logbooks,
+        concession,
+        geoportal,
         sitelogbooks,
         sitelogbookitems,
         permit

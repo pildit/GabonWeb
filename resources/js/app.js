@@ -14,6 +14,7 @@ import 'vue2-daterange-picker/dist/vue2-daterange-picker.css';
 
 import Base from './Components/Base';
 import Pages from './Components/Pages/Pages';
+import Geomap from './Components/Geomap/Geomap';
 import User from './Components/User/User';
 import Role from './Components/Role/Role';
 import Company from './Components/Company/Company';
@@ -37,7 +38,7 @@ import SiteLogbook from "./Components/SiteLogbook/SiteLogbook";
 import SiteLogbookItem from "./Components/SiteLogbookItem/SiteLogbookItem";
 
 Vue.config.devtools = true;
-window.Vent         = new Vue;
+window.Vent = new Vue;
 
 Vue.use(VueReactiveCookie);
 Vue.use(VeeValidate, {
@@ -63,6 +64,7 @@ let Gabon = window.Gabon || {}
 
 Gabon.Base = Base;
 Gabon.Pages = Pages;
+Gabon.Geomap = Geomap;
 Gabon.User = User;
 Gabon.Role = Role;
 Gabon.Company = Company;
@@ -89,13 +91,13 @@ Gabon.Management = {
 Gabon.Translation = Translation;
 
 window.Gabon = Gabon;
-if(Vue.$jwt.hasToken()) {
+if (Vue.$jwt.hasToken()) {
     store.commit('loggedUser', Vue.$jwt.decode()['data']);
 }
 
 Vue.prototype.$diffObj = function (object, base) {
     function changes(object, base) {
-        return _.transform(object, function(result, value, key) {
+        return _.transform(object, function (result, value, key) {
             if (!_.isEqual(value, base[key])) {
                 result[key] = (_.isObject(value) && _.isObject(base[key])) ? changes(value, base[key]) : value;
             }
@@ -103,7 +105,7 @@ Vue.prototype.$diffObj = function (object, base) {
     }
     return changes(object, base);
 }
-Vue.prototype.$showLoading = function() {
+Vue.prototype.$showLoading = function () {
     document.querySelector('#page-loader').classList.add('page-loader')
 }
 
