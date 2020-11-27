@@ -1,6 +1,7 @@
 <template>
   <div>
     <v-map-sidebar
+      v-if="hideSidebar == false"
       :map="map"
       @onCheckNone="executeOnCheckNone($event)"
       @onCheckPlateNumber="executeOnCheckPlateNumber($event)"
@@ -108,8 +109,11 @@ export default {
     "v-map-sidebar": MapSidebar,
   },
 
+  props: ["hideSidebarProp", "endpointName"],
+
   data() {
     return {
+      hideSidebar: false,
       annualAllowableCutId: "",
       annualAllowableCutName: "",
       annualAllowableCutNameId: "",
@@ -515,7 +519,10 @@ export default {
 
       if (value) {
         this.getAnnualAllowableCutInventory(params).then(() => {
-          if (this.treeMarkers) {this.treeMarkers.remove(); this.treeMarkers.clearLayers()};
+          if (this.treeMarkers) {
+            this.treeMarkers.remove();
+            this.treeMarkers.clearLayers();
+          }
           if (this.dataTrees) this.dataTrees.remove();
           if (!this.renderTrees) return;
           this.onGetTrees();
@@ -921,12 +928,35 @@ export default {
 
     // map.on("zoomend", this.onMoveEnd);
 
-    /* Load concessions and others based on the current zoom level */
-    this.onMoveEnd();
-
     window.addEventListener("resize", () => {
       this.window.height = window.innerHeight;
     });
+
+    if (this.hideSidebarProp === "true") this.hideSidebar = true;
+    else this.hideSidebar = false;
+
+    switch (this.endpointName) {
+      case "development-unit": {
+        this.renderUFA = true;
+        break;
+      }
+
+      case "management-unit": {
+        this.renderUFG = true;
+        break;
+      }
+
+      case "aac-grid": {
+        this.renderAAC = true;
+        break;
+      }
+
+      default:
+        break;
+    }
+
+    /* Load concessions and others based on the current zoom level */
+    this.onMoveEnd();
   },
 };
 </script>

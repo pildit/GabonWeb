@@ -6,11 +6,13 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-4">
-                {{ lang('the_map') }}
+                <div id="geoportalpage" class="col-md-4" style="position: fixed; padding: 10px">
+                    <geoportal-page hide-sidebar-prop="true" endpoint-name="management-unit"></geoportal-page>
+                </div>
             </div>
             @verbatim
                 <div class="col-md-8" id="management-unit-grid">
-                    <div class="mt-4">
+                    <div class="mt-4" style="overflow-x: scroll">
                         <h5 class="text-center green-text mb-2">{{ translate('management_unit_title') }}</h5>
                         <div class="row">
                             <div class="col-sm-8 d-flex align-items-center">
@@ -41,6 +43,7 @@
     <script>
         Gabon.Base.getTranslations().then(() => {
             Gabon.Management.ManagementUnit.render('management-unit-grid');
+            Gabon.Pages.render('geoportalpage');
         });
     </script>
 @endsection
