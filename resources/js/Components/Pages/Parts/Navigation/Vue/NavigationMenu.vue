@@ -2,7 +2,7 @@
     <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar" style="">
         <div class="container">
             <a class="navbar-brand text-capitalize text-success logo" href="/" style="">
-                <i class="fas fa-globe-americas" style="height: 50px;width: 50px;font-size: 50px;color: rgba(13,146,32,0.9);"></i>
+                <i class="fas fa-globe-americas" style="height: 50px;width: 50px;font-size: 50px;color: rgba(13,146,32,0.9); margin-right: 2px;"></i>
                 Gabon
             </a>
             <button data-toggle="collapse"  class="navbar-toggler" data-target="#navcol-1">

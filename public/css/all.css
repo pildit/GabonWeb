@@ -11152,6 +11152,17 @@ body {
     -o-background-size: cover;
     background-size: cover;
 }
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    padding-top: 0.3125rem;
+    padding-bottom: 0.3125rem;
+    margin-right: 1rem;
+    font-size: 1.25rem;
+    line-height: inherit;
+    white-space: nowrap;
+}
+
 .main-content {
     padding-top: 47px;
 }
