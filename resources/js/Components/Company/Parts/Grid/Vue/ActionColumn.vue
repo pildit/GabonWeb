@@ -1,9 +1,8 @@
 <template>
     <div class="text-right">
-        <span class="btn btn-sm btn-outline-success" @click="editCompany(rowProp.Id)">
+        <a v-permission="'companies.edit'" class="text-success aligned fz-16" @click="editCompany(rowProp.Id)" :title="translate('edit')" v-tooltip>
             <i class="fas fa-edit"></i>
-            {{ translate('edit') }}
-        </span>
+        </a>
         <company-modal :row-prop="rowProp" type-prop="edit" v-model="modals.form"></company-modal>
     </div>
 </template>

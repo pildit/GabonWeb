@@ -4,7 +4,7 @@
 
 @section('content')
 <div id="permit-types-grid">
-    <permit-types-grid></permit-types-grid>
+    <permit-types-grid v-permission="'permit-types.view'"></permit-types-grid>
 </div>
 @endsection
 

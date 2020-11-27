@@ -4,7 +4,7 @@
 
 @section('content')
 <div id="species-grid">
-    <species-grid></species-grid>
+    <species-grid v-permission="'species.view'"></species-grid>
 </div>
 @endsection
 

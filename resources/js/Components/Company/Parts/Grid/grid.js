@@ -15,29 +15,32 @@ export default (options) => {
         },
         columns: {
             Id: {
-                header: "id"
+                header: "th_id"
             },
             Name: {
-                header: "name"
+                header: "th_name"
             },
             types: {
-                header: "type",
+                header: "th_company_type",
                 forceRender: true,
                 render: (row) => {
                     return _.map(row.types, 'Name').join('/')
                 }
             },
             "Email" : {
-                header: "email"
+                header: "th_email"
             },
             TradeRegister:  {
-                header: "Trade Register"
+                header: "th_trade_register",
+                css: {
+                    minWidth: '160px'
+                }
             },
             CreatedAt: {
-                header: "date"
+                header: "th_date"
             },
             actions: {
-                header: "actions",
+                header: "th_actions",
                 sort: false,
                 css: {
                     textAlign: "right"

@@ -1,7 +1,9 @@
 <template>
     <div class="text-right">
-        <span class="btn btn-sm btn-outline-success" @click="edit()" ><i class="fas fa-edit"></i> {{ translate('edit') }}</span>
-        <permit-types-modal :row-prop="rowProp" type-prop="edit" v-model="modals.form"></permit-types-modal>
+        <a v-permission="'permit-types.edit'" class="text-success aligned fz-16" @click="edit()" :title="translate('edit')" v-tooltip >
+            <i class="fas fa-edit"></i>
+        </a>
+        <permit-types-modal :row-prop="rowProp" type-prop="edit" v-model="modals.form" :key="rowProp.Id"></permit-types-modal>
     </div>
 </template>
 
