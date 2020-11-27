@@ -1,6 +1,9 @@
 <template>
     <div class="text-right">
-        <a v-permission="'site_logbook.view'" class="text-info aligned fz-16" :href="'/sitelogbook?Logbook=' + rowProp.Id" target="_blank" :title="translate('view')" v-tooltip>
+        <a v-permission="'site_logbook.view'" v-if="rowProp.items_count" class="text-info aligned fz-16" :href="'/sitelogbook?Logbook=' + rowProp.Id" target="_blank" :title="translate('view')" v-tooltip>
+            <i class="fas fa-info-circle"></i>
+        </a>
+        <a v-permission="'site_logbook.view'" v-if="!rowProp.items_count" class="text-muted aligned fz-16" :title="translate('no_site_logbook_rows')" v-tooltip>
             <i class="fas fa-info-circle"></i>
         </a>
         <switches v-permission="'site_logbook.approve'" v-model="isApproved" color="green" :title="translate('approve_site_logbook')" @input="approve" :emit-on-mount="false" v-tooltip></switches>

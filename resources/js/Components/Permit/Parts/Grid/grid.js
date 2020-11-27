@@ -15,28 +15,23 @@ export default (options) => {
         },
         columns: {
             PermitNo: {
-                header: "id_permit"
+                header: "th_id"
             },
-            annualallowablecut: {
-                header: "aac_name",
-                render (row) {
-                    return row.annualallowablecut.Name
-                }
+            'annualallowablecut.Name': {
+                header: "th_aac_name",
             },
-            TransporterCompany: {
-                header: "company_name",
-                render (row) {
-                    return row.transportercompany.Name
-                }
+            'transportercompany.Name': {
+                header: "th_company_name",
             },
             LicensePlate: {
-                header: "license_plate"
+                header: "th_license_plate"
             },
             ObserveAt: {
-                header: "date",
+                header: "th_date",
+                render: (row) => `<span>${moment(row.ObserveAt).format('YYYY-MM-DD')}</span>`
             },
             actions: {
-                header: 'actions',
+                header: 'th_actions',
                 sort: false,
                 css: {
                     textAlign: "right"

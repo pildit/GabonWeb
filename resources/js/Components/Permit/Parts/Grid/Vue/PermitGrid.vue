@@ -1,22 +1,29 @@
 <template>
-    <div class="container mt-40">
-        <h5 class="text-center green-text mb-2">{{translate('transport_permits')}}</h5>
+    <div class="container-fluid mt-40" v-permission="'permit.view'">
         <div class="row">
-            <div class="col-sm-8 d-flex align-items-center">
+            <div class="col-md-4">
+                {{translate('the_map')}}
             </div>
-            <div class="md-form col-sm-4">
-                <div class="form-row justify-content-end">
-                    <div class="col-sm-10">
-                        <label for="role_name">{{translate('search')}}</label>
-                        <input @keyup.enter="getPermits" class="form-control" v-model="search" type="text"  name="role_name" id="role_name" />
+            <div class="col-md-8">
+                <h5 class="text-center green-text mb-2">{{translate('transport_permits')}}</h5>
+                <div class="row">
+                    <div class="col-sm-8 d-flex align-items-center">
                     </div>
-                    <button @click="getPermits" class="btn btn-sm btn-green  px-2" id="filter">
-                        <i class="fas fa-search"></i>
-                    </button>
+                    <div class="md-form col-sm-4">
+                        <div class="form-row justify-content-end">
+                            <div class="col-sm-10">
+                                <label for="role_name">{{translate('search')}}</label>
+                                <input @keyup.enter="getPermits" class="form-control" v-model="search" type="text"  name="role_name" id="role_name" />
+                            </div>
+                            <button @click="getPermits" class="btn btn-sm btn-green  px-2" id="filter">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
+                <grid :columns="grid.columns" :options="grid.options"></grid>
             </div>
         </div>
-        <grid :columns="grid.columns" :options="grid.options"></grid>
     </div>
 </template>
 

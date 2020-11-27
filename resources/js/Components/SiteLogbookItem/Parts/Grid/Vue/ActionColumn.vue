@@ -1,6 +1,9 @@
 <template>
     <div class="text-right">
-        <span v-permission="'site_logbook.view'" class="btn btn-sm btn-outline-info" @click="view(rowProp.Id)"><i class="fas fa-info-circle"></i> {{translate('view_logs')}}</span>
+        <a v-permission="'site_logbook.view'" class="text-info aligned fz-16"
+           @click="view(rowProp.Id)" :title="translate('view_logs')" v-tooltip>
+            <i class="fas fa-info-circle"></i>
+        </a>
         <switches v-permission="'site_logbook.approve'" v-model="isApproved" color="green" :title="translate('approve_site_logbook')" @input="approve" :emit-on-mount="false" v-tooltip></switches>
         <site-logbook-item-log-modal @display="displayEvent" :row-prop="rowProp" v-model="modals.info"></site-logbook-item-log-modal>
     </div>
