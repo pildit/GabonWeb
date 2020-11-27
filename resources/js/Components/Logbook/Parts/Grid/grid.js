@@ -9,31 +9,35 @@ export default (options) => {
                 action: 'logbooks/index'
             },
             sort: {
-                direction: "desc",
-                field: "Id"
+                direction: "asc|desc",
+                field: "Approved|Id"
+            },
+            rowHightlight: {
+                'ffe6e6' : (row) => !row.Approved
             }
         },
         columns: {
             Id: {
-                header: "logbook_id",
+                header: "th_id",
             },
-            Concession: {
-                header: "concession_name",
-                render: (row) => {
-                    return row.concession.Name
-                }
+            'concession.Name': {
+                header: "th_concession_name",
             },
-            anuualallowablecut: {
-                header: "aac_name",
+            'anuualallowablecut.Name': {
+                header: "th_aac_name",
+            },
+            Approved: {
+                header: 'th_approved',
+                forceRender: true,
                 render: (row) => {
-                    return row.anuualallowablecut.Name
+                    return `<span class="badge badge-${row.Approved ? 'success' : 'danger'}">${row.Approved || false}</span>`
                 }
             },
             ObservedAt: {
-                header: "date"
+                header: "th_date"
             },
             actions: {
-                header: 'actions',
+                header: 'th_actions',
                 sort: false,
                 css: {
                     textAlign: "right"
