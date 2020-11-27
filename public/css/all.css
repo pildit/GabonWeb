@@ -11167,8 +11167,12 @@ table.table td, table.table th {
 }
 
 .md-form .form-control:disabled{
-
     color: #ced4da;
+}
+
+.md-theme-default a:not(.md-button):hover {
+    color: var(--md-theme-default-primary-on-background, rgba(68,138,255,0.8));
+    text-decoration: none;
 }
 
 .paginate_button:hover {
