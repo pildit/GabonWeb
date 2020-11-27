@@ -15,19 +15,19 @@ export default (options) => {
         },
         columns: {
             Id: {
-                header: "id"
+                header: "th_id"
             },
             Name: {
-                header: "name"
+                header: "th_name"
             },
             Email: {
-                header: "email",
+                header: "th_email",
             },
             CreatedAt: {
-                header: "created_at",
+                header: "th_created_at",
             },
             actions: {
-                header: 'actions',
+                header: 'th_actions',
                 sort: false,
                 css: {
                     textAlign: "right"

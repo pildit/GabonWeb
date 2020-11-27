@@ -9,32 +9,39 @@ export default (options) => {
                 action: 'constituent_permit/index'
             },
             sort: {
-                direction: "desc",
-                field: "Id"
+                direction: "asc|desc",
+                field: "Approved|Id"
+            },
+            rowHightlight: {
+                'ffe6e6' : (row) => !row.Approved
             }
         },
         columns: {
             Id: {
-                header: "id"
+                header: "th_id"
             },
             "permit_type.Abbreviation" : {
-                header: "permit_type"
+                header: "th_permit_type"
             },
             PermitNumber: {
-                header: "permit_number"
-            },
-            Approved: {
-                header: "approved"
+                header: "th_permit_number"
             },
             Email: {
-                header: "email",
+                header: "th_email",
+            },
+            Approved: {
+                header: "th_approved",
+                forceRender: true,
+                render: (row) => {
+                    return `<span class="badge badge-${row.Approved ? 'success' : 'danger'}">${row.Approved || false}</span>`
+                }
             },
             CreatedAt: {
-                header: "date",
+                header: "th_date",
                 render: (row) => `<span>${moment(row.CreatedAt).format('YYYY-MM-DD HH:mm:ss')}</span>`
             },
             actions: {
-                header: 'actions',
+                header: 'th_actions',
                 sort: false,
                 css: {
                     textAlign: "right"

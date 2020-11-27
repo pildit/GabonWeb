@@ -13,10 +13,10 @@
                 <p></p>
             </div>
             <div class="row" id="concessions">
-                <box-resource v-for="item in concessions"
+                <vue-card-menu v-for="item in concessions"
                               :item="item"
                               :key="item.title"
-                              v-permission="item.permission"></box-resource>
+                              v-permission="item.permission"></vue-card-menu>
             </div>
         </div>
     </section>

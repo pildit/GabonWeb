@@ -4,7 +4,7 @@
 
 @section('content')
 <div id="quality-grid">
-    <quality-grid></quality-grid>
+    <quality-grid v-permission="'quality.view'"></quality-grid>
 </div>
 @endsection
 

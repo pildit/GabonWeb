@@ -1,6 +1,6 @@
 import _ from "lodash";
 import Vue from 'vue';
-import VueCard from "components/Common/VueCard.vue";
+import VueCard from "components/Common/VueCardMenu.vue";
 import store from "store/store";
 import {mapGetters} from "vuex";
 

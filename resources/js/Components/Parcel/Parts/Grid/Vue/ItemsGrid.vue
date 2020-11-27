@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid mt-40">
-    <div class="row">
+    <div class="row parcels">
         <div class="col-md-4">
             {{translate('the_map')}}
         </div>
@@ -8,7 +8,7 @@
             <h5 class="text-center green-text mb-2">{{translate('Parcels')}}</h5>
             <div class="row">
                 <div class="col-sm-6 d-flex align-items-center">
-                    <button class="btn btn-md" @click="modals.form = true">
+                    <button v-permission="'parcels.add'" class="btn btn-md" @click="modals.form = true">
                         <i class="fas fa-plus-circle"></i> {{translate('Add Parcel')}}
                     </button>
                 </div>
@@ -99,9 +99,9 @@ export default {
 
 <style scoped>
 .mt-40 {
-  margin-top: 40px;
+    margin-top: '40px'
 }
 .mb-40 {
-  margin-bottom: 40px;
+    margin-bottom: '40px'
 }
 </style>

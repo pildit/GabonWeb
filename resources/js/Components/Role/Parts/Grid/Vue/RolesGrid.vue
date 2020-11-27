@@ -1,4 +1,4 @@
-<template>
+¡<template>
     <div class="container mt-5">
         <h5 class="text-center green-text mb-2">{{ translate('roles') }}</h5>
         <div class="row">

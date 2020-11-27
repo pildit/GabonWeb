@@ -12,6 +12,17 @@ body {
     -o-background-size: cover;
     background-size: cover;
 }
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    padding-top: 0.3125rem;
+    padding-bottom: 0.3125rem;
+    margin-right: 1rem;
+    font-size: 1.25rem;
+    line-height: inherit;
+    white-space: nowrap;
+}
+
 .main-content {
     padding-top: 47px;
 }
@@ -27,8 +38,12 @@ table.table td, table.table th {
 }
 
 .md-form .form-control:disabled{
-
     color: #ced4da;
+}
+
+.md-theme-default a:not(.md-button):hover {
+    color: var(--md-theme-default-primary-on-background, rgba(68,138,255,0.8));
+    text-decoration: none;
 }
 
 .paginate_button:hover {

@@ -1,5 +1,5 @@
 <template>
-    <div class="container mt-40">
+    <div class="container mt-40" v-permission="'logbook.view'" >
         <h5 class="text-center green-text mb-2">{{translate('logbooks')}}</h5>
         <div class="row"  v-permission="'logbook.view'">
             <div class="col-sm-8 d-flex align-items-center">

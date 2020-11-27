@@ -21,6 +21,9 @@ export default (options) => {
             },
             mobile: {
                 header: "mobile",
+                render: (row) => {
+                    return `<span class="badge badge-${row.mobile ? 'success' : 'warning'}">${row.mobile || false}</span>`
+                }
             },
             actions: {
                 header: 'actions',

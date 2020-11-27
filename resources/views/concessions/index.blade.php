@@ -9,7 +9,7 @@
                 {{lang('the_map')}}
             </div>
             <div class="col-md-8">
-                <div id="concessions-grid">
+                <div id="concessions-grid" v-permission="'concession.view'">
                     @verbatim
                         <h5 class="text-center green-text mb-2">{{translate('concessions_title')}}</h5>
                         <div class="row">

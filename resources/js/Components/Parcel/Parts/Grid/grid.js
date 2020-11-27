@@ -9,28 +9,35 @@ export default (options) => {
                 action: 'parcels/index'
             },
             sort: {
-                direction: "desc",
-                field: "Id"
+                direction: "asc|desc",
+                field: "Approved|Id"
+            },
+            rowHightlight: {
+                'ffe6e6' : (row) => !row.Approved
             }
         },
         columns: {
             Id: {
-                header: "id"
+                header: "th_id"
             },
             Name: {
-                header: "abbreviation"
-            },
-            Approved: {
-                header: "approved"
+                header: "th_abbreviation"
             },
             Email: {
-                header: "email",
+                header: "th_email",
+            },
+            Approved: {
+                header: "th_approved",
+                forceRender: true,
+                render: (row) => {
+                    return `<span class="badge badge-${row.Approved ? 'success' : 'danger'}">${row.Approved || false}</span>`
+                }
             },
             CreatedAt: {
-                header: "created_at",
+                header: "th_created_at",
             },
             actions: {
-                header: 'actions',
+                header: 'th_actions',
                 sort: false,
                 css: {
                   textAlign: "right"

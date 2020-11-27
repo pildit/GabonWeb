@@ -16,25 +16,23 @@ export default (options) => {
         },
         columns: {
             HewingId: {
-                header: "hewing_id",
+                header: "th_log_id",
             },
             aac_name: {
-                header: "aac_name",
+                header: "th_aac_name",
             },
             ufa: {
-                header: "ufa",
+                header: "th_ufa",
             },
             ufg: {
-                header: "ufg",
+                header: "th_ufg",
             },
             ObserveAt: {
-                header: "date",
-                render (row) {
-                    return row.ObserveAt.split(' ')[0]
-                }
+                header: "th_date",
+                render: (row) => `<span>${moment(row.ObserveAt).format('YYYY-MM-DD')}</span>`
             },
             actions: {
-                header: 'actions',
+                header: 'the_actions',
                 sort: false,
                 css: {
                     textAlign: "right"

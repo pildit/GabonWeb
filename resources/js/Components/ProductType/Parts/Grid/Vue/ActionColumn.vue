@@ -1,6 +1,6 @@
 <template>
   <div class="text-right">
-    <span class="btn btn-sm btn-outline-success" @click="edit(rowProp.id)" ><i class="fas fa-edit"></i> {{ translate('edit') }}</span>
+    <a v-permission="'product-types.edit'" class="text-success aligned fz-16" @click="edit(rowProp.id)" :title="translate('edit')" v-tooltip><i class="fas fa-edit"></i></a>
     <product-type-modal :row-prop="rowProp" type-prop="edit" v-model="modals.form"></product-type-modal>
   </div>
 </template>

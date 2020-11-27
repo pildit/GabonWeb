@@ -37,6 +37,14 @@ class SiteLogbook extends Model
 
     protected $primaryKey = "Id";
 
+    protected $appends = ['items_count'];
+
+    public function getItemsCountAttribute()
+    {
+        $items = collect($this->items);
+        return $items->count();
+    }
+
     public function items(){
         return $this->hasMany(SiteLogbookItem::class,'SiteLogbook');
     }

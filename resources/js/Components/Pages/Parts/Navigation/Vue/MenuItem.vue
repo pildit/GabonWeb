@@ -2,7 +2,7 @@
   <li :class="isFolder ? 'nav-item dropdown' : 'nav-item'" :role="isFolder ? false : 'presentation'">
     <a  :href="isFolder ? '#' : model.path"
         :id="'menu_' +  isFolder ? model.menu : model.submenu "
-        :class="isFolder? 'nav-link dropdown-toggle' : 'nav-link'"
+        :class="isFolder? 'fz-16 nav-link dropdown-toggle' : 'fz-16 nav-link'"
         :data-toggle="isFolder ? 'dropdown' : false"
         role="button"
         aria-haspopup="true"

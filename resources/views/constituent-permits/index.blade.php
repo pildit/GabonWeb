@@ -9,12 +9,12 @@
       {{lang('the_map')}}
     </div>
     <div class="col-md-8">
-      <div id="items-grid">
+      <div id="items-grid" v-permission="'constituent-permit.view'">
         @verbatim
         <h5 class="text-center green-text mb-2">{{ translate('constituent_permit_title') }}</h5>
         <div class="row">
           <div class="col-sm-8 d-flex align-items-center">
-            <a class="btn btn-md" :href="createRoute()">
+            <a class="btn btn-md" :href="createRoute()" v-permission="'constituent-permit.add'">
               <i class="fas fa-plus-circle"></i> {{translate('add_constituent_permit')}}
             </a>
           </div>
@@ -30,7 +30,7 @@
             </div>
           </div>
         </div>
-        <grid :columns="grid.columns" :options="grid.options"></grid>
+        <grid :columns="grid.columns" :options="grid.options" v-permission="'constituent-permit.add'"></grid>
         @endverbatim
       </div>
     </div>

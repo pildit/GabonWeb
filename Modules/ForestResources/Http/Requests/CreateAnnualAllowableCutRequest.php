@@ -20,7 +20,7 @@ class CreateAnnualAllowableCutRequest extends FormRequest
             'Name' => 'required|string',
             'Geometry' => 'string',
             'Approved' => 'bool',
-            "ProductType" => 'nullable|exists:Modules\ForestResources\Entities\ProductType,Id'
+            "ProductType" => 'required|exists:Modules\ForestResources\Entities\ProductType,Id'
         ];
     }
 

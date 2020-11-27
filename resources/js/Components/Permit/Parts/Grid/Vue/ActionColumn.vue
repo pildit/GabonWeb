@@ -1,10 +1,8 @@
 <template>
     <div class="text-right">
-        <button class="btn btn-sm btn-outline-success" @click="viewPermit(rowProp.Id)" v-if="rowProp.name != 'admin'">
-            <i class="fas fa-edit"></i>
-            {{translate('view')}}
-        </button>
-<!--        TODO: Approve -->
+        <a class="text-info aligned fz-16" @click="viewPermit(rowProp.Id)" :title="translate('view')" v-tooltip>
+            <i class="fas fa-info-circle"></i>
+        </a>
         <permit-modal v-model="modals.view"></permit-modal>
     </div>
 </template>
