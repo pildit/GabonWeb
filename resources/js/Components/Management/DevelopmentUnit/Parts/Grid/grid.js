@@ -9,8 +9,11 @@ export default (options) => {
                 action: 'development_unit/index'
             },
             sort: {
-                direction: "desc",
-                field: "Id"
+                direction: "asc|desc",
+                field: "Approved|Id"
+            },
+            rowHightlight: {
+                'ffe6e6' : (row) => !row.Approved
             }
         },
         columns: {
@@ -34,6 +37,13 @@ export default (options) => {
             },
             Email: {
                 header: "th_email"
+            },
+            Approved: {
+                header: 'th_approved',
+                forceRender: true,
+                render: (row) => {
+                    return `<span class="badge badge-${row.Approved ? 'success' : 'danger'}">${row.Approved || false}</span>`
+                }
             },
             CreatedAt: {
                 header: "th_date",

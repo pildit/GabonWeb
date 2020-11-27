@@ -15,7 +15,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="(row, index) in data">
+            <tr v-for="(row, index) in data" :style="rowHightlight(row)" :key="index">
                 <td v-for="(column, key) in columns" :style="columnStyle(key)">
                     <grid-cell :column-prop="column" :row-prop="row" :key-prop="key" :instance="options.instance" :index="index"></grid-cell>
                 </td>
@@ -100,6 +100,15 @@ export default {
                 let prop = value.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
                 return memo += `${prop}: ${styles[value]};`;
             }, "");
+        },
+        rowHightlight(row) {
+
+            if(typeof this.options.rowHightlight != 'object') return '';
+
+            let matches = Object.keys(this.options.rowHightlight).filter((item)=> this.options.rowHightlight[item](row));
+            if(!matches.length) return '';
+
+            return `background-color: #${matches[0]} `;
         },
         fetchData() {
             if(!this.options.store.action) {
