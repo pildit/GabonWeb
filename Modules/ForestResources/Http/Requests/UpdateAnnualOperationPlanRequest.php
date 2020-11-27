@@ -15,6 +15,7 @@ class UpdateAnnualOperationPlanRequest extends FormRequest
     {
         return [
             'AnnualAllowableCut' => 'exists:Modules\ForestResources\Entities\AnnualAllowableCut,Id',
+            'Number' => 'string',
             'Species' => 'integer',
             'ExploitableVolume' => 'numeric',
             'NonExploitableVolume' => 'numeric',

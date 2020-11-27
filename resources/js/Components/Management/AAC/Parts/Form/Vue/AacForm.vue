@@ -211,7 +211,7 @@ export default {
                         Notification.success(this.translate('Management Plan'), data.message);
                     })
                 })
-                window.location.href = AAC.buildRoute('aac.index');
+                // window.location.href = AAC.buildRoute('aac.index');
             })
         },
         asyncFindManagementUnit(query = '') {

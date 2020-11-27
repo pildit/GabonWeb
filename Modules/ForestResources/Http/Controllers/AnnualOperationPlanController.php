@@ -65,16 +65,17 @@ class AnnualOperationPlanController extends Controller
      * Update the specified resource in storage.
      *
      * @param UpdateAnnualOperationPlanRequest $request
-     * @param AnnualOperationPlan $annualoperationplan
+     * @param AnnualOperationPlan $annual_operation_plan
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateAnnualOperationPlanRequest $request, AnnualOperationPlan $annualoperationplan)
+    public function update(UpdateAnnualOperationPlanRequest $request, AnnualOperationPlan $annual_operation_plan)
     {
         $data = $request->validated();
-        $annualoperationplan->update($data);
+
+        $annual_operation_plan->update($data);
 
         return response()->json([
-            'message' => lang('annualoperationplan_update_successful')
+            'message' => lang('annual_operation_plan_update_successful')
         ], 200);
 
     }

@@ -4,8 +4,9 @@
         <div class="form-row">
             <div class="col">
                 <div class="md-form">
-                    <input type="text" :id="`planNumber-${index}`"  class="form-control" v-model="formData.Number">
+                    <input type="text" :id="`planNumber-${index}`" name="Number"  class="form-control" v-model="formData.Number">
                     <label :for="`planNumber-${index}}`" :class="{'active': formData.Number}">{{translate('number_aac_plan_form')}}</label>
+                    <div v-show="errors.has(`Number`)" class="invalid-feedback">{{ errors.first(`Number`) }}</div>
                 </div>
             </div>
             <div class="col">
