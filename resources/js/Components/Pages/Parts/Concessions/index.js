@@ -1,6 +1,6 @@
 import _ from "lodash";
 import Vue from 'vue';
-import BoxResource from "../../../Common/Box/BoxResource.vue";
+import VueCardMenu from "../../../Common/VueCardMenu";
 import store from "store/store";
 import {mapGetters} from "vuex";
 
@@ -8,7 +8,7 @@ export default (selector, options) => {
     let vueOptions = {
         store,
         el: selector,
-        components: {BoxResource},
+        components: {VueCardMenu},
         data: {
             concessions : [
                 {'title' : 'constituent_permits', 'link' :  '/concessions/constituent-permits', 'resource' : 'constituent_permits', 'text' : 'constituent_permits_unit_description', 'permission': 'constituent-permit.view'},
