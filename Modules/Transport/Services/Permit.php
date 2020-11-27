@@ -51,7 +51,7 @@ class Permit extends PageResults
             $collection = $collection->where('ObserveAt','>',$Date.' 00:00:00')->where('ObserveAt','<=',$Date.' 23:59:59');
         }
         if($PermitNo){
-            $collection = $collection->where('PermitNo','=',$PermitNo);
+            $collection = $collection->where('PermitNo','ilike',"%".$PermitNo."%");
         }
 
         $collection = $collection->get();
@@ -73,6 +73,8 @@ class Permit extends PageResults
                     "TransporterCompany" =>  $item->transportercompany ? $item->transportercompany->Name : $item->TransporterCompany,
                     "Province" => $item->Province,
                     "Destination" => $item->Destination,
+                    "LicensePlate" => $item->LicensePlate,
+                    "ObserveAt" => $item->ObserveAt,
                 ]
             ];
         });
@@ -94,7 +96,7 @@ class Permit extends PageResults
             })
             ->whereRaw($whereIntersects);
 
-        $collection = $collection->get();;
+        $collection = $collection->get();
 
         return $collection->map(function ($item) {
 
