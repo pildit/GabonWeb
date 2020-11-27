@@ -1,5 +1,5 @@
 <template>
-    <ul class="pagination">
+    <ul class="pagination float-right">
         <li v-if="pagination.current_page > 1" class="paginate_button page-item previous">
             <a href="javascript:void(0)" class="page-link" aria-label="Previous" v-on:click.prevent="changePage(pagination.current_page - 1)">
                 <span aria-hidden="true">«</span>

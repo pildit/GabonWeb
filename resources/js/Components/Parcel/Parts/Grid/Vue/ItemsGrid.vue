@@ -14,13 +14,12 @@
                 </div>
                 <div class="md-form col-sm-6">
                     <div class="form-row justify-content-end">
-                        <div class="col text-center pt-2">
+                        <div class="col text-right pt-2">
                             <date-range-picker
                                 opens="center"
                                 ref="picker"
                                 :singleDatePicker="false"
                                 v-model="dateRange"
-                                :autoApply="true"
                                 :linkedCalendars="true"
                                 @update="updateDates"
                             >
@@ -40,6 +39,10 @@
                 </div>
             </div>
             <grid :columns="grid.columns" :options="grid.options"></grid>
+            <button class="btn btn-outline-info btn-sm" @click.prevent="exportXLS" :disabled="exportLoading">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="exportLoading"></span>
+                Export.xls
+            </button>
             <item-modal :type-prop="formType" v-model="modals.form" @done="getItems"></item-modal>
         </div>
     </div>
@@ -51,23 +54,22 @@ import {mapGetters, mapState, mapActions} from 'vuex';
 import VuePagination from "components/Common/Grid/VuePagination.vue";
 import Item from "components/Parcel/Parcel";
 import ItemModal from './ItemModal.vue';
-import DateRangePicker from 'vue2-daterange-picker';
-
+import DateRange from "../../../../Mixins/DateRange";
+import ExportExcel from "../../../../Mixins/ExportExcel";
 import grid from "../grid";
 import Grid from "components/Common/Grid/Grid";
 
 export default {
-  components: {ItemModal, VuePagination, Grid, DateRangePicker},
+  mixins: [DateRange, ExportExcel],
+  components: {ItemModal, VuePagination, Grid},
   data() {
     return {
       grid: grid(),
       modals: {
         form: false
       },
-        dateRange : {
-            startDate: null,
-            endDate: null
-        },
+      exportUrl: '/api/parcels/export',
+      exportFilename: 'Parcels',
       formType: 'create',
       itemsPagination: {
         total: 0,
@@ -88,10 +90,6 @@ export default {
   methods: {
     getItems() {
         Vent.$emit('grid-refresh', {search: this.search, dateRange: this.dateRange});
-    },
-    updateDates(values) {
-      this.form.Start = moment(values.startDate).format('YYYY-MM-DD');
-      this.form.End = moment(values.endDate).format('YYYY-MM-DD');
     },
   }
 }
