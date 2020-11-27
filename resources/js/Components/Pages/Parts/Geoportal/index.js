@@ -12,8 +12,13 @@ import VCalendar from 'v-calendar';
 import VueRangeSlider from "vue-range-component";
 
 /* Bootstrap */
-import "bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "../../../../bootstrap"
+// import "../../../../../mdb/js/bootstrap"
+// import "../../../../../mdb/js/bootstrap.min"
+
+import VueMaterial from 'vue-material'
+import 'vue-material/dist/vue-material.min.css'
+import 'vue-material/dist/theme/default.css'
 
 /* Load the map */
 Vue.use(VueLayers)
@@ -22,6 +27,7 @@ Vue.use(PrettyCheckbox);
 // Use v-calendar & v-date-picker components
 Vue.use(VCalendar, { componentPrefix: 'v' });
 Vue.use(VueRangeSlider);
+Vue.use(VueMaterial)
 
 // Checkbox component
 Vue.component('rcp-checkbox', {
@@ -43,7 +49,7 @@ Vue.component('rcp-checkbox', {
             />
             <label 
                 class="form-check-label"
-                v-bind:for="text"><h6 class="text-dark">{{ text }}</h6></label>
+                v-bind:for="text"><h6 class="text-dark">{{ translate(text) }}</h6></label>
         </div>
     `
 })

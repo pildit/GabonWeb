@@ -14,7 +14,7 @@
     <div class="leaflet-sidebar-content">
       <div class="leaflet-sidebar-pane" id="home">
         <h1 class="leaflet-sidebar-header">
-          Options
+          {{ this.translate("options") }}
           <span class="leaflet-sidebar-close"
             ><i class="fa fa-caret-left"></i
           ></span>
@@ -25,13 +25,12 @@
         <p />
         <rcp-checkbox
           v-model="viewActiveTransports"
-          text="View active transports"
+          text="view_active_transports"
         ></rcp-checkbox>
         <hr />
 
         <!-- Radio buttons -->
         <div class="form-check">
-          
           <!-- Check plate number -->
           <input
             id="checkPlateNumber"
@@ -42,35 +41,35 @@
             v-on:click="onCheckNone"
           />
           <label class="form-check-label" for="checkPlateNumber"
-            ><h6 class="text-dark">Check plate number</h6></label
+            ><h6 class="text-dark">
+              {{ this.translate("check_plate_number") }}
+            </h6></label
           >
           <br />
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="input-group input-group-md">
-                <input
-                  class="form-control"
-                  v-if="checkPicked == 'checkPlateNumber'"
-                  v-model="plateNumber"
-                  placeholder="ex: PH 01 UNU"
-                />
-                <span class="input-group-btn input-group-md">
-                  <rcp-button
-                    type="submit"
-                    v-if="checkPicked == 'checkPlateNumber'"
-                    v-on:click="onCheckPlateNumber"
-                  >
-                    Search
-                  </rcp-button>
-                </span>
-              </div>
-            </div>
+
+          <div
+            class="search-container"
+            v-if="checkPicked == 'checkPlateNumber'"
+          >
+            <md-field>
+              <label>{{ this.translate("plate_number_placeholder") }}</label>
+              <md-input v-model="plateNumber"></md-input>
+            </md-field>
+
+            <md-button
+              class="md-raised"
+              v-if="checkPicked == 'checkPlateNumber'"
+              v-on:click="onCheckPlateNumber"
+              style="min-width: 30px; background-color: #388e3c"
+            >
+              <md-icon style="color: white">search</md-icon>
+            </md-button>
           </div>
 
           <rcp-alert-box
             v-if="checkPicked == 'checkPlateNumber' && checkPlateNumberError"
           >
-            Invalid plate number
+            {{ this.translate("invalid_plate_number") }}
           </rcp-alert-box>
           <p v-if="checkPicked == 'checkPlateNumber'"></p>
 
@@ -84,7 +83,7 @@
             >
               <template v-slot="{ inputValue, inputEvents }">
                 <div class="form-group">
-                  <label for="startDate">From</label>
+                  <label for="startDate">{{ this.translate("from") }}</label>
                   <input
                     id="startDate"
                     class="form-control"
@@ -93,7 +92,7 @@
                   />
                 </div>
                 <div class="form-group">
-                  <label for="endDate">To</label>
+                  <label for="endDate">{{ this.translate("to") }}</label>
                   <input
                     id="endDate"
                     class="form-control"
@@ -118,37 +117,48 @@
             v-on:click="onCheckNone"
           />
           <label class="form-check-label" for="checkAnnualAllowableCut"
-            ><h6 class="text-dark">Check Annual Allowable cut</h6></label
+            ><h6 class="text-dark">
+              {{ this.translate("check_annual_allowable_cut") }}
+            </h6></label
           >
           <br />
 
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="input-group input-group-md">
-                <input
-                  class="form-control"
-                  v-if="checkPicked == 'checkAnnualAllowableCut'"
-                  v-model="annualAllowableCut"
-                  placeholder="ACC name/id"
-                />
-                <span class="input-group-btn input-group-md">
-                  <rcp-button
-                    v-if="checkPicked == 'checkAnnualAllowableCut'"
-                    v-on:click="onCheckAnnualAllowableCut"
-                  >
-                    Search
-                  </rcp-button>
-                </span>
-              </div>
-            </div>
-            <div
-              class="col-lg-12 ml-2"
+          <div
+            class="search-container"
+            v-if="checkPicked == 'checkAnnualAllowableCut'"
+          >
+            <md-field>
+              <label>{{ this.translate("aac_id_placeholder") }}</label>
+              <md-input v-model="annualAllowableCutId"></md-input>
+            </md-field>
+
+            <md-button
+              class="md-raised"
               v-if="checkPicked == 'checkAnnualAllowableCut'"
+              v-on:click="onCheckAnnualAllowableCutId"
+              style="min-width: 30px; background-color: #388e3c"
             >
-              <small class="form-text text-muted"
-                >ACC - Annual Allowable Cut.</small
-              >
-            </div>
+              <md-icon style="color: white">search</md-icon>
+            </md-button>
+          </div>
+
+          <div
+            class="search-container"
+            v-if="checkPicked == 'checkAnnualAllowableCut'"
+          >
+            <md-field>
+              <label>{{ this.translate("aac_name_placeholder") }}</label>
+              <md-input v-model="annualAllowableCutName"></md-input>
+            </md-field>
+
+            <md-button
+              class="md-raised"
+              v-if="checkPicked == 'checkAnnualAllowableCut'"
+              v-on:click="onCheckAnnualAllowableCutName"
+              style="min-width: 30px; background-color: #388e3c"
+            >
+              <md-icon style="color: white">search</md-icon>
+            </md-button>
           </div>
 
           <rcp-alert-box
@@ -157,7 +167,7 @@
               checkAnnualAllowableCutError
             "
           >
-            Invalid annual allowable cut name/id
+            {{ this.translate("invalid_annual_allowable_cut_name") }}
           </rcp-alert-box>
 
           <hr v-if="checkPicked == 'checkAnnualAllowableCut'" />
@@ -172,29 +182,29 @@
             v-on:click="onCheckNone"
           />
           <label class="form-check-label" for="checkTransportPermit"
-            ><h6 class="text-dark">Check Transport Permit</h6></label
+            ><h6 class="text-dark">
+              {{ this.translate("check_transport_permit") }}
+            </h6></label
           >
           <br v-if="checkPicked == 'checkTransportPermit'" />
 
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="input-group input-group-md">
-                <input
-                  class="form-control"
-                  v-if="checkPicked == 'checkTransportPermit'"
-                  v-model="transportPermitId"
-                  placeholder="Transport permit ID"
-                />
-                <span class="input-group-btn input-group-md">
-                  <rcp-button
-                    v-if="checkPicked == 'checkTransportPermit'"
-                    v-on:click="onCheckTransportPermitId"
-                  >
-                    Search by id
-                  </rcp-button>
-                </span>
-              </div>
-            </div>
+          <div
+            class="search-container"
+            v-if="checkPicked == 'checkTransportPermit'"
+          >
+            <md-field>
+              <label>{{ this.translate("check_transport_permit_id_placeholder") }}</label>
+              <md-input v-model="transportPermitId"></md-input>
+            </md-field>
+
+            <md-button
+              class="md-raised"
+              v-if="checkPicked == 'checkTransportPermit'"
+              v-on:click="onCheckTransportPermitId"
+              style="min-width: 30px; background-color: #388e3c"
+            >
+              <md-icon style="color: white">search</md-icon>
+            </md-button>
           </div>
 
           <rcp-alert-box
@@ -203,7 +213,7 @@
               checkTransportPermitIdError
             "
           >
-            Invalid transport permit id
+            {{ this.translate("invalid_transport_permit_id") }}
           </rcp-alert-box>
           <p v-if="checkPicked == 'checkTransportPermit'" />
 
@@ -213,25 +223,28 @@
             :popover="popover"
           >
             <template v-slot="{ inputValue, inputEvents }">
-              <div class="row">
-                <div class="col-lg-12">
-                  <div class="input-group input-group-md">
-                    <input
-                      class="form-control"
-                      :value="inputValue"
-                      v-on="inputEvents"
-                    />
+              <div
+                class="search-container"
+                v-if="checkPicked == 'checkTransportPermit'"
+              >
+                <input
+                  class="form-control"
+                  :value="inputValue"
+                  v-on="inputEvents"
+                />
 
-                    <span class="input-group-btn input-group-md">
-                      <rcp-button
-                        v-if="checkPicked == 'checkTransportPermit'"
-                        v-on:click="onCheckTransportPermitDate"
-                      >
-                        Search by date
-                      </rcp-button>
-                    </span>
-                  </div>
-                </div>
+                <md-button
+                  class="md-raised"
+                  v-if="checkPicked == 'checkTransportPermit'"
+                  v-on:click="onCheckTransportPermitDate"
+                  style="
+                    min-width: 30px;
+                    background-color: #388e3c;
+                    margin: 0px 8px;
+                  "
+                >
+                  <md-icon style="color: white">search</md-icon>
+                </md-button>
               </div>
             </template>
           </v-date-picker>
@@ -242,19 +255,15 @@
               checkTransportPermitDateError
             "
           >
-            Invalid transport permit date
+            {{ this.translate("invalid_transport_permit_date") }}
           </rcp-alert-box>
-          <vue-range-slider
-            style="margin-top: 50px"
+          <VueSimpleRangeSlider
             v-if="checkPicked == 'checkTransportPermit'"
-            v-model="transportPermitHourInterval"
             :min="transportPermitHourMin"
             :max="transportPermitHourMax"
-            :formatter="transportPermitHourFormatter"
-            :tooltip-merge="false"
-            :enable-cross="false"
-          ></vue-range-slider>
-
+            v-model="transportPermitHourInterval"
+            style="width: 100%; margin-top: 50px"
+          />
           <br />
           <hr />
         </div>
@@ -263,32 +272,32 @@
         <rcp-checkbox
           v-model="viewParcels"
           v-on:click="onViewParcelClick"
-          text="View Parcels"
+          text="view_parcels"
         ></rcp-checkbox>
         <rcp-checkbox
           v-model="viewConcessions"
           v-on:click="onViewConcessionsClick"
-          text="View Concessions"
+          text="view_concessions"
         ></rcp-checkbox>
         <rcp-checkbox
           v-model="viewUFA"
           v-on:click="onViewUFA"
-          text="View UFA"
+          text="view_ufa"
         ></rcp-checkbox>
         <rcp-checkbox
           v-model="viewUFG"
           v-on:click="onViewUFG"
-          text="View UFG"
+          text="view_ufg"
         ></rcp-checkbox>
         <rcp-checkbox
           v-model="viewAAC"
           v-on:click="onViewAAC"
-          text="View AAC"
+          text="view_aac"
         ></rcp-checkbox>
         <rcp-checkbox
           v-model="viewTrees"
           v-on:click="onViewTrees"
-          text="View Trees"
+          text="view_trees"
         ></rcp-checkbox>
       </div>
     </div>
@@ -305,11 +314,17 @@ import * as L from "leaflet";
 import "pretty-checkbox/src/pretty-checkbox.scss";
 import "vue-range-component/dist/vue-range-slider.css";
 
+import VueSimpleRangeSlider from "vue-simple-range-slider";
+import "vue-simple-range-slider/dist/vueSimpleRangeSlider.css";
+
 export default {
   props: ["map"],
+
+  components: { VueSimpleRangeSlider },
+
   data() {
     return {
-      popover: { visibility: 'focus' },
+      popover: { visibility: "focus" },
 
       transportPermitHourInterval: [10, 13],
       transportPermitHourMin: 0,
@@ -338,6 +353,8 @@ export default {
       },
 
       annualAllowableCut: "",
+      annualAllowableCutId: "",
+      annualAllowableCutName: "",
       checkAnnualAllowableCut: false,
       checkAnnualAllowableCutError: false,
 
@@ -412,6 +429,26 @@ export default {
       }
     },
 
+    onCheckAnnualAllowableCutId() {
+      if (this.annualAllowableCutId.length >= 2) {
+        this.checkAnnualAllowableCutError = false;
+
+        this.$emit("onCheckAACId", this.annualAllowableCutId);
+      } else {
+        this.checkAnnualAllowableCutError = true;
+      }
+    },
+
+    onCheckAnnualAllowableCutName() {
+      if (this.annualAllowableCutName.length >= 2) {
+        this.checkAnnualAllowableCutError = false;
+
+        this.$emit("onCheckAACName", this.annualAllowableCutName);
+      } else {
+        this.checkAnnualAllowableCutError = true;
+      }
+    },
+
     onCheckTransportPermitId() {
       if (this.transportPermitId.length >= 2) {
         this.checkTransportPermitIdError = false;
@@ -466,6 +503,10 @@ export default {
 </script>
 
 <style scoped>
+.search-container {
+  display: flex;
+}
+
 .leaflet-sidebar {
   position: absolute;
   top: 0;

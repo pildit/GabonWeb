@@ -4,7 +4,8 @@
       :map="map"
       @onCheckNone="executeOnCheckNone($event)"
       @onCheckPlateNumber="executeOnCheckPlateNumber($event)"
-      @onCheckAAC="executeOnCheckAAC($event)"
+      @onCheckAACId="executeOnCheckAACId($event)"
+      @onCheckAACName="executeOnCheckAACName($event)"
       @onCheckTransportPermitId="executeOnCheckTransportPermitId($event)"
       @onCheckTransportPermitDate="executeOnCheckTransportPermitDate($event)"
       @onViewParcels="executeOnViewParcels($event)"
@@ -109,6 +110,8 @@ export default {
 
   data() {
     return {
+      annualAllowableCutId: "",
+      annualAllowableCutName: "",
       annualAllowableCutNameId: "",
       renderParcels: false,
       renderConcessions: false,
@@ -120,6 +123,8 @@ export default {
 
       dataCheckPlateNumber: null,
       dataCheckAAC: null,
+      dataCheckAACId: null,
+      dataCheckAACName: null,
       dataCheckTransportPermitId: null,
       dataCheckTransportPermitDate: null,
       dataParcels: null,
@@ -307,16 +312,30 @@ export default {
       });
     },
 
-    executeOnCheckAAC(value = "", params = null) {
+    executeOnCheckAACId(value = "", params = null) {
       if (value === "") return;
-      this.annualAllowableCutNameId = value;
+      this.annualAllowableCutId = value;
+
+      let fParams = params;
+      if (!fParams) fParams = {};
+      fParams["AacId"] = value;
+
+      this.getAnnualAllowableCuts(fParams).then(() => {
+        if (this.dataCheckAACId) this.dataCheckAACId.remove();
+        this.onGetCheckAAC();
+      });
+    },
+
+    executeOnCheckAACName(value = "", params = null) {
+      if (value === "") return;
+      this.annualAllowableCutName = value;
 
       let fParams = params;
       if (!fParams) fParams = {};
       fParams["Name"] = value;
 
       this.getAnnualAllowableCuts(fParams).then(() => {
-        if (this.dataCheckAAC) this.dataCheckAAC.remove();
+        if (this.dataCheckAACName) this.dataCheckAACName.remove();
         this.onGetCheckAAC();
       });
     },
