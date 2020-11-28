@@ -36,6 +36,7 @@ class AnnualAllowableCutController extends Controller
 
         $this->middleware('permission:AAC.approve')->only('approve');
 
+        $this->middleware('permission:AACInventory.add')->only('parcels');
     }
 
     /**
@@ -185,20 +186,20 @@ class AnnualAllowableCutController extends Controller
 
         return Excel::download(new Exporter($collection,$headings), 'annual_allowable_cut.xlsx');
     }
+
     public function parcels(AnnualAllowableCut $annual_allowable_cut){
 
-
-/**
-        SELECT "Parcels"."Id", "Parcels"."Name"
-FROM "ForestResources"."Parcels"
-WHERE public.st_contains((SELECT "ForestResources"."AnnualAllowableCuts"."Geometry" FROM "ForestResources"."AnnualAllowableCuts" WHERE "ForestResources"."AnnualAllowableCuts"."Id" = 10), "Parcels"."Geometry")
-*/
-
         $multipolygons = MultiPolygon::fromText($annual_allowable_cut->geometry_as_text)->geometries();
-
+        $parcels = [];
         foreach($multipolygons as $polygon ){
-            dd($polygon->toArray());
+            $parcels = array_merge ($parcels,DB::select('
+            SELECT "Parcels"."Id", "Parcels"."Name"
+            FROM "ForestResources"."Parcels"
+            WHERE public.st_contains((select public.ST_AsBinary(public.ST_GeomFromText('.$polygon->asText().'))), "Parcels"."Geometry")
+            '));
         }
+
+        return response()->json($parcels);
 
     }
 }
