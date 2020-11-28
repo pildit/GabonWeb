@@ -66,13 +66,6 @@
             </md-button>
           </div>
 
-          <rcp-alert-box
-            v-if="checkPicked == 'checkPlateNumber' && checkPlateNumberError"
-          >
-            {{ this.translate("invalid_plate_number") }}
-          </rcp-alert-box>
-          <p v-if="checkPicked == 'checkPlateNumber'"></p>
-
           <!-- Select date interval -->
           <form>
             <v-date-picker
@@ -83,7 +76,7 @@
             >
               <template v-slot="{ inputValue, inputEvents }">
                 <div class="form-group">
-                  <label for="startDate">{{ this.translate("from") }}</label>
+                  <label for="startDate">{{ translate("from") }}</label>
                   <input
                     id="startDate"
                     class="form-control"
@@ -92,7 +85,7 @@
                   />
                 </div>
                 <div class="form-group">
-                  <label for="endDate">{{ this.translate("to") }}</label>
+                  <label for="endDate">{{ translate("To") }}</label>
                   <input
                     id="endDate"
                     class="form-control"
@@ -103,6 +96,13 @@
               </template>
             </v-date-picker>
           </form>
+
+          <rcp-alert-box
+            v-if="checkPicked == 'checkPlateNumber' && checkPlateNumberError"
+          >
+            {{ this.translate("invalid_plate_number") }}
+          </rcp-alert-box>
+          <p v-if="checkPicked == 'checkPlateNumber'"></p>
 
           <hr v-if="checkPicked == 'checkPlateNumber'" />
 
@@ -193,7 +193,9 @@
             v-if="checkPicked == 'checkTransportPermit'"
           >
             <md-field>
-              <label>{{ this.translate("check_transport_permit_id_placeholder") }}</label>
+              <label>{{
+                this.translate("check_transport_permit_id_placeholder")
+              }}</label>
               <md-input v-model="transportPermitId"></md-input>
             </md-field>
 
