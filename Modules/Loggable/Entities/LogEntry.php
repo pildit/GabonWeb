@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
-class LogEntry extends Model 
+class LogEntry extends Model
 {
     public $timestamps = false;
 
-    protected $table = 'log_entries';
+    protected $table = 'public.log_entries';
 
-    protected $fillable = ['action', 'logged_at', 'object_id', 'object_class', 'user_id'];
+    protected $fillable = ['action', 'logged_at', 'object_id', 'object_class', 'user_id', 'data', 'version'];
 
     protected $dates = ['logged_at'];
 
@@ -24,7 +24,7 @@ class LogEntry extends Model
     public function loggable()
     {
         return $this->morphTo();
-    }    
+    }
 
     /**
      * The user who save this revision
@@ -36,5 +36,5 @@ class LogEntry extends Model
         $className = config('auth.model');
 
         return $this->belongsTo($className);
-    }    
+    }
 }
