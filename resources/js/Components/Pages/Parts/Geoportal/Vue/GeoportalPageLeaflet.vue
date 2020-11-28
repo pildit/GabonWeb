@@ -317,6 +317,8 @@ export default {
     },
 
     executeOnCheckAACId(value = "", params = null) {
+      // If already renderded clean the old data and print the new one
+      if (this.annualAllowableCutId) this.dataCheckAAC.remove();
       if (value === "") return;
       this.annualAllowableCutId = value;
 

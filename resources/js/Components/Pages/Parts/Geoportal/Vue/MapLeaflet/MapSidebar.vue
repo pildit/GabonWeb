@@ -432,13 +432,8 @@ export default {
     },
 
     onCheckAnnualAllowableCutId() {
-      if (this.annualAllowableCutId.length >= 2) {
-        this.checkAnnualAllowableCutError = false;
-
+      //this.onCheckNone();
         this.$emit("onCheckAACId", this.annualAllowableCutId);
-      } else {
-        this.checkAnnualAllowableCutError = true;
-      }
     },
 
     onCheckAnnualAllowableCutName() {
