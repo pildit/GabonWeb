@@ -7,11 +7,11 @@
         <div class="row">
             <div class="col-md-4">
                 <div id="sidemap" class="col-md-4" style="position: fixed; padding: 10px">
-                    <side-map endpoint-name="development-unit"></side-map>
+                    <side-map endpoint-name="development-unit-create"></side-map>
                 </div>
             </div>
             <div class="col-md-8 mt-4" id="development-unit-form">
-                <development-unit-form style="overflow-x: scroll" v-permission="'development-unit.add'"></development-unit-form>
+                <development-unit-form style="overflow-x: scroll" v-permission="'development-unit.add'" endpoint-name="development-unit-create"></development-unit-form>
             </div>
         </div>
     </div>
