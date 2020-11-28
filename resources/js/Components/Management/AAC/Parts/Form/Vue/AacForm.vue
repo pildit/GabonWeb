@@ -124,9 +124,11 @@ import Notification from "../../../../../Common/Notifications/Notification";
 import {mapGetters} from "vuex";
 import AACOperationPlan from "../../../AACOperationPlan";
 
+import { EventBus } from "components/EventBus/EventBus";
+
 export default {
 
-    props : ['aacProp'],
+    props : ['aacProp', 'endpointName'],
 
     components: { Multiselect, PlanFormPartial },
 
@@ -252,7 +254,14 @@ export default {
                 this.$forceUpdate();
             }
         }
-    }
+    },
+
+    mounted() {
+        EventBus.$on(this.endpointName, (data) => {
+            this.form.Geometry = data;
+            this.$forceUpdate();
+        });
+    },
 }
 </script>
 

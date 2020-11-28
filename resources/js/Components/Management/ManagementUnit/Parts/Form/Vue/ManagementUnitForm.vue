@@ -101,9 +101,11 @@ import DevelopmentUnit from "../../../../DevelopmentUnit/DevelopmentUnit";
 import Notification from "../../../../../Common/Notifications/Notification";
 import {mapGetters} from "vuex";
 
+import { EventBus } from "components/EventBus/EventBus";
+
 export default {
 
-    props : ['managementUnitProp'],
+    props : ['managementUnitProp', 'endpointName'],
 
     components: { Multiselect, PlanFormPartial },
 
@@ -213,7 +215,15 @@ export default {
                 this.$forceUpdate();
             }
         }
-    }
+    },
+
+    mounted() {
+        EventBus.$on(this.endpointName, (data) => {
+            console.log('HERE')
+            this.form.Geometry = data;
+            this.$forceUpdate();
+        });
+    },
 }
 </script>
 

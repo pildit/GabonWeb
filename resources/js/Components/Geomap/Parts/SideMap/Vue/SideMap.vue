@@ -21,6 +21,8 @@ import { latLng, Icon, icon } from "leaflet";
 import iconUrl from "leaflet/dist/images/marker-icon.png";
 import shadowUrl from "leaflet/dist/images/marker-shadow.png";
 
+import { EventBus } from "components/EventBus/EventBus";
+
 /* Vuex */
 import store from "store/store";
 import { mapGetters, mapState, mapMutations, mapActions } from "vuex";
@@ -96,6 +98,22 @@ export default {
       this.window.height = window.innerHeight;
     },
 
+    emitEndpoint(data) {
+      let iterator = 0;
+      const l = data[0].length;
+      let geometryForm = "POLYGON((";
+      data[0].forEach((latLong) => {
+        console.log(latLong);
+        geometryForm += latLong.lat + " " + latLong.lng;
+        if (++iterator < l) {
+          geometryForm += ",";
+        }
+      });
+
+      geometryForm += "))";
+      return geometryForm;
+    },
+
     initDrawPolygon() {
       let map = this.$refs.map.mapObject;
 
@@ -135,9 +153,12 @@ export default {
 
       var savePerimeter = (perimeter) => {
         this.perimeter = perimeter;
+        EventBus.$emit(this.endpointName, this.emitEndpoint(perimeter));
       };
+
       var deletePerimeter = () => {
         this.perimeter = null;
+        EventBus.$emit(this.endpointName, "");
       };
 
       // Initialise the draw control and pass it the FeatureGroup of editable layers
@@ -167,8 +188,9 @@ export default {
       /* EDITED */
       map.on("draw:edited", function (e) {
         let layers = e.layers;
+
         layers.eachLayer(function (layer) {
-          console.log(layer);
+          savePerimeter(layer._latlngs);
         });
 
         map.addLayer(layers);

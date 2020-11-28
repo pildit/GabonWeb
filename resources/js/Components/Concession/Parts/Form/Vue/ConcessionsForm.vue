@@ -131,9 +131,11 @@ import ConstituentPermit from "components/ConstituentPermit/ConstituentPermit";
 import Notification from "components/Common/Notifications/Notification";
 import _ from "lodash";
 
+import { EventBus } from "components/EventBus/EventBus";
+
 export default {
 
-    props: ['concessionProp'],
+    props: ['concessionProp', 'endpointName'],
 
     components: {Multiselect},
 
@@ -227,8 +229,14 @@ export default {
                 this.$forceUpdate();
             }
         }
-    }
+    },
 
+    mounted() {
+        EventBus.$on(this.endpointName, (data) => {
+            this.form.Geometry = data;
+            this.$forceUpdate();
+        });
+    },
 }
 </script>
 
