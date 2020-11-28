@@ -39,7 +39,7 @@ export default {
     "v-popup": Vue2Leaflet.LPopup,
   },
 
-  props: ["endpointName"],
+  props: ["endpointEdit", "endpointCreate"],
 
   data() {
     return {
@@ -62,6 +62,38 @@ export default {
       map: null,
       drawControl: null,
       perimeter: null,
+      editableLayers: null,
+
+      defaultDrawPluginOptions: {
+        position: "topright",
+        draw: {
+          polygon: {
+            allowIntersection: false, // Restricts shapes to simple polygons
+            drawError: {
+              color: "#e1e100", // Color the shape will turn when intersects
+              message: "<strong>Oh snap!<strong> you can't draw that!", // Message that will show when intersect
+            },
+            shapeOptions: {
+              color: "#97009c",
+            },
+          },
+          // disable toolbar item by setting it to false
+          polygon: true,
+          polyline: false,
+          circle: false, // Turns off this drawing tool
+          rectangle: false,
+          marker: false,
+          circlemarker: false,
+        },
+        edit: {
+          featureGroup: null, //REQUIRED!!
+          remove: true,
+          edit: true,
+          poly: {
+            allowIntersection: false,
+          },
+        },
+      },
     };
   },
 
@@ -118,52 +150,25 @@ export default {
       let map = this.$refs.map.mapObject;
 
       var editableLayers = new L.FeatureGroup();
+      this.editableLayers = editableLayers;
       map.addLayer(editableLayers);
 
-      var drawPluginOptions = {
-        position: "topright",
-        draw: {
-          polygon: {
-            allowIntersection: false, // Restricts shapes to simple polygons
-            drawError: {
-              color: "#e1e100", // Color the shape will turn when intersects
-              message: "<strong>Oh snap!<strong> you can't draw that!", // Message that will show when intersect
-            },
-            shapeOptions: {
-              color: "#97009c",
-            },
-          },
-          // disable toolbar item by setting it to false
-          polygon: true,
-          polyline: false,
-          circle: false, // Turns off this drawing tool
-          rectangle: false,
-          marker: false,
-          circlemarker: false,
-        },
-        edit: {
-          featureGroup: editableLayers, //REQUIRED!!
-          remove: true,
-          edit: true,
-          poly: {
-            allowIntersection: false,
-          },
-        },
-      };
+      this.defaultDrawPluginOptions.edit.featureGroup = editableLayers;
+      var drawPluginOptions = this.defaultDrawPluginOptions
 
       var savePerimeter = (perimeter) => {
         this.perimeter = perimeter;
-        EventBus.$emit(this.endpointName, this.emitEndpoint(perimeter));
+        EventBus.$emit(this.endpointCreate, this.emitEndpoint(perimeter));
       };
 
       var deletePerimeter = () => {
         this.perimeter = null;
-        EventBus.$emit(this.endpointName, "");
+        EventBus.$emit(this.endpointCreate, "");
       };
 
       // Initialise the draw control and pass it the FeatureGroup of editable layers
-      var drawControl = new L.Control.Draw(drawPluginOptions);
-      map.addControl(drawControl);
+      this.drawControl = new L.Control.Draw(drawPluginOptions);
+      map.addControl(this.drawControl);
 
       /* CREATED */
       map.on("draw:created", function (e) {
@@ -171,17 +176,20 @@ export default {
         var type = e.layerType;
 
         /* Save the perimeter to the current state */
+        console.log("Layer: ", layer);
+        console.log("_latlngs", layer._latlngs);
         savePerimeter(layer._latlngs);
 
         /* Delete old control */
-        map.removeControl(drawControl);
+        map.removeControl(this.drawControl);
 
         /* Create the new control */
         drawPluginOptions.draw.polygon = false;
-        drawControl = new L.Control.Draw(drawPluginOptions);
-        map.addControl(drawControl);
+        this.drawControl = new L.Control.Draw(drawPluginOptions);
+        map.addControl(this.drawControl);
 
         layer.bindPopup("Perimeter");
+        console.log("Other layers: ", editableLayers);
         editableLayers.addLayer(layer);
       });
 
@@ -190,6 +198,7 @@ export default {
         let layers = e.layers;
 
         layers.eachLayer(function (layer) {
+          console.log("FuckL" , layer)
           savePerimeter(layer._latlngs);
         });
 
@@ -205,12 +214,12 @@ export default {
         deletePerimeter();
 
         /* Remove the old control */
-        map.removeControl(drawControl);
+        map.removeControl(this.drawControl);
 
         /* Create the new control */
         drawPluginOptions.draw.polygon = true;
-        drawControl = new L.Control.Draw(drawPluginOptions);
-        map.addControl(drawControl);
+        this.drawControl = new L.Control.Draw({drawPluginOptions});
+        map.addControl(this.drawControl);
       });
     },
   },
@@ -220,6 +229,33 @@ export default {
       this.window.height = window.innerHeight;
     });
     this.initDrawPolygon();
+
+    EventBus.$on(this.endpointEdit, (data) => {
+      if (this.editableLayers === null) return;
+      if (!data || data == '') return;
+
+      data = data
+        .trim()
+        .substring(9, data.length - 2)
+        .split(",");
+      // let poylgon = new L.Draw.Polygon()
+
+      let latLngs = [];
+      data.forEach((p) => {
+        let latLong = p.split(" ");
+        let newPoint = [Number(latLong[0]), Number(latLong[1])];
+        latLngs.push(newPoint);
+      });
+
+      /* Delete old control */
+      this.$refs.map.mapObject.removeControl(this.drawControl);
+      this.defaultDrawPluginOptions.draw.polygon = false;
+      this.drawControl = new L.Control.Draw(this.defaultDrawPluginOptions);
+      this.$refs.map.mapObject.addControl(this.drawControl);
+
+      var polygon = L.polygon(latLngs).addTo(this.editableLayers);
+      this.$refs.map.mapObject.fitBounds(polygon.getBounds());
+    });
   },
 };
 </script>
