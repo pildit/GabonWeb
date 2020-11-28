@@ -26,7 +26,7 @@ class AnnualAllowableCutInventory extends PageResults
         if($Id){
             $collection = $collection->where("Id","=",$Id);
         }
-        $collection = $collection->whereRaw($whereIntersects)->where("Approved", true)->get();
+        $collection = $collection->whereRaw($whereIntersects)->get();
 
         return $collection->map(function ($item) {
             return [
