@@ -457,6 +457,14 @@ export default {
       }
     },
 
+    createCustomIcon(feature, latlng) {
+      let myIcon = L.icon({
+        iconUrl: iconUrl,
+        shadowUrl: shadowUrl,
+      });
+      return L.marker(latlng, { icon: myIcon });
+    },
+
     /* Render methods */
     onGetTrees() {
       let map = this.$refs.map.mapObject;
@@ -486,9 +494,15 @@ export default {
         }
       };
 
-      this.dataTrees = L.geoJson(this.annualAllowableCutInventory, {
+      let myLayerOptions = {
+        pointToLayer: this.createCustomIcon,
         onEachFeature: onEachFeature,
-      });
+      };
+
+      this.dataTrees = L.geoJson(
+        this.annualAllowableCutInventory,
+        myLayerOptions
+      );
 
       this.treeMarkers.addLayer(this.dataTrees);
       map.addLayer(this.treeMarkers);
