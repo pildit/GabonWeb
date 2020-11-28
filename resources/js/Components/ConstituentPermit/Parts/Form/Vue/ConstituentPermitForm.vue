@@ -66,9 +66,11 @@ import Notification from "components/Common/Notifications/Notification";
 import Multiselect from "vue-multiselect";
 import _ from "lodash";
 
+import { EventBus } from "components/EventBus/EventBus";
+
 export default {
 
-    props: ['constituentPermitProp'],
+    props: ['constituentPermitProp', 'endpointName'],
 
     components: { Multiselect },
 
@@ -144,7 +146,14 @@ export default {
                 this.$forceUpdate();
             }
         }
-    }
+    },
+
+    mounted() {
+        EventBus.$on(this.endpointName, (data) => {
+            this.form.Geometry = data;
+            this.$forceUpdate();
+        });
+    },
 }
 </script>
 
