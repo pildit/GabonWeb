@@ -458,10 +458,11 @@ export default {
     },
 
     createCustomIcon(feature, latlng) {
-      let myIcon = L.icon({
-        iconUrl: iconUrl,
-        shadowUrl: shadowUrl,
-      });
+
+      let iconOptions = Icon.Default.prototype.options
+      iconOptions.iconUrl = iconUrl
+      iconOptions.shadowUrl = shadowUrl
+      let myIcon = L.icon(iconOptions);
       return L.marker(latlng, { icon: myIcon });
     },
 
