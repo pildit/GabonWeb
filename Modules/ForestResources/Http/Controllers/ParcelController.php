@@ -205,7 +205,7 @@ class ParcelController extends Controller
         $request->validate(
             [
                 'bbox' => 'string',
-                'Id' => 'nullable|exists:Modules\ForestResources\Entities\Concession,Id'
+                'Id' => 'nullable|exists:Modules\ForestResources\Entities\Parcel,Id'
             ]);
 
         return response()->json([

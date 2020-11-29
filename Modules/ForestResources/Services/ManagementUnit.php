@@ -24,7 +24,7 @@ class ManagementUnit extends PageResults
          if($Id){
              $collection = $collection->where("Id","=",$Id);
          }
-        $collection = $collection->whereRaw($whereIntersects)->get();
+        $collection = $collection->whereRaw($whereIntersects)->where("Approved", true)->get();
 
         return $collection->map(function ($item) {
             $Plans = $item->plans()->get()->map(function ($item) {
