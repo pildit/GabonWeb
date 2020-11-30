@@ -625,9 +625,9 @@ export default {
 
       markers.addLayer(data);
       map.addLayer(markers);
-      console.log("Markers:", markers);
+      console.log("Markers:");
 
-      if (fitBounds) map.fitBounds(markers.getBounds());
+      if (fitBounds && data && data.length > 0) map.fitBounds(markers.getBounds());
     },
 
     /* ANNUAL ALLOWABLE CUT */
