@@ -15,4 +15,9 @@ class AnnualAllowableCutController extends Controller
     {
         return view('management.aac.edit', ['id' => $id]);
     }
+
+    public function inventory()
+    {
+        return view('management.aac.inventory');
+    }
 }
