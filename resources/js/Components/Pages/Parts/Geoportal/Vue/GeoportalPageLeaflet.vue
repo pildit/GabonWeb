@@ -244,6 +244,12 @@ export default {
 
     /* Execute methods */
     executeOnCheckNone() {
+      
+      if (this.permitMarkers) {
+        this.permitMarkers.remove();
+        this.permitMarkers.clearLayers();
+      }
+
       if (this.dataCheckAAC) this.dataCheckAAC.remove();
 
       if (this.dataCheckPlateNumber) {
@@ -307,7 +313,7 @@ export default {
       this.getPermits(fParams).then(() => {
         if (this.dataCheckPlateNumber) this.dataCheckPlateNumber.length = 0;
         this.onGetCheckClusters(
-          this.dateCheckPlateNumber,
+          this.dataCheckPlateNumber,
           this.permits,
           this.permitMarkers
         );
@@ -589,15 +595,18 @@ export default {
       // });
     },
 
-    /* PLATE NUMBER */
-    onGetCheckClusters(data, endpointData, markers, fitBounds = true) {
-      
-      /* Clean-up of previous data */
+    cleanUpClusters(data, markers) {
       if (markers) {
         markers.remove();
         markers.clearLayers();
       }
       if (data) data.remove();
+    },
+
+    /* PLATE NUMBER */
+    onGetCheckClusters(data, endpointData, markers, fitBounds = true) {
+      /* Clean-up of previous data */
+      this.cleanUpClusters(this.data, markers);
 
       let map = this.$refs.map.mapObject;
 
