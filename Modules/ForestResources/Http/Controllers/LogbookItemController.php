@@ -63,7 +63,9 @@ class LogbookItemController extends Controller
     {
 
         $data = $request->validated();
-        $logbook = Logbook::where('Id', (int)$data['Logbook'])->orWhere('MobileId', $data['Logbook'])->first();
+        $logbook = is_int($data['Logbook']) ?
+            Logbook::where('Id', (int)$data['Logbook'])->orWhere('MobileId', $data['Logbook'])->first():
+            Logbook::where('MobileId', $data['Logbook'])->first();
         if(!$logbook){
             throw ValidationException::withMessages(['Logbook' => 'validation.exists']);
         }
@@ -97,7 +99,9 @@ class LogbookItemController extends Controller
     {
         $data = $request->validated();
         if(isset($data['Logbook'])){
-            $logbook = Logbook::where('Id', (int)$data['Logbook'])->orWhere('MobileId', $data['Logbook'])->first();
+            $logbook = is_int($data['Logbook']) ?
+                Logbook::where('Id', (int)$data['Logbook'])->orWhere('MobileId', $data['Logbook'])->first():
+                Logbook::where('MobileId', $data['Logbook'])->first();
             if(!$logbook){
                 throw ValidationException::withMessages(['Logbook' => 'validation.exists']);
             }
