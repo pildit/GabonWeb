@@ -349,9 +349,11 @@ export default {
       plateNumber: "",
       checkPlateNumber: false,
       checkPlateNumberError: false,
+
+      dateRangeDays: 7,
       checkPlateNumberRange: {
-        start: new Date(2020, 9, 12),
-        end: new Date(2020, 9, 16),
+        end: new Date(),
+        start: new Date(),
       },
 
       annualAllowableCut: "",
@@ -392,7 +394,9 @@ export default {
       toggaleMenu: null,
     };
   },
-  mounted() {},
+  mounted() {
+    this.checkPlateNumberRange.start = this.checkPlateNumberRange.end.getTime() - (this.dateRangeDays * 24 * 60 * 60 * 1000)
+  },
   watch: {
     map: function (newVal, oldVal) {
       if (newVal != null) {

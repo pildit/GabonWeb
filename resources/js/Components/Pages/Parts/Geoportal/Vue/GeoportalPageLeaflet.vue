@@ -31,16 +31,7 @@
         @clusterclick="onTreeClusterClicked()"
         @ready="ready"
       >
-        <!-- Check Plate Number -->
-        <v-marker
-          v-for="l in dataCheckPlateNumber"
-          :key="l.id"
-          :lat-lng="l.latlng"
-          :icon="icon"
-        >
-          <v-popup :content="l.text"></v-popup>
-        </v-marker>
-
+      
         <!-- Check Transport Permit Id -->
         <v-marker
           v-for="l in dataCheckTransportPermitId"
@@ -139,6 +130,10 @@ export default {
       dataTrees: null,
 
       treeMarkers: L.markerClusterGroup({
+        chunkedLoading: true,
+      }),
+
+      plateMarkers: L.markerClusterGroup({
         chunkedLoading: true,
       }),
 
@@ -330,6 +325,10 @@ export default {
         if (this.dataCheckAACId) this.dataCheckAACId.remove();
         this.onGetCheckAAC();
       });
+
+      /* Fit bounds */
+      let map = this.$refs.map.mapObject;
+      map.fitBounds(this.dataCheckAACId);
     },
 
     executeOnCheckAACName(value = "", params = null) {
@@ -344,6 +343,10 @@ export default {
         if (this.dataCheckAACName) this.dataCheckAACName.remove();
         this.onGetCheckAAC();
       });
+
+      /* Fit bounds */
+      let map = this.$refs.map.mapObject;
+      map.fitBounds(this.dataCheckAACName);
     },
 
     executeOnCheckTransportPermitId(value, params = null) {
@@ -357,6 +360,10 @@ export default {
         if (this.dataCheckTransportPermitId)
           this.dataCheckTransportPermitId.length = 0;
         this.onGetCheckTransportPermitId();
+
+        /* Fit bounds */
+        let map = this.$refs.map.mapObject;
+        map.fitBounds(this.dataCheckTransportPermitId);
       });
     },
 
@@ -385,6 +392,10 @@ export default {
           this.dataCheckTransportPermitDate.length = 0;
         this.onGetCheckTransportPermitDate();
       });
+
+      /* Fit bounds */
+      let map = this.$refs.map.mapObject;
+      map.fitBounds(this.dataCheckTransportPermitDate);
     },
 
     executeOnViewParcels(value, params = null) {
@@ -458,15 +469,13 @@ export default {
     },
 
     createCustomIcon(feature, latlng) {
-
-      let iconOptions = Icon.Default.prototype.options
-      iconOptions.iconUrl = iconUrl
-      iconOptions.shadowUrl = shadowUrl
+      let iconOptions = Icon.Default.prototype.options;
+      iconOptions.iconUrl = iconUrl;
+      iconOptions.shadowUrl = shadowUrl;
       let myIcon = L.icon(iconOptions);
       return L.marker(latlng, { icon: myIcon });
     },
 
-    /* Render methods */
     onGetTrees() {
       let map = this.$refs.map.mapObject;
       // TODO
@@ -628,28 +637,27 @@ export default {
 
     /* PLATE NUMBER */
     onGetCheckPlateNumber() {
-      let points = this.permits;
+      let map = this.$refs.map.mapObject;
+      
+      let onEachFeature = (feature, layer) => {
+        if (feature.properties) {
+          layer.bindPopup(this.getJSONToString(feature.properties));
+        }
+      };
 
-      var len;
-      if (points.length == 0) {
-        len = 0;
-      } else {
-        len = points.features.length;
-      }
+      let myLayerOptions = {
+        pointToLayer: this.createCustomIcon,
+        onEachFeature: onEachFeature,
+      };
 
-      let locations = [];
-      for (var i = 0; i < len; ++i) {
-        let latitude = points.features[i].geometry.coordinates[0];
-        let longitude = points.features[i].geometry.coordinates[1];
-        let properties = points.features[i].properties;
+      this.dataCheckPlateNumber = L.geoJson(
+        this.permits,
+        myLayerOptions
+      );
 
-        locations.push({
-          id: i,
-          latlng: latLng(latitude, longitude),
-          text: "Id " + properties.id,
-        });
-      }
-      this.dataCheckPlateNumber = locations;
+      this.plateMarkers.addLayer(this.dataCheckPlateNumber);
+      map.addLayer(this.plateMarkers);
+      map.fitBounds(this.plateMarkers.getBounds())
     },
 
     /* ANNUAL ALLOWABLE CUT */
