@@ -26,7 +26,7 @@ class AnnualAllowableCut extends PageResults
         $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_transform(public.st_setsrid("Geometry",'.$srid.'),4326)) as geom');
         $whereIntersects = "public.ST_Intersects(public.st_setsrid(\"Geometry\", {$srid}), public.st_setsrid(public.ST_MakeEnvelope({$bbox}), {$srid}))";
         $collection = AnnualAllowableCutEntity::select(['Id', $geomCol,'Name','AacId','ManagementUnit','ManagementPlan','ProductType'])
-            ->whereRaw($whereIntersects)->where("Approved", true);
+            ->whereRaw($whereIntersects);
 
         if($Id){
             $collection = $collection->where("Id","=",$Id);
