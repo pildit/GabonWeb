@@ -395,7 +395,8 @@ export default {
     };
   },
   mounted() {
-    this.checkPlateNumberRange.start = this.checkPlateNumberRange.end.getTime() - (this.dateRangeDays * 24 * 60 * 60 * 1000)
+    const transformedDate = this.checkPlateNumberRange.end.getTime() - (this.dateRangeDays * 24 * 60 * 60 * 1000)
+    this.checkPlateNumberRange.start = new Date(transformedDate)
   },
   watch: {
     map: function (newVal, oldVal) {
