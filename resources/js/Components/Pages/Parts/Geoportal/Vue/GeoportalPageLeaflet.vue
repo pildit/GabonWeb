@@ -369,7 +369,6 @@ export default {
 
     executeOnCheckAACId(value = "", params = null) {
       // If already renderded clean the old data and print the new one
-      if (this.annualAllowableCutId) this.dataCheckAAC.remove();
       if (value === "") return;
       this.annualAllowableCutId = value;
 
@@ -379,6 +378,7 @@ export default {
 
       this.getAnnualAllowableCuts(fParams).then(() => {
         if (this.dataCheckAACId) this.dataCheckAACId.remove();
+        if (this.dataCheckAAC) this.dataCheckAAC.remove();
         this.onGetCheckAAC();
       });
     },
@@ -643,7 +643,6 @@ export default {
     },
 
     cleanUpClusters(data, markers) {
-
       if (markers) {
         markers.remove();
         markers.clearLayers();
