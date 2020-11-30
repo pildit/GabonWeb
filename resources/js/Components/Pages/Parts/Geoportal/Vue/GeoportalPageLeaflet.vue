@@ -20,7 +20,7 @@
     <v-map
       ref="map"
       :zoom="7"
-      :maxZoom="16"
+      :maxZoom="18"
       :center="initialLocation"
       :style="{ height: window.height - 78 + 'px', width: '100%' }"
     >
