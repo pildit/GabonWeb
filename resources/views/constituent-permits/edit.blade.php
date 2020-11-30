@@ -7,11 +7,11 @@
         <div class="row">
             <div class="col-md-4">
                 <div id="sidemap" class="col-md-4" style="position: fixed; padding: 10px">
-                    <side-map endpoint-name="constituent-permit"></side-map>
+                    <side-map endpoint-create="constituent-permit-create" endpoint-edit="constituent-permit-edit"></side-map>
                 </div>
             </div>
             <div class="col-md-8 mt-4" id="constituent-permit-form">
-                <constituent-permit-form style="overflow-x: scroll" :constituent-permit-prop="constituent_permit" ref="constituent_permit_form"></constituent-permit-form>
+                <constituent-permit-form endpoint-create="constituent-permit-create" endpoint-edit="constituent-permit-edit" style="overflow-x: scroll" :constituent-permit-prop="constituent_permit" ref="constituent_permit_form"></constituent-permit-form>
             </div>
         </div>
     </div>

@@ -7,11 +7,11 @@
         <div class="row">
             <div class="col-md-4">
                 <div id="sidemap" class="col-md-4" style="position: fixed; padding: 10px">
-                    <side-map endpoint-name="aac"></side-map>
+                    <side-map endpoint-create="aac-create" endpoint-edit="aac-edit"></side-map>
                 </div>
             </div>
             <div class="col-md-8 mt-4" id="aac-form">
-                <aac-form style="overflow-x: scroll" v-permission="'AAC.edit'" :aac-prop="annual_allowable_cut"></aac-form>
+                <aac-form endpoint-create="aac-create" endpoint-edit="aac-edit" style="overflow-x: scroll" v-permission="'AAC.edit'" :aac-prop="annual_allowable_cut"></aac-form>
             </div>
         </div>
     </div>

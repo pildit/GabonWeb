@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="md-form">
-                    <input type="text" name="Geometry" id="Geometry" class="form-control" v-model="form.Geometry" v-validate="'required'">
+                    <input type="text" name="Geometry" id="Geometry" class="form-control" @change="onGeometryChange" v-model="form.Geometry" v-validate="'required'">
                     <label for="Geometry" :class="{'active': form.Geometry}">{{translate('geometry_input_label')}}</label>
                     <div v-show="errors.has('Geometry')" class="invalid-feedback">{{ errors.first('Geometry') }}</div>
                 </div>
@@ -70,7 +70,7 @@ import { EventBus } from "components/EventBus/EventBus";
 
 export default {
 
-    props: ['constituentPermitProp', 'endpointName'],
+    props: ['constituentPermitProp', 'endpointCreate', 'endpointEdit'],
 
     components: { Multiselect },
 
@@ -134,7 +134,13 @@ export default {
                     this.form.PermitType = this.permitTypeList.data.find((x) => x['Id'] == this.form.permit_type.Id);
                 }
             })
-        }
+        },
+
+        onGeometryChange(value) {
+            if (this.endpointEdit) {
+                EventBus.$emit(this.endpointEdit, this.form.Geometry);
+            }
+        },
     },
 
     watch: {
@@ -149,7 +155,7 @@ export default {
     },
 
     mounted() {
-        EventBus.$on(this.endpointName, (data) => {
+        EventBus.$on(this.endpointCreate, (data) => {
             this.form.Geometry = data;
             this.$forceUpdate();
         });

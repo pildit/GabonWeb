@@ -32,7 +32,7 @@
                 <div class="form-row">
                     <div class="col">
                         <div class="md-form">
-                            <input type="text" id="Geometry" class="form-control" v-model="form.Geometry" v-validate="'required'">
+                            <input type="text" id="Geometry" class="form-control" @change="onGeometryChange" v-model="form.Geometry" v-validate="'required'">
                             <label for="Geometry" :class="{'active': form.Geometry}">{{translate('geometry_input_label')}}</label>
                         </div>
                     </div>
@@ -106,7 +106,7 @@ import { EventBus } from "components/EventBus/EventBus";
 
 export default {
 
-    props : ['managementUnitProp', 'endpointName'],
+    props : ['managementUnitProp', 'endpointCreate', 'endpointEdit'],
 
     components: { Multiselect, PlanFormPartial },
 
@@ -202,6 +202,12 @@ export default {
             this.formPlansCount++;
             this.plansForm[this.formPlansCount - 1] = {};
         },
+
+        onGeometryChange(value) {
+            if (this.endpointEdit) {
+                EventBus.$emit(this.endpointEdit, this.form.Geometry);
+            }
+        },
     },
     watch: {
         managementUnitProp(value) {
@@ -219,8 +225,7 @@ export default {
     },
 
     mounted() {
-        EventBus.$on(this.endpointName, (data) => {
-            console.log('HERE')
+        EventBus.$on(this.endpointCreate, (data) => {
             this.form.Geometry = data;
             this.$forceUpdate();
         });

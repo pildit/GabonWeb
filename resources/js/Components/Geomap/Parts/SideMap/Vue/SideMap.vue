@@ -13,8 +13,6 @@
   </div>
 </template>
 
-
-
 <script>
 import * as Vue2Leaflet from "vue2-leaflet";
 import { latLng, Icon, icon } from "leaflet";
@@ -29,6 +27,8 @@ import { mapGetters, mapState, mapMutations, mapActions } from "vuex";
 
 import "leaflet-draw";
 import "leaflet-draw/dist/leaflet.draw.css";
+
+import transformation from "@pusky/transform-coordinates";
 
 export default {
   components: {
@@ -131,12 +131,19 @@ export default {
     },
 
     emitEndpoint(data) {
+      console.log("DATA:", data);
       let iterator = 0;
       const l = data[0].length;
       let geometryForm = "POLYGON((";
+      const transform = transformation("EPSG:4326", "EPSG:5223");
+
       data[0].forEach((latLong) => {
-        console.log(latLong);
-        geometryForm += latLong.lat + " " + latLong.lng;
+        const { x, y } = transform.forward({
+          x: Number(latLong.lng),
+          y: Number(latLong.lat),
+        });
+
+        geometryForm += x + " " + y;
         if (++iterator < l) {
           geometryForm += ",";
         }
@@ -218,6 +225,10 @@ export default {
         map.addControl(this.drawControl);
       });
     },
+
+    getStrPosition(string, subString, index) {
+      return string.split(subString, index).join(subString).length;
+    },
   },
 
   mounted() {
@@ -227,19 +238,24 @@ export default {
     this.initDrawPolygon();
 
     EventBus.$on(this.endpointEdit, (data) => {
+      console.log(data);
       if (this.editableLayers === null) return;
       if (!data || data == "") return;
 
-      data = data
-        .trim()
-        .substring(9, data.length - 2)
-        .split(",");
-      // let poylgon = new L.Draw.Polygon()
+      data = data.trim();
+      let parenthesesIndex = this.getStrPosition(data, "(", 2) + 1;
+      data = data.substring(parenthesesIndex, data.length - 2).split(",");
 
       let latLngs = [];
+      const transform = transformation("EPSG:5223", "EPSG:4326");
       data.forEach((p) => {
-        let latLong = p.split(" ");
-        let newPoint = [Number(latLong[0]), Number(latLong[1])];
+        let latLong = p.trim().split(" ");
+
+        const { x, y } = transform.forward({
+          x: Number(latLong[0]),
+          y: Number(latLong[1]),
+        });
+        let newPoint = [y, x];
         latLngs.push(newPoint);
       });
 
@@ -265,13 +281,8 @@ export default {
       this.drawControl = new L.Control.Draw(this.defaultDrawPluginOptions);
       map.addControl(this.drawControl);
 
-      try {
-        var polygon = L.polygon(latLngs).addTo(this.editableLayers);
-        console.log(polygon);
-        map.fitBounds(polygon.getBounds());
-      } catch (error) {
-        console.log('POLYGON parse error!')
-      }
+      var polygon = L.polygon(latLngs).addTo(this.editableLayers);
+      map.fitBounds(polygon.getBounds());
     });
   },
 };

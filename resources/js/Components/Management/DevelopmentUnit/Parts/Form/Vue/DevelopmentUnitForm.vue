@@ -350,15 +350,8 @@ export default {
         this.formPlansCount = value.plans.length;
         this.plansForm = value.plans;
 
-        const fakeGeometry =
-          "POLYGON((1.5598658653430082 12.148603500672486,1.4061088354351594 10.63374624330127,0.05493163220967156 10.567882884285124,0.2856433479945185 12.818214317336558))";
-        this.form.Geometry = fakeGeometry; // TODO: Remove this shit
-        // EventBus.$emit(this.endpointName, (this.form.Geometry))
-        if (
-          value.geometry_as_text !== this.form.Geometry &&
-          this.endpointEdit
-        ) {
-          EventBus.$emit(this.endpointEdit, fakeGeometry);
+        if (this.endpointEdit) {
+          EventBus.$emit(this.endpointEdit, value.geometry_as_text);
         }
 
         this.$forceUpdate();
