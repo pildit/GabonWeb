@@ -505,12 +505,6 @@ export default {
 
       if (value) {
         this.getAnnualAllowableCutInventory(params).then(() => {
-          if (this.treeMarkers) {
-            this.treeMarkers.remove();
-            this.treeMarkers.clearLayers();
-          }
-          if (this.dataTrees) this.dataTrees.remove();
-          if (!this.renderTrees) return;
           this.onGetTrees();
         });
       } else {
@@ -597,6 +591,14 @@ export default {
 
     /* PLATE NUMBER */
     onGetCheckClusters(data, endpointData, markers, fitBounds = true) {
+      
+      /* Clean-up of previous data */
+      if (markers) {
+        markers.remove();
+        markers.clearLayers();
+      }
+      if (data) data.remove();
+
       let map = this.$refs.map.mapObject;
 
       let onEachFeature = (feature, layer) => {
