@@ -53,6 +53,7 @@
                                 :searchable="true"
                                 :loading="developmentUnitList.isLoading"
                                 :allow-empty="false"
+                                @select="$forceUpdate()"
                                 @search-change="asyncFindDevelopment"
                             >
                                 <template slot="singleLabel" slot-scope="{ option }">{{ option.Name }}({{option.Id}})</template>
@@ -184,7 +185,7 @@ export default {
                         Notification.success(this.translate('Management Plan'), data.message);
                     })
                 })
-                window.location.href = ManagementUnit.buildRoute('management_units.index');
+                // window.location.href = ManagementUnit.buildRoute('management_units.index');
             })
         },
         asyncFindDevelopment(query) {

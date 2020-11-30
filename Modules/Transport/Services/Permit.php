@@ -28,12 +28,11 @@ class Permit extends PageResults
      */
     public function getVectors($bbox,$LicensePlate,$DateFrom,$DateTo,$Date,$PermitNo,$Id)
     {
-        $srid = config('transport.srid');
-        $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_transform(public.st_setsrid("Geometry",'.$srid.'),4256)) as geom');
+        $srid = config('forestresources.srid');
+        $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_transform(public.st_setsrid("Geometry",'.$srid.'),4326)) as geom');
         $whereIntersects = "public.ST_Intersects(public.st_setsrid(\"Geometry\", {$srid}), public.st_setsrid(public.ST_MakeEnvelope({$bbox}), {$srid}))";
 
-        $collection = PermitEntity::select(['Id', $geomCol, "PermitNo", "Concession", "ManagementUnit", "DevelopmentUnit", "AnnualAllowableCut", "ClientCompany", "ConcessionaireCompany", "TransporterCompany", "Province", "Destination"])
-            ->whereRaw($whereIntersects);
+        $collection = PermitEntity::select(['Id', $geomCol, "PermitNo", "Concession", "ManagementUnit", "DevelopmentUnit", "AnnualAllowableCut", "ClientCompany", "ConcessionaireCompany", "TransporterCompany", "Province", "Destination","LicensePlate","ObserveAt"]);
 
         if($Id){
             $collection = $collection->where("Id","=",$Id);
@@ -86,15 +85,14 @@ class Permit extends PageResults
      */
     public function getTrackingVectors($bbox)
     {
-        $srid = config('transport.srid');
-        $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_transform(public.st_setsrid("Geometry",'.$srid.'),4256)) as geom');
+        $srid = config('forestresources.srid');
+        $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_transform(public.st_setsrid("Geometry",'.$srid.'),4326)) as geom');
         $whereIntersects = "public.ST_Intersects(public.st_setsrid(\"Geometry\", {$srid}), public.st_setsrid(public.ST_MakeEnvelope({$bbox}), {$srid}))";
 
         $collection = Tracking::select(['Id', $geomCol, "Permit"])
             ->whereHas('permit', function ($query) {
                 $query->where('Status', '=', PermitEntity::STATUS_IN_PROGRESS);
-            })
-            ->whereRaw($whereIntersects);
+            });
 
         $collection = $collection->get();
 

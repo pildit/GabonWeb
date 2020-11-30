@@ -19,6 +19,8 @@ class CreateLogEntriesTable extends Migration
             $table->dateTime('logged_at');
             $table->integer('loggable_id');
             $table->string('loggable_type');
+            $table->text('data');
+            $table->integer('version')->default(1);
             $table->integer('user_id')->nullable();
         });
     }
