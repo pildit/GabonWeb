@@ -31,7 +31,6 @@
         @clusterclick="onTreeClusterClicked()"
         @ready="ready"
       >
-      
         <!-- Check Transport Permit Id -->
         <v-marker
           v-for="l in dataCheckTransportPermitId"
@@ -133,7 +132,7 @@ export default {
         chunkedLoading: true,
       }),
 
-      plateMarkers: L.markerClusterGroup({
+      permitMarkers: L.markerClusterGroup({
         chunkedLoading: true,
       }),
 
@@ -307,7 +306,7 @@ export default {
 
       this.getPermits(fParams).then(() => {
         if (this.dataCheckPlateNumber) this.dataCheckPlateNumber.length = 0;
-        this.onGetCheckPlateNumber();
+        this.onGetCheckClusters(this.dateCheckPlateNumber, this.permits, this.permitMarkers);
       });
     },
 
@@ -325,10 +324,6 @@ export default {
         if (this.dataCheckAACId) this.dataCheckAACId.remove();
         this.onGetCheckAAC();
       });
-
-      /* Fit bounds */
-      let map = this.$refs.map.mapObject;
-      map.fitBounds(this.dataCheckAACId);
     },
 
     executeOnCheckAACName(value = "", params = null) {
@@ -343,10 +338,6 @@ export default {
         if (this.dataCheckAACName) this.dataCheckAACName.remove();
         this.onGetCheckAAC();
       });
-
-      /* Fit bounds */
-      let map = this.$refs.map.mapObject;
-      map.fitBounds(this.dataCheckAACName);
     },
 
     executeOnCheckTransportPermitId(value, params = null) {
@@ -359,11 +350,7 @@ export default {
       this.getPermits(fParams).then(() => {
         if (this.dataCheckTransportPermitId)
           this.dataCheckTransportPermitId.length = 0;
-        this.onGetCheckTransportPermitId();
-
-        /* Fit bounds */
-        let map = this.$refs.map.mapObject;
-        map.fitBounds(this.dataCheckTransportPermitId);
+        this.onGetCheckClusters(this.dataCheckTransportPermitId, this.permits, this.permitMarkers);
       });
     },
 
@@ -390,12 +377,8 @@ export default {
       this.getPermits(fParams).then(() => {
         if (this.dataCheckTransportPermitDate)
           this.dataCheckTransportPermitDate.length = 0;
-        this.onGetCheckTransportPermitDate();
+        this.onGetCheckClusters(this.dataCheckTransportPermitDate, this.permits. this.permitMarkers);
       });
-
-      /* Fit bounds */
-      let map = this.$refs.map.mapObject;
-      map.fitBounds(this.dataCheckTransportPermitDate);
     },
 
     executeOnViewParcels(value, params = null) {
@@ -477,8 +460,10 @@ export default {
     },
 
     onGetTrees() {
-      let map = this.$refs.map.mapObject;
-      // TODO
+
+      this.onGetCheckClusters(this.dataTrees, this.annualAllowableCutInventory, this.treeMarkers)
+
+      // TODO - Possible prune cluster implementation
       // let localPruneCluster = this.treesPruneCluster;
       // localPruneCluster.Cluster.Size = 160;
       // localPruneCluster.PrepareLeafletMarker = function (leafletMarker, data) {
@@ -497,47 +482,6 @@ export default {
       // });
 
       // map.addLayer(localPruneCluster);
-
-      let onEachFeature = (feature, layer) => {
-        if (feature.properties) {
-          layer.bindPopup(this.getJSONToString(feature.properties));
-        }
-      };
-
-      let myLayerOptions = {
-        pointToLayer: this.createCustomIcon,
-        onEachFeature: onEachFeature,
-      };
-
-      this.dataTrees = L.geoJson(
-        this.annualAllowableCutInventory,
-        myLayerOptions
-      );
-
-      this.treeMarkers.addLayer(this.dataTrees);
-      map.addLayer(this.treeMarkers);
-
-      // map.fitBounds(markers.getBounds());
-
-      // var len;
-      // if (points.length == 0) {
-      //   len = 0;
-      // } else {
-      //   len = points.features.length;
-      // }
-
-      // let locations = [];
-      // for (var i = 0; i < len; ++i) {
-      //   let latitude = points.features[i].geometry.coordinates[0];
-      //   let longitude = points.features[i].geometry.coordinates[1];
-
-      //   locations.push({
-      //     id: i,
-      //     latlng: latLng(latitude, longitude),
-      //     text: this.getJSONToString(points.features[i].properties),
-      //   });
-      // }
-      // this.dataTrees = locations;
     },
 
     executeOnViewTrees(value, params = null) {
@@ -636,9 +580,9 @@ export default {
     },
 
     /* PLATE NUMBER */
-    onGetCheckPlateNumber() {
+    onGetCheckClusters(data, endpointData, markers) {
       let map = this.$refs.map.mapObject;
-      
+
       let onEachFeature = (feature, layer) => {
         if (feature.properties) {
           layer.bindPopup(this.getJSONToString(feature.properties));
@@ -650,14 +594,11 @@ export default {
         onEachFeature: onEachFeature,
       };
 
-      this.dataCheckPlateNumber = L.geoJson(
-        this.permits,
-        myLayerOptions
-      );
+      this.data = L.geoJson(endpointData, myLayerOptions);
 
-      this.plateMarkers.addLayer(this.dataCheckPlateNumber);
-      map.addLayer(this.plateMarkers);
-      map.fitBounds(this.plateMarkers.getBounds())
+      markers.addLayer(this.data);
+      map.addLayer(markers);
+      map.fitBounds(markers.getBounds());
     },
 
     /* ANNUAL ALLOWABLE CUT */
@@ -695,57 +636,6 @@ export default {
       map.fitBounds(bounds, { padding: [200, 200] });
 
       this.dataCheckAAC.addTo(map);
-    },
-
-    /* CHECK TRANSPORT PERMIT ID */
-    onGetCheckTransportPermitId() {
-      let points = this.permits;
-
-      var len;
-      if (points.length == 0) {
-        len = 0;
-      } else {
-        len = points.features.length;
-      }
-
-      let locations = [];
-      for (var i = 0; i < len; ++i) {
-        let latitude = points.features[i].geometry.coordinates[0];
-        let longitude = points.features[i].geometry.coordinates[1];
-        let properties = points.features[i].properties;
-
-        locations.push({
-          id: i,
-          latlng: latLng(latitude, longitude),
-          text: "TP Id - PermitNo " + properties.PermitNo,
-        });
-      }
-      this.dataCheckTransportPermitId = locations;
-    },
-
-    onGetCheckTransportPermitDate() {
-      let points = this.permits;
-
-      var len;
-      if (points.length == 0) {
-        len = 0;
-      } else {
-        len = points.features.length;
-      }
-
-      let locations = [];
-      for (var i = 0; i < len; ++i) {
-        let latitude = points.features[i].geometry.coordinates[0];
-        let longitude = points.features[i].geometry.coordinates[1];
-        let properties = points.features[i].properties;
-
-        locations.push({
-          id: i,
-          latlng: latLng(latitude, longitude),
-          text: "TP Date - PermitNo " + properties.PermitNo,
-        });
-      }
-      this.dataCheckTransportPermitDate = locations;
     },
 
     /* PARCELS */
