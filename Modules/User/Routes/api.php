@@ -17,7 +17,7 @@ Route::prefix('users')->group(function () {
     Route::post('/login', 'AuthController@login');
     Route::post('/register', 'UserController@store');
     Route::post('/verify', 'UserController@verify');
-    Route::post('/{user}/forgot', 'UserController@forgotPassword');
+    Route::post('/forgot', 'UserController@forgotPassword');
     Route::post('/password', 'UserController@changePassword');
     Route::middleware('jwt:api')->get('/export', 'UserController@export');
     Route::middleware('jwt:api')->get('/types', 'UserController@listTypes');
