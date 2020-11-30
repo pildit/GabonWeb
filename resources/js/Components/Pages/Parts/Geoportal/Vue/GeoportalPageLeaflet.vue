@@ -643,6 +643,7 @@ export default {
     },
 
     cleanUpClusters(data, markers) {
+
       if (markers) {
         markers.remove();
         markers.clearLayers();
@@ -676,10 +677,9 @@ export default {
 
       markers.addLayer(data);
       map.addLayer(markers);
-      console.log("Markers:");
 
-      if (fitBounds && data && data.length > 0)
-        map.fitBounds(markers.getBounds());
+      if (endpointData.features && endpointData.features.length > 0)
+        map.fitBounds(markers.getBounds(), { padding: [200, 200] });
     },
 
     /* ANNUAL ALLOWABLE CUT */
