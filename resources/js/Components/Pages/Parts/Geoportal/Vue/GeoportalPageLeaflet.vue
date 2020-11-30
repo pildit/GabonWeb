@@ -306,7 +306,11 @@ export default {
 
       this.getPermits(fParams).then(() => {
         if (this.dataCheckPlateNumber) this.dataCheckPlateNumber.length = 0;
-        this.onGetCheckClusters(this.dateCheckPlateNumber, this.permits, this.permitMarkers);
+        this.onGetCheckClusters(
+          this.dateCheckPlateNumber,
+          this.permits,
+          this.permitMarkers
+        );
       });
     },
 
@@ -350,7 +354,11 @@ export default {
       this.getPermits(fParams).then(() => {
         if (this.dataCheckTransportPermitId)
           this.dataCheckTransportPermitId.length = 0;
-        this.onGetCheckClusters(this.dataCheckTransportPermitId, this.permits, this.permitMarkers);
+        this.onGetCheckClusters(
+          this.dataCheckTransportPermitId,
+          this.permits,
+          this.permitMarkers
+        );
       });
     },
 
@@ -377,7 +385,11 @@ export default {
       this.getPermits(fParams).then(() => {
         if (this.dataCheckTransportPermitDate)
           this.dataCheckTransportPermitDate.length = 0;
-        this.onGetCheckClusters(this.dataCheckTransportPermitDate, this.permits. this.permitMarkers);
+        this.onGetCheckClusters(
+          this.dataCheckTransportPermitDate,
+          this.permits,
+          this.permitMarkers
+        );
       });
     },
 
@@ -460,8 +472,12 @@ export default {
     },
 
     onGetTrees() {
-
-      this.onGetCheckClusters(this.dataTrees, this.annualAllowableCutInventory, this.treeMarkers)
+      this.onGetCheckClusters(
+        this.dataTrees,
+        this.annualAllowableCutInventory,
+        this.treeMarkers,
+        false // TODO: Fix fitBounds not working for getTrees
+      );
 
       // TODO - Possible prune cluster implementation
       // let localPruneCluster = this.treesPruneCluster;
@@ -580,7 +596,7 @@ export default {
     },
 
     /* PLATE NUMBER */
-    onGetCheckClusters(data, endpointData, markers) {
+    onGetCheckClusters(data, endpointData, markers, fitBounds = true) {
       let map = this.$refs.map.mapObject;
 
       let onEachFeature = (feature, layer) => {
@@ -594,11 +610,13 @@ export default {
         onEachFeature: onEachFeature,
       };
 
-      this.data = L.geoJson(endpointData, myLayerOptions);
+      data = L.geoJson(endpointData, myLayerOptions);
 
-      markers.addLayer(this.data);
+      markers.addLayer(data);
       map.addLayer(markers);
-      map.fitBounds(markers.getBounds());
+      console.log("Markers:", markers);
+
+      if (fitBounds) map.fitBounds(markers.getBounds());
     },
 
     /* ANNUAL ALLOWABLE CUT */
