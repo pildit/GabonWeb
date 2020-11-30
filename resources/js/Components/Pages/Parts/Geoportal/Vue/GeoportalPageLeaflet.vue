@@ -1,58 +1,99 @@
 <template>
   <div>
-    <v-map-sidebar
-      v-if="hideSidebar == false"
-      :map="map"
-      @onCheckNone="executeOnCheckNone($event)"
-      @onCheckPlateNumber="executeOnCheckPlateNumber($event)"
-      @onCheckAACId="executeOnCheckAACId($event)"
-      @onCheckAACName="executeOnCheckAACName($event)"
-      @onCheckTransportPermitId="executeOnCheckTransportPermitId($event)"
-      @onCheckTransportPermitDate="executeOnCheckTransportPermitDate($event)"
-      @onViewParcels="executeOnViewParcels($event)"
-      @onViewConcessions="executeOnViewConcessions($event)"
-      @onViewUFA="executeOnViewUFA($event)"
-      @onViewUFG="executeOnViewUFG($event)"
-      @onViewAAC="executeOnViewAAC($event)"
-      @onViewTrees="executeOnViewTrees($event)"
-    ></v-map-sidebar>
-
-    <v-map
-      ref="map"
-      :zoom="7"
-      :maxZoom="18"
-      :center="initialLocation"
-      :style="{ height: window.height - 78 + 'px', width: '100%' }"
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="warningModal"
+      ref="warningModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="ModalLabel"
+      aria-hidden="true"
     >
-      <v-icondefault></v-icondefault>
-      <v-tilelayer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></v-tilelayer>
-      <v-marker-cluster
-        :options="clusterOptions"
-        @clusterclick="onTreeClusterClicked()"
-        @ready="ready"
-      >
-        <!-- Check Transport Permit Id -->
-        <v-marker
-          v-for="l in dataCheckTransportPermitId"
-          :key="l.id"
-          :lat-lng="l.latlng"
-          :icon="icon"
-        >
-          <v-popup :content="l.text"></v-popup>
-        </v-marker>
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="ModalLabel">
+              {{ translate("Modal_Title") }}
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">{{ translate("Modal_Content") }}</div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">
+              {{ translate("Agree_Button") }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        <!-- Check Transport Permit Date -->
-        <v-marker
-          v-for="l in dataCheckTransportPermitDate"
-          :key="l.id"
-          :lat-lng="l.latlng"
-          :icon="icon"
-        >
-          <v-popup :content="l.text"></v-popup>
-        </v-marker>
+    <div>
+      <div>
+        <v-map-sidebar
+          v-if="hideSidebar == false"
+          :map="map"
+          @onCheckNone="executeOnCheckNone($event)"
+          @onCheckPlateNumber="executeOnCheckPlateNumber($event)"
+          @onCheckAACId="executeOnCheckAACId($event)"
+          @onCheckAACName="executeOnCheckAACName($event)"
+          @onCheckTransportPermitId="executeOnCheckTransportPermitId($event)"
+          @onCheckTransportPermitDate="
+            executeOnCheckTransportPermitDate($event)
+          "
+          @onViewParcels="executeOnViewParcels($event)"
+          @onViewConcessions="executeOnViewConcessions($event)"
+          @onViewUFA="executeOnViewUFA($event)"
+          @onViewUFG="executeOnViewUFG($event)"
+          @onViewAAC="executeOnViewAAC($event)"
+          @onViewTrees="executeOnViewTrees($event)"
+        ></v-map-sidebar>
 
-        <!-- View Trees -->
-        <!-- <v-marker
+        <v-map
+          ref="map"
+          :zoom="7"
+          :maxZoom="18"
+          :center="initialLocation"
+          :style="{ height: window.height - 78 + 'px', width: '100%' }"
+        >
+          <v-icondefault></v-icondefault>
+          <v-tilelayer
+            url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+          ></v-tilelayer>
+          <v-marker-cluster
+            :options="clusterOptions"
+            @clusterclick="onTreeClusterClicked()"
+            @ready="ready"
+          >
+            <!-- Check Transport Permit Id -->
+            <v-marker
+              v-for="l in dataCheckTransportPermitId"
+              :key="l.id"
+              :lat-lng="l.latlng"
+              :icon="icon"
+            >
+              <v-popup :content="l.text"></v-popup>
+            </v-marker>
+
+            <!-- Check Transport Permit Date -->
+            <v-marker
+              v-for="l in dataCheckTransportPermitDate"
+              :key="l.id"
+              :lat-lng="l.latlng"
+              :icon="icon"
+            >
+              <v-popup :content="l.text"></v-popup>
+            </v-marker>
+
+            <!-- View Trees -->
+            <!-- <v-marker
           v-for="l in dataTrees"
           :key="l.id"
           :lat-lng="l.latlng"
@@ -60,8 +101,10 @@
         >
           <v-popup :content="l.text"></v-popup>
         </v-marker> -->
-      </v-marker-cluster>
-    </v-map>
+          </v-marker-cluster>
+        </v-map>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -242,9 +285,13 @@ export default {
       return resultedString;
     },
 
+    openWarningModal() {
+      console.log("Open functions");
+      $("#warningModal").modal("show");
+    },
+
     /* Execute methods */
     executeOnCheckNone() {
-      
       if (this.permitMarkers) {
         this.permitMarkers.remove();
         this.permitMarkers.clearLayers();
@@ -605,6 +652,10 @@ export default {
 
     /* PLATE NUMBER */
     onGetCheckClusters(data, endpointData, markers, fitBounds = true) {
+      if (!endpointData.features || endpointData.features.length == 0) {
+        this.openWarningModal();
+      }
+
       /* Clean-up of previous data */
       this.cleanUpClusters(this.data, markers);
 
@@ -627,7 +678,8 @@ export default {
       map.addLayer(markers);
       console.log("Markers:");
 
-      if (fitBounds && data && data.length > 0) map.fitBounds(markers.getBounds());
+      if (fitBounds && data && data.length > 0)
+        map.fitBounds(markers.getBounds());
     },
 
     /* ANNUAL ALLOWABLE CUT */

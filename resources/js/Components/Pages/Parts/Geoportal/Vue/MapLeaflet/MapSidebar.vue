@@ -712,6 +712,7 @@ export default {
 
 .leaflet-sidebar {
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
+  z-index: 1000;
 }
 @media (min-width: 768px) {
   .leaflet-sidebar {
