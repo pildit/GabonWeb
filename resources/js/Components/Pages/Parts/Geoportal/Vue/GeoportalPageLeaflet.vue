@@ -882,14 +882,9 @@ export default {
         if (prevStyleColor !== this.featureHighlightColor)
           event.layer.setStyle({ color: this.featureHighlightColor });
 
-        /* Bounds fitting */
         const bounds = event.layer.getBounds();
         map.fitBounds(bounds, { padding: [200, 200] });
       });
-
-      const bounds = this.dataConstituentPermits.getBounds();
-      map.fitBounds(bounds, { padding: [200, 200] });
-
       this.dataConstituentPermits.addTo(map);
     },
 
