@@ -1,5 +1,6 @@
 import Base from "../../Base";
 import vueGrid from './Parts/Grid/index';
+import vueInventoryGrid from './Parts/InventoryGrid/index';
 import vueForm from './Parts/Form/index';
 import store from "store/store";
 
@@ -8,7 +9,8 @@ class AAC extends Base {
     static getComponents() {
         return {
             "aac-grid" : vueGrid,
-            "aac-form" : vueForm
+            "aac-form" : vueForm,
+            "aac-inventory-grid" : vueInventoryGrid
         }
     }
 
@@ -46,6 +48,11 @@ class AAC extends Base {
     static approve(id, data) {
         return store.dispatch('aac/approve', {id, data});
     }
+
+    static approveInventory(id, data) {
+        return store.dispatch('aac_inventory/approve', {id, data});
+    }
+
 
 }
 

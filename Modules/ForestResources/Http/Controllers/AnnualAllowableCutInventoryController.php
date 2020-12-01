@@ -48,7 +48,7 @@ class AnnualAllowableCutInventoryController extends Controller
     {
         $pr->setSortFields(['Id']);
 
-        return response()->json($pr->getPaginator($request, AnnualAllowableCutInventory::class, ['AnnualAllowableCut']));
+        return response()->json($pr->getPaginator($request, AnnualAllowableCutInventory::class, ['annual_allowable_cut.Name', 'MobileId'], ['annual_allowable_cut']));
     }
 
     /**

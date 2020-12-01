@@ -18,13 +18,13 @@ class Concession extends PageResults
     public function getVectors($bbox,$Id)
     {
         $srid = config('forestresources.srid');
-        $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_transform("Geometry",4256)) as geom');
+        $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_transform(public.st_setsrid("Geometry",'.$srid.'),4326)) as geom');
         $whereIntersects = "public.ST_Intersects(public.st_setsrid(\"Geometry\", {$srid}), public.st_setsrid(public.ST_MakeEnvelope({$bbox}), {$srid}))";
         $collection = ConcessionEntity::select(['Id', $geomCol,'Company','Continent','ProductType','ConstituentPermit']);
         if($Id){
            $collection = $collection->where("Id","=",$Id);
         }
-        $collection = $collection->whereRaw($whereIntersects)->where("Approved", true)->get();
+        $collection = $collection->whereRaw($whereIntersects)->get();
 
         return $collection->map(function ($item) {
             return [

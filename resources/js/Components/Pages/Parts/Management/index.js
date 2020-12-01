@@ -15,6 +15,7 @@ export default (selector, options) => {
                 {'title' : 'management_unit_title', 'link' :  '/management/management-units', 'resource' : 'management_units', 'text' : 'management_unit_description', 'permission': 'management-unit.view'},
                 {'title' : 'parcels_unit_title', 'link' :  '/management/parcels', 'resource' : 'parcelsparcels', 'text' : 'parcels_unit_description', 'permission': 'parcels.view'},
                 {'title' : 'aac_unit_title', 'link' :  '/management/aac', 'resource' : 'annual_allowable_cuts', 'text' : 'aac_unit_description', 'permission': 'AAC.view'},
+                {'title' : 'aac_inventory_title', 'link' :  '/management/aac-inventory', 'resource' : 'annual_allowable_cut_inventory', 'text' : 'aac_inventory_description', 'permission': 'AACInventory.view'},
             ]
         },
         computed: {

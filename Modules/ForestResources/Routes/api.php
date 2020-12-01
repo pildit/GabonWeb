@@ -65,7 +65,7 @@ Route::middleware('jwt:api')->resource('/annual_operation_plans', AnnualOperatio
 Route::middleware('jwt:api')->get('/annual_allowable_cut_inventory/export', 'AnnualAllowableCutInventoryController@export');
 Route::middleware('jwt:api')->get('/annual_allowable_cut_inventory/mobile', 'AnnualAllowableCutInventoryController@mobile');
 Route::get('/annual_allowable_cut_inventory/vectors', 'AnnualAllowableCutInventoryController@vectors');
-Route::middleware('jwt:api')->post('/annual_allowable_cut_inventory/approve/{id}', 'AnnualAllowableCutInventoryController@approve');
+Route::middleware('jwt:api')->patch('/annual_allowable_cut_inventory/approve/{id}', 'AnnualAllowableCutInventoryController@approve');
 Route::middleware('jwt:api')->resource('/annual_allowable_cut_inventory', AnnualAllowableCutInventoryController::class)->except(['edit', 'create']);
 //logbook
 Route::middleware('jwt:api')->get('/logbooks/export', 'LogbookController@export');

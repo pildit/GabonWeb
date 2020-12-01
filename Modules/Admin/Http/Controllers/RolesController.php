@@ -28,7 +28,7 @@ class RolesController extends Controller
      * Display a listing of the resource.
      * @return JsonResponse
      */
-    public function index(Request $request, PageResults $pageResults)
+    public function index(Request $request, Role $pageResults)
     {
         return response()->json($pageResults->getPaginator($request, RoleEntity::class , ['name']));
     }
@@ -38,7 +38,7 @@ class RolesController extends Controller
      */
     public function listRoles()
     {
-        $roles = RoleEntity::all();
+        $roles = RoleEntity::where('name', '!=', 'gues')->get();
         return response()->json([
             "data" => $roles->map(function ($item) {
                 return [

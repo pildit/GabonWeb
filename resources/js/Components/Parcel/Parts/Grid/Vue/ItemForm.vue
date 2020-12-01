@@ -27,14 +27,6 @@ export default {
     }
   },
 
-  created() {
-      if(this.rowProp) {
-          this.form.Id = this.rowProp.Id;
-          this.form.Name = this.rowProp.Name;
-          this.form.Geometry = this.rowProp.geometry_as_text;
-      }
-  },
-
     methods: {
     save() {
       this.$validator.validate().then((valid) => {
