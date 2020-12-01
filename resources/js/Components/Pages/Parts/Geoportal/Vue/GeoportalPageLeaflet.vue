@@ -171,12 +171,17 @@ export default {
       dataUFG: null,
       dataViewAAC: null,
       dataTrees: null,
+      activePermitFeatures: null,
 
       treeMarkers: L.markerClusterGroup({
         chunkedLoading: true,
       }),
 
       permitMarkers: L.markerClusterGroup({
+        chunkedLoading: true,
+      }),
+
+      activeTransportFeatureGroup: L.layerGroup({
         chunkedLoading: true,
       }),
 
@@ -289,16 +294,75 @@ export default {
     },
 
     openWarningModal() {
-      console.log("Open functions");
       $("#warningModal").modal("show");
+    },
+
+    onGetActiveTransports(endpointData, data, layerGroup) {
+      if (!endpointData.features || endpointData.features.length == 0) {
+        this.openWarningModal();
+      }
+
+      let map = this.$refs.map.mapObject;
+
+      this.cleanUpClusters(data, layerGroup, map);
+
+      let i = 0;
+      let polyList = [];
+
+      let onEachFeature = (feature, layer) => {
+        if (feature.properties) {
+          const properties = this.getJSONToString(feature.properties);
+          layer.bindPopup(properties);
+        }
+      };
+
+      let onFilter = (feature, layer) => {
+        console.log(
+          "Count: ",
+          ++i,
+          feature.properties.LicensePlate,
+          feature.properties.PermitNo
+        );
+        if (
+          (feature.properties.LicensePlate =
+            "dsf" && feature.properties.PermitNo == "20_30_AAC_5")
+        ) {
+          return true;
+        }
+
+        return false;
+      };
+
+      let myLayerOptions = {
+        pointToLayer: this.createCustomIcon,
+        onEachFeature: onEachFeature,
+        // filter: onFilter,
+      };
+
+      data = L.geoJson(endpointData, myLayerOptions);
+      layerGroup.addLayer(data);
+
+      map.addLayer(layerGroup);
+
+      // if (endpointData.features && endpointData.features.length > 0)
+      //   map.fitBounds(markers.getBounds(), { padding: [200, 200] });
     },
 
     /* Execute methods */
     executeOnActiveTransports(value) {
       if (value) {
         this.getPermitsTracking().then(() => {
-          console.log("Permits tracking:", this.permitsTracking);
+          this.onGetActiveTransports(
+            this.permitsTracking,
+            this.activePermitFeatures,
+            this.activeTransportFeatureGroup
+          );
+
+          // L.geoJSON(geojsonFeature).addTo(map);
         });
+      } else {
+        if (this.activePermitFeatures) this.activePermitFeatures.remove();
+        if (this.activeTransportFeatureGroup) this.activeTransportFeatureGroup.remove();
       }
     },
 
@@ -653,12 +717,16 @@ export default {
       // });
     },
 
-    cleanUpClusters(data, markers) {
+    cleanUpClusters(data, markers, map = null) {
       if (markers) {
         markers.remove();
         markers.clearLayers();
       }
       if (data) data.remove();
+
+      if (map) {
+        map.removeLayer(markers);
+      }
     },
 
     /* PLATE NUMBER */
@@ -668,7 +736,7 @@ export default {
       }
 
       /* Clean-up of previous data */
-      this.cleanUpClusters(this.data, markers);
+      this.cleanUpClusters(data, markers);
 
       let map = this.$refs.map.mapObject;
 
