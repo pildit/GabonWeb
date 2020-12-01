@@ -190,13 +190,14 @@ class AnnualAllowableCutController extends Controller
     public function parcels(AnnualAllowableCut $annual_allowable_cut){
 
         $multipolygons = MultiPolygon::fromText($annual_allowable_cut->geometry_as_text)->geometries();
+
         $parcels = [];
         foreach($multipolygons as $polygon ){
-            $parcels = array_merge ($parcels,DB::select('
-            SELECT "Parcels"."Id", "Parcels"."Name"
-            FROM "ForestResources"."Parcels"
-            WHERE public.st_contains((select public.ST_AsBinary(public.ST_GeomFromText('.$polygon->asText().'))), "Parcels"."Geometry")
-            '));
+            $parcels = array_merge ($parcels,DB::select("
+            SELECT \"Parcels\".\"Id\", \"Parcels\".\"Name\"
+            FROM \"ForestResources\".\"Parcels\"
+            WHERE public.st_overlaps((select public.ST_GeomFromText('".$polygon->asText()."',5223)), \"Parcels\".\"Geometry\")
+            "));
         }
 
         return response()->json($parcels);
