@@ -149,6 +149,18 @@ export default {
         }
       });
 
+      /* Add the last point yet again in order to have a closed perimeter */
+      if (data[0].length > 0) {
+        geometryForm += ",";
+        const latLong = data[0][0];
+        const { x, y } = transform.forward({
+          x: Number(latLong.lng),
+          y: Number(latLong.lat),
+        });
+
+        geometryForm += x + " " + y;
+      }
+
       geometryForm += "))";
       return geometryForm;
     },
