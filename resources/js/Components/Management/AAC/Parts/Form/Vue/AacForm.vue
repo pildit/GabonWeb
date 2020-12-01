@@ -32,7 +32,7 @@
                 <div class="form-row">
                     <div class="col">
                         <div class="md-form">
-                            <input type="text" id="Geometry" class="form-control" v-model="form.Geometry" v-validate="'required'">
+                            <input type="text" id="Geometry" class="form-control" @change="onGeometryChange" v-model="form.Geometry" v-validate="'required'">
                             <label for="Geometry" :class="{'active': form.Geometry}">{{translate('geometry_input_label')}}</label>
                         </div>
                     </div>
@@ -124,9 +124,11 @@ import Notification from "../../../../../Common/Notifications/Notification";
 import {mapGetters} from "vuex";
 import AACOperationPlan from "../../../AACOperationPlan";
 
+import { EventBus } from "components/EventBus/EventBus";
+
 export default {
 
-    props : ['aacProp'],
+    props : ['aacProp', 'endpointCreate', 'endpointEdit'],
 
     components: { Multiselect, PlanFormPartial },
 
@@ -235,6 +237,12 @@ export default {
             this.formPlansCount++;
             this.plansForm[this.formPlansCount - 1] = {};
         },
+
+        onGeometryChange(value) {
+            if (this.endpointEdit) {
+                EventBus.$emit(this.endpointEdit, this.form.Geometry);
+            }
+        },
     },
     watch: {
         aacProp(value) {
@@ -249,10 +257,22 @@ export default {
                 this.form.ProductType = this.productTypeList.find((x) => x.Id == this.form.ProductType);
                 this.formPlansCount = value.annualoperation_plans.length;
                 this.plansForm = value.annualoperation_plans;
+                
+                if (this.endpointEdit) {
+                    EventBus.$emit(this.endpointEdit, value.geometry_as_text);
+                }
+
                 this.$forceUpdate();
             }
         }
-    }
+    },
+
+    mounted() {
+        EventBus.$on(this.endpointCreate, (data) => {
+            this.form.Geometry = data;
+            this.$forceUpdate();
+        });
+    },
 }
 </script>
 

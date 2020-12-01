@@ -6,10 +6,12 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-4">
-      {{lang('the_map')}}
+      <div id="geoportalpage" class="col-md-4" style="position: fixed; padding: 10px">
+        <geoportal-page hide-sidebar-prop="true" endpoint-name="constituent-permit"></geoportal-page>
+      </div>
     </div>
     <div class="col-md-8">
-      <div id="items-grid" v-permission="'constituent-permit.view'">
+      <div id="items-grid" v-permission="'constituent-permit.view'" style="overflow-x: scroll">
         @verbatim
         <h5 class="text-center green-text mb-2">{{ translate('constituent_permit_title') }}</h5>
         <div class="row">
@@ -42,6 +44,7 @@
 <script>
     Gabon.Base.getTranslations().then(() => {
         Gabon.ConstituentPermit.render('items-grid');
+        Gabon.Pages.render('geoportalpage');
     });
 </script>
 @endsection
