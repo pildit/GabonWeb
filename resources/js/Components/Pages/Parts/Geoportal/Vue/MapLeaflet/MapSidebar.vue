@@ -79,15 +79,15 @@
             >
               <template v-slot="{ inputValue, inputEvents }">
                 <div class="form-group">
-                  <label for="startDate">{{ translate("from") }}</label>
+                  <label for="startDate">{{ translate("date_range") }}</label>
                   <input
                     id="startDate"
                     class="form-control"
-                    :value="inputValue.start"
+                    :value="inputValue.start + ' - ' + inputValue.end"
                     v-on="inputEvents.start"
                   />
                 </div>
-                <div class="form-group">
+                <!-- <div class="form-group">
                   <label for="endDate">{{ translate("To") }}</label>
                   <input
                     id="endDate"
@@ -95,7 +95,7 @@
                     :value="inputValue.end"
                     v-on="inputEvents.end"
                   />
-                </div>
+                </div> -->
               </template>
             </v-date-picker>
           </form>
