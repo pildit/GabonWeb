@@ -40,6 +40,7 @@
         <v-map-sidebar
           v-if="hideSidebar == false"
           :map="map"
+          @onViewActiveTransports="executeOnActiveTransports($event)"
           @onCheckNone="executeOnCheckNone($event)"
           @onCheckPlateNumber="executeOnCheckPlateNumber($event)"
           @onCheckAACId="executeOnCheckAACId($event)"
@@ -222,6 +223,7 @@ export default {
     ...mapGetters({ concessionsPerimeters: "geoportal/concessions" }),
     ...mapGetters({ developmentUnits: "geoportal/developmentUnits" }),
     ...mapGetters({ managementUnits: "geoportal/managmentUnits" }),
+    ...mapGetters({ permitsTracking: "geoportal/permitsTracking" }),
   },
 
   destroyed() {
@@ -238,6 +240,7 @@ export default {
       getConcessionsPerimeters: "geoportal/getConcessions",
       getDevelopmentUnits: "geoportal/getDevelopmentUnits",
       getManagementUnits: "geoportal/getManagmentUnits",
+      getPermitsTracking: "geoportal/getPermitsTracking",
     }),
 
     onTreeClusterClicked: (e) => {
@@ -291,6 +294,14 @@ export default {
     },
 
     /* Execute methods */
+    executeOnActiveTransports(value) {
+      if (value) {
+        this.getPermitsTracking().then(() => {
+          console.log("Permits tracking:", this.permitsTracking);
+        });
+      }
+    },
+
     executeOnCheckNone() {
       if (this.permitMarkers) {
         this.permitMarkers.remove();

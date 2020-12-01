@@ -27,6 +27,7 @@
           <rcp-checkbox
             v-model="viewActiveTransports"
             text="view_active_transports"
+            v-on:click="onViewActiveTransports"
           ></rcp-checkbox>
         </div>
         <hr />
@@ -420,6 +421,10 @@ export default {
         return true;
       }
       return false;
+    },
+
+    onViewActiveTransports() {
+      this.$emit("onViewActiveTransports", !this.viewActiveTransports);
     },
 
     onCheckNone() {
