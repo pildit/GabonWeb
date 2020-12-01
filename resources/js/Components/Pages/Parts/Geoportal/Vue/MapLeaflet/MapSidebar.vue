@@ -22,11 +22,13 @@
 
         <div class="data"></div>
 
-        <p />
-        <rcp-checkbox
-          v-model="viewActiveTransports"
-          text="view_active_transports"
-        ></rcp-checkbox>
+        <div v-if="displayViewActiveTransports()">
+          <p />
+          <rcp-checkbox
+            v-model="viewActiveTransports"
+            text="view_active_transports"
+          ></rcp-checkbox>
+        </div>
         <hr />
 
         <!-- Radio buttons -->
@@ -319,6 +321,8 @@ import "vue-range-component/dist/vue-range-slider.css";
 import VueSimpleRangeSlider from "vue-simple-range-slider";
 import "vue-simple-range-slider/dist/vueSimpleRangeSlider.css";
 
+import { mapGetters, mapState } from "vuex";
+
 export default {
   props: ["map"],
 
@@ -394,9 +398,14 @@ export default {
       toggaleMenu: null,
     };
   },
+  computed: {
+    ...mapState(["loggedUser"]),
+  },
   mounted() {
-    const transformedDate = this.checkPlateNumberRange.end.getTime() - (this.dateRangeDays * 24 * 60 * 60 * 1000)
-    this.checkPlateNumberRange.start = new Date(transformedDate)
+    const transformedDate =
+      this.checkPlateNumberRange.end.getTime() -
+      this.dateRangeDays * 24 * 60 * 60 * 1000;
+    this.checkPlateNumberRange.start = new Date(transformedDate);
   },
   watch: {
     map: function (newVal, oldVal) {
@@ -406,6 +415,13 @@ export default {
     },
   },
   methods: {
+    displayViewActiveTransports() {
+      if (this.loggedUser.permissions) {
+        return true;
+      }
+      return false;
+    },
+
     onCheckNone() {
       if (this.checkPicked !== "none") {
         this.$emit("onCheckNone");
@@ -438,7 +454,7 @@ export default {
 
     onCheckAnnualAllowableCutId() {
       //this.onCheckNone();
-        this.$emit("onCheckAACId", this.annualAllowableCutId);
+      this.$emit("onCheckAACId", this.annualAllowableCutId);
     },
 
     onCheckAnnualAllowableCutName() {
