@@ -5,10 +5,11 @@ namespace Modules\ForestResources\Entities;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Sortable;
 use App\Traits\UserEmailAttribute;
+use Modules\Loggable\Traits\Loggable;
 
 class ProductType extends Model
 {
-    use Sortable, UserEmailAttribute;
+    use Sortable, UserEmailAttribute, Loggable;
 
     protected $guarded = [];
 

@@ -7,10 +7,11 @@ use App\Traits\Sortable;
 use Brick\Geo\IO\EWKBReader;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Loggable\Traits\Loggable;
 
 class AnnualAllowableCut extends Model
 {
-    use Sortable, Geometry, SoftDeletes;
+    use Sortable, Geometry, SoftDeletes, Loggable;
 
     const CREATED_AT = "CreatedAt";
     const UPDATED_AT = "UpdatedAt";

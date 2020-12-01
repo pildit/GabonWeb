@@ -5,10 +5,11 @@ namespace Modules\ForestResources\Entities;
 use App\Traits\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Loggable\Traits\Loggable;
 
 class DevelopmentPlan extends Model
 {
-    use SoftDeletes , Sortable;
+    use SoftDeletes , Sortable, Loggable;
 
     const CREATED_AT = "CreatedAt";
     const UPDATED_AT = "UpdatedAt";

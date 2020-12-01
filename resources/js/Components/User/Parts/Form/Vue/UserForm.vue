@@ -46,6 +46,7 @@
                 :searchable="true"
                 :loading="companyList.isLoading"
                 :allow-empty="false"
+                @select="$forceUpdate()"
                 @search-change="asyncFindCompany"
             ></multiselect>
         </div>
@@ -228,6 +229,11 @@ export default {
     },
 
     watch: {
+        employeeTypes(val) {
+            if(val) {
+                this.form.employee_type = val.find((x) => x.id == this.userProp.employee_type);
+            }
+        },
         "form.permissions": {
             deep: true,
             handler(val) {
