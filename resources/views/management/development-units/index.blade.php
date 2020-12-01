@@ -12,7 +12,7 @@
             </div>
             @verbatim
             <div class="col-md-8" id="development-unit-grid">
-                <div class="mt-4" style="overflow-x: scroll">
+                <div class="mt-4" >
                     <h5 class="text-center green-text mb-2">{{ translate('development_unit_title') }}</h5>
                     <div class="row">
                         <div class="col-sm-6 d-flex align-items-center">

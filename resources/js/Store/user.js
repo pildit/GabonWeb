@@ -46,6 +46,10 @@ export default {
             return axios.post('api/users/register', payload)
                 .then((response) => response)
         },
+        forgot({}, payload) {
+            return axios.post('api/users/forgot', payload)
+                .then((response) => response);
+        },
         verify({}, payload) {
             return axios.post('api/users/verify', payload)
                 .then((response) => response);

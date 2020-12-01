@@ -65,7 +65,6 @@ import GeoportalPage from "../../../../Pages/Parts/Geoportal/Vue/GeoportalPageLe
 export default {
   components: {ItemModal, VuePagination, Grid, GeoportalPage},
   mixins: [DateRange, ExportExcel],
-  components: {ItemModal, VuePagination, Grid},
   data() {
     return {
       grid: grid(),

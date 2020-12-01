@@ -12,12 +12,13 @@ use Modules\ForestResources\Entities\AnnualAllowableCut;
 use Modules\ForestResources\Entities\Concession;
 use Modules\ForestResources\Entities\DevelopmentUnit;
 use Modules\ForestResources\Entities\ManagementUnit;
+use Modules\Loggable\Traits\Loggable;
 use Modules\User\Entities\User;
 
 class Permit extends Model
 {
 
-    use Sortable, SoftDeletes;
+    use Sortable, SoftDeletes, Loggable;
 
     const CREATED_AT = "CreatedAt";
     const UPDATED_AT = "UpdatedAt";
@@ -78,7 +79,8 @@ class Permit extends Model
         "GpsAccu",
         "Geometry",
         "MobileId",
-        "ObserveAt"];
+        "ObserveAt",
+        "Approved"];
 
     /**
      * The attributes that should be cast to native types.

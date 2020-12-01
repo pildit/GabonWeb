@@ -28,7 +28,10 @@ Route::get('/login', 'AuthController@login')->name('login');
 Route::get('/logout', 'AuthController@logout');
 Route::get('/register', 'AuthController@register');
 Route::get('/account/confirmation/{token}', 'AuthController@emailConfirmation');
-
+Route::get('/forgot_password', 'AuthController@forgotPassword');
+Route::get('/test/{user}', function (\Modules\User\Entities\User $user) {
+    dd($user);
+});
 Route::middleware('auth.jwt')->group(function () {
     Route::get('/roles', 'RoleController@index');
     Route::get('/users', 'UserController@index');

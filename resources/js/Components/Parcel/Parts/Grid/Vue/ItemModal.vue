@@ -57,11 +57,12 @@ export default {
   watch: {
     state(val) {
       if(!val) return;
-      // if(this.typeProp != 'create') {
-      //   this.$refs.itemForm.form = this.rowProp;
-      // }else{
-      //   this.$refs.itemForm.form = {};
-      // }
+      if(this.typeProp != 'create') {
+        this.$refs.itemForm.form = this.rowProp;
+        this.$refs.itemForm.form.Geometry = this.rowProp.geometry_as_text;
+      }else{
+        this.$refs.itemForm.form = {};
+      }
       this.$refs.itemForm.errors.clear();
       this.$refs.itemModal.open();
     }

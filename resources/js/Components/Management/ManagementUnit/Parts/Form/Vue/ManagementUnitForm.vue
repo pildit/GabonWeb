@@ -185,7 +185,7 @@ export default {
                         Notification.success(this.translate('Management Plan'), data.message);
                     })
                 })
-                // window.location.href = ManagementUnit.buildRoute('management_units.index');
+                window.location.href = ManagementUnit.buildRoute('management_units.index');
             })
         },
         asyncFindDevelopment(query) {

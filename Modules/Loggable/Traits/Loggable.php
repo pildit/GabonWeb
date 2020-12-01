@@ -68,7 +68,7 @@ trait Loggable
      */
     public function createLogEntry($action)
     {
-        return $this->logTableExists();
+        if(!$this->logTableExists()) return;
         if(!$this->getToken()) return;
 
         $changes = [];

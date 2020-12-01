@@ -4,10 +4,11 @@ namespace Modules\Translation\Entities;
 
 use App\Traits\Sortable;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Loggable\Traits\Loggable;
 
 class Language extends Model
 {
-    use Sortable;
+    use Sortable, Loggable;
 
     /**
      * Indicates if the model should be timestamped.
