@@ -6,6 +6,7 @@ import vueForm from "./Parts/Form";
 import vueLogin from "./Parts/Login";
 import vueRegister from "./Parts/Register";
 import vueAccountConfirmation from "./Parts/Confirmation";
+import ForgotPassword from "./Parts/ForgotPassword";
 import Notification from "components/Common/Notifications/Notification";
 import company from "../../Store/company";
 
@@ -18,7 +19,8 @@ class User extends Base {
             "user-details" : vueDetails,
             "login-form" : vueLogin,
             "register-form" : vueRegister,
-            "account-confirmation" : vueAccountConfirmation
+            "account-confirmation" : vueAccountConfirmation,
+            'forgot-password-form' : ForgotPassword
         }
     }
 
@@ -82,6 +84,11 @@ class User extends Base {
             Notification.success('User', response.data.message);
             return response.data;
         });
+    }
+
+    static forgot(email) {
+        let data = {email};
+        return store.dispatch('user/forgot', data).then((response) => response.data);
     }
 
     static verify(data) {

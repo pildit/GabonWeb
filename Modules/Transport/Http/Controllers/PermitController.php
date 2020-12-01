@@ -4,6 +4,7 @@
 namespace Modules\Transport\Http\Controllers;
 
 
+use App\Traits\Approve;
 use GenTux\Jwt\GetsJwtToken;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -27,6 +28,9 @@ use Modules\User\Entities\User;
 class PermitController extends Controller
 {
     use GetsJwtToken;
+    use Approve;
+
+    private $modelName = PermitEntity::class;
 
     public function __construct()
     {

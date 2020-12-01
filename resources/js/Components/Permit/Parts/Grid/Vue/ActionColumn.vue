@@ -1,21 +1,23 @@
 <template>
     <div class="text-right">
-        <a class="text-info aligned fz-16" @click="viewPermit(rowProp.Id)" :title="translate('view')" v-tooltip>
+        <switches v-permission="'permit.approve'" v-model="rowProp.Approved" color="green" :title="translate('approve_permit')" @input="approve" :emit-on-mount="false" v-tooltip></switches>
+        <a v-permission="'permit.view'" class="text-info aligned fz-16" @click="viewPermit(rowProp.Id)" :title="translate('view')" v-tooltip>
             <i class="fas fa-info-circle"></i>
         </a>
-        <permit-modal v-model="modals.view"></permit-modal>
+        <permit-modal v-permission="'permit.view'" v-model="modals.view"></permit-modal>
     </div>
 </template>
 
 <script>
     import PermitModal from "./PermitModal";
     import Permit from "components/Permit/Permit";
+    import Switches from 'vue-switches';
 
     export default {
 
         props: ["rowProp", "optionsProp"],
 
-        components: {PermitModal},
+        components: {PermitModal, Switches},
 
         data() {
             return {
@@ -26,6 +28,9 @@
         },
 
         methods: {
+            approve (val) {
+                Permit.approve(this.rowProp.Id, {Approved: val}).finally(() => this.rowProp.Approved = val);
+            },
             viewPermit(id) {
                 Permit.get(id);
                 Permit.getPermitItems(id).then(() => { this.modals.view = true });

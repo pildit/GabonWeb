@@ -78,7 +78,8 @@ class Permit extends Model
         "GpsAccu",
         "Geometry",
         "MobileId",
-        "ObserveAt"];
+        "ObserveAt",
+        "Approved"];
 
     /**
      * The attributes that should be cast to native types.
