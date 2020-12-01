@@ -9,8 +9,11 @@ export default (options) => {
                 action: 'permit/index'
             },
             sort: {
-                direction: "desc",
-                field: "Id"
+                direction: "asc|desc",
+                field: "Approved|Id"
+            },
+            rowHightlight: {
+                'ffe6e6' : (row) => !row.Approved
             }
         },
         columns: {
@@ -19,9 +22,11 @@ export default (options) => {
             },
             'annualallowablecut.Name': {
                 header: "th_aac_name",
+                queryKey: 'AnnualAllowableCut'
             },
             'transportercompany.Name': {
                 header: "th_company_name",
+                queryKey: 'TransporterCompany'
             },
             LicensePlate: {
                 header: "th_license_plate"
