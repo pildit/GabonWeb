@@ -11,7 +11,7 @@
                 </div>
             </div>
             <div class="col-md-8">
-                <div id="concessions-grid" v-permission="'concession.view'" >
+                <div id="concessions-grid" v-permission="'concession.view'" style="overflow-x: scroll">
                     @verbatim
                         <h5 class="text-center green-text mb-2">{{translate('concessions_title')}}</h5>
                         <div class="row">

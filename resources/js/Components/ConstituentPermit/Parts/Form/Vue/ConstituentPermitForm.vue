@@ -149,6 +149,11 @@ export default {
                 this.form = _.merge(this.form, value);
                 this.form.Geometry = value.geometry_as_text;
                 this.form.PermitType = this.permitTypeList.data.find((x) => x.Id == value.PermitType);
+                
+                if (this.endpointEdit) {
+                    EventBus.$emit(this.endpointEdit, value.geometry_as_text);
+                }
+                
                 this.$forceUpdate();
             }
         }

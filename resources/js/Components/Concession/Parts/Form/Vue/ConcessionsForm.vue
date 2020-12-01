@@ -232,6 +232,11 @@ export default {
                 this.form.Company = this.companyList.data.find((x) => x.Id == value.Company);
                 this.form.Continent = this.continents.find((x) => x.Name == value.Continent);
                 this.form.ProductType = this.productTypeList.find((x) => x.Id == this.form.ProductType);
+
+                if (this.endpointEdit) {
+                    EventBus.$emit(this.endpointEdit, value.geometry_as_text);
+                }
+
                 this.$forceUpdate();
             }
         }

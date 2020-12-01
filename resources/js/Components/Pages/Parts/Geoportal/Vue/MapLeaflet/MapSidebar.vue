@@ -22,11 +22,14 @@
 
         <div class="data"></div>
 
-        <p />
-        <rcp-checkbox
-          v-model="viewActiveTransports"
-          text="view_active_transports"
-        ></rcp-checkbox>
+        <div v-if="displayViewActiveTransports()">
+          <p />
+          <rcp-checkbox
+            v-model="viewActiveTransports"
+            text="view_active_transports"
+            v-on:click="onViewActiveTransports"
+          ></rcp-checkbox>
+        </div>
         <hr />
 
         <!-- Radio buttons -->
@@ -76,15 +79,15 @@
             >
               <template v-slot="{ inputValue, inputEvents }">
                 <div class="form-group">
-                  <label for="startDate">{{ translate("from") }}</label>
+                  <label for="startDate">{{ translate("date_range") }}</label>
                   <input
                     id="startDate"
                     class="form-control"
-                    :value="inputValue.start"
+                    :value="inputValue.start + ' - ' + inputValue.end"
                     v-on="inputEvents.start"
                   />
                 </div>
-                <div class="form-group">
+                <!-- <div class="form-group">
                   <label for="endDate">{{ translate("To") }}</label>
                   <input
                     id="endDate"
@@ -92,7 +95,7 @@
                     :value="inputValue.end"
                     v-on="inputEvents.end"
                   />
-                </div>
+                </div> -->
               </template>
             </v-date-picker>
           </form>
@@ -205,8 +208,12 @@
               v-on:click="onCheckTransportPermitId"
               style="min-width: 30px; background-color: #388e3c"
             >
-              <md-icon style="color: white">search</md-icon>
+              <md-icon style="color: white;">search</md-icon>
             </md-button>
+          </div>
+
+          <div v-if="checkPicked == 'checkTransportPermit'">
+            <h6 style="text-align: center; margin-left: -2em">OR</h6>
           </div>
 
           <rcp-alert-box
@@ -319,6 +326,8 @@ import "vue-range-component/dist/vue-range-slider.css";
 import VueSimpleRangeSlider from "vue-simple-range-slider";
 import "vue-simple-range-slider/dist/vueSimpleRangeSlider.css";
 
+import { mapGetters, mapState } from "vuex";
+
 export default {
   props: ["map"],
 
@@ -394,9 +403,14 @@ export default {
       toggaleMenu: null,
     };
   },
+  computed: {
+    ...mapState(["loggedUser"]),
+  },
   mounted() {
-    const transformedDate = this.checkPlateNumberRange.end.getTime() - (this.dateRangeDays * 24 * 60 * 60 * 1000)
-    this.checkPlateNumberRange.start = new Date(transformedDate)
+    const transformedDate =
+      this.checkPlateNumberRange.end.getTime() -
+      this.dateRangeDays * 24 * 60 * 60 * 1000;
+    this.checkPlateNumberRange.start = new Date(transformedDate);
   },
   watch: {
     map: function (newVal, oldVal) {
@@ -406,6 +420,17 @@ export default {
     },
   },
   methods: {
+    displayViewActiveTransports() {
+      if (this.loggedUser.permissions) {
+        return true;
+      }
+      return false;
+    },
+
+    onViewActiveTransports() {
+      this.$emit("onViewActiveTransports", !this.viewActiveTransports);
+    },
+
     onCheckNone() {
       if (this.checkPicked !== "none") {
         this.$emit("onCheckNone");
@@ -414,7 +439,7 @@ export default {
     },
 
     onCheckPlateNumber() {
-      if (this.plateNumber.length >= 2) {
+      if (this.plateNumber.length >= 1) {
         this.checkPlateNumberError = false;
 
         this.$emit("onCheckPlateNumber", {
@@ -423,36 +448,43 @@ export default {
         });
       } else {
         this.checkPlateNumberError = true;
+        this.$emit("onCheckNone");
       }
     },
 
     onCheckAnnualAllowableCut() {
-      if (this.annualAllowableCut.length >= 2) {
+      if (this.annualAllowableCut.length >= 1) {
         this.checkAnnualAllowableCutError = false;
 
         this.$emit("onCheckAAC", this.annualAllowableCut);
       } else {
         this.checkAnnualAllowableCutError = true;
+        this.$emit("onCheckNone");
       }
     },
 
     onCheckAnnualAllowableCutId() {
       //this.onCheckNone();
+      if (this.annualAllowableCutId.length >= 1) {
         this.$emit("onCheckAACId", this.annualAllowableCutId);
+      } else {
+        this.$emit("onCheckNone");
+      }
     },
 
     onCheckAnnualAllowableCutName() {
-      if (this.annualAllowableCutName.length >= 2) {
+      if (this.annualAllowableCutName.length >= 1) {
         this.checkAnnualAllowableCutError = false;
 
         this.$emit("onCheckAACName", this.annualAllowableCutName);
       } else {
         this.checkAnnualAllowableCutError = true;
+        this.$emit("onCheckNone");
       }
     },
 
     onCheckTransportPermitId() {
-      if (this.transportPermitId.length >= 2) {
+      if (this.transportPermitId.length >= 1) {
         this.checkTransportPermitIdError = false;
 
         this.$emit("onCheckTransportPermitId", {
@@ -461,6 +493,7 @@ export default {
         });
       } else {
         this.checkTransportPermitIdError = true;
+        this.$emit("onCheckNone");
       }
     },
 

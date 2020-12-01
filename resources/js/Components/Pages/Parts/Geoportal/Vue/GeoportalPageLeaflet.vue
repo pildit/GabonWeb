@@ -40,6 +40,7 @@
         <v-map-sidebar
           v-if="hideSidebar == false"
           :map="map"
+          @onViewActiveTransports="executeOnActiveTransports($event)"
           @onCheckNone="executeOnCheckNone($event)"
           @onCheckPlateNumber="executeOnCheckPlateNumber($event)"
           @onCheckAACId="executeOnCheckAACId($event)"
@@ -155,7 +156,10 @@ export default {
       renderUFA: false,
       renderUFG: false,
       renderAAC: false,
+      renderAnnualAllowableCut: false,
       renderTrees: false,
+      renderConstituentPermits: false,
+      renderTransportPermits: false,
       bbox: undefined,
 
       dataCheckPlateNumber: null,
@@ -170,12 +174,23 @@ export default {
       dataUFG: null,
       dataViewAAC: null,
       dataTrees: null,
+      activePermitFeatures: null,
+      dataConstituentPermits: null,
+      dataTransportPermits: null,
 
       treeMarkers: L.markerClusterGroup({
         chunkedLoading: true,
       }),
 
       permitMarkers: L.markerClusterGroup({
+        chunkedLoading: true,
+      }),
+
+	  transportPermitsMarkers: L.markerClusterGroup({
+        chunkedLoading: true,
+      }),
+      
+      activeTransportFeatureGroup: L.layerGroup({
         chunkedLoading: true,
       }),
 
@@ -191,6 +206,7 @@ export default {
       colorUFG: "#ebf30c",
       colorAAC: "#ff9b00",
       colorTrees: "#ff00c0",
+      colorConstituentPermits: "#1f2bd1",
 
       locations: [],
       icon: icon(
@@ -222,6 +238,8 @@ export default {
     ...mapGetters({ concessionsPerimeters: "geoportal/concessions" }),
     ...mapGetters({ developmentUnits: "geoportal/developmentUnits" }),
     ...mapGetters({ managementUnits: "geoportal/managmentUnits" }),
+    ...mapGetters({ permitsTracking: "geoportal/permitsTracking" }),
+    ...mapGetters({ constituentPermits: "geoportal/constituentPermits" }),
   },
 
   destroyed() {
@@ -238,6 +256,8 @@ export default {
       getConcessionsPerimeters: "geoportal/getConcessions",
       getDevelopmentUnits: "geoportal/getDevelopmentUnits",
       getManagementUnits: "geoportal/getManagmentUnits",
+      getPermitsTracking: "geoportal/getPermitsTracking",
+      getConstituentPermits: "geoportal/getConstituentPermits",
     }),
 
     onTreeClusterClicked: (e) => {
@@ -286,11 +306,78 @@ export default {
     },
 
     openWarningModal() {
-      console.log("Open functions");
       $("#warningModal").modal("show");
     },
 
+    onGetActiveTransports(endpointData, data, layerGroup) {
+      if (!endpointData.features || endpointData.features.length == 0) {
+        this.openWarningModal();
+      }
+
+      let map = this.$refs.map.mapObject;
+
+      this.cleanUpClusters(data, layerGroup, map);
+
+      let i = 0;
+      let polyList = [];
+
+      let onEachFeature = (feature, layer) => {
+        if (feature.properties) {
+          const properties = this.getJSONToString(feature.properties);
+          layer.bindPopup(properties);
+        }
+      };
+
+      let onFilter = (feature, layer) => {
+        console.log(
+          "Count: ",
+          ++i,
+          feature.properties.LicensePlate,
+          feature.properties.PermitNo
+        );
+        if (
+          (feature.properties.LicensePlate =
+            "dsf" && feature.properties.PermitNo == "20_30_AAC_5")
+        ) {
+          return true;
+        }
+
+        return false;
+      };
+
+      let myLayerOptions = {
+        pointToLayer: this.createCustomIcon,
+        onEachFeature: onEachFeature,
+        // filter: onFilter,
+      };
+
+      data = L.geoJson(endpointData, myLayerOptions);
+      layerGroup.addLayer(data);
+
+      map.addLayer(layerGroup);
+
+      // if (endpointData.features && endpointData.features.length > 0)
+      //   map.fitBounds(markers.getBounds(), { padding: [200, 200] });
+    },
+
     /* Execute methods */
+    executeOnActiveTransports(value) {
+      if (value) {
+        this.getPermitsTracking().then(() => {
+          this.onGetActiveTransports(
+            this.permitsTracking,
+            this.activePermitFeatures,
+            this.activeTransportFeatureGroup
+          );
+
+          // L.geoJSON(geojsonFeature).addTo(map);
+        });
+      } else {
+        if (this.activePermitFeatures) this.activePermitFeatures.remove();
+        if (this.activeTransportFeatureGroup) this.activeTransportFeatureGroup.remove();
+      }
+    },
+
     executeOnCheckNone() {
       if (this.permitMarkers) {
         this.permitMarkers.remove();
@@ -374,7 +461,7 @@ export default {
 
       let fParams = params;
       if (!fParams) fParams = {};
-      fParams["AacId"] = value;
+      fParams["Id"] = value;
 
       this.getAnnualAllowableCuts(fParams).then(() => {
         if (this.dataCheckAACId) this.dataCheckAACId.remove();
@@ -553,6 +640,15 @@ export default {
       // map.addLayer(localPruneCluster);
     },
 
+    onGetTransportPermits() {
+      this.onGetCheckClusters(
+        this.dataTransportPermits,
+        this.permits,
+        this.transportPermitsMarkers,
+        false // TODO: Fix fitBounds not working for getTransportPermits
+      );
+    },
+
     executeOnViewTrees(value, params = null) {
       this.renderTrees = value;
 
@@ -563,6 +659,33 @@ export default {
       } else {
         if (this.dataTrees) this.dataTrees.remove();
         if (this.treeMarkers) this.treeMarkers.remove();
+      }
+    },
+
+    executeOnViewTransportPermits(value, params = null) {
+      this.renderTransportPermits = value;
+
+      if (value) {
+        this.getPermits(params).then(() => {
+          this.onGetTransportPermits();
+        });
+      } else {
+        if (this.dataTransportPermits) this.dataTransportPermits.remove();
+        if (this.transportPermitsMarkers) this.transportPermitsMarkers.remove();
+      }
+    },
+
+    executeOnViewConstituentPermits(value, params = null) {
+      this.renderConstituentPermits = value;
+
+      if (value) {
+        this.getConstituentPermits(params).then(() => {
+          if (this.dataConstituentPermits) this.dataConstituentPermits.remove();
+          if (!this.renderConstituentPermits) return;
+          this.onGetConstituentPermits();
+        });
+      } else if (this.dataConstituentPermits) {
+        this.dataConstituentPermits.remove();
       }
     },
 
@@ -597,11 +720,6 @@ export default {
         bbox: undefined,
       }; // TODO
 
-      /* Get AnnualAllowableCut */
-      if (this.renderAnnualAllowableCut) {
-        this.executeOnCheckAAC(this.annualAllowableCutNameId, queryBbox);
-      }
-
       /* Get parcels */
       if (this.renderParcels) {
         this.executeOnViewParcels(this.renderParcels, queryBbox);
@@ -632,6 +750,22 @@ export default {
         this.executeOnViewTrees(this.renderTrees, queryBbox);
       }
 
+      /* Get Constituent Permits */
+      if (this.renderConstituentPermits) {
+        this.executeOnViewConstituentPermits(
+          this.renderConstituentPermits,
+          queryBbox
+        );
+      }
+
+      /* Get Transport Permits */
+      if (this.renderTransportPermits) {
+        this.executeOnViewTransportPermits(
+          this.renderTransportPermits,
+          queryBbox
+        );
+      }
+
       /* Set the new Bbox */
       this.bbox = currentBounds;
 
@@ -642,12 +776,16 @@ export default {
       // });
     },
 
-    cleanUpClusters(data, markers) {
+    cleanUpClusters(data, markers, map = null) {
       if (markers) {
         markers.remove();
         markers.clearLayers();
       }
       if (data) data.remove();
+
+      if (map) {
+        map.removeLayer(markers);
+      }
     },
 
     /* PLATE NUMBER */
@@ -657,7 +795,7 @@ export default {
       }
 
       /* Clean-up of previous data */
-      this.cleanUpClusters(this.data, markers);
+      this.cleanUpClusters(data, markers);
 
       let map = this.$refs.map.mapObject;
 
@@ -716,6 +854,38 @@ export default {
       map.fitBounds(bounds, { padding: [200, 200] });
 
       this.dataCheckAAC.addTo(map);
+    },
+
+    /* CONSTITUENT PERMITS */
+    onGetConstituentPermits() {
+      let map = this.$refs.map.mapObject;
+
+      let onEachFeature = (feature, layer) => {
+        if (feature.properties) {
+          layer.bindPopup(this.getJSONToString(feature.properties));
+        }
+      };
+
+      this.dataConstituentPermits = L.geoJSON(this.constituentPermits, {
+        style: (feature) => {
+          return {
+            color: this.colorConstituentPermits,
+          };
+        },
+        onEachFeature: onEachFeature,
+      });
+
+      this.dataConstituentPermits.on("click", (event) => {
+        const prevStyleColor = event.layer.options.color;
+        this.dataConstituentPermits.resetStyle();
+
+        if (prevStyleColor !== this.featureHighlightColor)
+          event.layer.setStyle({ color: this.featureHighlightColor });
+
+        const bounds = event.layer.getBounds();
+        map.fitBounds(bounds, { padding: [200, 200] });
+      });
+      this.dataConstituentPermits.addTo(map);
     },
 
     /* PARCELS */
@@ -943,6 +1113,31 @@ export default {
 
       case "aac-grid": {
         this.renderAAC = true;
+        break;
+      }
+
+      case "aac-inventory": {
+        this.renderTrees = true;
+        break;
+      }
+
+      case "parcels": {
+        this.renderParcels = true;
+        break;
+      }
+
+      case "constituent-permit": {
+        this.renderConstituentPermits = true;
+        break;
+      }
+
+      case "concessions": {
+        this.renderConcessions = true;
+        break;
+      }
+
+      case "transport-permits": {
+        this.renderTransportPermits = true;
         break;
       }
 

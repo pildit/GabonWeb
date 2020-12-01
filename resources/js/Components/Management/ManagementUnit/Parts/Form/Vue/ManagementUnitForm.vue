@@ -219,6 +219,11 @@ export default {
                 this.form.ProductType = this.productTypeList.find((x) => x.Id == this.form.ProductType);
                 this.formPlansCount = value.plans.length;
                 this.plansForm = value.plans;
+
+                if (this.endpointEdit) {
+                    EventBus.$emit(this.endpointEdit, value.geometry_as_text);
+                }
+
                 this.$forceUpdate();
             }
         }

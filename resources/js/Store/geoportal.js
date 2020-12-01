@@ -30,13 +30,13 @@ function getParametrizedString(apiString, payload) {
         if (Array.isArray(value)) {
             paramValue = value.join(',')
         }
-        
+
         apiString += `${key}=${paramValue}`
-        
+
         /* Prepare for the next parameter */
         ++iterator < filterLenght ? apiString += '&' : null
     });
-    
+
     console.log(apiString)
     return apiString
 }
@@ -61,14 +61,16 @@ export default {
         //         constrainResolution: true,
         //     }),
         // }),
-        
+
         annualAllowableCutInventory: [],
         annualAllowableCuts: [],
         concessions: [],
         developmentUnits: [],
         managmentUnits: [],
         parcels: [],
-        permits: []
+        permits: [],
+        permitsTracking: [],
+        constituentPermits: [],
     },
     getters: {
 
@@ -102,6 +104,14 @@ export default {
 
         permits(state) {
             return state.permits
+        },
+
+        permitsTracking(state) {
+            return state.permitsTracking
+        },
+
+        constituentPermits(state) {
+            return state.constituentPermits
         }
     },
     mutations: {
@@ -135,6 +145,14 @@ export default {
 
         mutablePermits(state, data) {
             state.permits = data
+        },
+
+        mutablePermitsTracking(state, data) {
+            state.permitsTracking = data
+        },
+
+        mutableConstituentPermits(state, data) {
+            state.constituentPermits = data
         }
     },
     actions: {
@@ -234,6 +252,32 @@ export default {
             return axios.get(apiString)
                 .then((responseData) => commit('mutablePermits', responseData.data)
                 );
-        }
+        },
+
+        getPermitsTracking({ commit }, payload) {
+
+            let apiString = `/api/permits_tracking/vectors`
+
+            if (payload) {
+                apiString = getParametrizedString(apiString, payload)
+            }
+
+            return axios.get(apiString)
+                .then((responseData) => commit('mutablePermitsTracking', responseData.data)
+                );
+        },
+
+        getConstituentPermits({ commit }, payload) {
+
+            let apiString = `/api/constituent_permits/vectors`
+
+            if (payload) {
+                apiString = getParametrizedString(apiString, payload)
+            }
+
+            return axios.get(apiString)
+                .then((responseData) => commit('mutableConstituentPermits', responseData.data)
+                );
+        },
     }
 }

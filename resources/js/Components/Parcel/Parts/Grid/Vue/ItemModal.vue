@@ -6,7 +6,9 @@
     <div slot="body">
         <div class="row">
             <div class="col-md-8">
-                The MAP
+                <div id="sidemap" class="col-md-4" style="position: fixed; padding: 10px">
+                    <side-map endpoint-edit="parcels-edit" endpoint-create="parcels-create"></side-map>
+                </div>
             </div>
             <div class="col-md-4">
                 <item-form ref="itemForm" :row-prop="rowProp" @done="closeModal"></item-form>
@@ -24,6 +26,7 @@
 import bmodal from 'components/Common/BootstrapModal.vue';
 import itemForm from "./ItemForm.vue";
 import {mapGetters} from 'vuex';
+import SideMap from '../../../../Geomap/Parts/SideMap/Vue/SideMap.vue';
 
 export default {
   model: {
@@ -33,7 +36,7 @@ export default {
 
   props: ['state', 'typeProp', 'rowProp'],
 
-  components: {bmodal, itemForm},
+  components: {bmodal, itemForm, SideMap},
 
   computed: {
     ...mapGetters('permitTypes', ['permitTypes'])
