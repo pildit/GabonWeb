@@ -132,7 +132,7 @@ class ManagementUnitController extends Controller
         $request->validate(
             [
                 'bbox' => 'string',
-                'Id' => 'nullable|exists:Modules\ForestResources\Entities\Concession,Id'
+                'Id' => 'nullable|exists:Modules\ForestResources\Entities\ManagementUnit,Id'
             ]);
 
         return response()->json([
