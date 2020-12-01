@@ -156,7 +156,10 @@ export default {
       renderUFA: false,
       renderUFG: false,
       renderAAC: false,
+      renderAnnualAllowableCut: false,
       renderTrees: false,
+      renderConstituentPermits: false,
+      renderTransportPermits: false,
       bbox: undefined,
 
       dataCheckPlateNumber: null,
@@ -172,6 +175,8 @@ export default {
       dataViewAAC: null,
       dataTrees: null,
       activePermitFeatures: null,
+      dataConstituentPermits: null,
+      dataTransportPermits: null,
 
       treeMarkers: L.markerClusterGroup({
         chunkedLoading: true,
@@ -181,6 +186,10 @@ export default {
         chunkedLoading: true,
       }),
 
+	  transportPermitsMarkers: L.markerClusterGroup({
+        chunkedLoading: true,
+      }),
+      
       activeTransportFeatureGroup: L.layerGroup({
         chunkedLoading: true,
       }),
@@ -197,6 +206,7 @@ export default {
       colorUFG: "#ebf30c",
       colorAAC: "#ff9b00",
       colorTrees: "#ff00c0",
+      colorConstituentPermits: "#1f2bd1",
 
       locations: [],
       icon: icon(
@@ -229,6 +239,7 @@ export default {
     ...mapGetters({ developmentUnits: "geoportal/developmentUnits" }),
     ...mapGetters({ managementUnits: "geoportal/managmentUnits" }),
     ...mapGetters({ permitsTracking: "geoportal/permitsTracking" }),
+    ...mapGetters({ constituentPermits: "geoportal/constituentPermits" }),
   },
 
   destroyed() {
@@ -246,6 +257,7 @@ export default {
       getDevelopmentUnits: "geoportal/getDevelopmentUnits",
       getManagementUnits: "geoportal/getManagmentUnits",
       getPermitsTracking: "geoportal/getPermitsTracking",
+      getConstituentPermits: "geoportal/getConstituentPermits",
     }),
 
     onTreeClusterClicked: (e) => {
@@ -628,6 +640,15 @@ export default {
       // map.addLayer(localPruneCluster);
     },
 
+    onGetTransportPermits() {
+      this.onGetCheckClusters(
+        this.dataTransportPermits,
+        this.permits,
+        this.transportPermitsMarkers,
+        false // TODO: Fix fitBounds not working for getTransportPermits
+      );
+    },
+
     executeOnViewTrees(value, params = null) {
       this.renderTrees = value;
 
@@ -638,6 +659,33 @@ export default {
       } else {
         if (this.dataTrees) this.dataTrees.remove();
         if (this.treeMarkers) this.treeMarkers.remove();
+      }
+    },
+
+    executeOnViewTransportPermits(value, params = null) {
+      this.renderTransportPermits = value;
+
+      if (value) {
+        this.getPermits(params).then(() => {
+          this.onGetTransportPermits();
+        });
+      } else {
+        if (this.dataTransportPermits) this.dataTransportPermits.remove();
+        if (this.transportPermitsMarkers) this.transportPermitsMarkers.remove();
+      }
+    },
+
+    executeOnViewConstituentPermits(value, params = null) {
+      this.renderConstituentPermits = value;
+
+      if (value) {
+        this.getConstituentPermits(params).then(() => {
+          if (this.dataConstituentPermits) this.dataConstituentPermits.remove();
+          if (!this.renderConstituentPermits) return;
+          this.onGetConstituentPermits();
+        });
+      } else if (this.dataConstituentPermits) {
+        this.dataConstituentPermits.remove();
       }
     },
 
@@ -672,11 +720,6 @@ export default {
         bbox: undefined,
       }; // TODO
 
-      /* Get AnnualAllowableCut */
-      if (this.renderAnnualAllowableCut) {
-        this.executeOnCheckAAC(this.annualAllowableCutNameId, queryBbox);
-      }
-
       /* Get parcels */
       if (this.renderParcels) {
         this.executeOnViewParcels(this.renderParcels, queryBbox);
@@ -705,6 +748,22 @@ export default {
       /* Get Trees */
       if (this.renderTrees) {
         this.executeOnViewTrees(this.renderTrees, queryBbox);
+      }
+
+      /* Get Constituent Permits */
+      if (this.renderConstituentPermits) {
+        this.executeOnViewConstituentPermits(
+          this.renderConstituentPermits,
+          queryBbox
+        );
+      }
+
+      /* Get Transport Permits */
+      if (this.renderTransportPermits) {
+        this.executeOnViewTransportPermits(
+          this.renderTransportPermits,
+          queryBbox
+        );
       }
 
       /* Set the new Bbox */
@@ -795,6 +854,43 @@ export default {
       map.fitBounds(bounds, { padding: [200, 200] });
 
       this.dataCheckAAC.addTo(map);
+    },
+
+    /* CONSTITUENT PERMITS */
+    onGetConstituentPermits() {
+      let map = this.$refs.map.mapObject;
+
+      let onEachFeature = (feature, layer) => {
+        if (feature.properties) {
+          layer.bindPopup(this.getJSONToString(feature.properties));
+        }
+      };
+
+      this.dataConstituentPermits = L.geoJSON(this.constituentPermits, {
+        style: (feature) => {
+          return {
+            color: this.colorConstituentPermits,
+          };
+        },
+        onEachFeature: onEachFeature,
+      });
+
+      this.dataConstituentPermits.on("click", (event) => {
+        const prevStyleColor = event.layer.options.color;
+        this.dataConstituentPermits.resetStyle();
+
+        if (prevStyleColor !== this.featureHighlightColor)
+          event.layer.setStyle({ color: this.featureHighlightColor });
+
+        /* Bounds fitting */
+        const bounds = event.layer.getBounds();
+        map.fitBounds(bounds, { padding: [200, 200] });
+      });
+
+      const bounds = this.dataConstituentPermits.getBounds();
+      map.fitBounds(bounds, { padding: [200, 200] });
+
+      this.dataConstituentPermits.addTo(map);
     },
 
     /* PARCELS */
@@ -1022,6 +1118,31 @@ export default {
 
       case "aac-grid": {
         this.renderAAC = true;
+        break;
+      }
+
+      case "aac-inventory": {
+        this.renderTrees = true;
+        break;
+      }
+
+      case "parcels": {
+        this.renderParcels = true;
+        break;
+      }
+
+      case "constituent-permit": {
+        this.renderConstituentPermits = true;
+        break;
+      }
+
+      case "concessions": {
+        this.renderConcessions = true;
+        break;
+      }
+
+      case "transport-permits": {
+        this.renderTransportPermits = true;
         break;
       }
 
