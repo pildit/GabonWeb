@@ -275,7 +275,7 @@ export default {
               );
             });
           });
-          // window.location.href = DevelopmentUnit.buildRoute('development_units.index');
+          window.location.href = DevelopmentUnit.buildRoute('development_units.index');
         });
     },
     update(data) {

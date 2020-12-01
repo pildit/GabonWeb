@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="col-md-8">
-      <div id="items-grid" v-permission="'constituent-permit.view'" style="overflow-x: scroll">
+      <div id="items-grid" v-permission="'constituent-permit.view'" >
         @verbatim
         <h5 class="text-center green-text mb-2">{{ translate('constituent_permit_title') }}</h5>
         <div class="row">
