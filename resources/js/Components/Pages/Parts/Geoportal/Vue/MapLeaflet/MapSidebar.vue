@@ -435,7 +435,7 @@ export default {
     },
 
     onCheckPlateNumber() {
-      if (this.plateNumber.length >= 2) {
+      if (this.plateNumber.length >= 1) {
         this.checkPlateNumberError = false;
 
         this.$emit("onCheckPlateNumber", {
@@ -444,36 +444,43 @@ export default {
         });
       } else {
         this.checkPlateNumberError = true;
+        this.$emit("onCheckNone");
       }
     },
 
     onCheckAnnualAllowableCut() {
-      if (this.annualAllowableCut.length >= 2) {
+      if (this.annualAllowableCut.length >= 1) {
         this.checkAnnualAllowableCutError = false;
 
         this.$emit("onCheckAAC", this.annualAllowableCut);
       } else {
         this.checkAnnualAllowableCutError = true;
+        this.$emit("onCheckNone");
       }
     },
 
     onCheckAnnualAllowableCutId() {
       //this.onCheckNone();
-      this.$emit("onCheckAACId", this.annualAllowableCutId);
+      if (this.annualAllowableCutId.length >= 1) {
+        this.$emit("onCheckAACId", this.annualAllowableCutId);
+      } else {
+        this.$emit("onCheckNone");
+      }
     },
 
     onCheckAnnualAllowableCutName() {
-      if (this.annualAllowableCutName.length >= 2) {
+      if (this.annualAllowableCutName.length >= 1) {
         this.checkAnnualAllowableCutError = false;
 
         this.$emit("onCheckAACName", this.annualAllowableCutName);
       } else {
         this.checkAnnualAllowableCutError = true;
+        this.$emit("onCheckNone");
       }
     },
 
     onCheckTransportPermitId() {
-      if (this.transportPermitId.length >= 2) {
+      if (this.transportPermitId.length >= 1) {
         this.checkTransportPermitIdError = false;
 
         this.$emit("onCheckTransportPermitId", {
@@ -482,6 +489,7 @@ export default {
         });
       } else {
         this.checkTransportPermitIdError = true;
+        this.$emit("onCheckNone");
       }
     },
 
