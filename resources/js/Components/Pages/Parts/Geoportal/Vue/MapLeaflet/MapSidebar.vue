@@ -208,8 +208,12 @@
               v-on:click="onCheckTransportPermitId"
               style="min-width: 30px; background-color: #388e3c"
             >
-              <md-icon style="color: white">search</md-icon>
+              <md-icon style="color: white;">search</md-icon>
             </md-button>
+          </div>
+
+          <div v-if="checkPicked == 'checkTransportPermit'">
+            <h6 style="text-align: center; margin-left: -2em">OR</h6>
           </div>
 
           <rcp-alert-box
