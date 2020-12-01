@@ -385,7 +385,7 @@ export default {
 
       let fParams = params;
       if (!fParams) fParams = {};
-      fParams["AacId"] = value;
+      fParams["Id"] = value;
 
       this.getAnnualAllowableCuts(fParams).then(() => {
         if (this.dataCheckAACId) this.dataCheckAACId.remove();
