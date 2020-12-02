@@ -90,10 +90,10 @@ class Permit extends PageResults
         $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_transform(public.st_setsrid("Geometry",'.$srid.'),4326)) as geom');
 //        $whereIntersects = "public.ST_Intersects(public.st_setsrid(\"Geometry\", {$srid}), public.st_setsrid(public.ST_MakeEnvelope({$bbox}), {$srid}))";
 
-        $collection = Tracking::select(['Id', $geomCol, "Permit"])
+        $collection = Tracking::select(['Id', $geomCol, "Permit","ObserveAt"])
             ->whereHas('permit', function ($query) {
                 $query->where('Status', '=', PermitEntity::STATUS_IN_PROGRESS);
-            });
+            })->orderBy('ObserveAt');
 
         $collection = $collection->get();
 
@@ -104,6 +104,7 @@ class Permit extends PageResults
                 'geometry' => $item->geom,
                 'properties' => [
                     "id" => $item->Id,
+                    "ObserveAt" => $item->ObserveAt,
                     "LicensePlate" => $item->permit ? $item->permit->LicensePlate : '',
                     "DriverName" => $item->permit ? $item->permit->DriverName : '',
                     "PermitNo" => $item->permit ? $item->permit->PermitNo : '',
