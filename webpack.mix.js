@@ -18,6 +18,7 @@ mix.js('resources/js/app.js', 'public/js')
         'resources/mdb/js/jquery-3.4.1.min.js',
         'resources/mdb/js/popper.min.js',
         'resources/mdb/js/bootstrap.min.js',
+        'resources/mdb/js/addons/masonry.pkgd.min.js',
         'resources/mdb/js/mdb.min.js'
     ], 'public/js/all.js')
     .styles([

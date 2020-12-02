@@ -81,7 +81,8 @@ export default {
             this.fetchData();
         },
         showSort(key, direction) {
-            return this.sort.field == key && this.sort.direction == direction;
+            let _key = this.columns[key].queryKey ? this.columns[key].queryKey : key;
+            return this.sort.field == _key && this.sort.direction == direction;
         },
         canSort(key) {
             if(typeof this.columns[key]['sort'] === 'undefined') {

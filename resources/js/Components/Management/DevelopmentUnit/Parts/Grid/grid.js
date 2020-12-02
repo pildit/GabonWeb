@@ -27,10 +27,12 @@ export default (options) => {
                 header: "th_dev_unit_name",
             },
             ConcessionName: {
-                header: "th_concession_name"
+                header: "th_concession_name",
+                queryKey: "Concession"
             },
             plans: {
                 header: "th_plan_id",
+                sort: false,
                 render: (row) => {
                     return _.map(row.plans, 'Id').join('/')
                 }

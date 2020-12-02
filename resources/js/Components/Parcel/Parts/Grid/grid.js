@@ -25,6 +25,7 @@ export default (options) => {
             },
             Email: {
                 header: "th_email",
+                queryKey: "User"
             },
             Approved: {
                 header: "th_approved",

@@ -35,7 +35,8 @@ export default (options) => {
                 }
             },
             Email: {
-                header: "th_email"
+                header: "th_email",
+                queryKey: "User"
             },
             CreatedAt: {
                 header: "th_date",

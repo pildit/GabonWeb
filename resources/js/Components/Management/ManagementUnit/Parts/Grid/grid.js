@@ -27,10 +27,12 @@ export default (options) => {
                 header: "th_management_unit_name",
             },
             'development_unit.Name' : {
-                header: "th_dev_unit_name"
+                header: "th_dev_unit_name",
+                queryKey: "DevelopmentUnit"
             },
             plans: {
                 header: "th_plan_id",
+                sort: false,
                 render: (row) => {
                     return _.map(row.plans, 'Number').join('/')
                 }

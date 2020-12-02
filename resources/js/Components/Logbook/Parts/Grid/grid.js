@@ -22,9 +22,11 @@ export default (options) => {
             },
             'concession.Name': {
                 header: "th_concession_name",
+                queryKey: "Concession"
             },
             'anuualallowablecut.Name': {
                 header: "th_aac_name",
+                queryKey: "AnnualAllowableCut"
             },
             Approved: {
                 header: 'th_approved',
@@ -33,7 +35,7 @@ export default (options) => {
                     return `<span class="badge badge-${row.Approved ? 'success' : 'danger'}">${row.Approved || false}</span>`
                 }
             },
-            ObservedAt: {
+            ObserveAt: {
                 header: "th_date"
             },
             actions: {
