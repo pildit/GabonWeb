@@ -4,11 +4,15 @@ export default {
     namespaced: true,
     state: {
         parcels: [],
+        parcel: {}
     },
     getters: {
         parcels(state) {
             return state.parcels;
         },
+        parcel(state) {
+            return state.parcel
+        }
     },
     mutations: {
         parcels(state, parcels) {

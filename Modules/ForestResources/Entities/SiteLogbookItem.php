@@ -30,6 +30,15 @@ class SiteLogbookItem extends Model
     protected $fillable = ['SiteLogbook','Species','HewingId','Date','MaxDiameter','MinDiameter','AverageDiameter','Length','Volume','ObserveAt','Approved','MobileId'];
 
     /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'Approved' => false // default for Approved
+    ];
+
+    /**
      * The table associated with the model.
      *
      * @var string

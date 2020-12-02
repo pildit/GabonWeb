@@ -155,7 +155,7 @@
           }}</a>
         </div>
 
-        <div class="form-row float-right">
+        <div class="form-row float-right text-white">
           <button
             @click="save()"
             class="btn btn-info z-depth-0 my-4"

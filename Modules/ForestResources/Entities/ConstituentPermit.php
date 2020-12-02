@@ -16,6 +16,15 @@ class ConstituentPermit extends Model
 
     protected $fillable = ['PermitType', 'Geometry', 'PermitNumber', 'Approved'];
 
+    /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'Approved' => false // default for Approved
+    ];
+
     protected $table = 'ForestResources.ConstituentPermits';
 
     protected $dateFormat = 'Y-m-d H:i:s.u';

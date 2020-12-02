@@ -110,7 +110,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-row float-right">
+                <div class="form-row float-right text-white">
                     <button @click="save()" class="btn btn-info z-depth-0 my-4" :disabled="saveLoading">
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="saveLoading"></span>
                         {{ translate('save') }}

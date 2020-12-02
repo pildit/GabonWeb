@@ -47,7 +47,7 @@
                     <label for="Geometry" :class="{'active': form.Geometry}">{{translate('geometry_input_label')}}</label>
                     <div v-show="errors.has('Geometry')" class="invalid-feedback">{{ errors.first('Geometry') }}</div>
                 </div>
-                <div class="form-row float-right">
+                <div class="form-row float-right text-white">
                     <button @click="save()" class="btn btn-info z-depth-0 my-4" :disabled="saveLoading">
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="saveLoading"></span>
                         {{ translate('save') }}
@@ -149,11 +149,11 @@ export default {
                 this.form = _.merge(this.form, value);
                 this.form.Geometry = value.geometry_as_text;
                 this.form.PermitType = this.permitTypeList.data.find((x) => x.Id == value.PermitType);
-                
+
                 if (this.endpointEdit) {
                     EventBus.$emit(this.endpointEdit, value.geometry_as_text);
                 }
-                
+
                 this.$forceUpdate();
             }
         }

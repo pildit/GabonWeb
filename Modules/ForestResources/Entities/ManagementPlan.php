@@ -25,6 +25,15 @@ class ManagementPlan extends Model
     protected $fillable = ['ManagementUnit', 'Number', 'Species','GrossVolumeUFG','GrossVolumeYear','YieldVolumeYear','CommercialVolumeYear'];
 
     /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'Approved' => false // default for Approved
+    ];
+
+    /**
      * @var string
      */
     protected $dateFormat = 'Y-m-d H:i:s.u';

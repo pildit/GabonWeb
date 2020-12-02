@@ -27,6 +27,15 @@ class AnnualOperationPlan extends Model
     protected $fillable = ['AnnualAllowableCut', 'Number', 'Species','ExploitableVolume','NonExploitableVolume','VolumePerHectare','AverageVolume','TotalVolume','Approved'];
 
     /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'Approved' => false // default for Approved
+    ];
+
+    /**
      * The table associated with the model.
      *
      * @var string
