@@ -11185,9 +11185,9 @@ table.table td, table.table th {
     /*color: var(--md-theme-default-primary-on-background, rgba(68,138,255,0.8));*/
     text-decoration: none;
 }
-.md-theme-default a.btn {
-    color: inherit !important;
-}
+/*.md-theme-default a.btn {*/
+/*    color: inherit !important;*/
+/*}*/
 
 .paginate_button:hover {
     /*color: white !important;*/
