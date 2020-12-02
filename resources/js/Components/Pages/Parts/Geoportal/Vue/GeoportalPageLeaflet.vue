@@ -186,10 +186,10 @@ export default {
         chunkedLoading: true,
       }),
 
-	  transportPermitsMarkers: L.markerClusterGroup({
+      transportPermitsMarkers: L.markerClusterGroup({
         chunkedLoading: true,
       }),
-      
+
       activeTransportFeatureGroup: L.layerGroup({
         chunkedLoading: true,
       }),
@@ -374,7 +374,8 @@ export default {
         });
       } else {
         if (this.activePermitFeatures) this.activePermitFeatures.remove();
-        if (this.activeTransportFeatureGroup) this.activeTransportFeatureGroup.remove();
+        if (this.activeTransportFeatureGroup)
+          this.activeTransportFeatureGroup.remove();
       }
     },
 
@@ -404,7 +405,7 @@ export default {
 
     getTimeDateFormat(date) {
       let year = date.getFullYear().toString();
-      let month = date.getMonth().toString();
+      let month = (date.getMonth() + 1).toString();
       let day = date.getDate().toString();
       let hours = date.getHours().toString();
       let minutes = date.getMinutes().toString();
@@ -435,6 +436,14 @@ export default {
       const { plateNumber, plateNumberRange } = value;
       let { start, end } = plateNumberRange;
 
+      start.setHours(0);
+      start.setMinutes(0);
+      start.setSeconds(0);
+
+      end.setHours(0);
+      end.setMinutes(0);
+      end.setSeconds(0);
+
       let startDate = this.getTimeDateFormat(start);
       let endDate = this.getTimeDateFormat(end);
 
@@ -446,6 +455,7 @@ export default {
 
       this.getPermits(fParams).then(() => {
         if (this.dataCheckPlateNumber) this.dataCheckPlateNumber.length = 0;
+        console.log("PERMITS:", this.permits);
         this.onGetCheckClusters(
           this.dataCheckPlateNumber,
           this.permits,
