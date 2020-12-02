@@ -9,6 +9,7 @@ use GenTux\Jwt\GetsJwtToken;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 use Modules\Admin\Entities\Company;
 use Modules\ForestResources\Entities\AnnualAllowableCut;
 use Modules\ForestResources\Entities\Concession;
@@ -195,7 +196,8 @@ class PermitController extends Controller
             'coords.*.Lat' => ['required', 'regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
             'coords.*.Lon' => ['required', 'regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
             'coords.*.ObserveAt' => ['required', 'date'],
-            'coords.*.MobileId' => 'required'
+            'coords.*.MobileId' => 'required',
+            'coords.*.Status' => 'numeric',
         ]);
 
         /** get the $coords from the request */
@@ -205,6 +207,23 @@ class PermitController extends Controller
         $trackings = [];
         foreach ($coords as $k => $coordinate) {
             $permit = PermitEntity::where('MobileId',$coordinate['MobileId'])->firstOrFail();
+            if(!$permit){
+                throw ValidationException::withMessages(['Permit' => 'validation.exists']);
+            }
+            $permits = PermitEntity::where('PermitNoMobile', $permit->PermitNoMobile)->get();
+            $status = $coordinate['Status'] ?? PermitEntity::STATUS_IN_PROGRESS;
+            foreach($permits as $pr){
+                if($pr->Status != PermitEntity::STATUS_IN_PROGRESS && $status == PermitEntity::STATUS_IN_PROGRESS){
+                    $pr->update([
+                        'Status' => $status
+                    ]);
+                }
+                if($pr->Status != PermitEntity::STATUS_FINISHED && $status == PermitEntity::STATUS_FINISHED){
+                    $pr->update([
+                        'Status' => $status
+                    ]);
+                }
+            }
 
             $tracking = $permit->tracking()->where('Lat', $coordinate['Lat'])->where('Lon', $coordinate['Lon'])->first();
 
