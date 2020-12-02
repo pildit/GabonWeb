@@ -1699,13 +1699,13 @@
                 "security": []
             }
         },
-        "/developmentunit": {
+        "/development_units": {
             "get": {
                 "summary": "List development units",
                 "tags": [
                     "DevelopmentUnit"
                 ],
-                "operationId": "Listdevelopmentunits",
+                "operationId": "Listdevelopment_units",
                 "deprecated": false,
                 "produces": [
                     "application/json"
@@ -1885,12 +1885,12 @@
                                         "plans": []
                                     }
                                 ],
-                                "first_page_url": "http://gabonweb.test/api/developmentunit?page=1",
+                                "first_page_url": "http://gabonweb.test/api/development_units?page=1",
                                 "from": 1,
                                 "last_page": 1,
-                                "last_page_url": "http://gabonweb.test/api/developmentunit?page=1",
+                                "last_page_url": "http://gabonweb.test/api/development_units?page=1",
                                 "next_page_url": null,
-                                "path": "http://gabonweb.test/api/developmentunit",
+                                "path": "http://gabonweb.test/api/development_units",
                                 "per_page": 50,
                                 "prev_page_url": null,
                                 "to": 6,
@@ -1941,9 +1941,7 @@
                         }
                     }
                 }
-            }
-        },
-        "/developmentunits": {
+            },
             "post": {
                 "summary": "Create development unit",
                 "tags": [
@@ -1973,40 +1971,13 @@
                         "description": ""
                     },
                     {
-                        "name": "Name",
-                        "in": "formData",
+                        "name": "Body",
+                        "in": "body",
                         "required": true,
-                        "type": "string",
-                        "description": ""
-                    },
-                    {
-                        "name": "Concession",
-                        "in": "formData",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "Start",
-                        "in": "formData",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    },
-                    {
-                        "name": "End",
-                        "in": "formData",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    },
-                    {
-                        "name": "Geometry",
-                        "in": "formData",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/CreateDevelopmentUnitRequest"
+                        }
                     }
                 ],
                 "responses": {
@@ -2017,7 +1988,7 @@
                 }
             }
         },
-        "/developmentunit/1": {
+        "/development_units/1": {
             "put": {
                 "summary": "Update Development Unit",
                 "tags": [
@@ -2071,7 +2042,7 @@
                         },
                         "examples": {
                             "application/json": {
-                                "message": "*developmentunit_update_successful*"
+                                "message": "*development_units_update_successful*"
                             }
                         },
                         "headers": {
@@ -3652,234 +3623,216 @@
                 }
             }
         },
-        "/developmentplans": {
-            "post": {
-                "summary": "store",
-                "tags": [
-                    "DevelopmentPlan"
-                ],
-                "operationId": "store",
-                "deprecated": false,
-                "produces": [
-                    "application/json"
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": false,
-                        "default": "Bearer {token}",
-                        "type": "string"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    },
-                    {
-                        "name": "DevelopmentUnit",
-                        "in": "formData",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "Species",
-                        "in": "formData",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "MinimumExploitableDiameter",
-                        "in": "formData",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "VolumeTariff",
-                        "in": "formData",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    },
-                    {
-                        "name": "Increment",
-                        "in": "formData",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "headers": {}
-                    }
-                }
-            }
-        },
-        "/developmentplans/1": {
-            "put": {
-                "summary": "update",
-                "tags": [
-                    "DevelopmentPlan"
-                ],
-                "operationId": "update",
-                "deprecated": false,
-                "produces": [
-                    "application/json"
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": false,
-                        "default": "Bearer {token}",
-                        "type": "string"
-                    },
-                    {
-                        "name": "DevelopmentUnit",
-                        "in": "query",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "Species",
-                        "in": "query",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "MinimumExploitableDiameter",
-                        "in": "query",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "VolumeTariff",
-                        "in": "query",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    },
-                    {
-                        "name": "Increment",
-                        "in": "query",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "headers": {}
-                    }
-                }
-            },
+        "/development_plans\/export": {
             "get": {
-                "summary": "show",
-                "tags": [
-                    "DevelopmentPlan"
-                ],
-                "operationId": "show",
+                "summary": "",
+                "tags" : ["DevelopmentPlan"],
+                "description": "",
                 "deprecated": false,
-                "produces": [
-                    "application/json"
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": false,
-                        "default": "Bearer {token}",
-                        "type": "string"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    }
-                ],
                 "responses": {
                     "200": {
-                        "description": "",
-                        "headers": {}
+                        "description": "OK"
                     }
                 }
             }
         },
-        "/Developmentplans/1": {
+        "/development_plans": {
+            "post": {
+                "summary": "Store developmentplan",
+                "tags" : ["DevelopmentPlan"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "DevelopmentUnit",
+                                "Number",
+                                "Species",
+                                "MinimumExploitableDiameter"
+                            ],
+                            "properties": {
+                                "DevelopmentUnit": {
+                                    "type": "string"
+                                },
+                                "Number": {
+                                    "type": "string"
+                                },
+                                "Species": {
+                                    "type": "integer"
+                                },
+                                "MinimumExploitableDiameter": {
+                                    "type": "number"
+                                },
+                                "VolumeTariff": {
+                                    "type": "string"
+                                },
+                                "Increment": {
+                                    "type": "string"
+                                },
+                                "Approved": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "/development_plans\/{development_plan}": {
+            "get": {
+                "summary": "Display the specified resource.",
+                "tags" : ["DevelopmentPlan"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "development_plan",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
+            },
+            "put": {
+                "summary": "Update the specified resource in storage.",
+                "tags" : ["DevelopmentPlan"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "development_plan",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "DevelopmentUnit": {
+                                    "type": "string"
+                                },
+                                "Number": {
+                                    "type": "string"
+                                },
+                                "Species": {
+                                    "type": "integer"
+                                },
+                                "MinimumExploitableDiameter": {
+                                    "type": "number"
+                                },
+                                "VolumeTariff": {
+                                    "type": "string"
+                                },
+                                "Increment": {
+                                    "type": "string"
+                                },
+                                "Approved": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "patch": {
+                "summary": "Update the specified resource in storage.",
+                "tags" : ["DevelopmentPlan"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "development_plan",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "DevelopmentUnit": {
+                                    "type": "string"
+                                },
+                                "Number": {
+                                    "type": "string"
+                                },
+                                "Species": {
+                                    "type": "integer"
+                                },
+                                "MinimumExploitableDiameter": {
+                                    "type": "number"
+                                },
+                                "VolumeTariff": {
+                                    "type": "string"
+                                },
+                                "Increment": {
+                                    "type": "string"
+                                },
+                                "Approved": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
             "delete": {
-                "summary": "destroy",
-                "tags": [
-                    "DevelopmentPlan"
-                ],
-                "operationId": "destroy",
+                "summary": "Remove the specified resource from storage.",
+                "tags" : ["DevelopmentPlan"],
+                "description": "",
                 "deprecated": false,
-                "produces": [
-                    "application/json"
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": false,
-                        "default": "Bearer {token}",
-                        "type": "string"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    }
-                ],
                 "responses": {
                     "200": {
-                        "description": "",
-                        "headers": {}
+                        "description": "OK"
                     }
-                }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "development_plan",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
             }
         },
+
         "/translation": {
             "get": {
                 "summary": "List translation",
@@ -4171,1244 +4124,1325 @@
                 }
             }
         },
-        "/managementunits": {
+        "/management_units\/export": {
             "get": {
-                "summary": "index",
-                "tags": [
-                    "ManagementUnit"
-                ],
-                "operationId": "index",
+                "summary": "",
+                "tags" : ["ManagementUnit"],
+                "description": "",
                 "deprecated": false,
-                "produces": [
-                    "application/json"
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": false,
-                        "default": "Bearer {token}",
-                        "type": "string"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    }
-                ],
                 "responses": {
                     "200": {
-                        "description": "",
-                        "headers": {}
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/management_units\/list": {
+            "get": {
+                "summary": "",
+                "tags" : ["ManagementUnit"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/management_units\/vectors": {
+            "get": {
+                "summary": "",
+                "tags" : ["ManagementUnit"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/management_units\/approve\/{id}": {
+            "patch": {
+                "summary": "",
+                "tags" : ["ManagementUnit"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
+            }
+        },
+        "/management_units": {
+            "get": {
+                "summary": "Display a listing of the resource.",
+                "tags" : ["ManagementUnit"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
                     }
                 }
             },
             "post": {
-                "summary": "store",
-                "tags": [
-                    "ManagementUnit"
-                ],
-                "operationId": "Poststore",
+                "summary": "Store managementunit",
+                "tags" : ["ManagementUnit"],
+                "description": "",
                 "deprecated": false,
-                "produces": [
-                    "application/json"
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": false,
-                        "default": "Bearer {token}",
-                        "type": "string"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    },
-                    {
-                        "name": "Name",
-                        "in": "formData",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    },
-                    {
-                        "name": "DevelopmentUnit",
-                        "in": "formData",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "Geometry",
-                        "in": "formData",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    }
-                ],
                 "responses": {
                     "200": {
-                        "description": "",
-                        "headers": {}
+                        "description": "OK"
                     }
-                }
+                },
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "Number",
+                                "Name",
+                                "ProductType",
+                                "DevelopmentUnit"
+                            ],
+                            "properties": {
+                                "Number": {
+                                    "type": "string"
+                                },
+                                "Name": {
+                                    "type": "string"
+                                },
+                                "ProductType": {
+                                    "type": "integer"
+                                },
+                                "DevelopmentUnit": {
+                                    "type": "string"
+                                },
+                                "Geometry": {
+                                    "type": "string"
+                                },
+                                "Approved": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
             }
         },
-        "/managementunits/1": {
-            "put": {
-                "summary": "update",
-                "tags": [
-                    "ManagementUnit"
-                ],
-                "operationId": "Putupdate",
-                "deprecated": false,
-                "produces": [
-                    "application/json"
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": false,
-                        "default": "Bearer {token}",
-                        "type": "string"
-                    },
-                    {
-                        "name": "Name",
-                        "in": "query",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    },
-                    {
-                        "name": "Geometry",
-                        "in": "query",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    },
-                    {
-                        "name": "DevelopmentUnit",
-                        "in": "query",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "headers": {}
-                    }
-                }
-            },
+        "/management_units\/{management_unit}": {
             "get": {
-                "summary": "show",
-                "tags": [
-                    "ManagementUnit"
-                ],
-                "operationId": "Getshow",
+                "summary": "Display the specified resource.",
+                "tags" : ["ManagementUnit"],
+                "description": "",
                 "deprecated": false,
-                "produces": [
-                    "application/json"
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": false,
-                        "default": "Bearer {token}",
-                        "type": "string"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    }
-                ],
                 "responses": {
                     "200": {
-                        "description": "",
-                        "headers": {}
+                        "description": "OK"
                     }
-                }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "management_unit",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
+            },
+            "put": {
+                "summary": "Update the specified resource in storage.",
+                "tags" : ["ManagementUnit"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "management_unit",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "Number": {
+                                    "type": "string"
+                                },
+                                "Name": {
+                                    "type": "string"
+                                },
+                                "ProductType": {
+                                    "type": "integer"
+                                },
+                                "DevelopmentUnit": {
+                                    "type": "string"
+                                },
+                                "Geometry": {
+                                    "type": "string"
+                                },
+                                "Approved": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "patch": {
+                "summary": "Update the specified resource in storage.",
+                "tags" : ["ManagementUnit"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "management_unit",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "Number": {
+                                    "type": "string"
+                                },
+                                "Name": {
+                                    "type": "string"
+                                },
+                                "ProductType": {
+                                    "type": "integer"
+                                },
+                                "DevelopmentUnit": {
+                                    "type": "string"
+                                },
+                                "Geometry": {
+                                    "type": "string"
+                                },
+                                "Approved": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
             },
             "delete": {
-                "summary": "destroy",
-                "tags": [
-                    "ManagementUnit"
-                ],
-                "operationId": "Deletedestroy",
+                "summary": "Remove the specified resource from storage.",
+                "tags" : ["ManagementUnit"],
+                "description": "",
                 "deprecated": false,
-                "produces": [
-                    "application/json"
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": false,
-                        "default": "Bearer {token}",
-                        "type": "string"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    }
-                ],
                 "responses": {
                     "200": {
-                        "description": "",
-                        "headers": {}
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "management_unit",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
+            }
+        },
+
+        "/management_plans\/export": {
+            "get": {
+                "summary": "",
+                "tags" : ["ManagementPlan"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
                     }
                 }
             }
         },
-        "/managementplans": {
+        "/management_plans\/list": {
+            "get": {
+                "summary": "",
+                "tags" : ["ManagementPlan"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/management_plans\/approve\/{id}": {
+            "patch": {
+                "summary": "",
+                "tags" : ["ManagementPlan"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
+            }
+        },
+        "/management_plans": {
             "post": {
-                "summary": "store",
-                "tags": [
-                    "ManagementPlan"
-                ],
-                "operationId": "Poststore1",
+                "summary": "Store managementplan",
+                "tags" : ["ManagementPlan"],
+                "description": "",
                 "deprecated": false,
-                "produces": [
-                    "application/json"
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": false,
-                        "default": "Bearer {token}",
-                        "type": "string"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    },
-                    {
-                        "name": "ManagementUnit",
-                        "in": "formData",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "Species",
-                        "in": "formData",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "GrossVolumeUFG",
-                        "in": "formData",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "GrossVolumeYear",
-                        "in": "formData",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "YieldVolumeYear",
-                        "in": "formData",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "CommercialVolumeYear",
-                        "in": "formData",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    }
-                ],
                 "responses": {
                     "200": {
-                        "description": "",
-                        "headers": {}
+                        "description": "OK"
                     }
-                }
+                },
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "ManagementUnit",
+                                "Number",
+                                "Species",
+                                "GrossVolumeUFG",
+                                "GrossVolumeYear",
+                                "YieldVolumeYear",
+                                "CommercialVolumeYear"
+                            ],
+                            "properties": {
+                                "ManagementUnit": {
+                                    "type": "string"
+                                },
+                                "Number": {
+                                    "type": "string"
+                                },
+                                "Species": {
+                                    "type": "integer"
+                                },
+                                "GrossVolumeUFG": {
+                                    "type": "number"
+                                },
+                                "GrossVolumeYear": {
+                                    "type": "number"
+                                },
+                                "YieldVolumeYear": {
+                                    "type": "number"
+                                },
+                                "CommercialVolumeYear": {
+                                    "type": "number"
+                                },
+                                "Approved": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
             }
         },
-        "/managementplans/0": {
-            "put": {
-                "summary": "update",
-                "tags": [
-                    "ManagementPlan"
-                ],
-                "operationId": "Putupdate1",
-                "deprecated": false,
-                "produces": [
-                    "application/json"
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": false,
-                        "default": "Bearer {token}",
-                        "type": "string"
-                    },
-                    {
-                        "name": "ManagementUnit",
-                        "in": "query",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "Species",
-                        "in": "query",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "GrossVolumeUFG",
-                        "in": "query",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "GrossVolumeYear",
-                        "in": "query",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "YieldVolumeYear",
-                        "in": "query",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "CommercialVolumeYear",
-                        "in": "query",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "headers": {}
-                    }
-                }
-            },
+        "/management_plans\/{management_plan}": {
             "get": {
-                "summary": "show",
-                "tags": [
-                    "ManagementPlan"
-                ],
-                "operationId": "Getshow1",
+                "summary": "Display the specified resource.",
+                "tags" : ["ManagementPlan"],
+                "description": "",
                 "deprecated": false,
-                "produces": [
-                    "application/json"
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": false,
-                        "default": "Bearer {token}",
-                        "type": "string"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    }
-                ],
                 "responses": {
                     "200": {
-                        "description": "",
-                        "headers": {}
+                        "description": "OK"
                     }
-                }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "management_plan",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
+            },
+            "put": {
+                "summary": "Update the specified resource in storage.",
+                "tags" : ["ManagementPlan"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "management_plan",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "ManagementUnit": {
+                                    "type": "string"
+                                },
+                                "Species": {
+                                    "type": "integer"
+                                },
+                                "Number": {
+                                    "type": "string"
+                                },
+                                "GrossVolumeUFG": {
+                                    "type": "number"
+                                },
+                                "GrossVolumeYear": {
+                                    "type": "number"
+                                },
+                                "YieldVolumeYear": {
+                                    "type": "number"
+                                },
+                                "CommercialVolumeYear": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "patch": {
+                "summary": "Update the specified resource in storage.",
+                "tags" : ["ManagementPlan"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "management_plan",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "ManagementUnit": {
+                                    "type": "string"
+                                },
+                                "Species": {
+                                    "type": "integer"
+                                },
+                                "Number": {
+                                    "type": "string"
+                                },
+                                "GrossVolumeUFG": {
+                                    "type": "number"
+                                },
+                                "GrossVolumeYear": {
+                                    "type": "number"
+                                },
+                                "YieldVolumeYear": {
+                                    "type": "number"
+                                },
+                                "CommercialVolumeYear": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                ]
             },
             "delete": {
-                "summary": "destroy",
-                "tags": [
-                    "ManagementPlan"
-                ],
-                "operationId": "Deletedestroy1",
+                "summary": "Remove the specified resource from storage.",
+                "tags" : ["ManagementPlan"],
+                "description": "",
                 "deprecated": false,
-                "produces": [
-                    "application/json"
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": false,
-                        "default": "Bearer {token}",
-                        "type": "string"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    },
-                    {
-                        "name": "Name",
-                        "in": "formData",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    },
-                    {
-                        "name": "Geometry",
-                        "in": "formData",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    }
-                ],
                 "responses": {
                     "200": {
-                        "description": "",
-                        "headers": {}
+                        "description": "OK"
                     }
-                }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "management_plan",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
             }
         },
-        "/annualallowablecuts": {
+        "/annual_allowable_cuts\/export": {
             "get": {
-                "summary": "index",
-                "tags": [
-                    "AnnualAllowableCut"
-                ],
-                "operationId": "Getindex",
+                "summary": "",
+                "tags" : ["AnnualAllowableCut"],
+                "description": "",
                 "deprecated": false,
-                "produces": [
-                    "application/json"
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": false,
-                        "default": "Bearer {token}",
-                        "type": "string"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    }
-                ],
                 "responses": {
                     "200": {
-                        "description": "",
-                        "headers": {}
-                    }
-                }
-            },
-            "post": {
-                "summary": "store",
-                "tags": [
-                    "AnnualAllowableCut"
-                ],
-                "operationId": "Poststore12",
-                "deprecated": false,
-                "produces": [
-                    "application/json"
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": false,
-                        "default": "Bearer {token}",
-                        "type": "string"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    },
-                    {
-                        "name": "ManagementUnit",
-                        "in": "formData",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "ManagementPlan",
-                        "in": "formData",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "Name",
-                        "in": "formData",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    },
-                    {
-                        "name": "Geometry",
-                        "in": "formData",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "headers": {}
+                        "description": "OK"
                     }
                 }
             }
         },
-        "/annualallowablecuts/1": {
-            "put": {
-                "summary": "update",
-                "tags": [
-                    "AnnualAllowableCut"
-                ],
-                "operationId": "Putupdate12",
-                "deprecated": false,
-                "produces": [
-                    "application/json"
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": false,
-                        "default": "Bearer {token}",
-                        "type": "string"
-                    },
-                    {
-                        "name": "ManagementUnit",
-                        "in": "query",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "ManagementPlan",
-                        "in": "query",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "Name",
-                        "in": "query",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    },
-                    {
-                        "name": "Geometry",
-                        "in": "query",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "headers": {}
-                    }
-                }
-            },
+        "/annual_allowable_cuts\/vectors": {
             "get": {
-                "summary": "show",
-                "tags": [
-                    "AnnualAllowableCut"
-                ],
-                "operationId": "Getshow12",
+                "summary": "",
+                "tags" : ["AnnualAllowableCut"],
+                "description": "",
                 "deprecated": false,
-                "produces": [
-                    "application/json"
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": false,
-                        "default": "Bearer {token}",
-                        "type": "string"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    }
-                ],
                 "responses": {
                     "200": {
-                        "description": "",
-                        "headers": {}
+                        "description": "OK"
                     }
                 }
             }
         },
-        "/annualallowablecuts/0": {
-            "delete": {
-                "summary": "destroy",
-                "tags": [
-                    "AnnualAllowableCut"
-                ],
-                "operationId": "Deletedestroy12",
+        "/annual_allowable_cuts\/approve\/{id}": {
+            "patch": {
+                "summary": "",
+                "tags" : ["AnnualAllowableCut"],
+                "description": "",
                 "deprecated": false,
-                "produces": [
-                    "application/json"
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": false,
-                        "default": "Bearer {token}",
-                        "type": "string"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    }
-                ],
                 "responses": {
                     "200": {
-                        "description": "",
-                        "headers": {}
+                        "description": "OK"
                     }
-                }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
             }
         },
-        "/annualoperationplans": {
-            "post": {
-                "summary": "store",
-                "tags": [
-                    "AnnualOperationPlan"
-                ],
-                "operationId": "Poststore123",
-                "deprecated": false,
-                "produces": [
-                    "application/json"
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": false,
-                        "default": "Bearer {token}",
-                        "type": "string"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    },
-                    {
-                        "name": "AnnualAllowableCut",
-                        "in": "formData",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "Species",
-                        "in": "formData",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "ExploitableVolume",
-                        "in": "formData",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "NonExploitableVolume",
-                        "in": "formData",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "VolumePerHectare",
-                        "in": "formData",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "AverageVolume",
-                        "in": "formData",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "TotalVolume",
-                        "in": "formData",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "headers": {}
-                    }
-                }
-            }
-        },
-        "/annualoperationplans/1": {
-            "put": {
-                "summary": "update",
-                "tags": [
-                    "AnnualOperationPlan"
-                ],
-                "operationId": "Putupdate123",
-                "deprecated": false,
-                "produces": [
-                    "application/json"
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": false,
-                        "default": "Bearer {token}",
-                        "type": "string"
-                    },
-                    {
-                        "name": "ManagementUnit",
-                        "in": "query",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "ManagementPlan",
-                        "in": "query",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "Name",
-                        "in": "query",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    },
-                    {
-                        "name": "Geometry",
-                        "in": "query",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "headers": {}
-                    }
-                }
-            },
+        "/annual_allowable_cuts": {
             "get": {
-                "summary": "show",
-                "tags": [
-                    "AnnualOperationPlan"
-                ],
-                "operationId": "Getshow123",
+                "summary": "Display a listing of the resource.",
+                "tags" : ["AnnualAllowableCut"],
+                "description": "",
                 "deprecated": false,
-                "produces": [
-                    "application/json"
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": false,
-                        "default": "Bearer {token}",
-                        "type": "string"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    }
-                ],
                 "responses": {
                     "200": {
-                        "description": "",
-                        "headers": {}
-                    }
-                }
-            }
-        },
-        "/annualoperationplans/0": {
-            "delete": {
-                "summary": "destroy",
-                "tags": [
-                    "AnnualOperationPlan"
-                ],
-                "operationId": "Deletedestroy123",
-                "deprecated": false,
-                "produces": [
-                    "application/json"
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": false,
-                        "default": "Bearer {token}",
-                        "type": "string"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "headers": {}
-                    }
-                }
-            }
-        },
-        "/annualallowablecutinventory": {
-            "get": {
-                "summary": "index",
-                "tags": [
-                    "AnnualAllowableCutInventory"
-                ],
-                "operationId": "Getindex1",
-                "deprecated": false,
-                "produces": [
-                    "application/json"
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": false,
-                        "default": "Bearer {token}",
-                        "type": "string"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "headers": {}
+                        "description": "OK"
                     }
                 }
             },
             "post": {
-                "summary": "store",
-                "tags": [
-                    "AnnualAllowableCutInventory"
-                ],
-                "operationId": "Poststore1234",
+                "summary": "Store annual_allowable_cut",
+                "tags" : ["AnnualAllowableCut"],
+                "description": "",
                 "deprecated": false,
-                "produces": [
-                    "application/json"
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": false,
-                        "default": "Bearer {token}",
-                        "type": "string"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    },
-                    {
-                        "name": "AnnualAllowableCut",
-                        "in": "formData",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "Species",
-                        "in": "formData",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "Quality",
-                        "in": "formData",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "Parcel",
-                        "in": "formData",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "TreeId",
-                        "in": "formData",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    },
-                    {
-                        "name": "Geometry",
-                        "in": "formData",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    },
-                    {
-                        "name": "DiameterBreastHeight",
-                        "in": "formData",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    }
-                ],
                 "responses": {
                     "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
                         "description": "",
-                        "headers": {}
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "AacId",
+                                "ManagementUnit",
+                                "Name",
+                                "ProductType"
+                            ],
+                            "properties": {
+                                "AacId": {
+                                    "type": "string"
+                                },
+                                "ManagementUnit": {
+                                    "type": "string"
+                                },
+                                "ManagementPlan": {
+                                    "type": "string"
+                                },
+                                "Name": {
+                                    "type": "string"
+                                },
+                                "Geometry": {
+                                    "type": "string"
+                                },
+                                "Approved": {
+                                    "type": "string"
+                                },
+                                "ProductType": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "/annual_allowable_cuts\/{annual_allowable_cut}": {
+            "get": {
+                "summary": "Display the specified resource.",
+                "tags" : ["AnnualAllowableCut"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "annual_allowable_cut",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
+            },
+            "put": {
+                "summary": "Update the specified resource in storage.",
+                "tags" : ["AnnualAllowableCut"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "annual_allowable_cut",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "ManagementUnit": {
+                                    "type": "string"
+                                },
+                                "ManagementPlan": {
+                                    "type": "string"
+                                },
+                                "Name": {
+                                    "type": "string"
+                                },
+                                "Geometry": {
+                                    "type": "string"
+                                },
+                                "AacId": {
+                                    "type": "string"
+                                },
+                                "ProductType": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "patch": {
+                "summary": "Update the specified resource in storage.",
+                "tags" : ["AnnualAllowableCut"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "annual_allowable_cut",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "ManagementUnit": {
+                                    "type": "string"
+                                },
+                                "ManagementPlan": {
+                                    "type": "string"
+                                },
+                                "Name": {
+                                    "type": "string"
+                                },
+                                "Geometry": {
+                                    "type": "string"
+                                },
+                                "AacId": {
+                                    "type": "string"
+                                },
+                                "ProductType": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "delete": {
+                "summary": "Remove the specified resource from storage.",
+                "tags" : ["AnnualAllowableCut"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "annual_allowable_cut",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
+            }
+        },
+        "/annual_operation_plans\/approve\/{id}": {
+            "patch": {
+                "summary": "",
+                "tags" : ["AnnualOperationPlan"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
+            }
+        },
+        "/annual_operation_plans": {
+            "post": {
+                "summary": "Store annualoperationplan",
+                "tags" : ["AnnualOperationPlan"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "Number",
+                                "Species",
+                                "ExploitableVolume",
+                                "NonExploitableVolume",
+                                "VolumePerHectare",
+                                "AverageVolume",
+                                "TotalVolume"
+                            ],
+                            "properties": {
+                                "AnnualAllowableCut": {
+                                    "type": "string"
+                                },
+                                "Number": {
+                                    "type": "string"
+                                },
+                                "Species": {
+                                    "type": "integer"
+                                },
+                                "ExploitableVolume": {
+                                    "type": "number"
+                                },
+                                "NonExploitableVolume": {
+                                    "type": "number"
+                                },
+                                "VolumePerHectare": {
+                                    "type": "number"
+                                },
+                                "AverageVolume": {
+                                    "type": "number"
+                                },
+                                "TotalVolume": {
+                                    "type": "number"
+                                },
+                                "Approved": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "/annual_operation_plans\/{annual_operation_plan}": {
+            "get": {
+                "summary": "Display the specified resource.",
+                "tags" : ["AnnualOperationPlan"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "annual_operation_plan",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
+            },
+            "put": {
+                "summary": "Update the specified resource in storage.",
+                "tags" : ["AnnualOperationPlan"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "annual_operation_plan",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "AnnualAllowableCut": {
+                                    "type": "string"
+                                },
+                                "Number": {
+                                    "type": "string"
+                                },
+                                "Species": {
+                                    "type": "integer"
+                                },
+                                "ExploitableVolume": {
+                                    "type": "number"
+                                },
+                                "NonExploitableVolume": {
+                                    "type": "number"
+                                },
+                                "VolumePerHectare": {
+                                    "type": "number"
+                                },
+                                "AverageVolume": {
+                                    "type": "number"
+                                },
+                                "TotalVolume": {
+                                    "type": "number"
+                                },
+                                "Approved": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "patch": {
+                "summary": "Update the specified resource in storage.",
+                "tags" : ["AnnualOperationPlan"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "annual_operation_plan",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "AnnualAllowableCut": {
+                                    "type": "string"
+                                },
+                                "Number": {
+                                    "type": "string"
+                                },
+                                "Species": {
+                                    "type": "integer"
+                                },
+                                "ExploitableVolume": {
+                                    "type": "number"
+                                },
+                                "NonExploitableVolume": {
+                                    "type": "number"
+                                },
+                                "VolumePerHectare": {
+                                    "type": "number"
+                                },
+                                "AverageVolume": {
+                                    "type": "number"
+                                },
+                                "TotalVolume": {
+                                    "type": "number"
+                                },
+                                "Approved": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "delete": {
+                "summary": "Remove the specified resource from storage.",
+                "tags" : ["AnnualOperationPlan"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "annual_operation_plan",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
+            }
+        },
+        "/annual_allowable_cut_inventory\/export": {
+            "get": {
+                "summary": "",
+                "tags": ["AnnualAllowableCutInventory"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
                     }
                 }
             }
         },
-        "/annualallowablecutinventory/1": {
-            "put": {
-                "summary": "update",
-                "tags": [
-                    "AnnualAllowableCutInventory"
-                ],
-                "operationId": "Putupdate1234",
+        "/annual_allowable_cut_inventory\/mobile": {
+            "get": {
+                "summary": "",
+                "tags": ["AnnualAllowableCutInventory"],
+                "description": "",
                 "deprecated": false,
-                "produces": [
-                    "application/json"
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": false,
-                        "default": "Bearer {token}",
-                        "type": "string"
-                    },
-                    {
-                        "name": "ManagementUnit",
-                        "in": "query",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "ManagementPlan",
-                        "in": "query",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int32",
-                        "description": ""
-                    },
-                    {
-                        "name": "Name",
-                        "in": "query",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    },
-                    {
-                        "name": "Geometry",
-                        "in": "query",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    }
-                ],
                 "responses": {
                     "200": {
-                        "description": "",
-                        "headers": {}
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/annual_allowable_cut_inventory\/vectors": {
+            "get": {
+                "summary": "",
+                "tags": ["AnnualAllowableCutInventory"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/annual_allowable_cut_inventory\/approve\/{id}": {
+            "post": {
+                "summary": "",
+                "tags": ["AnnualAllowableCutInventory"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
+            }
+        },
+        "/annual_allowable_cut_inventory": {
+            "get": {
+                "summary": "Display a listing of the resource.",
+                "tags": ["AnnualAllowableCutInventory"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
                     }
                 }
             },
+            "post": {
+                "summary": "Store annual_allowable_cut_inventory",
+                "tags": ["AnnualAllowableCutInventory"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "AnnualAllowableCut",
+                                "Species",
+                                "Quality",
+                                "Parcel",
+                                "TreeId",
+                                "DiameterBreastHeight",
+                                "Lat",
+                                "Lon"
+                            ],
+                            "properties": {
+                                "AnnualAllowableCut": {
+                                    "type": "string"
+                                },
+                                "Species": {
+                                    "type": "integer"
+                                },
+                                "Quality": {
+                                    "type": "integer"
+                                },
+                                "Parcel": {
+                                    "type": "string"
+                                },
+                                "TreeId": {
+                                    "type": "string"
+                                },
+                                "DiameterBreastHeight": {
+                                    "type": "number"
+                                },
+                                "Lat": {
+                                    "type": "string"
+                                },
+                                "Lon": {
+                                    "type": "string"
+                                },
+                                "Geometry": {
+                                    "type": "string"
+                                },
+                                "GpsAccu": {
+                                    "type": "number"
+                                },
+                                "Approved": {
+                                    "type": "string"
+                                },
+                                "MobileId": {
+                                    "type": "string"
+                                },
+                                "ObserveAt": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "/annual_allowable_cut_inventory\/{annual_allowable_cut_inventory}": {
             "get": {
-                "summary": "show",
-                "tags": [
-                    "AnnualAllowableCutInventory"
-                ],
-                "operationId": "Getshow1234",
+                "summary": "Display the specified resource.",
+                "tags": ["AnnualAllowableCutInventory"],
+                "description": "",
                 "deprecated": false,
-                "produces": [
-                    "application/json"
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": false,
-                        "default": "Bearer {token}",
-                        "type": "string"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    }
-                ],
                 "responses": {
                     "200": {
-                        "description": "",
-                        "headers": {}
+                        "description": "OK"
                     }
-                }
-            }
-        },
-        "/annualallowablecutinventory/0": {
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "annual_allowable_cut_inventory",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
+            },
+            "put": {
+                "summary": "Update the specified resource in storage.",
+                "tags": ["AnnualAllowableCutInventory"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "annual_allowable_cut_inventory",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "AnnualAllowableCut": {
+                                    "type": "string"
+                                },
+                                "Species": {
+                                    "type": "integer"
+                                },
+                                "Quality": {
+                                    "type": "integer"
+                                },
+                                "Parcel": {
+                                    "type": "string"
+                                },
+                                "TreeId": {
+                                    "type": "string"
+                                },
+                                "DiameterBreastHeight": {
+                                    "type": "number"
+                                },
+                                "Lat": {
+                                    "type": "string"
+                                },
+                                "Lon": {
+                                    "type": "string"
+                                },
+                                "Geometry": {
+                                    "type": "string"
+                                },
+                                "GpsAccu": {
+                                    "type": "number"
+                                },
+                                "MobileId": {
+                                    "type": "string"
+                                },
+                                "ObserveAt": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "patch": {
+                "summary": "Update the specified resource in storage.",
+                "tags": ["AnnualAllowableCutInventory"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "annual_allowable_cut_inventory",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "AnnualAllowableCut": {
+                                    "type": "string"
+                                },
+                                "Species": {
+                                    "type": "integer"
+                                },
+                                "Quality": {
+                                    "type": "integer"
+                                },
+                                "Parcel": {
+                                    "type": "string"
+                                },
+                                "TreeId": {
+                                    "type": "string"
+                                },
+                                "DiameterBreastHeight": {
+                                    "type": "number"
+                                },
+                                "Lat": {
+                                    "type": "string"
+                                },
+                                "Lon": {
+                                    "type": "string"
+                                },
+                                "Geometry": {
+                                    "type": "string"
+                                },
+                                "GpsAccu": {
+                                    "type": "number"
+                                },
+                                "MobileId": {
+                                    "type": "string"
+                                },
+                                "ObserveAt": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
             "delete": {
-                "summary": "destroy",
-                "tags": [
-                    "AnnualAllowableCutInventory"
-                ],
-                "operationId": "Deletedestroy1234",
+                "summary": "Remove the specified resource from storage.",
+                "tags": ["AnnualAllowableCutInventory"],
+                "description": "",
                 "deprecated": false,
-                "produces": [
-                    "application/json"
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": false,
-                        "default": "Bearer {token}",
-                        "type": "string"
-                    },
-                    {
-                        "name": "Content-Type",
-                        "in": "header",
-                        "required": true,
-                        "type": "string",
-                        "description": ""
-                    }
-                ],
                 "responses": {
                     "200": {
-                        "description": "",
-                        "headers": {}
+                        "description": "OK"
                     }
-                }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "annual_allowable_cut_inventory",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
             }
         },
+
         "/permissions/": {
             "post": {
                 "summary": "Create permission",
@@ -6144,6 +6178,1540 @@
                         "headers": {}
                     }
                 }
+            }
+        },
+        "/logbooks\/export": {
+            "get": {
+                "summary": "",
+                "tags": ["Carnet d'abattage"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/logbooks\/mobile": {
+            "get": {
+                "summary": "",
+                "tags": ["Carnet d'abattage"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/logbooks\/approve\/{id}": {
+            "patch": {
+                "summary": "",
+                "tags": ["Carnet d'abattage"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
+            }
+        },
+        "/logbooks": {
+            "get": {
+                "summary": "Display a listing of the resource.",
+                "tags": ["Carnet d'abattage"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Store logbook",
+                "tags": ["Carnet d'abattage"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "Concession",
+                                "DevelopmentUnit",
+                                "ManagementUnit",
+                                "AnnualAllowableCut",
+                                "ObserveAt"
+                            ],
+                            "properties": {
+                                "Concession": {
+                                    "type": "string"
+                                },
+                                "DevelopmentUnit": {
+                                    "type": "string"
+                                },
+                                "ManagementUnit": {
+                                    "type": "string"
+                                },
+                                "AnnualAllowableCut": {
+                                    "type": "string"
+                                },
+                                "ObserveAt": {
+                                    "type": "string"
+                                },
+                                "Approved": {
+                                    "type": "string"
+                                },
+                                "MobileId": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "/logbooks\/{logbook}": {
+            "get": {
+                "summary": "Display the specified resource.",
+                "tags": ["Carnet d'abattage"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "logbook",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
+            },
+            "put": {
+                "summary": "Update the specified resource in storage.",
+                "tags": ["Carnet d'abattage"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "logbook",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "Concession": {
+                                    "type": "string"
+                                },
+                                "DevelopmentUnit": {
+                                    "type": "string"
+                                },
+                                "ManagementUnit": {
+                                    "type": "string"
+                                },
+                                "AnnualAllowableCut": {
+                                    "type": "string"
+                                },
+                                "ObserveAt": {
+                                    "type": "string"
+                                },
+                                "MobileId": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "patch": {
+                "summary": "Update the specified resource in storage.",
+                "tags": ["Carnet d'abattage"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "logbook",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "Concession": {
+                                    "type": "string"
+                                },
+                                "DevelopmentUnit": {
+                                    "type": "string"
+                                },
+                                "ManagementUnit": {
+                                    "type": "string"
+                                },
+                                "AnnualAllowableCut": {
+                                    "type": "string"
+                                },
+                                "ObserveAt": {
+                                    "type": "string"
+                                },
+                                "MobileId": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "delete": {
+                "summary": "Remove the specified resource from storage.",
+                "tags": ["Carnet d'abattage"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "logbook",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
+            }
+        },
+        "/logbook_items\/export": {
+            "get": {
+                "summary": "",
+                "tags": ["Carnet d'abattage"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/logbook_items\/mobile": {
+            "get": {
+                "summary": "",
+                "tags": ["Carnet d'abattage"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/logbook_items\/approve\/{id}": {
+            "patch": {
+                "summary": "",
+                "tags": ["Carnet d'abattage"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
+            }
+        },
+        "/logbook_items": {
+            "get": {
+                "summary": "Display a listing of the resource.",
+                "tags": ["Carnet d'abattage"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Store logbook_item",
+                "tags": ["Carnet d'abattage"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "Logbook",
+                                "TreeId",
+                                "HewingId",
+                                "Species",
+                                "MaxDiameter",
+                                "MinDiameter",
+                                "Length",
+                                "Volume",
+                                "GpsAccu",
+                                "ObserveAt"
+                            ],
+                            "properties": {
+                                "Logbook": {
+                                    "type": "string"
+                                },
+                                "TreeId": {
+                                    "type": "string"
+                                },
+                                "HewingId": {
+                                    "type": "string"
+                                },
+                                "Species": {
+                                    "type": "integer"
+                                },
+                                "MaxDiameter": {
+                                    "type": "number"
+                                },
+                                "MinDiameter": {
+                                    "type": "number"
+                                },
+                                "Length": {
+                                    "type": "number"
+                                },
+                                "Volume": {
+                                    "type": "number"
+                                },
+                                "Lat": {
+                                    "type": "string"
+                                },
+                                "Lon": {
+                                    "type": "string"
+                                },
+                                "GpsAccu": {
+                                    "type": "number"
+                                },
+                                "Note": {
+                                    "type": "string"
+                                },
+                                "ObserveAt": {
+                                    "type": "string"
+                                },
+                                "Approved": {
+                                    "type": "string"
+                                },
+                                "MobileId": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "/logbook_items\/{logbook_item}": {
+            "get": {
+                "summary": "Display the specified resource.",
+                "tags": ["Carnet d'abattage"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "logbook_item",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
+            },
+            "put": {
+                "summary": "Update the specified resource in storage.",
+                "tags": ["Carnet d'abattage"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "logbook_item",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "Logbook": {
+                                    "type": "string"
+                                },
+                                "TreeId": {
+                                    "type": "string"
+                                },
+                                "HewingId": {
+                                    "type": "string"
+                                },
+                                "Species": {
+                                    "type": "integer"
+                                },
+                                "MaxDiameter": {
+                                    "type": "number"
+                                },
+                                "MinDiameter": {
+                                    "type": "number"
+                                },
+                                "Length": {
+                                    "type": "number"
+                                },
+                                "Volume": {
+                                    "type": "number"
+                                },
+                                "Lat": {
+                                    "type": "string"
+                                },
+                                "Lon": {
+                                    "type": "string"
+                                },
+                                "GpsAccu": {
+                                    "type": "number"
+                                },
+                                "Note": {
+                                    "type": "string"
+                                },
+                                "ObserveAt": {
+                                    "type": "string"
+                                },
+                                "Approved": {
+                                    "type": "string"
+                                },
+                                "MobileId": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "patch": {
+                "summary": "Update the specified resource in storage.",
+                "tags": ["Carnet d'abattage"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "logbook_item",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "Logbook": {
+                                    "type": "string"
+                                },
+                                "TreeId": {
+                                    "type": "string"
+                                },
+                                "HewingId": {
+                                    "type": "string"
+                                },
+                                "Species": {
+                                    "type": "integer"
+                                },
+                                "MaxDiameter": {
+                                    "type": "number"
+                                },
+                                "MinDiameter": {
+                                    "type": "number"
+                                },
+                                "Length": {
+                                    "type": "number"
+                                },
+                                "Volume": {
+                                    "type": "number"
+                                },
+                                "Lat": {
+                                    "type": "string"
+                                },
+                                "Lon": {
+                                    "type": "string"
+                                },
+                                "GpsAccu": {
+                                    "type": "number"
+                                },
+                                "Note": {
+                                    "type": "string"
+                                },
+                                "ObserveAt": {
+                                    "type": "string"
+                                },
+                                "Approved": {
+                                    "type": "string"
+                                },
+                                "MobileId": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "delete": {
+                "summary": "Remove the specified resource from storage.",
+                "tags": ["Carnet d'abattage"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "logbook_item",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
+            }
+        },
+        "/site_logbooks\/export": {
+            "get": {
+                "summary": "",
+                "tags": ["Chantier"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/site_logbooks\/mobile": {
+            "get": {
+                "summary": "",
+                "tags": ["Chantier"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/site_logbooks\/approve\/{id}": {
+            "patch": {
+                "summary": "",
+                "tags": ["Chantier"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
+            }
+        },
+        "/site_logbooks": {
+            "get": {
+                "summary": "Display a listing of the resource.",
+                "tags": ["Chantier"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Store site_logbook",
+                "tags": ["Chantier"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "Concession",
+                                "DevelopmentUnit",
+                                "ManagementUnit",
+                                "AnnualAllowableCut",
+                                "Company",
+                                "Hammer",
+                                "ObserveAt"
+                            ],
+                            "properties": {
+                                "Concession": {
+                                    "type": "string"
+                                },
+                                "DevelopmentUnit": {
+                                    "type": "string"
+                                },
+                                "ManagementUnit": {
+                                    "type": "string"
+                                },
+                                "AnnualAllowableCut": {
+                                    "type": "string"
+                                },
+                                "Company": {
+                                    "type": "string"
+                                },
+                                "Hammer": {
+                                    "type": "integer"
+                                },
+                                "Localization": {
+                                    "type": "string"
+                                },
+                                "ReportNo": {
+                                    "type": "string"
+                                },
+                                "ReportNote": {
+                                    "type": "string"
+                                },
+                                "ObserveAt": {
+                                    "type": "string"
+                                },
+                                "Approved": {
+                                    "type": "string"
+                                },
+                                "MobileId": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "/site_logbooks\/{site_logbook}": {
+            "get": {
+                "summary": "Display the specified resource.",
+                "tags": ["Chantier"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "site_logbook",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
+            },
+            "put": {
+                "summary": "Update the specified resource in storage.",
+                "tags": ["Chantier"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "site_logbook",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "Concession": {
+                                    "type": "string"
+                                },
+                                "DevelopmentUnit": {
+                                    "type": "string"
+                                },
+                                "ManagementUnit": {
+                                    "type": "string"
+                                },
+                                "AnnualAllowableCut": {
+                                    "type": "string"
+                                },
+                                "Company": {
+                                    "type": "string"
+                                },
+                                "Hammer": {
+                                    "type": "integer"
+                                },
+                                "Localization": {
+                                    "type": "string"
+                                },
+                                "ReportNo": {
+                                    "type": "string"
+                                },
+                                "ReportNote": {
+                                    "type": "string"
+                                },
+                                "ObserveAt": {
+                                    "type": "string"
+                                },
+                                "Approved": {
+                                    "type": "string"
+                                },
+                                "MobileId": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "patch": {
+                "summary": "Update the specified resource in storage.",
+                "tags": ["Chantier"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "site_logbook",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "Concession": {
+                                    "type": "string"
+                                },
+                                "DevelopmentUnit": {
+                                    "type": "string"
+                                },
+                                "ManagementUnit": {
+                                    "type": "string"
+                                },
+                                "AnnualAllowableCut": {
+                                    "type": "string"
+                                },
+                                "Company": {
+                                    "type": "string"
+                                },
+                                "Hammer": {
+                                    "type": "integer"
+                                },
+                                "Localization": {
+                                    "type": "string"
+                                },
+                                "ReportNo": {
+                                    "type": "string"
+                                },
+                                "ReportNote": {
+                                    "type": "string"
+                                },
+                                "ObserveAt": {
+                                    "type": "string"
+                                },
+                                "Approved": {
+                                    "type": "string"
+                                },
+                                "MobileId": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "delete": {
+                "summary": "Remove the specified resource from storage.",
+                "tags": ["Chantier"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "site_logbook",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
+            }
+        },
+        "/site_logbook_items\/export": {
+            "get": {
+                "summary": "",
+                "tags": ["Chantier"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/site_logbook_items\/mobile": {
+            "get": {
+                "summary": "",
+                "tags": ["Chantier"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/site_logbook_items\/approve\/{id}": {
+            "patch": {
+                "summary": "",
+                "tags": ["Chantier"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
+            }
+        },
+        "/site_logbook_items": {
+            "get": {
+                "summary": "Display a listing of the resource.",
+                "tags": ["Chantier"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Store site_logbook_item",
+                "tags": ["Chantier"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "SiteLogbook",
+                                "Species",
+                                "HewingId",
+                                "Date",
+                                "MaxDiameter",
+                                "MinDiameter",
+                                "AverageDiameter",
+                                "Length",
+                                "Volume",
+                                "ObserveAt"
+                            ],
+                            "properties": {
+                                "SiteLogbook": {
+                                    "type": "string"
+                                },
+                                "Species": {
+                                    "type": "string"
+                                },
+                                "HewingId": {
+                                    "type": "string"
+                                },
+                                "Date": {
+                                    "type": "string"
+                                },
+                                "MaxDiameter": {
+                                    "type": "number"
+                                },
+                                "MinDiameter": {
+                                    "type": "number"
+                                },
+                                "AverageDiameter": {
+                                    "type": "number"
+                                },
+                                "Length": {
+                                    "type": "number"
+                                },
+                                "Volume": {
+                                    "type": "number"
+                                },
+                                "ObserveAt": {
+                                    "type": "string"
+                                },
+                                "Approved": {
+                                    "type": "string"
+                                },
+                                "MobileId": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "/site_logbook_items\/{site_logbook_item}": {
+            "get": {
+                "summary": "Display the specified resource.",
+                "tags": ["Chantier"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "site_logbook_item",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
+            },
+            "put": {
+                "summary": "Update the specified resource in storage.",
+                "tags": ["Chantier"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "site_logbook_item",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "SiteLogbook": {
+                                    "type": "string"
+                                },
+                                "Species": {
+                                    "type": "string"
+                                },
+                                "HewingId": {
+                                    "type": "string"
+                                },
+                                "Date": {
+                                    "type": "string"
+                                },
+                                "MaxDiameter": {
+                                    "type": "number"
+                                },
+                                "MinDiameter": {
+                                    "type": "number"
+                                },
+                                "AverageDiameter": {
+                                    "type": "number"
+                                },
+                                "Length": {
+                                    "type": "number"
+                                },
+                                "Volume": {
+                                    "type": "number"
+                                },
+                                "ObserveAt": {
+                                    "type": "string"
+                                },
+                                "Approved": {
+                                    "type": "string"
+                                },
+                                "MobileId": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "patch": {
+                "summary": "Update the specified resource in storage.",
+                "tags": ["Chantier"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "site_logbook_item",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "SiteLogbook": {
+                                    "type": "string"
+                                },
+                                "Species": {
+                                    "type": "string"
+                                },
+                                "HewingId": {
+                                    "type": "string"
+                                },
+                                "Date": {
+                                    "type": "string"
+                                },
+                                "MaxDiameter": {
+                                    "type": "number"
+                                },
+                                "MinDiameter": {
+                                    "type": "number"
+                                },
+                                "AverageDiameter": {
+                                    "type": "number"
+                                },
+                                "Length": {
+                                    "type": "number"
+                                },
+                                "Volume": {
+                                    "type": "number"
+                                },
+                                "ObserveAt": {
+                                    "type": "string"
+                                },
+                                "Approved": {
+                                    "type": "string"
+                                },
+                                "MobileId": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "delete": {
+                "summary": "Remove the specified resource from storage.",
+                "tags": ["Chantier"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "site_logbook_item",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
+            }
+        },
+        "/site_logbook_logs\/export": {
+            "get": {
+                "summary": "",
+                "tags": ["Chantier"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/site_logbook_logs\/mobile": {
+            "get": {
+                "summary": "",
+                "tags": ["Chantier"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/site_logbook_logs\/approve\/{id}": {
+            "patch": {
+                "tags": ["Chantier"],
+                "summary": "",
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
+            }
+        },
+        "/site_logbook_logs": {
+            "get": {
+                "summary": "",
+                "tags": ["Chantier"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Store site_logbook_log",
+                "tags": ["Chantier"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "SiteLogbookItem"
+                            ],
+                            "properties": {
+                                "SiteLogbookItem": {
+                                    "type": "string"
+                                },
+                                "LogId": {
+                                    "type": "string"
+                                },
+                                "HewingId": {
+                                    "type": "string"
+                                },
+                                "Species": {
+                                    "type": "integer"
+                                },
+                                "MaxDiameter": {
+                                    "type": "number"
+                                },
+                                "MinDiameter": {
+                                    "type": "number"
+                                },
+                                "AverageDiameter": {
+                                    "type": "number"
+                                },
+                                "Length": {
+                                    "type": "number"
+                                },
+                                "Volume": {
+                                    "type": "number"
+                                },
+                                "Note": {
+                                    "type": "string"
+                                },
+                                "EvacuationDate": {
+                                    "type": "string"
+                                },
+                                "Lat": {
+                                    "type": "string"
+                                },
+                                "Lon": {
+                                    "type": "string"
+                                },
+                                "GpsAccu": {
+                                    "type": "number"
+                                },
+                                "ObserveAt": {
+                                    "type": "string"
+                                },
+                                "Approved": {
+                                    "type": "string"
+                                },
+                                "MobileId": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "/site_logbook_logs\/{site_logbook_log}": {
+            "get": {
+                "summary": "Display the specified resource.",
+                "tags": ["Chantier"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "site_logbook_log",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
+            },
+            "put": {
+                "summary": "Update the specified resource in storage.",
+                "tags": ["Chantier"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "site_logbook_log",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "SiteLogbookItem": {
+                                    "type": "string"
+                                },
+                                "LogId": {
+                                    "type": "string"
+                                },
+                                "HewingId": {
+                                    "type": "string"
+                                },
+                                "Species": {
+                                    "type": "integer"
+                                },
+                                "MaxDiameter": {
+                                    "type": "number"
+                                },
+                                "MinDiameter": {
+                                    "type": "number"
+                                },
+                                "AverageDiameter": {
+                                    "type": "number"
+                                },
+                                "Length": {
+                                    "type": "number"
+                                },
+                                "Volume": {
+                                    "type": "number"
+                                },
+                                "Note": {
+                                    "type": "string"
+                                },
+                                "EvacuationDate": {
+                                    "type": "string"
+                                },
+                                "Lat": {
+                                    "type": "string"
+                                },
+                                "Lon": {
+                                    "type": "string"
+                                },
+                                "GpsAccu": {
+                                    "type": "number"
+                                },
+                                "ObserveAt": {
+                                    "type": "string"
+                                },
+                                "Approved": {
+                                    "type": "string"
+                                },
+                                "MobileId": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "patch": {
+                "summary": "Update the specified resource in storage.",
+                "tags": ["Chantier"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "site_logbook_log",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "SiteLogbookItem": {
+                                    "type": "string"
+                                },
+                                "LogId": {
+                                    "type": "string"
+                                },
+                                "HewingId": {
+                                    "type": "string"
+                                },
+                                "Species": {
+                                    "type": "integer"
+                                },
+                                "MaxDiameter": {
+                                    "type": "number"
+                                },
+                                "MinDiameter": {
+                                    "type": "number"
+                                },
+                                "AverageDiameter": {
+                                    "type": "number"
+                                },
+                                "Length": {
+                                    "type": "number"
+                                },
+                                "Volume": {
+                                    "type": "number"
+                                },
+                                "Note": {
+                                    "type": "string"
+                                },
+                                "EvacuationDate": {
+                                    "type": "string"
+                                },
+                                "Lat": {
+                                    "type": "string"
+                                },
+                                "Lon": {
+                                    "type": "string"
+                                },
+                                "GpsAccu": {
+                                    "type": "number"
+                                },
+                                "ObserveAt": {
+                                    "type": "string"
+                                },
+                                "Approved": {
+                                    "type": "string"
+                                },
+                                "MobileId": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            "delete": {
+                "summary": "Remove the specified resource from storage.",
+                "tags": ["Chantier"],
+                "description": "",
+                "deprecated": false,
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "site_logbook_log",
+                        "type": "string",
+                        "required": true,
+                        "description": ""
+                    }
+                ]
             }
         }
     },
@@ -7143,12 +8711,12 @@
                         "plans": []
                     }
                 ],
-                "first_page_url": "http://gabonweb.test/api/developmentunit?page=1",
+                "first_page_url": "http://gabonweb.test/api/development_units?page=1",
                 "from": 1,
                 "last_page": 1,
-                "last_page_url": "http://gabonweb.test/api/developmentunit?page=1",
+                "last_page_url": "http://gabonweb.test/api/development_units?page=1",
                 "next_page_url": null,
-                "path": "http://gabonweb.test/api/developmentunit",
+                "path": "http://gabonweb.test/api/development_units",
                 "per_page": 50,
                 "prev_page_url": null,
                 "to": 6,
@@ -9265,7 +10833,32 @@
                 "ver",
                 "available"
             ]
-        }
+        },
+        "CreateDevelopmentUnitRequest" : {
+            "title" : "",
+            "type" : "object",
+            "properties" :   {
+                "name": {
+                    "type": "string"
+                },
+                "Concession" : {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "Start" : {
+                    "type": "string"
+                },
+                "End" :
+                {
+                    "type": "string"
+                },
+                "Geometry" :
+                {
+                    "type": "string"
+                }
+            },
+            "required": ["name", "Concession", "Start", "End", "Geometry"]
+        },
     },
     "tags": [
         {
@@ -9324,6 +10917,12 @@
         },
         {
             "name": "Nomenclatures"
+        },
+        {
+            "name": "Carnet d'abattage"
+        },
+        {
+            "name": "Chantier"
         }
     ]
 }
