@@ -6,12 +6,14 @@ use GenTux\Jwt\GetsJwtToken;
 use GenTux\Jwt\Exceptions\NoTokenException;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Modules\Loggable\Entities\LogEntry;
 
 use Illuminate\Support\Facades\Route;
 use DateTime;
 
-trait Loggable 
+trait Loggable
 {
 
 	use GetsJwtToken;
@@ -31,6 +33,13 @@ trait Loggable
      */
     private static $actionRemove = 2;
 
+    /**
+     *  Append log attribute
+     */
+    public function initializeAppendAttributeTrait()
+    {
+        $this->append('log');
+    }
 
     /**
      * Boot the loggable trait for a model.
@@ -55,13 +64,22 @@ trait Loggable
     /**
      * Create a new Log Entry
      *
-     * @param int $action 
+     * @param int $action
      */
     public function createLogEntry($action)
     {
-     	
+        if(!$this->logTableExists()) return;
+        if(!$this->getToken()) return;
+
+        $changes = [];
+
+        foreach ($this->getDirty() as $field => $value) {
+            $changes[$field] = $value;
+        }
+
+
         // If there is no token, then this is the public /register route ;
-		$user_id = $this->getToken() ? $this->jwtPayload('data.id') : null;
+//		$user_id = $this->getToken() ? $this->jwtPayload('data.id') : null;
 
         $logEntry = new LogEntry();
 
@@ -69,10 +87,37 @@ trait Loggable
         $logEntry->logged_at     = new DateTime();
         $logEntry->loggable_id   = $this->getKey();
         $logEntry->loggable_type = get_class($this);
-        $logEntry->user_id       = $user_id;
+        $logEntry->user_id       = $this->jwtPayload('data.id');
+        $logEntry->version       = $this->getNewVersionNumber();
+        $logEntry->data          = json_encode($changes);
 
         $logEntry->save();
 
+    }
+
+    /**
+     * Get the next vesion number
+     *
+     * @return int
+     */
+    protected function getNewVersionNumber()
+    {
+        $newVersion = DB::table('public.log_entries')
+            ->where('loggable_id', '=', $this->getKey())
+            ->where('loggable_type', '=', get_class($this))
+            ->max('version');
+
+        return $newVersion + 1;
+    }
+
+    public function getLogAttribute()
+    {
+        if(!$this->logTableExists()) return null;
+        return DB::table('public.log_entries')
+            ->where('loggable_id', '=', $this->getKey())
+            ->where('loggable_type', '=', get_class($this))
+            ->orderBy('version', 'desc')
+            ->first();
     }
 
     /**
@@ -83,5 +128,18 @@ trait Loggable
     public function logEntries()
     {
         return $this->morphMany(LogEntry::class, 'loggable');
-    }    
+    }
+
+    /**
+     * @return bool
+     */
+    protected function logTableExists(): bool
+    {
+        try {
+            DB::table('public.log_entries')->get();
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
 }

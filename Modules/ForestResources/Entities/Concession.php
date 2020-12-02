@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 use App\Traits\Sortable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Admin\Entities\Company;
+use Modules\Loggable\Traits\Loggable;
 
 class Concession extends Model
 {
-	use Sortable, Geometry, SoftDeletes;
+	use Sortable, Geometry, SoftDeletes, Loggable;
 
 	const CREATED_AT = 'CreatedAt';
 	const UPDATED_AT = 'UpdatedAt';
@@ -21,6 +22,15 @@ class Concession extends Model
 
     protected $fillable = [
         'Number', 'Name', 'Company', 'Geometry', 'ProductType', 'Continent', 'ConstituentPermit','Approved', 'User'
+    ];
+
+    /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'Approved' => false // default for Approved
     ];
 
     protected $table = "ForestResources.Concessions";

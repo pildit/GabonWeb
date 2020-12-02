@@ -4,6 +4,7 @@
 namespace Modules\Transport\Http\Controllers;
 
 
+use App\Traits\Approve;
 use GenTux\Jwt\GetsJwtToken;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -27,6 +28,9 @@ use Modules\User\Entities\User;
 class PermitController extends Controller
 {
     use GetsJwtToken;
+    use Approve;
+
+    private $modelName = PermitEntity::class;
 
     public function __construct()
     {
@@ -130,7 +134,7 @@ class PermitController extends Controller
 
         $srid = config('forestresources.srid');
         $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$data['Lat']}, {$data['Lon']}),4326),$srid)";
-        $data['Geometry'] = isset($data['Geometry']) ? DB::raw("public.st_geomfromtext('".$data['Geometry']."', 5223)") : DB::raw("(select $geomQuery)");
+        $data['Geometry'] = isset($data['Geometry']) ? DB::raw("public.st_geomfromtext('".$data['Geometry']."', $srid)") : DB::raw("(select $geomQuery)");
 
         $permit = PermitEntity::create($data);
 

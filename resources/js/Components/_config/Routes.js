@@ -22,6 +22,12 @@ export default {
         edit: '/management/aac/{id}/edit',
     },
 
+    parcels: {
+        index: "/management/parcels",
+        create: "/management/parcels/create",
+        edit: "/management/parcels/{id}/edit",
+    },
+
     constituent_permits: {
         index: '/concessions/constituent-permits',
         create: '/concessions/constituent-permits/create',

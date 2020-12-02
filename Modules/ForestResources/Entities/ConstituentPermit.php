@@ -8,12 +8,22 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Sortable;
 use Illuminate\Support\Facades\DB;
+use Modules\Loggable\Traits\Loggable;
 
 class ConstituentPermit extends Model
 {
-	use Sortable, SoftDeletes, Geometry;
+	use Sortable, SoftDeletes, Geometry, Loggable;
 
     protected $fillable = ['PermitType', 'Geometry', 'PermitNumber', 'Approved'];
+
+    /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'Approved' => false // default for Approved
+    ];
 
     protected $table = 'ForestResources.ConstituentPermits';
 

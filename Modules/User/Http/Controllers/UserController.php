@@ -211,7 +211,9 @@ class UserController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
 
-    public function forgotPassword(User $user){
+    public function forgotPassword(Request $request){
+        $user = User::where('email', $request->email)->firstOrFail();
+
         if ($user !== null) {
             $user->activationcode = Str::random(20);
             $email_data['email'] = $user->email;

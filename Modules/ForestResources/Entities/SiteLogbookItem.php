@@ -6,10 +6,11 @@ use App\Traits\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\ForestResources\Http\Controllers\SiteLogbookItemItemController;
+use Modules\Loggable\Traits\Loggable;
 
 class SiteLogbookItem extends Model
 {
-    use Sortable, SoftDeletes;
+    use Sortable, SoftDeletes, Loggable;
 
     const CREATED_AT = "CreatedAt";
     const UPDATED_AT = "UpdatedAt";
@@ -27,6 +28,15 @@ class SiteLogbookItem extends Model
      * @var array
      */
     protected $fillable = ['SiteLogbook','Species','HewingId','Date','MaxDiameter','MinDiameter','AverageDiameter','Length','Volume','ObserveAt','Approved','MobileId'];
+
+    /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'Approved' => false // default for Approved
+    ];
 
     /**
      * The table associated with the model.

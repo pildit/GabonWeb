@@ -5,10 +5,11 @@ namespace Modules\ForestResources\Entities;
 use App\Traits\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Loggable\Traits\Loggable;
 
 class AnnualOperationPlan extends Model
 {
-    use Sortable, SoftDeletes;
+    use Sortable, SoftDeletes, Loggable;
 
     const CREATED_AT = "CreatedAt";
     const UPDATED_AT = "UpdatedAt";
@@ -24,6 +25,15 @@ class AnnualOperationPlan extends Model
      * @var array
      */
     protected $fillable = ['AnnualAllowableCut', 'Number', 'Species','ExploitableVolume','NonExploitableVolume','VolumePerHectare','AverageVolume','TotalVolume','Approved'];
+
+    /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'Approved' => false // default for Approved
+    ];
 
     /**
      * The table associated with the model.

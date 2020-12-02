@@ -62,7 +62,9 @@ class SiteLogbookItemController extends Controller
     {
 
         $data = $request->validated();
-        $sitelogbook = SiteLogbook::where('Id', (int)$data['SiteLogbook'])->orWhere('MobileId', $data['SiteLogbook'])->first();
+        $sitelogbook = is_int($data['SiteLogbook']) ?
+            SiteLogbook::where('Id', (int)$data['SiteLogbook'])->orWhere('MobileId', $data['SiteLogbook'])->first():
+            SiteLogbook::where('MobileId', $data['SiteLogbook'])->first();
         if(!$sitelogbook){
             throw ValidationException::withMessages(['SiteLogbook' => 'validation.exists']);
         }
@@ -98,7 +100,9 @@ class SiteLogbookItemController extends Controller
 
         $data = $request->validated();
         if(isset($data['SiteLogbook'])){
-            $sitelogbook = SiteLogbook::where('Id', (int)$data['SiteLogbook'])->orWhere('MobileId', $data['SiteLogbook'])->first();
+            $sitelogbook = is_int($data['SiteLogbook']) ?
+                SiteLogbook::where('Id', (int)$data['SiteLogbook'])->orWhere('MobileId', $data['SiteLogbook'])->first():
+                SiteLogbook::where('MobileId', $data['SiteLogbook'])->first();
             if(!$sitelogbook){
                 throw ValidationException::withMessages(['SiteLogbook' => 'validation.exists']);
             }

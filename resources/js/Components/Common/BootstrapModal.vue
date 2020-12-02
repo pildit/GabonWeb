@@ -121,5 +121,9 @@ export default {
     margin-left: 16px;
     margin-right: 16px;
     max-width: 100%;
+    height: 90%;
+}
+.modal-full > .modal-content {
+    height: 100%;
 }
 </style>

@@ -5,10 +5,11 @@ namespace Modules\ForestResources\Entities;
 use App\Traits\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Loggable\Traits\Loggable;
 
 class AnnualAllowableCutInventory extends Model
 {
-    use Sortable, SoftDeletes;
+    use Sortable, SoftDeletes, Loggable;
 
     const CREATED_AT = "CreatedAt";
     const UPDATED_AT = "UpdatedAt";
@@ -26,6 +27,15 @@ class AnnualAllowableCutInventory extends Model
     protected $fillable = ['AnnualAllowableCut','Species','Quality','Parcel','TreeId','DiameterBreastHeight','Geometry','Lat','Lon','GpsAccu','MobileId','Approved'];
 
     /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'Approved' => false // default for Approved
+    ];
+
+    /**
      * The table associated with the model.
      *
      * @var string
@@ -34,7 +44,7 @@ class AnnualAllowableCutInventory extends Model
 
     protected $primaryKey = "Id";
 
-    public function annualallowablecut(){
+    public function annual_allowable_cut(){
         return $this->belongsTo(AnnualAllowableCut::class,"AnnualAllowableCut");
     }
     public function species () {

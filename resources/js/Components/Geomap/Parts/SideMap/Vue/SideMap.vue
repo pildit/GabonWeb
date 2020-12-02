@@ -1,22 +1,312 @@
 <template>
-    <h3>Render map</h3>
+  <div>
+    <v-map
+      ref="map"
+      :zoom="7"
+      :maxZoom="16"
+      :center="initialLocation"
+      :style="{ height: window.height - 78 + 'px', width: '100%' }"
+    >
+      <v-icondefault></v-icondefault>
+      <v-tilelayer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"></v-tilelayer>
+    </v-map>
+  </div>
 </template>
 
 <script>
+import * as Vue2Leaflet from "vue2-leaflet";
+import { latLng, Icon, icon } from "leaflet";
+import iconUrl from "leaflet/dist/images/marker-icon.png";
+import shadowUrl from "leaflet/dist/images/marker-shadow.png";
+
+import { EventBus } from "components/EventBus/EventBus";
+
+/* Vuex */
+import store from "store/store";
+import { mapGetters, mapState, mapMutations, mapActions } from "vuex";
+
+import "leaflet-draw";
+import "leaflet-draw/dist/leaflet.draw.css";
+
+import transformation from "@pusky/transform-coordinates";
 
 export default {
+  components: {
+    "v-map": Vue2Leaflet.LMap,
+    "v-tilelayer": Vue2Leaflet.LTileLayer,
+    "v-icondefault": Vue2Leaflet.LIconDefault,
+    "v-marker": Vue2Leaflet.LMarker,
+    "v-popup": Vue2Leaflet.LPopup,
+  },
 
-    data() {
-      return {
+  props: ["endpointEdit", "endpointCreate"],
+
+  data() {
+    return {
+      locations: [],
+      icon: icon(
+        Object.assign({}, Icon.Default.prototype.options, {
+          iconUrl,
+          shadowUrl,
+        })
+      ),
+      clusterOptions: {
+        chunkedLoading: true,
+      },
+      initialLocation: latLng(-0.803698, 11.609454),
+
+      window: {
+        width: window.innerWidth,
+        height: window.innerHeight,
+      },
+      map: null,
+      drawControl: null,
+      perimeter: null,
+      editableLayers: null,
+
+      defaultDrawPluginOptions: {
+        position: "topright",
+        draw: {
+          polygon: {
+            allowIntersection: false, // Restricts shapes to simple polygons
+            drawError: {
+              color: "#e1e100", // Color the shape will turn when intersects
+              message: "<strong>Oh snap!<strong> you can't draw that!", // Message that will show when intersect
+            },
+            shapeOptions: {
+              color: "#97009c",
+            },
+          },
+          // disable toolbar item by setting it to false
+          polygon: true,
+          polyline: false,
+          circle: false, // Turns off this drawing tool
+          rectangle: false,
+          marker: false,
+          circlemarker: false,
+        },
+        edit: {
+          featureGroup: null, //REQUIRED!!
+          remove: true,
+          edit: true,
+          poly: {
+            allowIntersection: false,
+          },
+        },
+      },
+    };
+  },
+
+  computed: {
+    ...mapGetters({ permits: "geoportal/permits" }),
+    ...mapGetters({
+      annualAllowableCutInventory: "geoportal/annualAllowableCutInventory",
+    }),
+    ...mapGetters({ annualAllowableCuts: "geoportal/annualAllowableCuts" }),
+    ...mapGetters({ parcelsPerimeters: "geoportal/parcels" }),
+    ...mapGetters({ concessionsPerimeters: "geoportal/concessions" }),
+    ...mapGetters({ developmentUnits: "geoportal/developmentUnits" }),
+    ...mapGetters({ managementUnits: "geoportal/managmentUnits" }),
+  },
+
+  destroyed() {
+    window.removeEventListener("resize", this.handleResize);
+  },
+
+  methods: {
+    ...mapActions({
+      getPermits: "geoportal/getPermits",
+      getAnnualAllowableCutInventory:
+        "geoportal/getAnnualAllowableCutInventory",
+      getAnnualAllowableCuts: "geoportal/getAnnualAllowableCuts",
+      getParcelsPerimeters: "geoportal/getParcelsVectors",
+      getConcessionsPerimeters: "geoportal/getConcessions",
+      getDevelopmentUnits: "geoportal/getDevelopmentUnits",
+      getManagementUnits: "geoportal/getManagmentUnits",
+    }),
+
+    handleResize() {
+      this.window.width = window.innerWidth;
+      this.window.height = window.innerHeight;
+    },
+
+    emitEndpoint(data) {
+      console.log("DATA:", data);
+      let iterator = 0;
+      const l = data[0].length;
+      let geometryForm = "POLYGON((";
+      const transform = transformation("EPSG:4326", "EPSG:5223");
+
+      data[0].forEach((latLong) => {
+        const { x, y } = transform.forward({
+          x: Number(latLong.lng),
+          y: Number(latLong.lat),
+        });
+
+        geometryForm += x + " " + y;
+        if (++iterator < l) {
+          geometryForm += ",";
+        }
+      });
+
+      /* Add the last point yet again in order to have a closed perimeter */
+      if (data[0].length > 0) {
+        geometryForm += ",";
+        const latLong = data[0][0];
+        const { x, y } = transform.forward({
+          x: Number(latLong.lng),
+          y: Number(latLong.lat),
+        });
+
+        geometryForm += x + " " + y;
       }
+
+      geometryForm += "))";
+      return geometryForm;
     },
 
-    methods: {
+    initDrawPolygon() {
+      let map = this.$refs.map.mapObject;
 
+      var editableLayers = new L.FeatureGroup();
+      this.editableLayers = editableLayers;
+      map.addLayer(editableLayers);
+
+      this.defaultDrawPluginOptions.edit.featureGroup = editableLayers;
+      var drawPluginOptions = this.defaultDrawPluginOptions;
+
+      var savePerimeter = (perimeter) => {
+        this.perimeter = perimeter;
+        EventBus.$emit(this.endpointCreate, this.emitEndpoint(perimeter));
+      };
+
+      var deletePerimeter = () => {
+        this.perimeter = null;
+        EventBus.$emit(this.endpointCreate, "");
+      };
+
+      // Initialise the draw control and pass it the FeatureGroup of editable layers
+      this.drawControl = new L.Control.Draw(drawPluginOptions);
+      map.addControl(this.drawControl);
+
+      /* CREATED */
+      map.on("draw:created", (e) => {
+        var layer = e.layer;
+        var type = e.layerType;
+
+        /* Save the perimeter to the current state */
+        savePerimeter(layer._latlngs);
+
+        /* Delete old control */
+        map.removeControl(this.drawControl);
+
+        /* Create the new control */
+        drawPluginOptions.draw.polygon = false;
+        this.drawControl = new L.Control.Draw(drawPluginOptions);
+        map.addControl(this.drawControl);
+
+        layer.bindPopup("Perimeter");
+        this.editableLayers.addLayer(layer);
+      });
+
+      /* EDITED */
+      map.on("draw:edited", (e) => {
+        let layers = e.layers;
+
+        layers.eachLayer(function (layer) {
+          savePerimeter(layer._latlngs);
+        });
+
+        map.addLayer(layers);
+      });
+
+      /* DELETE */
+      map.on("draw:deleted", (e) => {
+        var type = e.layerType,
+          layer = e.layer;
+
+        /* Delete the perimeter from the current state */
+        deletePerimeter();
+
+        /* Remove the old control */
+        map.removeControl(this.drawControl);
+
+        /* Create the new control */
+        drawPluginOptions.draw.polygon = true;
+        this.drawControl = new L.Control.Draw(drawPluginOptions);
+        map.addControl(this.drawControl);
+      });
     },
-}
+
+    getStrPosition(string, subString, index) {
+      return string.split(subString, index).join(subString).length;
+    },
+  },
+
+  mounted() {
+    window.addEventListener("resize", () => {
+      this.window.height = window.innerHeight;
+    });
+    this.initDrawPolygon();
+
+    EventBus.$on(this.endpointEdit, (data) => {
+      console.log(data);
+      if (this.editableLayers === null) return;
+      if (!data || data == "") return;
+
+      data = data.trim();
+      let parenthesesIndex = this.getStrPosition(data, "(", 2) + 1;
+      data = data.substring(parenthesesIndex, data.length - 2).split(",");
+
+      let latLngs = [];
+      const transform = transformation("EPSG:5223", "EPSG:4326");
+      data.forEach((p) => {
+        let latLong = p.trim().split(" ");
+
+        const { x, y } = transform.forward({
+          x: Number(latLong[0]),
+          y: Number(latLong[1]),
+        });
+        let newPoint = [y, x];
+        latLngs.push(newPoint);
+      });
+
+      /* Delete old control */
+      let map = this.$refs.map.mapObject;
+
+      let nrOfEditableLayers = 0;
+      this.editableLayers.eachLayer(function () {
+        nrOfEditableLayers += 1;
+      });
+      if (nrOfEditableLayers >= 1) {
+        map.removeLayer(this.editableLayers);
+
+        var editableLayers = new L.FeatureGroup();
+        this.editableLayers = editableLayers;
+        map.addLayer(editableLayers);
+
+        this.defaultDrawPluginOptions.edit.featureGroup = editableLayers;
+      }
+
+      map.removeControl(this.drawControl);
+      this.defaultDrawPluginOptions.draw.polygon = false;
+      this.drawControl = new L.Control.Draw(this.defaultDrawPluginOptions);
+      map.addControl(this.drawControl);
+
+      var polygon = L.polygon(latLngs).addTo(this.editableLayers);
+      map.fitBounds(polygon.getBounds());
+    });
+  },
+};
 </script>
 
-<style scoped>
-
+<style>
+@import "~leaflet/dist/leaflet.css";
+@import "~leaflet.markercluster/dist/MarkerCluster.css";
+@import "~leaflet.markercluster/dist/MarkerCluster.Default.css";
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
 </style>

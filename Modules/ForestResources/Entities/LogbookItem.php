@@ -5,10 +5,11 @@ namespace Modules\ForestResources\Entities;
 use App\Traits\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Loggable\Traits\Loggable;
 
 class LogbookItem extends Model
 {
-    use Sortable, SoftDeletes;
+    use Sortable, SoftDeletes, Loggable;
 
     const CREATED_AT = "CreatedAt";
     const UPDATED_AT = "UpdatedAt";
@@ -26,6 +27,15 @@ class LogbookItem extends Model
      * @var array
      */
     protected $fillable = ['Logbook','TreeId','HewingId','Species','MaxDiameter','MinDiameter','Length','Volume','Lat','Lon','GpsAccu','Note','ObserveAt','Approved','MobileId'];
+
+    /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'Approved' => false // default for Approved
+    ];
 
     /**
      * The table associated with the model.

@@ -3,11 +3,12 @@
 namespace Modules\Admin\Entities;
 
 use App\Traits\Sortable;
+use Modules\Loggable\Traits\Loggable;
 use Modules\User\Entities\EmployeeType;
 
 class Role extends \Spatie\Permission\Models\Role
 {
-    use Sortable;
+    use Sortable, Loggable;
 
     protected $fillable = ["name", "type"];
 

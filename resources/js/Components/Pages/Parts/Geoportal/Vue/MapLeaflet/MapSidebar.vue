@@ -22,11 +22,14 @@
 
         <div class="data"></div>
 
-        <p />
-        <rcp-checkbox
-          v-model="viewActiveTransports"
-          text="view_active_transports"
-        ></rcp-checkbox>
+        <div v-if="displayViewActiveTransports()">
+          <p />
+          <rcp-checkbox
+            v-model="viewActiveTransports"
+            text="view_active_transports"
+            v-on:click="onViewActiveTransports"
+          ></rcp-checkbox>
+        </div>
         <hr />
 
         <!-- Radio buttons -->
@@ -66,13 +69,6 @@
             </md-button>
           </div>
 
-          <rcp-alert-box
-            v-if="checkPicked == 'checkPlateNumber' && checkPlateNumberError"
-          >
-            {{ this.translate("invalid_plate_number") }}
-          </rcp-alert-box>
-          <p v-if="checkPicked == 'checkPlateNumber'"></p>
-
           <!-- Select date interval -->
           <form>
             <v-date-picker
@@ -83,26 +79,33 @@
             >
               <template v-slot="{ inputValue, inputEvents }">
                 <div class="form-group">
-                  <label for="startDate">{{ this.translate("from") }}</label>
+                  <label for="startDate">{{ translate("date_range") }}</label>
                   <input
                     id="startDate"
                     class="form-control"
-                    :value="inputValue.start"
+                    :value="inputValue.start + ' - ' + inputValue.end"
                     v-on="inputEvents.start"
                   />
                 </div>
-                <div class="form-group">
-                  <label for="endDate">{{ this.translate("to") }}</label>
+                <!-- <div class="form-group">
+                  <label for="endDate">{{ translate("To") }}</label>
                   <input
                     id="endDate"
                     class="form-control"
                     :value="inputValue.end"
                     v-on="inputEvents.end"
                   />
-                </div>
+                </div> -->
               </template>
             </v-date-picker>
           </form>
+
+          <rcp-alert-box
+            v-if="checkPicked == 'checkPlateNumber' && checkPlateNumberError"
+          >
+            {{ this.translate("invalid_plate_number") }}
+          </rcp-alert-box>
+          <p v-if="checkPicked == 'checkPlateNumber'"></p>
 
           <hr v-if="checkPicked == 'checkPlateNumber'" />
 
@@ -193,7 +196,9 @@
             v-if="checkPicked == 'checkTransportPermit'"
           >
             <md-field>
-              <label>{{ this.translate("check_transport_permit_id_placeholder") }}</label>
+              <label>{{
+                this.translate("check_transport_permit_id_placeholder")
+              }}</label>
               <md-input v-model="transportPermitId"></md-input>
             </md-field>
 
@@ -203,8 +208,12 @@
               v-on:click="onCheckTransportPermitId"
               style="min-width: 30px; background-color: #388e3c"
             >
-              <md-icon style="color: white">search</md-icon>
+              <md-icon style="color: white;">search</md-icon>
             </md-button>
+          </div>
+
+          <div v-if="checkPicked == 'checkTransportPermit'">
+            <h6 style="text-align: center; margin-left: -2em">OR</h6>
           </div>
 
           <rcp-alert-box
@@ -317,6 +326,8 @@ import "vue-range-component/dist/vue-range-slider.css";
 import VueSimpleRangeSlider from "vue-simple-range-slider";
 import "vue-simple-range-slider/dist/vueSimpleRangeSlider.css";
 
+import { mapGetters, mapState } from "vuex";
+
 export default {
   props: ["map"],
 
@@ -347,9 +358,11 @@ export default {
       plateNumber: "",
       checkPlateNumber: false,
       checkPlateNumberError: false,
+
+      dateRangeDays: 7,
       checkPlateNumberRange: {
-        start: new Date(2020, 9, 12),
-        end: new Date(2020, 9, 16),
+        end: new Date(),
+        start: new Date(),
       },
 
       annualAllowableCut: "",
@@ -390,7 +403,15 @@ export default {
       toggaleMenu: null,
     };
   },
-  mounted() {},
+  computed: {
+    ...mapState(["loggedUser"]),
+  },
+  mounted() {
+    const transformedDate =
+      this.checkPlateNumberRange.end.getTime() -
+      this.dateRangeDays * 24 * 60 * 60 * 1000;
+    this.checkPlateNumberRange.start = new Date(transformedDate);
+  },
   watch: {
     map: function (newVal, oldVal) {
       if (newVal != null) {
@@ -399,6 +420,17 @@ export default {
     },
   },
   methods: {
+    displayViewActiveTransports() {
+      if (this.loggedUser.permissions) {
+        return true;
+      }
+      return false;
+    },
+
+    onViewActiveTransports() {
+      this.$emit("onViewActiveTransports", !this.viewActiveTransports);
+    },
+
     onCheckNone() {
       if (this.checkPicked !== "none") {
         this.$emit("onCheckNone");
@@ -407,7 +439,7 @@ export default {
     },
 
     onCheckPlateNumber() {
-      if (this.plateNumber.length >= 2) {
+      if (this.plateNumber.length >= 1) {
         this.checkPlateNumberError = false;
 
         this.$emit("onCheckPlateNumber", {
@@ -416,41 +448,43 @@ export default {
         });
       } else {
         this.checkPlateNumberError = true;
+        this.$emit("onCheckNone");
       }
     },
 
     onCheckAnnualAllowableCut() {
-      if (this.annualAllowableCut.length >= 2) {
+      if (this.annualAllowableCut.length >= 1) {
         this.checkAnnualAllowableCutError = false;
 
         this.$emit("onCheckAAC", this.annualAllowableCut);
       } else {
         this.checkAnnualAllowableCutError = true;
+        this.$emit("onCheckNone");
       }
     },
 
     onCheckAnnualAllowableCutId() {
-      if (this.annualAllowableCutId.length >= 2) {
-        this.checkAnnualAllowableCutError = false;
-
+      //this.onCheckNone();
+      if (this.annualAllowableCutId.length >= 1) {
         this.$emit("onCheckAACId", this.annualAllowableCutId);
       } else {
-        this.checkAnnualAllowableCutError = true;
+        this.$emit("onCheckNone");
       }
     },
 
     onCheckAnnualAllowableCutName() {
-      if (this.annualAllowableCutName.length >= 2) {
+      if (this.annualAllowableCutName.length >= 1) {
         this.checkAnnualAllowableCutError = false;
 
         this.$emit("onCheckAACName", this.annualAllowableCutName);
       } else {
         this.checkAnnualAllowableCutError = true;
+        this.$emit("onCheckNone");
       }
     },
 
     onCheckTransportPermitId() {
-      if (this.transportPermitId.length >= 2) {
+      if (this.transportPermitId.length >= 1) {
         this.checkTransportPermitIdError = false;
 
         this.$emit("onCheckTransportPermitId", {
@@ -459,6 +493,7 @@ export default {
         });
       } else {
         this.checkTransportPermitIdError = true;
+        this.$emit("onCheckNone");
       }
     },
 
@@ -710,6 +745,7 @@ export default {
 
 .leaflet-sidebar {
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
+  z-index: 1000;
 }
 @media (min-width: 768px) {
   .leaflet-sidebar {

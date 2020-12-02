@@ -18,6 +18,7 @@ Route::middleware('jwt:api')->get('/permits/export', 'PermitController@export');
 Route::get('/permits/vectors', 'PermitController@vectors');
 Route::middleware('jwt:api')->get('/permits/mobile', 'PermitController@mobile');
 Route::middleware('jwt:api')->resource('/permits', PermitController::class)->except(['create', 'edit']);
+Route::middleware('jwt:api')->patch('/permits/approve/{id}', 'PermitController@approve');
 //Permit Item
 Route::middleware('jwt:api')->get('/permit_items/export', 'PermitItemController@export');
 Route::middleware('jwt:api')->get('/permit_items/mobile', 'PermitItemController@mobile');

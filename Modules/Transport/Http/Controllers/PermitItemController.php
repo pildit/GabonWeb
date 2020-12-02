@@ -60,7 +60,10 @@ class PermitItemController extends Controller
     {
         $data = $request->validated();
 
-        $permit = PermitEntity::where('Id', (int)$data['Permit'])->orWhere('MobileId', $data['Permit'])->first();
+        $permit = is_int($data['Permit']) ?
+            PermitEntity::where('Id', (int)$data['Permit'])->orWhere('MobileId', $data['Permit'])->first() :
+            PermitEntity::where('MobileId', $data['Permit'])->first();
+
         if(!$permit){
             throw ValidationException::withMessages(['Permit' => 'validation.exists']);
         }
@@ -83,7 +86,9 @@ class PermitItemController extends Controller
     {
         $data = $request->validated();
         if(isset($data['Permit'])){
-            $permit = PermitEntity::where('Id', (int)$data['Permit'])->orWhere('MobileId', $data['Permit'])->first();
+            $permit = is_int($data['Permit']) ?
+                PermitEntity::where('Id', (int)$data['Permit'])->orWhere('MobileId', $data['Permit'])->first() :
+                PermitEntity::where('MobileId', $data['Permit'])->first();
             if(!$permit){
                 throw \ValidationException::withMessages(['Permit' => 'validation.exists']);
             }

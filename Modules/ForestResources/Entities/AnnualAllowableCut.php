@@ -7,10 +7,11 @@ use App\Traits\Sortable;
 use Brick\Geo\IO\EWKBReader;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Loggable\Traits\Loggable;
 
 class AnnualAllowableCut extends Model
 {
-    use Sortable, Geometry, SoftDeletes;
+    use Sortable, Geometry, SoftDeletes, Loggable;
 
     const CREATED_AT = "CreatedAt";
     const UPDATED_AT = "UpdatedAt";
@@ -26,6 +27,15 @@ class AnnualAllowableCut extends Model
      * @var array
      */
     protected $fillable = ['Name','AacId','ManagementUnit','ManagementPlan','Geometry','Approved', 'ProductType'];
+
+    /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'Approved' => false // default for Approved
+    ];
 
     /**
      * The table associated with the model.

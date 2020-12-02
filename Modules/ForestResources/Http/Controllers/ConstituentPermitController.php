@@ -17,6 +17,7 @@ use App\Traits\Approve;
 use Modules\ForestResources\Exports\Exporter;
 use Maatwebsite\Excel\Facades\Excel;
 use Modules\User\Entities\User;
+use Modules\ForestResources\Services\ConstituentPermit as ConstituentPermitService;
 
 class ConstituentPermitController extends Controller
 {
@@ -189,6 +190,22 @@ class ConstituentPermitController extends Controller
                     'PermitNumber' => $item->PermitNumber
                 ];
             })
+        ]);
+    }
+
+
+    public function vectors(Request $request, ConstituentPermitService $constituentPermitService)
+    {
+        $request->validate(
+            [
+                'bbox' => 'string',
+                'Id' => 'nullable|exists:Modules\ForestResources\Entities\ConstituentPermit,Id'
+            ]);
+
+        return response()->json([
+            'type' => 'FeatureCollection',
+            'name' => 'constituent_permit',
+            'features' => $constituentPermitService->getVectors($request->get('bbox', config('forestresources.default_bbox')),$request->get('Id'))
         ]);
     }
 }

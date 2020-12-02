@@ -6,11 +6,12 @@ use App\Traits\Sortable;
 use GenTux\Jwt\JwtPayloadInterface;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Admin\Entities\Company;
+use Modules\Loggable\Traits\Loggable;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Model implements JwtPayloadInterface
 {
-    use HasRoles, Sortable;
+    use HasRoles, Sortable, Loggable;
 
     const STATUS_DISABLED = 0;
     const STATUS_PENDING = 1;

@@ -55,7 +55,7 @@ export default {
 
 
         approve({}, payload) {
-            return axios.put(`api/permits/approve/${payload.id}`, payload.data)
+            return axios.patch(`api/permits/approve/${payload.id}`, payload.data)
                 .then((response) => response);
         },
 

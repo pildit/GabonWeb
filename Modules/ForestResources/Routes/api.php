@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 
 
 //constituent permit
+Route::get('/constituent_permits/vectors', 'ConstituentPermitController@vectors');
 Route::middleware('jwt:api')->get('/constituent_permits/export', 'ConstituentPermitController@export');
 Route::middleware('jwt:api')->get('/constituent_permits/list', 'ConstituentPermitController@listConstituentPermits');
 Route::middleware('jwt:api')->patch('/constituent_permits/approve/{id}', 'ConstituentPermitController@approve');
@@ -52,6 +53,7 @@ Route::middleware('jwt:api')->get('/concessions/list', 'ConcessionsController@li
 Route::middleware('jwt:api')->patch('/concessions/approve/{id}', 'ConcessionsController@approve');
 Route::middleware('jwt:api')->resource('/concessions', ConcessionsController::class)->except(['edit', 'create']);
 //AAC
+Route::middleware('jwt:api')->get('/annual_allowable_cuts/parcels/{annual_allowable_cut}', 'AnnualAllowableCutController@parcels');
 Route::middleware('jwt:api')->get('/annual_allowable_cuts/export', 'AnnualAllowableCutController@export');
 Route::get('/annual_allowable_cuts/vectors', 'AnnualAllowableCutController@vectors');
 Route::middleware('jwt:api')->patch('/annual_allowable_cuts/approve/{id}', 'AnnualAllowableCutController@approve');
@@ -63,7 +65,7 @@ Route::middleware('jwt:api')->resource('/annual_operation_plans', AnnualOperatio
 Route::middleware('jwt:api')->get('/annual_allowable_cut_inventory/export', 'AnnualAllowableCutInventoryController@export');
 Route::middleware('jwt:api')->get('/annual_allowable_cut_inventory/mobile', 'AnnualAllowableCutInventoryController@mobile');
 Route::get('/annual_allowable_cut_inventory/vectors', 'AnnualAllowableCutInventoryController@vectors');
-Route::middleware('jwt:api')->post('/annual_allowable_cut_inventory/approve/{id}', 'AnnualAllowableCutInventoryController@approve');
+Route::middleware('jwt:api')->patch('/annual_allowable_cut_inventory/approve/{id}', 'AnnualAllowableCutInventoryController@approve');
 Route::middleware('jwt:api')->resource('/annual_allowable_cut_inventory', AnnualAllowableCutInventoryController::class)->except(['edit', 'create']);
 //logbook
 Route::middleware('jwt:api')->get('/logbooks/export', 'LogbookController@export');

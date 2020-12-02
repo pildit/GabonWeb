@@ -6,11 +6,11 @@ use App\Traits\Geometry;
 use App\Traits\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\DB;
+use Modules\Loggable\Traits\Loggable;
 
 class DevelopmentUnit extends Model
 {
-    use Sortable, Geometry, SoftDeletes;
+    use Sortable, Geometry, SoftDeletes, Loggable;
 
     const CREATED_AT = "CreatedAt";
     const UPDATED_AT = "UpdatedAt";
@@ -24,6 +24,15 @@ class DevelopmentUnit extends Model
      * @var array
      */
     protected $fillable = ['Name','Number','User', 'ProductType', 'Concession','Start','End','Geometry','Approved'];
+
+    /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'Approved' => false // default for Approved
+    ];
 
     /**
      * @var string

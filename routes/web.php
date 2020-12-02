@@ -28,7 +28,10 @@ Route::get('/login', 'AuthController@login')->name('login');
 Route::get('/logout', 'AuthController@logout');
 Route::get('/register', 'AuthController@register');
 Route::get('/account/confirmation/{token}', 'AuthController@emailConfirmation');
-
+Route::get('/forgot_password', 'AuthController@forgotPassword');
+Route::get('/test/{user}', function (\Modules\User\Entities\User $user) {
+    dd($user);
+});
 Route::middleware('auth.jwt')->group(function () {
     Route::get('/roles', 'RoleController@index');
     Route::get('/users', 'UserController@index');
@@ -38,7 +41,9 @@ Route::middleware('auth.jwt')->group(function () {
 
     Route::resource('/management/development-units', 'DevelopmentUnitController')->only(['create', 'edit']);
     Route::resource('/management/management-units', 'ManagementUnitController')->only(['create', 'edit']);
+    Route::get('/management/aac-inventory', 'AnnualAllowableCutController@inventory');
     Route::resource('/management/aac', 'AnnualAllowableCutController')->only(['create', 'edit']);
+    Route::resource('/management/parcels', 'ParcelController')->only(['create', 'edit']);
     Route::get('/management/{management_type?}', 'ManagementController@index');
 
     Route::resource('/concessions/constituent-permits', 'ConstituentPermitController')->only(['index', 'create', 'edit']);

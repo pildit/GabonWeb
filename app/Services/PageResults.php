@@ -118,7 +118,15 @@ class PageResults
     {
         if($this->search) {
             foreach ($this->filters as $field) {
-                $this->query->orWhere($field, 'ilike', "%{$this->search}%");
+                $field = array_filter(explode('.', $field));
+                if(count($field) == 2) {
+                    $this->query->whereHas($field[0], function ($q) use ($field) {
+                        $q->where($field[1], 'ilike', "%{$this->search}%");
+                    });
+                }
+                if(count($field) == 1) {
+                    $this->query->orWhere($field[0], 'ilike', "%{$this->search}%");
+                }
             }
         }
 

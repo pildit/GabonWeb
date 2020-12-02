@@ -43,11 +43,11 @@
                     </div>
                 </div>
                 <div class="md-form">
-                    <input type="text" name="Geometry" id="Geometry" class="form-control" v-model="form.Geometry" v-validate="'required'">
+                    <input type="text" name="Geometry" id="Geometry" class="form-control" @change="onGeometryChange" v-model="form.Geometry" v-validate="'required'">
                     <label for="Geometry" :class="{'active': form.Geometry}">{{translate('geometry_input_label')}}</label>
                     <div v-show="errors.has('Geometry')" class="invalid-feedback">{{ errors.first('Geometry') }}</div>
                 </div>
-                <div class="form-row float-right">
+                <div class="form-row float-right text-white">
                     <button @click="save()" class="btn btn-info z-depth-0 my-4" :disabled="saveLoading">
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="saveLoading"></span>
                         {{ translate('save') }}
@@ -66,9 +66,11 @@ import Notification from "components/Common/Notifications/Notification";
 import Multiselect from "vue-multiselect";
 import _ from "lodash";
 
+import { EventBus } from "components/EventBus/EventBus";
+
 export default {
 
-    props: ['constituentPermitProp'],
+    props: ['constituentPermitProp', 'endpointCreate', 'endpointEdit'],
 
     components: { Multiselect },
 
@@ -132,7 +134,13 @@ export default {
                     this.form.PermitType = this.permitTypeList.data.find((x) => x['Id'] == this.form.permit_type.Id);
                 }
             })
-        }
+        },
+
+        onGeometryChange(value) {
+            if (this.endpointEdit) {
+                EventBus.$emit(this.endpointEdit, this.form.Geometry);
+            }
+        },
     },
 
     watch: {
@@ -141,10 +149,22 @@ export default {
                 this.form = _.merge(this.form, value);
                 this.form.Geometry = value.geometry_as_text;
                 this.form.PermitType = this.permitTypeList.data.find((x) => x.Id == value.PermitType);
+
+                if (this.endpointEdit) {
+                    EventBus.$emit(this.endpointEdit, value.geometry_as_text);
+                }
+
                 this.$forceUpdate();
             }
         }
-    }
+    },
+
+    mounted() {
+        EventBus.$on(this.endpointCreate, (data) => {
+            this.form.Geometry = data;
+            this.$forceUpdate();
+        });
+    },
 }
 </script>
 

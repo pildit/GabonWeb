@@ -32,7 +32,7 @@
                 <div class="form-row">
                     <div class="col">
                         <div class="md-form">
-                            <input type="text" id="Geometry" class="form-control" v-model="form.Geometry" v-validate="'required'">
+                            <input type="text" id="Geometry" class="form-control" @change="onGeometryChange" v-model="form.Geometry" v-validate="'required'">
                             <label for="Geometry" :class="{'active': form.Geometry}">{{translate('geometry_input_label')}}</label>
                         </div>
                     </div>
@@ -53,6 +53,7 @@
                                 :searchable="true"
                                 :loading="developmentUnitList.isLoading"
                                 :allow-empty="false"
+                                @select="$forceUpdate()"
                                 @search-change="asyncFindDevelopment"
                             >
                                 <template slot="singleLabel" slot-scope="{ option }">{{ option.Name }}({{option.Id}})</template>
@@ -79,7 +80,7 @@
                 <div class="form-row">
                     <a class="btn btn-info" @click="addPlan()">{{translate('add_ufg_plan')}}</a>
                 </div>
-                <div class="form-row float-right">
+                <div class="form-row float-right text-white">
                     <button @click="save()" class="btn btn-info z-depth-0 my-4" :disabled="saveLoading">
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="saveLoading"></span>
                         {{ translate('save') }}
@@ -101,9 +102,11 @@ import DevelopmentUnit from "../../../../DevelopmentUnit/DevelopmentUnit";
 import Notification from "../../../../../Common/Notifications/Notification";
 import {mapGetters} from "vuex";
 
+import { EventBus } from "components/EventBus/EventBus";
+
 export default {
 
-    props : ['managementUnitProp'],
+    props : ['managementUnitProp', 'endpointCreate', 'endpointEdit'],
 
     components: { Multiselect, PlanFormPartial },
 
@@ -199,6 +202,12 @@ export default {
             this.formPlansCount++;
             this.plansForm[this.formPlansCount - 1] = {};
         },
+
+        onGeometryChange(value) {
+            if (this.endpointEdit) {
+                EventBus.$emit(this.endpointEdit, this.form.Geometry);
+            }
+        },
     },
     watch: {
         managementUnitProp(value) {
@@ -210,10 +219,23 @@ export default {
                 this.form.ProductType = this.productTypeList.find((x) => x.Id == this.form.ProductType);
                 this.formPlansCount = value.plans.length;
                 this.plansForm = value.plans;
+
+                if (this.endpointEdit) {
+                    EventBus.$emit(this.endpointEdit, value.geometry_as_text);
+                }
+
                 this.$forceUpdate();
             }
         }
-    }
+    },
+
+    mounted() {
+        EventBus.$on(this.endpointCreate, (data) => {
+            console.log(data);
+            this.form.Geometry = data;
+            this.$forceUpdate();
+        });
+    },
 }
 </script>
 

@@ -2,15 +2,17 @@
   <div class="container-fluid mt-40">
     <div class="row parcels">
         <div class="col-md-4">
-            {{translate('the_map')}}
+            <div id="geoportalpage" class="col-md-4" style="position: fixed; padding: 10px">
+              <geoportal-page hide-sidebar-prop="true" endpoint-name="parcels"></geoportal-page>
+            </div>
         </div>
         <div class="col-md-8">
             <h5 class="text-center green-text mb-2">{{translate('Parcels')}}</h5>
             <div class="row">
                 <div class="col-sm-6 d-flex align-items-center">
-                    <button v-permission="'parcels.add'" class="btn btn-md" @click="modals.form = true">
+                    <a v-permission="'parcels.add'" class="btn btn-md" :href="createRoute()">
                         <i class="fas fa-plus-circle"></i> {{translate('Add Parcel')}}
-                    </button>
+                    </a>
                 </div>
                 <div class="md-form col-sm-6">
                     <div class="form-row justify-content-end">
@@ -43,31 +45,26 @@
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="exportLoading"></span>
                 Export.xls
             </button>
-            <item-modal :type-prop="formType" v-model="modals.form" @done="getItems"></item-modal>
         </div>
     </div>
   </div>
 </template>
 
 <script>
-import {mapGetters, mapState, mapActions} from 'vuex';
 import VuePagination from "components/Common/Grid/VuePagination.vue";
-import Item from "components/Parcel/Parcel";
-import ItemModal from './ItemModal.vue';
-import DateRange from "../../../../Mixins/DateRange";
-import ExportExcel from "../../../../Mixins/ExportExcel";
+import Parcel from "components/Parcel/Parcel";
+import DateRange from "components/Mixins/DateRange";
+import ExportExcel from "components/Mixins/ExportExcel";
 import grid from "../grid";
 import Grid from "components/Common/Grid/Grid";
+import GeoportalPage from "components/Pages/Parts/Geoportal/Vue/GeoportalPageLeaflet.vue";
 
 export default {
+  components: {VuePagination, Grid, GeoportalPage},
   mixins: [DateRange, ExportExcel],
-  components: {ItemModal, VuePagination, Grid},
   data() {
     return {
       grid: grid(),
-      modals: {
-        form: false
-      },
       exportUrl: '/api/parcels/export',
       exportFilename: 'Parcels',
       formType: 'create',
@@ -88,6 +85,9 @@ export default {
     this.getItems();
   },
   methods: {
+    createRoute() {
+       return Parcel.buildRoute('parcels.create');
+    },
     getItems() {
         Vent.$emit('grid-refresh', {search: this.search, dateRange: this.dateRange});
     },

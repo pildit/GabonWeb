@@ -28,7 +28,7 @@ class Item extends PageResults
         list($logID) = $this->logIdList();
 
         // mobile form
-     	//!!! daca nu are "fl" NU pui NotEmpty!!!!
+        //!!! daca nu are "fl" NU pui NotEmpty!!!!
         $array = [
             [
                 "f" => "MobileId",
@@ -45,7 +45,7 @@ class Item extends PageResults
                 "fl" => "LogId",
                 "type" => "list_ed_NotEmpty_NoLang",     //!!! LogId se transformă in LogID doar cu val... fără id din lista de LogId
                 "values" => $logID
-           //     "condition" => "product_type=logs"
+                //     "condition" => "product_type=logs"
             ],
             [
                 'f' => 'Species',
@@ -56,14 +56,14 @@ class Item extends PageResults
             [
                 "f" => "MinDiameter",
                 "fl" => "MinDiameter",
-                "type" => "float_NotEmpty",
-            //    "condition" => "product_type=logs"
+                "type" => "int_NotEmpty",
+                //    "condition" => "product_type=logs"
             ],
             [
                 "f" => "MaxDiameter",
                 "fl" => "MaxDiameter",
                 "type" => "int_NotEmpty",
-           //     "condition" => "product_type=logs"
+                //     "condition" => "product_type=logs"
             ],
             [
                 "f" => "AverageDiameter",
@@ -74,20 +74,14 @@ class Item extends PageResults
                 "f" => "Length",
                 "fl" => "Length",
                 "type" => "float_NotEmpty",
-           //     "condition" => "product_type=logs,transformed"
+                //     "condition" => "product_type=logs,transformed"
             ],
             [
                 "f" => "Volume",
                 "fl" => "Volume",
                 "type" => "float_NotEmpty",
-          //      "condition" => "product_type=logs,transformed"
-            ],
-            [
-                "f" => "Note",
-                "fl" => "Note",
-                "type" => "str"
+                //      "condition" => "product_type=logs,transformed"
             ]
-
         ];
 
         return $array;

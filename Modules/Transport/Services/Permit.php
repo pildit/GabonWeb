@@ -28,12 +28,12 @@ class Permit extends PageResults
      */
     public function getVectors($bbox,$LicensePlate,$DateFrom,$DateTo,$Date,$PermitNo,$Id)
     {
-        $srid = config('transport.srid');
-        $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_transform(public.st_setsrid("Geometry",'.$srid.'),4256)) as geom');
-        $whereIntersects = "public.ST_Intersects(public.st_setsrid(\"Geometry\", {$srid}), public.st_setsrid(public.ST_MakeEnvelope({$bbox}), {$srid}))";
+        $srid = config('forestresources.srid');
+//        $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_transform(public.st_setsrid("Geometry",'.$srid.'),4326)) as geom');
+        $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_flipcoordinates(public.st_transform(public.st_setsrid("Geometry",'.$srid.'),4256))) as geom');
+//        $whereIntersects = "public.ST_Intersects(public.st_setsrid(\"Geometry\", {$srid}), public.st_setsrid(public.ST_MakeEnvelope({$bbox}), {$srid}))";
 
-        $collection = PermitEntity::select(['Id', $geomCol, "PermitNo", "Concession", "ManagementUnit", "DevelopmentUnit", "AnnualAllowableCut", "ClientCompany", "ConcessionaireCompany", "TransporterCompany", "Province", "Destination"])
-            ->whereRaw($whereIntersects);
+        $collection = PermitEntity::select(['Id', $geomCol, "PermitNo", "Concession", "ManagementUnit", "DevelopmentUnit", "AnnualAllowableCut", "ClientCompany", "ConcessionaireCompany", "TransporterCompany", "Province", "Destination","LicensePlate","ObserveAt"]);
 
         if($Id){
             $collection = $collection->where("Id","=",$Id);
@@ -51,7 +51,7 @@ class Permit extends PageResults
             $collection = $collection->where('ObserveAt','>',$Date.' 00:00:00')->where('ObserveAt','<=',$Date.' 23:59:59');
         }
         if($PermitNo){
-            $collection = $collection->where('PermitNo','=',$PermitNo);
+            $collection = $collection->where('PermitNo','ilike',"%".$PermitNo."%");
         }
 
         $collection = $collection->get();
@@ -73,6 +73,8 @@ class Permit extends PageResults
                     "TransporterCompany" =>  $item->transportercompany ? $item->transportercompany->Name : $item->TransporterCompany,
                     "Province" => $item->Province,
                     "Destination" => $item->Destination,
+                    "LicensePlate" => $item->LicensePlate,
+                    "ObserveAt" => $item->ObserveAt,
                 ]
             ];
         });
@@ -84,17 +86,16 @@ class Permit extends PageResults
      */
     public function getTrackingVectors($bbox)
     {
-        $srid = config('transport.srid');
-        $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_transform(public.st_setsrid("Geometry",'.$srid.'),4256)) as geom');
-        $whereIntersects = "public.ST_Intersects(public.st_setsrid(\"Geometry\", {$srid}), public.st_setsrid(public.ST_MakeEnvelope({$bbox}), {$srid}))";
+        $srid = config('forestresources.srid');
+        $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_transform(public.st_setsrid("Geometry",'.$srid.'),4326)) as geom');
+//        $whereIntersects = "public.ST_Intersects(public.st_setsrid(\"Geometry\", {$srid}), public.st_setsrid(public.ST_MakeEnvelope({$bbox}), {$srid}))";
 
-        $collection = Tracking::select(['Id', $geomCol, "Permit"])
+        $collection = Tracking::select(['Id', $geomCol, "Permit","ObserveAt"])
             ->whereHas('permit', function ($query) {
                 $query->where('Status', '=', PermitEntity::STATUS_IN_PROGRESS);
-            })
-            ->whereRaw($whereIntersects);
+            })->orderBy('ObserveAt');
 
-        $collection = $collection->get();;
+        $collection = $collection->get();
 
         return $collection->map(function ($item) {
 
@@ -103,6 +104,7 @@ class Permit extends PageResults
                 'geometry' => $item->geom,
                 'properties' => [
                     "id" => $item->Id,
+                    "ObserveAt" => $item->ObserveAt,
                     "LicensePlate" => $item->permit ? $item->permit->LicensePlate : '',
                     "DriverName" => $item->permit ? $item->permit->DriverName : '',
                     "PermitNo" => $item->permit ? $item->permit->PermitNo : '',

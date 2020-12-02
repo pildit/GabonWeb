@@ -6,10 +6,12 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-4">
-                {{lang('the_map')}}
+                <div id="geoportalpage" class="col-md-4" style="position: fixed; padding: 10px">
+                    <geoportal-page hide-sidebar-prop="true" endpoint-name="concessions"></geoportal-page>
+                </div>
             </div>
             <div class="col-md-8">
-                <div id="concessions-grid" v-permission="'concession.view'">
+                <div id="concessions-grid" v-permission="'concession.view'" >
                     @verbatim
                         <h5 class="text-center green-text mb-2">{{translate('concessions_title')}}</h5>
                         <div class="row">
@@ -42,6 +44,7 @@
     <script>
         Gabon.Base.getTranslations().then(() => {
             Gabon.Concession.render('concessions-grid');
+            Gabon.Pages.render('geoportalpage');
         });
     </script>
 @endsection

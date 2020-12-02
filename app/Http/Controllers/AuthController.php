@@ -41,4 +41,13 @@ class AuthController extends Controller
     {
         return view('auth.confirmation', ['token' => $token]);
     }
+
+    /**
+     * @return \Illuminate\View\View
+     */
+    public function forgotPassword () {
+
+        return view('auth.forgot_password');
+    }
+
 }

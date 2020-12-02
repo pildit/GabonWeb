@@ -8,10 +8,11 @@ use App\Traits\UserEmailAttribute;
 use Brick\Geo\IO\EWKBReader;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Loggable\Traits\Loggable;
 
 class Parcel extends Model
 {
-    use Sortable, Geometry, SoftDeletes, UserEmailAttribute;
+    use Sortable, Geometry, SoftDeletes, UserEmailAttribute, Loggable;
 
     const CREATED_AT = "CreatedAt";
     const UPDATED_AT = "UpdatedAt";
@@ -29,6 +30,15 @@ class Parcel extends Model
      * @var array
      */
     protected $fillable = ['Name','Geometry', 'Approved', 'User'];
+
+    /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'Approved' => false // default for Approved
+    ];
 
     /**
      * The table associated with the model.
