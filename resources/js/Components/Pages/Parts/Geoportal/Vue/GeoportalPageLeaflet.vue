@@ -186,10 +186,10 @@ export default {
         chunkedLoading: true,
       }),
 
-	  transportPermitsMarkers: L.markerClusterGroup({
+      transportPermitsMarkers: L.markerClusterGroup({
         chunkedLoading: true,
       }),
-      
+
       activeTransportFeatureGroup: L.layerGroup({
         chunkedLoading: true,
       }),
@@ -312,14 +312,31 @@ export default {
     onGetActiveTransports(endpointData, data, layerGroup) {
       if (!endpointData.features || endpointData.features.length == 0) {
         this.openWarningModal();
+        this.cleanUpClusters(data, layerGroup, map);
+        return;
       }
 
+      /* Parse through the date in order to get their order ;) */
+      let polyList = new Map();
+
+      endpointData.features.forEach((element) => {
+        const p = element.properties;
+        const hashKey =
+          p.LicensePlate +
+          p.DriverName +
+          p.PermitNo +
+          p.Destination +
+          p.Province;
+
+        if (!polyList.has(hashKey)) {
+          polyList.set(hashKey, []);
+        }
+
+        polyList.get(hashKey).push(element);
+      });
+
       let map = this.$refs.map.mapObject;
-
       this.cleanUpClusters(data, layerGroup, map);
-
-      let i = 0;
-      let polyList = [];
 
       let onEachFeature = (feature, layer) => {
         if (feature.properties) {
@@ -328,31 +345,65 @@ export default {
         }
       };
 
-      let onFilter = (feature, layer) => {
-        console.log(
-          "Count: ",
-          ++i,
-          feature.properties.LicensePlate,
-          feature.properties.PermitNo
-        );
-        if (
-          (feature.properties.LicensePlate =
-            "dsf" && feature.properties.PermitNo == "20_30_AAC_5")
-        ) {
-          return true;
-        }
-
-        return false;
-      };
-
       let myLayerOptions = {
         pointToLayer: this.createCustomIcon,
         onEachFeature: onEachFeature,
         // filter: onFilter,
       };
 
-      data = L.geoJson(endpointData, myLayerOptions);
-      layerGroup.addLayer(data);
+      // data = L.geoJson(polyList.get('dsftest nou20_30_AAC_5jjfd'), myLayerOptions);
+
+      // polyList.get('dsftest nou20_30_AAC_5jjfd').forEach((feature) => {
+      //   lanlngs.push([feature.geometry.coordinates[0], feature.geometry.coordinates[1]])
+      // })
+
+      polyList.forEach((value, key) => {
+        let lanlngs = [];
+
+        // let sorted = value.sort((e1, e2) => {
+        //   let date1 = new Date(e1.properties.ObserveAt);
+        //   let date2 = new Date(e2.properties.ObserveAt);
+
+        //   return date1.getTime() - date2.getTime();
+        // });
+
+        value.forEach((feature) => {
+          lanlngs.push([
+            feature.geometry.coordinates[0],
+            feature.geometry.coordinates[1],
+          ]);
+        });
+
+        const generalizeProperties = () => {
+          let polyProperties = value[0].properties;
+          delete polyProperties.id;
+          delete polyProperties.ObserveAt;
+
+          return polyProperties;
+        };
+
+        L.polyline(lanlngs, {weight: 5, opacity: 0.8 })
+          .bindPopup(this.getJSONToString(generalizeProperties()))
+          .addTo(layerGroup); // PolyLine
+
+        this.createCustomMarkerWithPopUp(
+          value[0],
+          [value[0].geometry.coordinates[0], value[0].geometry.coordinates[1]],
+          "Source"
+        ).addTo(layerGroup); // Source marker
+
+        this.createCustomMarkerWithPopUp(
+          value[value.length - 1],
+          [
+            value[value.length - 1].geometry.coordinates[0],
+            value[value.length - 1].geometry.coordinates[1],
+          ],
+          "Destination"
+        ).addTo(layerGroup); // Destination marker
+      });
+
+      // data = L.polyline(lanlngs);
+      // layerGroup.addLayer(data);
 
       map.addLayer(layerGroup);
 
@@ -374,7 +425,8 @@ export default {
         });
       } else {
         if (this.activePermitFeatures) this.activePermitFeatures.remove();
-        if (this.activeTransportFeatureGroup) this.activeTransportFeatureGroup.remove();
+        if (this.activeTransportFeatureGroup)
+          this.activeTransportFeatureGroup.remove();
       }
     },
 
@@ -404,7 +456,7 @@ export default {
 
     getTimeDateFormat(date) {
       let year = date.getFullYear().toString();
-      let month = date.getMonth().toString();
+      let month = (date.getMonth() + 1).toString();
       let day = date.getDate().toString();
       let hours = date.getHours().toString();
       let minutes = date.getMinutes().toString();
@@ -435,6 +487,14 @@ export default {
       const { plateNumber, plateNumberRange } = value;
       let { start, end } = plateNumberRange;
 
+      start.setHours(0);
+      start.setMinutes(0);
+      start.setSeconds(0);
+
+      end.setHours(0);
+      end.setMinutes(0);
+      end.setSeconds(0);
+
       let startDate = this.getTimeDateFormat(start);
       let endDate = this.getTimeDateFormat(end);
 
@@ -446,6 +506,7 @@ export default {
 
       this.getPermits(fParams).then(() => {
         if (this.dataCheckPlateNumber) this.dataCheckPlateNumber.length = 0;
+        console.log("PERMITS:", this.permits);
         this.onGetCheckClusters(
           this.dataCheckPlateNumber,
           this.permits,
@@ -609,6 +670,12 @@ export default {
       iconOptions.shadowUrl = shadowUrl;
       let myIcon = L.icon(iconOptions);
       return L.marker(latlng, { icon: myIcon });
+    },
+
+    createCustomMarkerWithPopUp(feature, latlng, popupTitle = "") {
+      return this.createCustomIcon(feature, latlng).bindPopup(
+        `<h5>${popupTitle}</h5>` + this.getJSONToString(feature.properties)
+      );
     },
 
     onGetTrees() {
