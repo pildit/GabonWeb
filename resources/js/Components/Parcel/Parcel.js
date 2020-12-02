@@ -1,12 +1,14 @@
 import Base from "../Base";
 import store from "store/store"
 import vueGrid from "./Parts/Grid/index";
+import vueForm from "./Parts/Form/index";
 
 class Parcel extends Base {
 
     static getComponents() {
         return {
-            "items-grid" : vueGrid
+            "items-grid" : vueGrid,
+            "parcel-form" : vueForm,
         }
     }
 
@@ -23,7 +25,7 @@ class Parcel extends Base {
     }
 
     static update(id, data) {
-        return store.dispatch('parcels/update', {id, data});
+        return store.dispatch('parcels/update', {id, data}).then((response) => response.data);
     }
 
     static approve(id, data) {

@@ -25,6 +25,15 @@ class DevelopmentPlan extends Model
     protected $fillable = ['DevelopmentUnit', 'Number', 'Species','MinimumExploitableDiameter','VolumeTariff','Increment','Approved'];
 
     /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'Approved' => false // default for Approved
+    ];
+
+    /**
      * @var string
      */
     protected $dateFormat = 'Y-m-d H:i:s.u';

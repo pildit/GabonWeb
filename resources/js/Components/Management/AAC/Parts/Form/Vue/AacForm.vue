@@ -101,7 +101,7 @@
                 <div class="form-row">
                     <a class="btn btn-info" @click="addPlan()">{{translate('add_aac_plan')}}</a>
                 </div>
-                <div class="form-row float-right">
+                <div class="form-row float-right text-white">
                     <button @click="save()" class="btn btn-info z-depth-0 my-4" :disabled="saveLoading">
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="saveLoading"></span>
                         {{ translate('save') }}
@@ -257,7 +257,7 @@ export default {
                 this.form.ProductType = this.productTypeList.find((x) => x.Id == this.form.ProductType);
                 this.formPlansCount = value.annualoperation_plans.length;
                 this.plansForm = value.annualoperation_plans;
-                
+
                 if (this.endpointEdit) {
                     EventBus.$emit(this.endpointEdit, value.geometry_as_text);
                 }

@@ -14,7 +14,6 @@ class CreateAnnualAllowableCutRequest extends FormRequest
     public function rules()
     {
         return [
-            'AacId' => 'string|required',
             'ManagementUnit' => 'required|exists:Modules\ForestResources\Entities\ManagementUnit,Id',
             'ManagementPlan' => 'exists:Modules\ForestResources\Entities\ManagementPlan,Id',
             'Name' => 'required|string',

@@ -80,7 +80,7 @@
                 <div class="form-row">
                     <a class="btn btn-info" @click="addPlan()">{{translate('add_ufg_plan')}}</a>
                 </div>
-                <div class="form-row float-right">
+                <div class="form-row float-right text-white">
                     <button @click="save()" class="btn btn-info z-depth-0 my-4" :disabled="saveLoading">
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="saveLoading"></span>
                         {{ translate('save') }}
@@ -231,6 +231,7 @@ export default {
 
     mounted() {
         EventBus.$on(this.endpointCreate, (data) => {
+            console.log(data);
             this.form.Geometry = data;
             this.$forceUpdate();
         });

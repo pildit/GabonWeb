@@ -24,6 +24,15 @@ class Concession extends Model
         'Number', 'Name', 'Company', 'Geometry', 'ProductType', 'Continent', 'ConstituentPermit','Approved', 'User'
     ];
 
+    /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'Approved' => false // default for Approved
+    ];
+
     protected $table = "ForestResources.Concessions";
 
     protected $with = ['constituent_permit:Id,PermitNumber'];

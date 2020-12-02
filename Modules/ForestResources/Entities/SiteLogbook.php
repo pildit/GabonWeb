@@ -30,6 +30,15 @@ class SiteLogbook extends Model
     protected $fillable = ['AnnualAllowableCut','ManagementUnit','DevelopmentUnit','Concession','Company','Hammer','Localization','ReportNo','ReportNote','ObserveAt','Approved','MobileId'];
 
     /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'Approved' => false // default for Approved
+    ];
+
+    /**
      * The table associated with the model.
      *
      * @var string

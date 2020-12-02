@@ -83,6 +83,15 @@ class Permit extends Model
         "Approved"];
 
     /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'Approved' => true // default for Approved
+    ];
+
+    /**
      * The attributes that should be cast to native types.
      *
      * @var array

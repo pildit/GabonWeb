@@ -27,16 +27,19 @@ export default (options) => {
                 header: 'th_aac_name'
             },
             "management_unit.Name": {
-                header: "th_ufg"
+                header: "th_ufg",
+                queryKey: "ManagementUnit"
             },
             management_plans: {
                 header: "th_plan_id",
+                sort: false,
                 render: (row) => {
                     return _.map(row.management_plans, 'Number').join('/')
                 }
             },
             Email: {
-                header: "th_email"
+                header: "th_email",
+                queryKey: "User"
             },
             Approved: {
                 header: 'th_approved',

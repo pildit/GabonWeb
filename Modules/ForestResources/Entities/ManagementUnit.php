@@ -24,6 +24,15 @@ class ManagementUnit extends Model
     protected $fillable = ['Name','Number', 'User', 'ProductType', 'DevelopmentUnit','Geometry','Approved'];
 
     /**
+     * The model's attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'Approved' => false // default for Approved
+    ];
+
+    /**
      * @var string
      */
     protected $dateFormat = 'Y-m-d H:i:s.u';
