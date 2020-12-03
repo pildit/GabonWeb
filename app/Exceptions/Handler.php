@@ -51,6 +51,11 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
 
+        logger()->warning($exception->getMessage());
+        logger()->warning('headers: '.json_encode($request->headers->all()));
+        logger()->warning('body: '.json_encode($request->attributes));
+        logger()->warning('url: '.json_encode($request->fullUrl()));
+
         if ($exception instanceof ModelNotFoundException) {
             $model = explode("\\", $exception->getModel());
             $model = end($model);

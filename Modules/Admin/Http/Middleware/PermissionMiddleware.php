@@ -32,6 +32,6 @@ class PermissionMiddleware
             }
         }
 
-        throw new HttpException(403,'');
+        throw new HttpException(403,'forbidden');
     }
 }
