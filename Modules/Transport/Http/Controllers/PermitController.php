@@ -137,6 +137,10 @@ class PermitController extends Controller
         $geomQuery = "public.st_transform(public.st_setsrid(public.st_point({$data['Lat']}, {$data['Lon']}),4326),$srid)";
         $data['Geometry'] = isset($data['Geometry']) ? DB::raw("public.st_geomfromtext('".$data['Geometry']."', $srid)") : DB::raw("(select $geomQuery)");
 
+        $permitNumber = PermitEntity::where('PermitNo','ilike', $data['PermitNo']."%")->count();
+        $permitNumber = sprintf("%04d", ++$permitNumber);
+        $data['PermitNo'] = $data['PermitNo']."_".$permitNumber;
+
         $permit = PermitEntity::create($data);
 
         return response()->json([

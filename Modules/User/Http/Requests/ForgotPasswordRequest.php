@@ -15,7 +15,10 @@ class ForgotPasswordRequest extends FormRequest
     {
         return [
             'code'     => 'required|string',
-            'password' => 'required|confirmed'
+            'password' => ['required',
+                'min:6',
+                'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!@#$%^&*()_{}:;?/.,~]).*$/',
+                'confirmed'],
         ];
     }
 

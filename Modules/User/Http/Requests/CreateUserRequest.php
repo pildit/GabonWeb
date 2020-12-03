@@ -17,7 +17,10 @@ class CreateUserRequest extends FormRequest
             'firstname' => 'required|string',
             'lastname' => 'required|string',
             'email' => 'required|email|unique:pgsql.admin.accounts',
-            'password' => 'required|confirmed',
+            'password' => ['required',
+                'min:6',
+                'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!@#$%^&*()_{}:;?/.,~]).*$/',
+                'confirmed'],
             'employee_type' => 'exists:Modules\User\Entities\EmployeeType,id',
             'company_id' => 'exists:Modules\Admin\Entities\Company,Id'
         ];
