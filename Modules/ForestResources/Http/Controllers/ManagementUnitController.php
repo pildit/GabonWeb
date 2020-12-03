@@ -26,11 +26,8 @@ class ManagementUnitController extends Controller
     public function __construct()
     {
         $this->middleware('permission:management-unit.view')->only('index', 'show');
-
-        $this->middleware('permission:management-unit.add')->only('store');
-
+        $this->middleware('permission:management-unit.add|management-unit.sync')->only('store');
         $this->middleware('permission:management-unit.edit')->only('update');
-
         $this->middleware('permission:management-unit.approve')->only('approve');
 
 //        $this->middleware('role:admin')->only('delete');

@@ -20,7 +20,10 @@ class SeedRolesTableSeeder extends Seeder
     {
         Model::unguard();
 
-        $roles = ['admin', 'caf', 'forest_concessionaire', 'forester' , 'logger', 'depot_manager', 'expeditor', 'transporter', 'guest'];
+//        $roles = ['admin', 'caf', 'forest_concessionaire', 'forester' , 'logger', 'depot_manager', 'expeditor', 'transporter', 'guest'];
+        $roles = Role::all()->pluck(['name']);
+        $syncPermissions = Permission::where('name', 'like', '%.sync')->get()->pluck(['name']);
+//        dd($syncPermissions);
 
         $pages = Page::all();
 
@@ -34,6 +37,10 @@ class SeedRolesTableSeeder extends Seeder
                 foreach ($pages as $page) {
                     PageRole::updateOrCreate(['page_id' => $page->id, 'role_id' => $role->id]);
                 }
+            } else {
+                $currentPermissions = $role->getAllPermissions()->pluck('name');
+                $permissions = $currentPermissions->merge($syncPermissions);
+                $role->syncPermissions($permissions);
             }
         }
 

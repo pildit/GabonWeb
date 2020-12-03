@@ -18,8 +18,12 @@ class PermitTypesController extends Controller
 
     public function __construct()
     {
-//        $this->middleware('role:admin');
+        $this->middleware('permission:permit-types.view')->only('index');
+        $this->middleware('permission:permit-types.add|permit-types.sync')->only('store');
+        $this->middleware('permission:permit-types.edit')->only('update');
+
     }
+
     /**
      * Display a listing of the resource.
      * @return Response

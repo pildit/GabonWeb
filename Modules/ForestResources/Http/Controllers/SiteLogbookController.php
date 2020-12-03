@@ -35,14 +35,9 @@ class SiteLogbookController extends Controller
     public function __construct()
     {
         $this->middleware('permission:site_logbook.view')->only('index', 'show');
-
-        $this->middleware('permission:site_logbook.add')->only('store');
-
+        $this->middleware('permission:site_logbook.add|site_logbook.sync')->only('store');
         $this->middleware('permission:site_logbook.edit')->only('update');
-
         $this->middleware('permission:site_logbook.approve')->only('approve');
-
-//        $this->middleware('role:admin')->only('delete');
 
     }
 

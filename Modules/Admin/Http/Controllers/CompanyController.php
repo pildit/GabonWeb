@@ -17,6 +17,13 @@ class CompanyController extends Controller
 {
     use GetsJwtToken;
 
+    public function __construct()
+    {
+        $this->middleware('permission:companies.view')->only('index', 'show');
+        $this->middleware('permission:companies.add|companies.sync')->only('store');
+        $this->middleware('permission:companies.edit')->only('update');
+    }
+
     /**
      * Display a listing of the resource.
      *

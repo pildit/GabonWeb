@@ -36,11 +36,8 @@ class PermitController extends Controller
     public function __construct()
     {
         $this->middleware('permission:permit.view')->only('index', 'show', 'trackingVectors');
-
-        $this->middleware('permission:permit.add')->only('store');
-
+        $this->middleware('permission:permit.add|permit.sync')->only('store');
         $this->middleware('permission:permit.edit')->only('update');
-
         $this->middleware('permission:permit.scan_qr_code')->only('update');
 
 //        $this->middleware('role:admin')->only('delete');

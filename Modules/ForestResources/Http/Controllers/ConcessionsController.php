@@ -25,11 +25,8 @@ class ConcessionsController extends Controller
     public function __construct()
     {
         $this->middleware('permission:concession.view')->only('index', 'show');
-
-        $this->middleware('permission:concession.add')->only('store');
-
+        $this->middleware('permission:concession.add|concession.sync')->only('store');
         $this->middleware('permission:concession.edit')->only('update');
-
         $this->middleware('permission:concession.approve')->only('approve');
 
 //        $this->middleware('role:admin')->only('delete');

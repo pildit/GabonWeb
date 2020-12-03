@@ -27,11 +27,8 @@ class DevelopmentUnitController extends Controller
     public function __construct()
     {
         $this->middleware('permission:development-unit.view')->only('index', 'show');
-
-        $this->middleware('permission:development-unit.add')->only('store');
-
+        $this->middleware('permission:development-unit.add|development-unit.sync')->only('store');
         $this->middleware('permission:development-unit.edit')->only('update');
-
         $this->middleware('permission:development-unit.approve')->only('approve');
 
 //        $this->middleware('role:admin')->only('delete');

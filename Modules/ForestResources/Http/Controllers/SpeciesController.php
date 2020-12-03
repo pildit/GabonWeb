@@ -23,11 +23,8 @@ class SpeciesController extends Controller
     public function __construct()
     {
         $this->middleware('permission:species.view')->only('index', 'show');
-
-        $this->middleware('permission:species.add')->only('store');
-
+        $this->middleware('permission:species.add|species.sync')->only('store');
         $this->middleware('permission:species.edit')->only('update');
-
         $this->middleware('permission:species.approve')->only('approve');
 
 //        $this->middleware('role:admin')->only('delete');

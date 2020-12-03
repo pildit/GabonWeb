@@ -5,7 +5,7 @@ namespace Modules\Admin\Http\Middleware;
 use Closure;
 use GenTux\Jwt\GetsJwtToken;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class PermissionMiddleware
 {
@@ -20,7 +20,7 @@ class PermissionMiddleware
      */
     public function handle(Request $request, Closure $next, $permission, $guard = null)
     {
-        throw_if(!$this->getToken($request), new HttpException(403, 'User is not logged in.'));
+        throw_if(!$this->getToken($request), new AccessDeniedHttpException('This action is unauthorized.'));
 
         $permissions = is_array($permission)
             ? $permission
@@ -32,6 +32,6 @@ class PermissionMiddleware
             }
         }
 
-        throw new HttpException(403,'forbidden');
+        throw new AccessDeniedHttpException('This action is unauthorized.');
     }
 }

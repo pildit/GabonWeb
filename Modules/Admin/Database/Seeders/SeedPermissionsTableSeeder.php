@@ -44,6 +44,7 @@ class SeedPermissionsTableSeeder extends Seeder
         $actions = [
             'view',
             'add',
+            'sync',
             'edit',
             'approve',
             'delete'

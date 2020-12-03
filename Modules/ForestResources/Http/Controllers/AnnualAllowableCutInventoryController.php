@@ -27,11 +27,8 @@ class AnnualAllowableCutInventoryController extends Controller
     public function __construct()
     {
         $this->middleware('permission:AACInventory.view')->only('index', 'show');
-
-        $this->middleware('permission:AACInventory.add')->only('store');
-
+        $this->middleware('permission:AACInventory.add|AACInventory.sync')->only('store');
         $this->middleware('permission:AACInventory.edit')->only('update');
-
         $this->middleware('permission:AACInventory.approve')->only('approve');
 
     }

@@ -18,6 +18,17 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class DevelopmentPlanController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('permission:development-unit.view')->only('show');
+        $this->middleware('permission:development-unit.add|development-unit.sync')->only('store');
+        $this->middleware('permission:development-unit.edit')->only('update');
+
+//        $this->middleware('role:admin')->only('delete');
+
+    }
+
     /**
      * Store developmentplan
      * @param CreateDevelopmentPlanRequest $request

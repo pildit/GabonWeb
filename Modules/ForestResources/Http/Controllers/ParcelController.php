@@ -27,6 +27,15 @@ class ParcelController extends Controller
 
     protected $modelName = Parcel::class;
 
+    public function __construct()
+    {
+        $this->middleware('permission:parcels.view')->only('index', 'show');
+        $this->middleware('permission:parcels.add|parcels.sync')->only('store');
+        $this->middleware('permission:parcels.edit')->only('update');
+        $this->middleware('permission:parcels.approve')->only('approve');
+
+    }
+
     /**
      * Display a listing of the resource.
      * @return Response

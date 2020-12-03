@@ -4,10 +4,10 @@ namespace App\Exceptions;
 
 use Exception;
 use GenTux\Jwt\Exceptions\JwtException;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -70,9 +70,9 @@ class Handler extends ExceptionHandler
             ], 500);
         }
 
-        if($exception instanceof AuthorizationException) {
+        if($exception instanceof AccessDeniedHttpException) {
             return response()->json([
-                'message' => "This action is unauthorized."
+                'message' => $exception->getMessage()
             ],403);
         }
 

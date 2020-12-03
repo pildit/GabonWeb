@@ -18,7 +18,9 @@ class QualityController extends Controller
 
     public function __construct()
     {
-//        $this->middleware('role:admin');
+        $this->middleware('permission:quality.view')->only('index');
+        $this->middleware('permission:quality.add|quality.sync')->only('store');
+        $this->middleware('permission:quality.edit')->only('update');
     }
 
     /**

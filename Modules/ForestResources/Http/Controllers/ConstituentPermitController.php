@@ -28,11 +28,8 @@ class ConstituentPermitController extends Controller
     public function __construct()
     {
         $this->middleware('permission:constituent-permit.view')->only('index', 'show');
-
-        $this->middleware('permission:constituent-permit.add')->only('store');
-
+        $this->middleware('permission:constituent-permit.add|constituent-permit.sync')->only('store');
         $this->middleware('permission:constituent-permit.edit')->only('update');
-
         $this->middleware('permission:constituent-permit.approve')->only('approve');
 
 //        $this->middleware('role:admin')->only('delete');

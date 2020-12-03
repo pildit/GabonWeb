@@ -25,6 +25,7 @@ export default (options) => {
             },
             Name: {
                 header: "th_dev_unit_name",
+                forceRender: true,
             },
             ConcessionName: {
                 header: "th_concession_name",

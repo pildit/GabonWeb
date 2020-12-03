@@ -18,7 +18,9 @@ class ProductTypeController extends Controller
 
     public function __construct()
     {
-//        $this->middleware('role:admin');
+        $this->middleware('permission:product-types.view')->only('index');
+        $this->middleware('permission:product-types.add|product-types.sync')->only('store');
+        $this->middleware('permission:product-types.edit')->only('update');
     }
 
     /**
