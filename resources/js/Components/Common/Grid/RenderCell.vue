@@ -1,5 +1,5 @@
 <template>
-    <div>{{getCellValue}}</div>
+    <div v-html="getCellValue"></div>
 </template>
 
 <script>

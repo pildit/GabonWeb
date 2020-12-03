@@ -14,7 +14,7 @@ export default {
       }
 
       return ((typeof _.get(this.rowProp, this.keyProp) == 'undefined' ||  _.get(this.rowProp, this.keyProp) == null || _.get(this.rowProp,this.keyProp).length == 0) && this.keyProp != null)
-        ? `<span class='text-muted'> (empty) </span>`
+        ? ``
         : cell;
 
     },

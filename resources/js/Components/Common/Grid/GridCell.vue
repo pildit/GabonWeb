@@ -10,7 +10,9 @@
 <script>
 
 import SimpleCell    from './Cell.vue';
+import RenderCell from "./RenderCell";
 import ComponentCell from './ComponentCell.vue';
+import _ from "lodash";
 
 export default {
 
@@ -29,6 +31,10 @@ export default {
 
       if (this.columnProp.component) {
         return ComponentCell;
+      }
+
+      if (this.columnProp.hasOwnProperty('render' || this.columnProp.hasOwnProperty('forceRender'))) {
+          return RenderCell;
       }
 
       return SimpleCell;
