@@ -67,11 +67,7 @@
         "responses": {
           "200": {
             "description": "",
-            "headers": {},
-            "schema": {
-                "type": "array",
-                
-            }
+            "headers": {}
           }
         }
       },
