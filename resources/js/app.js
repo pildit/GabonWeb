@@ -9,7 +9,6 @@ import store from "store/store"
 import config from './Components/_config/index';
 import directives from './Components/_config/Directives/index';
 import date from './Components/_config/Filters/date';
-import SwaggerUI from 'swagger-ui'
 import 'vue2-daterange-picker/dist/vue2-daterange-picker.css';
 
 import Base from './Components/Base';

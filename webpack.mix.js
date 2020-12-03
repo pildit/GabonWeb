@@ -13,7 +13,7 @@ require('laravel-mix-alias');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-    // .sass('resources/sass/app.scss', 'public/css')
+    .js('resources/js/swagger.js', 'public/js')
     .scripts([
         'resources/mdb/js/jquery-3.4.1.min.js',
         'resources/mdb/js/popper.min.js',
@@ -27,6 +27,7 @@ mix.js('resources/js/app.js', 'public/js')
         'resources/mdb/css/style.css',
         'resources/mdb/css/addons/flag.css',
         'resources/css/vue-multiselect.min.css',
+        'resources/css/swagger-ui.css',
         'resources/css/app.css'
     ], 'public/css/all.css')
     .alias({
