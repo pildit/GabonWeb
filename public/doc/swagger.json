@@ -66,8 +66,51 @@
         ],
         "responses": {
           "200": {
-            "description": "",
-            "headers": {}
+            "headers": {},
+            "description": "Constituent Permit list",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "current_page": {
+                    "type": "integer",
+                    "default": 1,
+                    "format": "int32"
+                  },
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "Id": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  },
+                  "status": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "url": {
+                    "type": "string"
+                  },
+                  "bid": {
+                    "type": "number",
+                    "format": "int64"
+                  },
+                  "remainingBudget": {
+                    "type": "number",
+                    "format": "int64"
+                  },
+                  "budget": {
+                    "type": "number",
+                    "format": "int64"
+                  }
+                }
+              }
+            }
           }
         }
       },
