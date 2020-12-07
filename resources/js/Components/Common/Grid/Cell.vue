@@ -1,5 +1,5 @@
 <template>
-    <div>{{getCellValue}}</div>
+    <div><span :class="{'text-muted': !getCellValue}">{{getCellValue || `(empty)`}}</span></div>
 </template>
 
 <script>
