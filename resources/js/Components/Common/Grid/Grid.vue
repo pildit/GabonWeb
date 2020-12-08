@@ -76,6 +76,7 @@ export default {
 
     methods: {
         sortBy(col) {
+            if (!this.canSort(col)) return;
             this.sort.direction = this.sort.direction == 'asc' ? 'desc' : 'asc';
             this.sort.field = this.columns[col].queryKey ? this.columns[col].queryKey : col;
             this.fetchData();
