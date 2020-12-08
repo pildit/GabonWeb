@@ -22,13 +22,13 @@ import shadowUrl from "leaflet/dist/images/marker-shadow.png";
 import { EventBus } from "components/EventBus/EventBus";
 
 /* Vuex */
-import store from "store/store";
-import { mapGetters, mapState, mapMutations, mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 import "leaflet-draw";
 import "leaflet-draw/dist/leaflet.draw.css";
 
 import transformation from "@pusky/transform-coordinates";
+import { parse, stringify } from 'wellknown';
 
 export default {
   components: {
@@ -78,7 +78,7 @@ export default {
             },
           },
           // disable toolbar item by setting it to false
-          polygon: true,
+          // polygon: true,
           polyline: false,
           circle: false, // Turns off this drawing tool
           rectangle: false,
@@ -130,39 +130,40 @@ export default {
       this.window.height = window.innerHeight;
     },
 
-    emitEndpoint(data) {
-      console.log("DATA:", data);
-      let iterator = 0;
-      const l = data[0].length;
-      let geometryForm = "POLYGON((";
-      const transform = transformation("EPSG:4326", "EPSG:5223");
+    emitWkt() {
+        const transform = transformation("EPSG:4326", "EPSG:5223");
 
-      data[0].forEach((latLong) => {
-        const { x, y } = transform.forward({
-          x: Number(latLong.lng),
-          y: Number(latLong.lat),
-        });
+        let latLngs = [];
+        let i = 0;
+        _.each(this.editableLayers._layers, (layer) => {
+            latLngs[i] = []; latLngs[i][0] = [];
+            _.each(layer._latlngs[0], (p) => {
+                const {x , y} = transform.forward({
+                    x: Number(p.lng),
+                    y: Number(p.lat)
+                })
+                let newPoint = [x,y];
+                latLngs[i][0].push(newPoint)
+            })
+            /* Add the last point yet again in order to have a closed perimeter */
+            latLngs[i][0].push(latLngs[i][0][0]);
+            i++;
+        })
 
-        geometryForm += x + " " + y;
-        if (++iterator < l) {
-          geometryForm += ",";
+        let geojsonFeature = {};
+        let wkt = null;
+        if(latLngs.length) {
+            geojsonFeature = {
+                type: "Feature",
+                geometry: {
+                    type: "MultiPolygon",
+                    coordinates: latLngs
+                }
+            }
+            wkt = stringify(geojsonFeature);
         }
-      });
 
-      /* Add the last point yet again in order to have a closed perimeter */
-      if (data[0].length > 0) {
-        geometryForm += ",";
-        const latLong = data[0][0];
-        const { x, y } = transform.forward({
-          x: Number(latLong.lng),
-          y: Number(latLong.lat),
-        });
-
-        geometryForm += x + " " + y;
-      }
-
-      geometryForm += "))";
-      return geometryForm;
+        return wkt;
     },
 
     initDrawPolygon() {
@@ -175,16 +176,6 @@ export default {
       this.defaultDrawPluginOptions.edit.featureGroup = editableLayers;
       var drawPluginOptions = this.defaultDrawPluginOptions;
 
-      var savePerimeter = (perimeter) => {
-        this.perimeter = perimeter;
-        EventBus.$emit(this.endpointCreate, this.emitEndpoint(perimeter));
-      };
-
-      var deletePerimeter = () => {
-        this.perimeter = null;
-        EventBus.$emit(this.endpointCreate, "");
-      };
-
       // Initialise the draw control and pass it the FeatureGroup of editable layers
       this.drawControl = new L.Control.Draw(drawPluginOptions);
       map.addControl(this.drawControl);
@@ -192,47 +183,41 @@ export default {
       /* CREATED */
       map.on("draw:created", (e) => {
         var layer = e.layer;
-        var type = e.layerType;
-
-        /* Save the perimeter to the current state */
-        savePerimeter(layer._latlngs);
 
         /* Delete old control */
         map.removeControl(this.drawControl);
 
         /* Create the new control */
-        drawPluginOptions.draw.polygon = false;
+        // drawPluginOptions.draw.polygon = false;
         this.drawControl = new L.Control.Draw(drawPluginOptions);
         map.addControl(this.drawControl);
 
         layer.bindPopup("Perimeter");
         this.editableLayers.addLayer(layer);
+        EventBus.$emit(this.endpointCreate, this.emitWkt());
       });
 
       /* EDITED */
       map.on("draw:edited", (e) => {
         let layers = e.layers;
-
-        layers.eachLayer(function (layer) {
-          savePerimeter(layer._latlngs);
-        });
-
         map.addLayer(layers);
+        EventBus.$emit(this.endpointCreate, this.emitWkt());
       });
 
       /* DELETE */
       map.on("draw:deleted", (e) => {
-        var type = e.layerType,
-          layer = e.layer;
+        layer = e.layer;
 
         /* Delete the perimeter from the current state */
-        deletePerimeter();
+        this.editableLayers.removeLayer(layer);
+        EventBus.$emit(this.endpointCreate, this.emitWkt());
+
 
         /* Remove the old control */
         map.removeControl(this.drawControl);
 
         /* Create the new control */
-        drawPluginOptions.draw.polygon = true;
+        // drawPluginOptions.draw.polygon = true;
         this.drawControl = new L.Control.Draw(drawPluginOptions);
         map.addControl(this.drawControl);
       });
@@ -250,51 +235,48 @@ export default {
     this.initDrawPolygon();
 
     EventBus.$on(this.endpointEdit, (data) => {
-      console.log(data);
+      console.log(parse(data));
+
       if (this.editableLayers === null) return;
-      if (!data || data == "") return;
+      if (!data || data === "") return;
 
-      data = data.trim();
-      let parenthesesIndex = this.getStrPosition(data, "(", 2) + 1;
-      data = data.substring(parenthesesIndex, data.length - 2).split(",");
-
+      data = parse(data);
       let latLngs = [];
       const transform = transformation("EPSG:5223", "EPSG:4326");
-      data.forEach((p) => {
-        let latLong = p.trim().split(" ");
-
-        const { x, y } = transform.forward({
-          x: Number(latLong[0]),
-          y: Number(latLong[1]),
-        });
-        let newPoint = [y, x];
-        latLngs.push(newPoint);
+      data.coordinates.forEach((polyCoords, i) => {
+          polyCoords.forEach((coords) => {
+              latLngs[i] = [];
+              coords.forEach((p) => {
+                  const {x, y} = transform.forward({
+                      x: Number(p[0]),
+                      y: Number(p[1])
+                  })
+                  let newPoint = [y,x];
+                  latLngs[i].push(newPoint)
+              })
+          });
       });
 
       /* Delete old control */
       let map = this.$refs.map.mapObject;
 
-      let nrOfEditableLayers = 0;
-      this.editableLayers.eachLayer(function () {
-        nrOfEditableLayers += 1;
-      });
-      if (nrOfEditableLayers >= 1) {
-        map.removeLayer(this.editableLayers);
-
-        var editableLayers = new L.FeatureGroup();
-        this.editableLayers = editableLayers;
-        map.addLayer(editableLayers);
+      map.removeLayer(this.editableLayers);
+      var editableLayers = new L.FeatureGroup();
+      this.editableLayers = editableLayers;
+      map.addLayer(editableLayers);
 
         this.defaultDrawPluginOptions.edit.featureGroup = editableLayers;
-      }
 
       map.removeControl(this.drawControl);
-      this.defaultDrawPluginOptions.draw.polygon = false;
+      // this.defaultDrawPluginOptions.draw.polygon = false;
       this.drawControl = new L.Control.Draw(this.defaultDrawPluginOptions);
       map.addControl(this.drawControl);
 
-      var polygon = L.polygon(latLngs).addTo(this.editableLayers);
-      map.fitBounds(polygon.getBounds());
+      latLngs.forEach((coords) => {
+          console.log(coords);
+          L.polygon(coords).addTo(this.editableLayers)
+      })
+        map.fitBounds(this.editableLayers.getBounds());
     });
   },
 };
