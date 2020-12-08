@@ -16,7 +16,7 @@
             </thead>
             <tbody>
             <tr v-for="(row, index) in data" :style="rowHightlight(row)" :key="index">
-                <td v-for="(column, key) in columns" :style="columnStyle(key)">
+                <td v-for="(column, key) in columns" :style="columnStyle(key)" class="word-break">
                     <grid-cell :column-prop="column" :row-prop="row" :key-prop="key" :instance="options.instance" :index="index"></grid-cell>
                 </td>
             </tr>
@@ -160,5 +160,7 @@ export default {
 </script>
 
 <style scoped>
-
+.word-break {
+    word-break: break-all;
+}
 </style>

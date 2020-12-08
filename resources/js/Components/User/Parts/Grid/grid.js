@@ -22,7 +22,10 @@ export default (options) => {
                 header: "id"
             },
             lastname: {
-                header: "name"
+                header: "name",
+                css:{
+                    maxWidth: '200px'
+                },
             },
             firstname: {
                 header: "first_name"

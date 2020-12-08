@@ -23,6 +23,7 @@ export default (options) => {
             types: {
                 header: "th_company_type",
                 forceRender: true,
+                sort: false,
                 render: (row) => {
                     return _.map(row.types, 'Name').join('/')
                 }
