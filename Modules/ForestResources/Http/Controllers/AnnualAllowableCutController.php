@@ -17,6 +17,7 @@ use Log;
 use App\Traits\Approve;
 use Modules\ForestResources\Exports\Exporter;
 use Maatwebsite\Excel\Facades\Excel;
+use Brick\Geo\MultiPolygon;
 
 class AnnualAllowableCutController extends Controller
 {
@@ -32,6 +33,7 @@ class AnnualAllowableCutController extends Controller
         $this->middleware('permission:AAC.edit')->only('update');
         $this->middleware('permission:AAC.approve')->only('approve');
 
+        $this->middleware('permission:AACInventory.add')->only('parcels');
     }
 
     /**
@@ -182,4 +184,20 @@ class AnnualAllowableCutController extends Controller
         return Excel::download(new Exporter($collection,$headings), 'annual_allowable_cut.xlsx');
     }
 
+    public function parcels(AnnualAllowableCut $annual_allowable_cut){
+
+        $multipolygons = MultiPolygon::fromText($annual_allowable_cut->geometry_as_text)->geometries();
+
+        $parcels = [];
+        foreach($multipolygons as $polygon ){
+            $parcels = array_merge ($parcels,DB::select("
+            SELECT \"Parcels\".\"Id\", \"Parcels\".\"Name\"
+            FROM \"ForestResources\".\"Parcels\"
+            WHERE public.st_overlaps((select public.ST_GeomFromText('".$polygon->asText()."',5223)), \"Parcels\".\"Geometry\")
+            "));
+        }
+
+        return response()->json($parcels);
+
+    }
 }
