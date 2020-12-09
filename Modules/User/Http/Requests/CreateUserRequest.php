@@ -17,7 +17,10 @@ class CreateUserRequest extends FormRequest
             'firstname' => 'required|string',
             'lastname' => 'required|string',
             'email' => 'required|email|unique:pgsql.admin.accounts',
-            'password' => 'required|confirmed',
+            'password' => ['required',
+                'min:6',
+                'regex:/^.*(?=.{6,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!@#$%^&*()_{}:;?~]).*$/',
+                'confirmed'],
             'employee_type' => 'exists:Modules\User\Entities\EmployeeType,id',
             'company_id' => 'exists:Modules\Admin\Entities\Company,Id'
         ];
@@ -32,4 +35,17 @@ class CreateUserRequest extends FormRequest
     {
         return true;
     }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'password.regex' => lang('password_requirement')
+        ];
+    }
+
 }

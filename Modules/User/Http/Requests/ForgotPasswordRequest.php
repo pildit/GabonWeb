@@ -15,7 +15,10 @@ class ForgotPasswordRequest extends FormRequest
     {
         return [
             'code'     => 'required|string',
-            'password' => 'required|confirmed'
+            'password' => ['required',
+                'min:6',
+                'regex:/^.*(?=.{6,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!@#$%^&*()_{}:;?~]).*$/',
+                'confirmed'],
         ];
     }
 
@@ -27,5 +30,17 @@ class ForgotPasswordRequest extends FormRequest
     public function authorize()
     {
         return true;
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'password.regex' => lang('password_requirement')
+        ];
     }
 }
