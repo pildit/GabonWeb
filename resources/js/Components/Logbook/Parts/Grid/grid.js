@@ -20,13 +20,11 @@ export default (options) => {
             Id: {
                 header: "th_id",
             },
-            'concession.Name': {
+            ConcessionName: {
                 header: "th_concession_name",
-                queryKey: "Concession"
             },
-            'anuualallowablecut.Name': {
+            AnnualAllowableCutName: {
                 header: "th_aac_name",
-                queryKey: "AnnualAllowableCut"
             },
             Approved: {
                 header: 'th_approved',

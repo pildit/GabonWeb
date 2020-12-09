@@ -44,7 +44,7 @@ class ParcelController extends Controller
     {
         $pr->setSortFields(['Id']);
 
-        return response()->json($pr->getPaginator($request, Parcel::class , ['Name']));
+        return response()->json($pr->getPaginator($request, Parcel::class , ['Name','Email']));
     }
 
     /**

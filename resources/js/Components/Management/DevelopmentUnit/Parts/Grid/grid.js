@@ -27,8 +27,7 @@ export default (options) => {
                 header: "th_dev_unit_name"
             },
             ConcessionName: {
-                header: "th_concession_name",
-                queryKey: "Concession"
+                header: "th_concession_name"
             },
             plans: {
                 header: "th_plan_id",

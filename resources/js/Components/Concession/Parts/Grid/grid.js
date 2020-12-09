@@ -23,7 +23,7 @@ export default (options) => {
             Number: {
                 header: 'th_concession_no'
             },
-            'constituent_permit.PermitNumber': {
+            ConstituentPermitNumber: {
                 header: 'th_constituent_permit'
             },
             Name: {

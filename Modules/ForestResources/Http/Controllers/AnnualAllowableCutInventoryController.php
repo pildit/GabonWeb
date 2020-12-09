@@ -17,10 +17,11 @@ use Modules\ForestResources\Services\AnnualAllowableCutInventory as AnnualAllowa
 use App\Traits\Approve;
 use Modules\ForestResources\Exports\Exporter;
 use Maatwebsite\Excel\Facades\Excel;
+use GenTux\Jwt\GetsJwtToken;
 
 class AnnualAllowableCutInventoryController extends Controller
 {
-    use Approve;
+    use GetsJwtToken, Approve;
 
     private $modelName = AnnualAllowableCutInventory::class;
 
@@ -45,7 +46,7 @@ class AnnualAllowableCutInventoryController extends Controller
     {
         $pr->setSortFields(['Id']);
 
-        return response()->json($pr->getPaginator($request, AnnualAllowableCutInventory::class, ['annual_allowable_cut.Name', 'MobileId'], ['annual_allowable_cut']));
+        return response()->json($pr->getPaginator($request, AnnualAllowableCutInventory::class, ['AnnualAllowableCutName', 'MobileId'], ['annual_allowable_cut']));
     }
 
     /**
@@ -65,6 +66,8 @@ class AnnualAllowableCutInventoryController extends Controller
         if ($AacId) {
             $data['TreeId'] = $data['TreeId'] . "_" . $AacId;
         }
+
+        $data['User']  = $this->jwtPayload('data.id');
 
         $annual_allowable_cut_inventory = AnnualAllowableCutInventory::create($data);
 

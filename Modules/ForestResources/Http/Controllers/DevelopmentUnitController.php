@@ -44,7 +44,7 @@ class DevelopmentUnitController extends Controller
     {
         $pr->setSortFields(['Id']);
 
-        return response()->json($pr->getPaginator($request, DevelopmentUnit::class , ['Name','Start','End'],['concession','plans']));
+        return response()->json($pr->getPaginator($request, DevelopmentUnit::class , ['Name',"ConcessionName",'Email','Start','End'],['concession','plans']));
     }
     /**
      * Store developmentunit

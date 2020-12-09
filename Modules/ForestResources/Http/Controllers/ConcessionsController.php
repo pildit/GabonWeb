@@ -41,7 +41,7 @@ class ConcessionsController extends Controller
     {
         $pr->setSortFields(['Id']);
 
-        return response()->json($pr->getPaginator($request, Concession::class , ['Email', 'Name', 'Company']));
+        return response()->json($pr->getPaginator($request, Concession::class , ['Email', 'Name', 'Company','ConstituentPermitNumber']));
     }
 
     /**
