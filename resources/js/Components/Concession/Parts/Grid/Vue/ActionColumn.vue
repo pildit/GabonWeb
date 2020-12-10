@@ -7,6 +7,11 @@
         </a>
         <switches v-permission="'concession.approve'" v-model="isApproved" color="green" title="Approve Item" @input="approve" :emit-on-mount="false"
                   v-tooltip></switches>
+        <a @click.prevent="deleteConcession" v-permission="'concession.delete'" class="text-danger aligned fz-16"
+           :title="translate('delete')"
+           v-tooltip>
+            <i class="fas fa-trash"></i>
+        </a>
     </div>
 </template>
 
@@ -14,6 +19,7 @@
 import Switches from 'vue-switches';
 import Notification from "components/Common/Notifications/Notification";
 import Concession from "../../../Concession";
+import store from 'store/store'
 
 export default {
     props: ["rowProp", "optionsProp"],
@@ -27,6 +33,11 @@ export default {
     },
 
     methods: {
+        deleteConcession () {
+            Concession.delete(this.rowProp.Id).finally(() => {
+                Vent.$emit('grid-refresh')
+            })
+        },
         editRoute() {
             return Concession.buildRoute('concessions.edit', {id: this.rowProp.Id});
         },

@@ -49,5 +49,9 @@ class DevelopmentUnit extends Base {
         return store.dispatch('development_unit/approve', {id, data})
     }
 
+    static delete(id) {
+        return store.dispatch('development_unit/delete', {id})
+    }
+
 }
 export default DevelopmentUnit;

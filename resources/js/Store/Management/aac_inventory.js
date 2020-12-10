@@ -28,6 +28,11 @@ export default {
             let data = payload.data;
             return axios.patch(`api/annual_allowable_cut_inventory/approve/${id}`, data)
                 .then((response) => response);
+        },
+
+        delete({}, payload) {
+            return axios.delete(`api/annual_allowable_cut_inventory/${payload.id}`)
+                .then((response) => response);
         }
     }
 }

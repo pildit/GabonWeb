@@ -13,6 +13,12 @@
             <i v-else class="far fa-envelope"></i>
         </a>
         <switches v-permission="'users.approve'" v-model="rowProp.Approved" color="green" :title="translate('approve_user')" @input="approve" :emit-on-mount="false" v-tooltip></switches>
+
+        <a v-permission="'users.delete'" @click="deleteUser" href="#" class="text-danger aligned fz-16"
+           :title="translate('delete')"
+           v-tooltip>
+            <i class="fas fa-trash"></i>
+        </a>
     </div>
 </template>
 
@@ -36,6 +42,11 @@ export default {
     },
 
     methods: {
+        deleteUser() {
+            User.delete(this.rowProp.id).finally(() => {
+                Vent.$emit('grid-refresh')
+            })
+        },
         editRoute() {
             return User.buildRoute('users.edit', {id: this.rowProp.id});
         },

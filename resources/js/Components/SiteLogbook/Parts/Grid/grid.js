@@ -26,17 +26,20 @@ export default (options) => {
             Company: {
                 header: "th_company",
                 render: (row) => {
-                    return row.company.Name
+                    return (row.company) ? row.company.Name : ''
                 }
             },
             Concession: {
                 header: "th_concession_name",
                 render: (row) => {
-                    return row.concession.Name
+                    return (row.concession) ? row.concession.Name : ''
                 }
             },
-            'anuualallowablecut.Name': {
+            AnnualAllowableCut: {
                 header: "th_aac_name",
+                render: (row) => {
+                    return (row.anuualallowablecut) ? row.anuualallowablecut.Name : ''
+                }
             },
             Approved: {
                 header: 'th_approved',

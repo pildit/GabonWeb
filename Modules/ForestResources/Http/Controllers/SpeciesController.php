@@ -111,9 +111,13 @@ class SpeciesController extends Controller
      * @param int $id
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Species $species)
     {
-        //
+        $species->delete();
+
+        return response()->json([
+            'message' => lang('species_delete_successful')
+        ], 204);
     }
 
     /**

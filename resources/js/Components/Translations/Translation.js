@@ -26,7 +26,7 @@ class Translation extends Base {
         return store.dispatch('translation/update', {id, data});
     }
 
-    static delete(id, data) {
+    static delete(id) {
         return store.dispatch('translation/delete', {id});
     }
 

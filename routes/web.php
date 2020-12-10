@@ -29,6 +29,7 @@ Route::get('/logout', 'AuthController@logout');
 Route::get('/register', 'AuthController@register');
 Route::get('/account/confirmation/{token}', 'AuthController@emailConfirmation');
 Route::get('/forgot_password', 'AuthController@forgotPassword');
+Route::get('/verify', 'AuthController@verify');
 Route::get('/test/{user}', function (\Modules\User\Entities\User $user) {
     dd($user);
 });

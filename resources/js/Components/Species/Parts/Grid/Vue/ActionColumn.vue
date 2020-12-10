@@ -4,6 +4,9 @@
             <i class="fas fa-edit"></i>
         </a>
         <species-modal v-permission="'species.edit'" :row-prop="rowProp" type-prop="edit" v-model="modals.form"></species-modal>
+        <a v-permission="'species.delete'" class="text-danger aligned fz-16" @click="deleteItem" :title="translate('delete')" v-tooltip>
+            <i class="fas fa-trash"></i>
+        </a>
     </div>
 </template>
 
@@ -26,6 +29,11 @@ export default {
     },
 
     methods: {
+        deleteItem () {
+            Species.delete(this.rowProp.Id).finally(() => {
+                Vent.$emit('grid-refresh')
+            })
+        },
         edit() {
             this.modals.form = true;
         }

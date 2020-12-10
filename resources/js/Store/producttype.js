@@ -50,6 +50,11 @@ export default {
                 .then((response) => response)
         },
 
+        delete({}, payload) {
+            return axios.delete(`api/product_type/${payload.id}`)
+                .then((response) => response);
+        },
+
         update({}, payload) {
             return axios.patch(`api/product_type/${payload.id}`, payload.data)
                 .then((response) => response);

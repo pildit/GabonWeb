@@ -26,6 +26,10 @@ class PermitType extends Base {
         return store.dispatch('permitType/update', {id, data});
     }
 
+    static delete(id) {
+        return store.dispatch('permitType/delete', {id});
+    }
+
     static listSearch(name, limit = 100) {
         return store.dispatch('permitType/listSearch', {name, limit}).then(response => response.data);
     }

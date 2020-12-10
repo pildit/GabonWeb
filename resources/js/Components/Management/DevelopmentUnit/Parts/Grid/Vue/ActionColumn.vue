@@ -6,6 +6,12 @@
             <i class="fas fa-edit"></i>
         </a>
         <switches v-permission="'development-unit.approve'" :key="rowProp.Id" v-model="rowProp.Approved" color="green" :title="translate('approve_item')" @input="approve" :emit-on-mount="false" v-tooltip></switches>
+
+        <a v-permission="'development-unit.delete'" href="#" @click.prevent="deleteUnit" class="text-danger aligned fz-16"
+           :title="translate('delete')"
+           v-tooltip>
+            <i class="fas fa-trash"></i>
+        </a>
     </div>
 </template>
 
@@ -20,6 +26,13 @@ export default {
     components: {Switches},
 
     methods: {
+
+        deleteUnit () {
+            DevelopmentUnit.delete(this.rowProp.Id).finally(() => {
+                Vent.$emit('grid-refresh')
+            })
+        },
+
         editRoute() {
             return DevelopmentUnit.buildRoute('development_units.edit', {id: this.rowProp.Id});
         },

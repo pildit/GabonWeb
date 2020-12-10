@@ -22,6 +22,10 @@ class Permit extends Base {
         return store.dispatch('permit/getPermitItems', {id});
     }
 
+    static delete(id) {
+        return store.dispatch('permit/delete', {id});
+    }
+
     static approve(id, data) {
         return store.dispatch('permit/approve', {id, data});
     }

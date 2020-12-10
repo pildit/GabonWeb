@@ -26,6 +26,10 @@ class Company extends Base {
         return store.dispatch('company/update', {id, data});
     }
 
+    static delete(id) {
+        return store.dispatch('company/delete', {id});
+    }
+
     static listSearch(name, limit = 100) {
         return store.dispatch('company/listSearch', {name, limit}).then(response => response.data);
     }

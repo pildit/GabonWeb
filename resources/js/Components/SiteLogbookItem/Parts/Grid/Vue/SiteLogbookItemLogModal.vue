@@ -28,6 +28,11 @@
                 </table>
             </div>
 
+            <div class="items" v-if="itemLogs.length === 0">
+                <p class="lead text-center">
+                    {{ translate('no_logbook_items') }}
+                </p>
+            </div>
             <div class="items" v-if="itemLogs.length > 0">
                 <p class="lead text-center">
                     {{ translate('site_logbook_items') }}
@@ -75,6 +80,10 @@
                             <th>{{ translate('actions') }}</th>
                             <td class="bold">
                                 <switches v-model="item.Approved" color="green" :title="translate('approve_logbook_item')" @input="approveLog($event,item.Id)" :emit-on-mount="false" v-tooltip></switches>
+                                <a v-permission="'site_logbook.delete'" class="text-danger aligned fz-16"
+                                   @click="deleteItem(item.Id)" :title="translate('delete')" v-tooltip>
+                                    <i class="fas fa-trash"></i>
+                                </a>
                             </td>
                         </tr>
                         </tbody>
@@ -121,6 +130,11 @@
             }
         },
         methods: {
+            deleteItem (id) {
+                SiteLogbookItem.deleteItem(id).finally(() => {
+                    SiteLogbookItem.get(this.rowProp.Id)
+                })
+            },
             approveLog (val, id) {
                 SiteLogbookItem.approveLog(id, {Approved: val}).finally(() => this.rowProp.Approved = val);
             }

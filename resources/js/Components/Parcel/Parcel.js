@@ -28,6 +28,10 @@ class Parcel extends Base {
         return store.dispatch('parcels/update', {id, data}).then((response) => response.data);
     }
 
+    static delete(id) {
+        return store.dispatch('parcels/delete', {id});
+    }
+
     static approve(id, data) {
         return store.dispatch('parcels/approve', {id, data});
     }

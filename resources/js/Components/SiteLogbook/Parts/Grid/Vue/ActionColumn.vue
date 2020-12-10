@@ -7,6 +7,9 @@
             <i class="fas fa-info-circle"></i>
         </a>
         <switches v-permission="'site_logbook.approve'" v-model="isApproved" color="green" :title="translate('approve_site_logbook')" @input="approve" :emit-on-mount="false" v-tooltip></switches>
+        <a v-permission="'site_logbook.delete'" @click="deleteItem" class="text-danger aligned fz-16" href="#" target="_blank" :title="translate('delete')" v-tooltip>
+            <i class="fas fa-trash"></i>
+        </a>
     </div>
 </template>
 
@@ -31,6 +34,11 @@
         },
 
         methods: {
+            deleteItem () {
+                SiteLogbook.delete(this.rowProp.Id).finally(() => {
+                    Vent.$emit('grid-refresh')
+                })
+            },
             approve (val) {
                 SiteLogbook.approve(this.rowProp.Id, {Approved: val}).finally(() => this.rowProp.Approved = val);
             }

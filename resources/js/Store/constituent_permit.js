@@ -61,6 +61,11 @@ export default {
                 .then((response) => response);
         },
 
+        delete({}, payload) {
+            return axios.delete(`api/constituent_permits/${payload.id}`)
+                .then((response) => response);
+        },
+
         listSearch({}, payload) {
             return axios.get(`api/constituent_permits/list?name=${payload.name}&limit=${payload.limit}`)
                 .then((response) => response);

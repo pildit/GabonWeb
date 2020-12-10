@@ -50,4 +50,13 @@ class AuthController extends Controller
         return view('auth.forgot_password');
     }
 
+    public function verify () {
+        $code = request()->get('code');
+
+        return view('auth.reset_password')->with([
+            'code'  => $code
+        ]);
+
+    }
+
 }

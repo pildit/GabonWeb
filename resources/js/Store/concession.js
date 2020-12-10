@@ -47,6 +47,11 @@ export default {
                 .then((response) => response);
         },
 
+        delete({}, payload) {
+            return axios.delete(`api/concessions/${payload.id}`)
+                .then((response) => response);
+        },
+
         approve({}, payload) {
             let id = payload.id;
             let data = payload.data;

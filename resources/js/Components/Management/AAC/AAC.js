@@ -53,6 +53,13 @@ class AAC extends Base {
         return store.dispatch('aac_inventory/approve', {id, data});
     }
 
+    static delete(id) {
+        return store.dispatch('aac/delete', {id});
+    }
+
+    static delete_inventory(id) {
+        return store.dispatch('aac_inventory/delete', {id});
+    }
 
 }
 

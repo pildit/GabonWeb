@@ -23,6 +23,7 @@
                     </form>
                     <!-- Form -->
                     <div class="alert alert-danger" v-show="failed">{{ translate(failed) }}</div>
+                    <div class="alert alert-success" v-show="success">{{ translate('forgot_password_success') }}</div>
                 </div>
             </div>
         </div>

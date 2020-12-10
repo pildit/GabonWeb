@@ -36,11 +36,11 @@ export default {
                     var siteLogbook = response.data.data,
                         items = response.data.data.items
                     items.forEach((item) => {
-                        item.aac_name = siteLogbook.anuualallowablecut.Name
-                        item.ufa = siteLogbook.developmentunit.Name
-                        item.ufg = siteLogbook.managementunit.Name
+                        item.aac_name = (siteLogbook.anuualallowablecut) ? siteLogbook.anuualallowablecut.Name : ''
+                        item.ufa = (siteLogbook.developmentunit) ? siteLogbook.developmentunit.Name : ''
+                        item.ufg = (siteLogbook.managementunit) ? siteLogbook.managementunit.Name : ''
                         item.ReportNote = siteLogbook.ReportNote
-                        item.concession_name = siteLogbook.concession.Name
+                        item.concession_name = (siteLogbook.concession) ? siteLogbook.concession.Name : ''
                         item.Localization = siteLogbook.Localization
                         item.ReportNote = siteLogbook.ReportNote
                     })
@@ -63,6 +63,16 @@ export default {
         },
         approveLog({}, payload) {
             return axios.patch(`api/site_logbook_logs/approve/${payload.id}`, payload.data)
+                .then((response) => response);
+        },
+
+        delete({}, payload) {
+            return axios.delete(`api/site_logbook_items/${payload.id}`)
+                .then((response) => response);
+        },
+
+        deleteItem({}, payload) {
+            return axios.delete(`api/site_logbook_logs/${payload.id}`)
                 .then((response) => response);
         },
 

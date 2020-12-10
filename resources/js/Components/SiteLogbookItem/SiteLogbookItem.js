@@ -22,6 +22,14 @@ class SiteLogbookItem extends Base {
         return store.dispatch('sitelogbookitems/approve', {id, data});
     }
 
+    static delete(id) {
+        return store.dispatch('sitelogbookitems/delete', {id});
+    }
+
+    static deleteItem(id) {
+        return store.dispatch('sitelogbookitems/deleteItem', {id});
+    }
+
     static approveLog(id, data) {
         return store.dispatch('sitelogbookitems/approveLog', {id, data});
     }

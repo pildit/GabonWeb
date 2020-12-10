@@ -62,6 +62,14 @@ export default {
             return axios.post(`api/users/${payload.id}/approve`, {})
                 .then((response) => response);
         },
+        delete({}, payload) {
+            return axios.delete(`api/users/${payload.id}`)
+                .then((response) => response);
+        },
+        reset({}, payload) {
+            return axios.post('api/users/reset', payload)
+                .then((response) => response);
+        },
         update({}, payload) {
             let id = payload.id;
             let data = payload.data;

@@ -40,6 +40,11 @@ export default {
                 .then((response) => response);
         },
 
+        delete({}, payload) {
+            return axios.delete(`api/permit_types/${payload.id}`)
+                .then((response) => response);
+        },
+
         listSearch({}, payload) {
             return axios.get(`api/permit_types/list?name=${payload.name}&limit=${payload.limit}`)
                 .then((response) => response);

@@ -4,6 +4,10 @@
            :title="translate('edit')" v-tooltip>
             <i class="fas fa-edit"></i>
         </a>
+        <a v-permission="'roles.delete'" class="text-danger aligned fz-16" @click="deleteRole" v-if="rowProp.name != 'admin'"
+           :title="translate('delete')" v-tooltip>
+            <i class="fas fa-trash"></i>
+        </a>
         <role-modal v-permission="'roles.edit'" type-prop="edit" v-model="modals.form"></role-modal>
     </div>
 </template>
@@ -27,6 +31,11 @@ export default {
     },
 
     methods: {
+        deleteRole () {
+            Role.delete(this.rowProp.id).finally(() => {
+                Vent.$emit('grid-refresh')
+            })
+        },
         editRole(id) {
             Role.get(id).then(() => this.modals.form = true);
         }

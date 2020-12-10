@@ -81,6 +81,19 @@ class PermitTypesController extends Controller
     }
 
     /**
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(PermitType $permit_type)
+    {
+        $permit_type->delete();
+
+        return response()->json([
+            'message' => lang('permit_type_delete_successful')
+        ], 204);
+    }
+
+    /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
