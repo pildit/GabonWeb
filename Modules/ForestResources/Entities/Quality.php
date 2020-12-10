@@ -5,11 +5,12 @@ namespace Modules\ForestResources\Entities;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Sortable;
 use App\Traits\UserEmailAttribute;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Loggable\Traits\Loggable;
 
 class Quality extends Model
 {
-    use Sortable, UserEmailAttribute, Loggable;
+    use Sortable, UserEmailAttribute, Loggable, SoftDeletes;
 
     protected $fillable = ['Value', 'Description', 'User'];
 
@@ -17,6 +18,8 @@ class Quality extends Model
 
     const CREATED_AT = "CreatedAt";
     const UPDATED_AT = "UpdatedAt";
+    const DELETED_AT = "DeletedAt";
+
     public $timestamps = true;
 
     protected $dateFormat = 'Y-m-d H:i:s.u';

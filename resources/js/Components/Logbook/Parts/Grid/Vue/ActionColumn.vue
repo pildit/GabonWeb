@@ -4,6 +4,10 @@
             <i class="fas fa-info-circle"></i>
         </a>
         <switches v-permission="'logbook.approve'" v-model="rowProp.Approved" color="green" :title="translate('approve_logbook')" @input="approve" :emit-on-mount="false" v-tooltip></switches>
+        <a v-permission="'logbook.delete'" class="text-danger aligned fz-16" @click.prevent="deleteLogbook" :title="translate('delete')" v-tooltip>
+            <i class="fas fa-trash"></i>
+        </a>
+
         <logbook-modal v-permission="'logbook.view'" :row-prop="rowProp" v-model="modals.info"></logbook-modal>
     </div>
 </template>
@@ -12,6 +16,7 @@
     import Logbook from "components/Logbook/Logbook";
     import Switches from 'vue-switches';
     import LogbookModal from "./LogbookModal";
+    import Confirmation from "../../../../Common/Confirmation/Confirmation";
 
     export default {
 
@@ -28,6 +33,15 @@
         components: {Switches, LogbookModal},
 
         methods: {
+            deleteLogbook () {
+                return Confirmation(this.translate('corfirmation_delete_question')).then((result) => {
+                    if(result.isConfirmed) {
+                        Logbook.delete(this.rowProp.Id).finally(() => {
+                            Vent.$emit('grid-refresh')
+                        })
+                    }
+                })
+            },
             view (logookId) {
                 Logbook.get(logookId).then(() => {
                     this.modals.info = true

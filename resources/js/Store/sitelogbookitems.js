@@ -34,7 +34,18 @@ export default {
             payload['SiteLogbook'] = payload.Logbook;
             return axios.get('api/site_logbook_items', {params: payload})
                 .then((response) => {
-                    commit('siteLogbookItems', response.data.data);
+                    var siteLogbook = response.data.data,
+                        items = response.data.data.items
+                    items.forEach((item) => {
+                        item.aac_name = (siteLogbook.anuualallowablecut) ? siteLogbook.anuualallowablecut.Name : ''
+                        item.ufa = (siteLogbook.developmentunit) ? siteLogbook.developmentunit.Name : ''
+                        item.ufg = (siteLogbook.managementunit) ? siteLogbook.managementunit.Name : ''
+                        item.ReportNote = siteLogbook.ReportNote
+                        item.concession_name = (siteLogbook.concession) ? siteLogbook.concession.Name : ''
+                        item.Localization = siteLogbook.Localization
+                        item.ReportNote = siteLogbook.ReportNote
+                    })
+                    commit('siteLogbookItems', items);
                     return response
                 });
             // return axios.get(`api/site_logbooks/${payload.Logbook}`)
@@ -69,6 +80,16 @@ export default {
         },
         approveLog({}, payload) {
             return axios.patch(`api/site_logbook_logs/approve/${payload.id}`, payload.data)
+                .then((response) => response);
+        },
+
+        delete({}, payload) {
+            return axios.delete(`api/site_logbook_items/${payload.id}`)
+                .then((response) => response);
+        },
+
+        deleteItem({}, payload) {
+            return axios.delete(`api/site_logbook_logs/${payload.id}`)
                 .then((response) => response);
         },
 

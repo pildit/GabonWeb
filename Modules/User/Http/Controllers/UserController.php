@@ -256,6 +256,27 @@ class UserController extends Controller
         ], 200);
     }
 
+    public function resetPassword (Request $request) {
+        $data = $request->validate([
+            'data.code'     => 'required|string',
+            'data.password' => 'required|confirmed'
+        ])['data'];
+
+        $user = User::where('activationcode', '=', $data['code'])->first();
+        if ($user !== null) {
+            $user->activationcode = null;
+            $user->password = Hash::make($data['password']);
+            $user->save();
+            return response()->json([
+                'message' => lang("change_password_success")
+            ], 201);
+        }
+
+        return response()->json([
+            'message' => lang("change_password_error")
+        ], 200);
+    }
+
     /**
      * @param User $user
      * @return \Illuminate\Http\JsonResponse

@@ -54,6 +54,11 @@ export default {
                 .then((response) => response);
         },
 
+        delete({}, payload) {
+            return axios.delete(`api/roles/${payload.id}`)
+                .then((response) => response);
+        },
+
         roles({commit}) {
             return axios.get('api/roles/list')
                 .then((response) => response.data.data)

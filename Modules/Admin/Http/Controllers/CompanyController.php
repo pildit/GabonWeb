@@ -102,6 +102,20 @@ class CompanyController extends Controller
     }
 
     /**
+     * Remove the specified resource from storage.
+     * @param int $id
+     * @return Response
+     */
+    public function destroy(Company $company)
+    {
+        $company->delete();
+
+        return response()->json([
+            'message' => lang('company_delete_succesful')
+        ], 200);
+    }
+
+    /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */

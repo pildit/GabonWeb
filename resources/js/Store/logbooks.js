@@ -52,5 +52,15 @@ export default {
                 .then((response) => response);
         },
 
+        delete({}, payload) {
+            return axios.delete(`api/logbooks/${payload.id}`)
+                .then((response) => response);
+        },
+
+        delete_item({}, payload) {
+            return axios.delete(`api/logbook_items/${payload.id}`)
+                .then((response) => response);
+        },
+
     }
 }

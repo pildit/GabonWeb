@@ -10,6 +10,7 @@ import config from './Components/_config/index';
 import directives from './Components/_config/Directives/index';
 import date from './Components/_config/Filters/date';
 import 'vue2-daterange-picker/dist/vue2-daterange-picker.css';
+import VueSweetalert2 from "vue-sweetalert2";
 
 import Base from './Components/Base';
 import Pages from './Components/Pages/Pages';
@@ -50,6 +51,7 @@ Vue.use(VueJwt, {
     storage: 'cookie'
 })
 Vue.use(DateRangePicker);
+Vue.use(VueSweetalert2);
 
 Vue.filter('date', date);
 Vue.mixin(Translate);
@@ -104,6 +106,8 @@ Vue.prototype.$diffObj = function (object, base) {
     }
     return changes(object, base);
 }
+
+// Webpage loading layer
 Vue.prototype.$showLoading = function () {
     document.querySelector('#page-loader').classList.add('page-loader')
 }

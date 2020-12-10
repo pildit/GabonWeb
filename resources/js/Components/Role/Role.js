@@ -26,6 +26,9 @@ class Role extends Base {
         return store.dispatch('role/update', {id, data});
     }
 
+    static delete(id) {
+        return store.dispatch('role/delete', {id});
+    }
 }
 
 export default Role;

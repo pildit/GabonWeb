@@ -30,6 +30,14 @@ class Logbook extends Base {
         return store.dispatch('logbooks/update', {id});
     }
 
+    static delete(id) {
+        return store.dispatch('logbooks/delete', {id});
+    }
+
+    static delete_item(id) {
+        return store.dispatch('logbooks/delete_item', {id});
+    }
+
 }
 
 export default Logbook;

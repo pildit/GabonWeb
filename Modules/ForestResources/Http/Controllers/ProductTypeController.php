@@ -84,9 +84,13 @@ class ProductTypeController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function destroy($id)
+    public function destroy(ProductType $productType)
     {
-        //
+        $productType->delete();
+
+        return response()->json([
+            'message' => lang('permit_type_delete_successful')
+        ], 204);
     }
 
     /**

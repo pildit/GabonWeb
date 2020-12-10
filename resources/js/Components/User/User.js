@@ -7,6 +7,7 @@ import vueLogin from "./Parts/Login";
 import vueRegister from "./Parts/Register";
 import vueAccountConfirmation from "./Parts/Confirmation";
 import ForgotPassword from "./Parts/ForgotPassword";
+import ResetPassword from "./Parts/ResetPassword";
 import Notification from "components/Common/Notifications/Notification";
 import company from "../../Store/company";
 
@@ -20,7 +21,8 @@ class User extends Base {
             "login-form" : vueLogin,
             "register-form" : vueRegister,
             "account-confirmation" : vueAccountConfirmation,
-            'forgot-password-form' : ForgotPassword
+            'forgot-password-form' : ForgotPassword,
+            'reset-password' : ResetPassword
         }
     }
 
@@ -117,6 +119,14 @@ class User extends Base {
             Notification.success('User', response.data.message)
             return response.data;
         });
+    }
+
+    static delete(id) {
+        return store.dispatch('user/delete', {id});
+    }
+
+    static reset(data) {
+        return store.dispatch('user/reset', {data});
     }
 
     static resendConfirmation(id) {

@@ -6,6 +6,9 @@
                   @input="approve"
                   :emit-on-mount="false" v-tooltip>
         </switches>
+        <a href="#" class="text-danger fz-16" @click.prevent="deleteInventory">
+            <i class="fas fa-trash"></i>
+        </a>
     </div>
 </template>
 
@@ -13,6 +16,7 @@
 import Switches from 'vue-switches';
 import AAC from "components/Management/AAC/AAC";
 import Notification from "components/Common/Notifications/Notification";
+import Confirmation from "../../../../../Common/Confirmation/Confirmation";
 
 export default {
     props: ["rowProp", "optionsProp"],
@@ -20,6 +24,16 @@ export default {
     components: { Switches },
 
     methods: {
+        deleteInventory () {
+            return Confirmation(this.translate('corfirmation_delete_question')).then((result) => {
+                if(result.isConfirmed) {
+                    AAC.delete_inventory(this.rowProp.id).finally(() => {
+                        Vent.$emit('grid-refresh')
+                    })
+                }
+            })
+
+        },
         approve(value) {
             AAC.approveInventory(this.rowProp.Id, {Approved: value}).then((response) => {
                 Notification.success(this.translate('aac'), response.message);

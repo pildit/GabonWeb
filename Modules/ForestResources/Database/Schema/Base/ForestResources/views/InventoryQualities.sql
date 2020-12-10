@@ -8,10 +8,12 @@ as
         , iqt."Description"
         , iqt."Value",
         iqt."User",
+        acc.email AS "Email",
         iqt."CreatedAt",
         iqt."UpdatedAt",
         iqt."DeletedAt"
     from "ForestResources"."InventoryQualitiesTable" as iqt
+    left join admin.accounts acc on acc.id = iqt."User";
 ;
 
 -----------
@@ -51,6 +53,7 @@ as
             , "Description"
             , "Value"
             , "User"
+            , (select acc.email from admin.accounts acc where "InventoryQualitiesTable"."User" = acc.id LIMIT 1)
             , "CreatedAt"
             , "UpdatedAt"
             , "DeletedAt"
@@ -72,6 +75,7 @@ as
             , "Description"
             , "Value"
             , "User"
+            , (select acc.email from admin.accounts acc where "InventoryQualitiesTable"."User" = acc.id LIMIT 1)
             , "CreatedAt"
             , "UpdatedAt"
             , "DeletedAt"

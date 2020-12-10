@@ -55,7 +55,12 @@ export default {
             let data = payload.data;
             return axios.patch(`api/annual_allowable_cuts/approve/${id}`, data)
                 .then((response) => response);
-        }
+        },
+
+        delete({}, payload) {
+            return axios.delete(`api/annual_allowable_cuts/${payload.id}`)
+                .then((response) => response);
+        },
 
     }
 }

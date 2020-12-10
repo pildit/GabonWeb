@@ -12,7 +12,13 @@
             <span v-if="resendLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             <i v-else class="far fa-envelope"></i>
         </a>
-        <switches v-permission="'users.approve'" v-model="isApproved" color="green" :title="translate('approve_user')" @input="approve" :emit-on-mount="false" v-tooltip></switches>
+        <switches v-permission="'users.approve'" v-model="rowProp.Approved" color="green" :title="translate('approve_user')" @input="approve" :emit-on-mount="false" v-tooltip></switches>
+
+        <a v-permission="'users.delete'" @click="deleteUser" href="#" class="text-danger aligned fz-16"
+           :title="translate('delete')"
+           v-tooltip>
+            <i class="fas fa-trash"></i>
+        </a>
     </div>
 </template>
 
@@ -20,6 +26,7 @@
 import User from "components/User/User";
 
 import Switches from 'vue-switches';
+import Confirmation from "../../../../Common/Confirmation/Confirmation";
 
 export default {
 
@@ -47,6 +54,15 @@ export default {
     },
 
     methods: {
+        deleteUser() {
+            return Confirmation(this.translate('corfirmation_delete_question')).then((result) => {
+                if(result.isConfirmed) {
+                    User.delete(this.rowProp.id).finally(() => {
+                        Vent.$emit('grid-refresh')
+                    })
+                }
+            })
+        },
         editRoute() {
             return User.buildRoute('users.edit', {id: this.rowProp.id});
         },

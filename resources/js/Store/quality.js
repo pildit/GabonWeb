@@ -40,5 +40,10 @@ export default {
                 .then((response) => response);
         },
 
+        delete({}, payload) {
+            return axios.delete(`api/quality/${payload.id}`)
+                .then((response) => response);
+        },
+
     }
 }

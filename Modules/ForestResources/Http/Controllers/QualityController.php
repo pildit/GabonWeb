@@ -98,9 +98,13 @@ class QualityController extends Controller
      * @param int $id
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Quality $quality)
     {
-        //
+        $quality->delete();
+
+        return response()->json([
+            'message' => lang('quality_delete_successful')
+        ], 204);
     }
 
 

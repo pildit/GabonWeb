@@ -31,6 +31,9 @@ export default (options) => {
             },
             AnnualAllowableCutName: {
                 header: "th_aac_name",
+                render: (row) => {
+                    return (row.anuualallowablecut) ? row.anuualallowablecut.Name : ''
+                }
             },
             Approved: {
                 header: 'th_approved',

@@ -53,6 +53,10 @@ export default {
                 .then((responseData) => commit('permitItems', responseData.data));
         },
 
+        delete({}, payload) {
+            return axios.delete(`api/permits/${payload.id}`)
+                .then((response) => response);
+        },
 
         approve({}, payload) {
             return axios.patch(`api/permits/approve/${payload.id}`, payload.data)

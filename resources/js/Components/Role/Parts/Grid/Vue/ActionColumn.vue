@@ -4,6 +4,10 @@
            :title="translate('edit')" v-tooltip>
             <i class="fas fa-edit"></i>
         </a>
+        <a v-permission="'roles.delete'" class="text-danger aligned fz-16" @click.prevent="deleteRole" v-if="rowProp.name != 'admin'"
+           :title="translate('delete')" v-tooltip>
+            <i class="fas fa-trash"></i>
+        </a>
         <role-modal v-permission="'roles.edit'" type-prop="edit" v-model="modals.form"></role-modal>
     </div>
 </template>
@@ -11,6 +15,7 @@
 <script>
 import RoleModal from "./RoleModal";
 import Role from "components/Role/Role";
+import Confirmation from "../../../../Common/Confirmation/Confirmation";
 
 export default {
 
@@ -27,6 +32,15 @@ export default {
     },
 
     methods: {
+        deleteRole () {
+            return Confirmation(this.translate('corfirmation_delete_question')).then((result) => {
+                if(result.isConfirmed) {
+                    Role.delete(this.rowProp.id).finally(() => {
+                        Vent.$emit('grid-refresh')
+                    })
+                }
+            })
+        },
         editRole(id) {
             Role.get(id).then(() => this.modals.form = true);
         }

@@ -26,6 +26,10 @@ class ProductType extends Base {
         return store.dispatch('productType/update', {id, data});
     }
 
+    static delete(id) {
+        return store.dispatch('productType/delete', {id});
+    }
+
 }
 
 export default ProductType;

@@ -26,6 +26,10 @@ class Quality extends Base {
         return store.dispatch('quality/update', {id, data});
     }
 
+    static delete(id) {
+        return store.dispatch('quality/delete', {id});
+    }
+
 }
 
 export default Quality;

@@ -37,6 +37,12 @@ export default {
                 .then((responseData) => commit('siteLogbook', responseData.data));
         },
 
+
+        delete({}, payload) {
+            return axios.delete(`api/site_logbooks/${payload.id}`)
+                .then((response) => response);
+        },
+
         /**
          * TODO Approve pe backend. Oricum las asta aici.
          * @param payload

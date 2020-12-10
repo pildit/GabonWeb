@@ -53,6 +53,10 @@ export default {
             return axios.patch(`api/parcels/approve/${payload.id}`, payload.data)
                 .then((response) => response);
         },
+        delete({}, payload) {
+            return axios.delete(`api/parcels/${payload.id}`)
+                .then((response) => response);
+        },
         listSearch({}, payload) {
             return axios.get(`api/parcels/list?name=${payload.name}&limit=${payload.limit}`)
                 .then((response) => response);

@@ -39,6 +39,10 @@ class Concession extends Base {
         return store.dispatch('concession/approve', {id, data});
     }
 
+    static delete(id) {
+        return store.dispatch('concession/delete', {id});
+    }
+
     static listSearch(name, limit = 100) {
         return store.dispatch('concession/listSearch', {name, limit}).then(response => response.data);
     }

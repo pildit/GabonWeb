@@ -22,6 +22,10 @@ class SiteLogbook extends Base {
         return store.dispatch('sitelogbooks/update', {id});
     }
 
+    static delete(id) {
+        return store.dispatch('sitelogbooks/delete', {id});
+    }
+
 }
 
 export default SiteLogbook;
