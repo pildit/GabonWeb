@@ -42,7 +42,7 @@ class ManagementUnitController extends Controller
     {
         $pr->setSortFields(['Id']);
 
-        return response()->json($pr->getPaginator($request, ManagementUnit::class , ['Name','Email','DevelopmentUnitName'], [
+        return response()->json($pr->getPaginator($request, ManagementUnit::class , ['Number','Name','Email','DevelopmentUnitName'], [
             'plans',
             'developmentUnit'
         ]));

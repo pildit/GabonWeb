@@ -87,6 +87,7 @@
                 :searchable="true"
                 :loading="concessionsList.isLoading"
                 :allow-empty="false"
+                @select="$forceUpdate()"
                 @search-change="asyncFindConcession"
               >
                 <template slot="singleLabel" slot-scope="{ option }"
