@@ -18,11 +18,12 @@ use App\Traits\Approve;
 use Modules\ForestResources\Exports\Exporter;
 use Maatwebsite\Excel\Facades\Excel;
 use Brick\Geo\MultiPolygon;
+use GenTux\Jwt\GetsJwtToken;
 
 class AnnualAllowableCutController extends Controller
 {
 
-    use Approve;
+    use GetsJwtToken, Approve;
 
     private $modelName = AnnualAllowableCut::class;
 
@@ -49,7 +50,7 @@ class AnnualAllowableCutController extends Controller
 
         $pr->setSortFields(['Id']);
 
-        return response()->json($pr->getPaginator($request, AnnualAllowableCut::class , [ 'Name'], ['management_unit:Id,Name']));
+        return response()->json($pr->getPaginator($request, AnnualAllowableCut::class , [ 'Name','ManagementUnitName','Email'], ['management_unit:Id,Name']));
     }
 
     /**
@@ -70,6 +71,7 @@ class AnnualAllowableCutController extends Controller
 
         $aacNumber = sprintf("%03d", ++$aacNumber);
         $data['AacId'] = $AacIdName."_".$aacNumber;
+        $data['User']  = $this->jwtPayload('data.id');
 
         $annual_allowable_cut = AnnualAllowableCut::create($data);
 

@@ -23,9 +23,8 @@ export default (options) => {
             MobileId: {
                 header: 'th_mobile_id'
             },
-            'annual_allowable_cut.Name': {
+            AnnualAllowableCutName: {
                 header: 'th_aac_name',
-                queryKey: 'AnnualAllowableCut'
             },
             Approved: {
                 header: 'th_approved',

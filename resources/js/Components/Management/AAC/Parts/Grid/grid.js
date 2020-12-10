@@ -26,9 +26,8 @@ export default (options) => {
             Name: {
                 header: 'th_aac_name'
             },
-            "management_unit.Name": {
+            ManagementUnitName: {
                 header: "th_ufg",
-                queryKey: "ManagementUnit"
             },
             management_plans: {
                 header: "th_plan_id",
@@ -39,7 +38,6 @@ export default (options) => {
             },
             Email: {
                 header: "th_email",
-                queryKey: "User"
             },
             Approved: {
                 header: 'th_approved',

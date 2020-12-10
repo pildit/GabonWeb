@@ -23,19 +23,13 @@ export default (options) => {
             ReportNo: {
                 header: "th_report_number",
             },
-            Company: {
+            CompanyName: {
                 header: "th_company",
-                render: (row) => {
-                    return row.company.Name
-                }
             },
-            Concession: {
+            ConcessionName: {
                 header: "th_concession_name",
-                render: (row) => {
-                    return row.concession.Name
-                }
             },
-            'anuualallowablecut.Name': {
+            AnnualAllowableCutName: {
                 header: "th_aac_name",
             },
             Approved: {

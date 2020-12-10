@@ -50,7 +50,7 @@ class SiteLogbookController extends Controller
         $pr->setSortFields(['Id']);
 
         return response()->json($pr->getPaginator($request,
-            SiteLogbook::class,['AnnualAllowableCut'],
+            SiteLogbook::class,['AnnualAllowableCutName','ConcessionName','CompanyName','ReportNo'],
             ['anuualallowablecut', 'concession', 'company']));
     }
 

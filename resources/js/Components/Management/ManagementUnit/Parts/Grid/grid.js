@@ -26,9 +26,8 @@ export default (options) => {
             Name: {
                 header: "th_management_unit_name",
             },
-            'development_unit.Name' : {
+            DevelopmentUnitName: {
                 header: "th_dev_unit_name",
-                queryKey: "DevelopmentUnit"
             },
             plans: {
                 header: "th_plan_id",

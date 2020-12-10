@@ -20,13 +20,11 @@ export default (options) => {
             PermitNo: {
                 header: "th_id"
             },
-            'annualallowablecut.Name': {
-                header: "th_aac_name",
-                queryKey: 'AnnualAllowableCut'
+            AnnualAllowableCutName: {
+                header: "th_aac_name"
             },
-            'transportercompany.Name': {
+            TransporterCompanyName: {
                 header: "th_company_name",
-                queryKey: 'TransporterCompany'
             },
             LicensePlate: {
                 header: "th_license_plate"

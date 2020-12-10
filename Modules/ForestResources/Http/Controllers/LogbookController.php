@@ -43,7 +43,7 @@ class LogbookController extends Controller
     {
         $pr->setSortFields(['Id']);
 
-        return response()->json($pr->getPaginator($request, Logbook::class,['AnnualAllowableCut'],['anuualallowablecut', 'concession']));
+        return response()->json($pr->getPaginator($request, Logbook::class,['ConcessionName','AnnualAllowableCutName'],['anuualallowablecut', 'concession']));
     }
 
     /**

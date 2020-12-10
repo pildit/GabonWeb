@@ -14,7 +14,7 @@ class CreateCompanyRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'sometimes|string|required',
+            'name' => 'sometimes|string|required|unique:Modules\Admin\Entities\Company,Name',
             'types' => 'array',
             'types.*' => 'exists:Modules\Admin\Entities\CompanyType,Id',
             'group-name' => 'string',

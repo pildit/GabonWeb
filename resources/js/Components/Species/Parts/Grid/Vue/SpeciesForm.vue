@@ -7,13 +7,13 @@
     </div>
 
     <div class="md-form mb-5">
-      <input type="text" v-model="form.LatinName" id="LatinName" name="LatinName" class="form-control" >
+      <input type="text" v-model="form.LatinName" id="LatinName" name="LatinName" class="form-control" v-validate="'required'">
       <label data-error="wrong" data-success="right" for="LatinName" :class="{'active': form.LatinName}">{{ translate('latin_name') }}</label>
       <div v-show="errors.has('LatinName')" class="invalid-feedback">{{ errors.first('LatinName') }}</div>
     </div>
 
     <div class="md-form mb-5">
-      <input type="text" v-model="form.CommonName" id="CommonName" name="CommonName" class="form-control" >
+      <input type="text" v-model="form.CommonName" id="CommonName" name="CommonName" class="form-control" v-validate="'required'">
       <label data-error="wrong" data-success="right" for="CommonName" :class="{'active': form.CommonName}">{{ translate('common_name') }}</label>
       <div v-show="errors.has('CommonName')" class="invalid-feedback">{{ errors.first('CommonName') }}</div>
     </div>
