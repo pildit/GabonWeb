@@ -5,13 +5,14 @@ namespace Modules\Admin\Entities;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Sortable;
 use App\Traits\UserEmailAttribute;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Loggable\Traits\Loggable;
 
 class Company extends Model
 {
-    use Sortable, UserEmailAttribute, Loggable;
+    use Sortable, UserEmailAttribute, Loggable, SoftDeletes;
 
-    protected $fillable = ['Name', 'GroupName', 'TradeRegister'];
+    protected $fillable = ['Name', 'GroupName', 'TradeRegister', 'DeletedAt'];
 
     protected $table = 'Taxonomy.Companies';
 
@@ -19,8 +20,7 @@ class Company extends Model
 
     const CREATED_AT = "CreatedAt";
     const UPDATED_AT = "UpdatedAt";
-
-    protected $dateFormat = 'Y-m-d H:i:s.u';
+    const DELETED_AT = "DeletedAt";
 
     public function types () {
         return $this->belongsToMany(

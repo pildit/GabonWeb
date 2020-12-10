@@ -112,13 +112,13 @@ class ManagementUnitController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function destroy(ManagementUnit $managementunit)
+    public function destroy(ManagementUnit $management_unit)
     {
-        $managementunit->delete();
+        $management_unit->delete();
 
         return response()->json([
             'message' => lang('managementunit_delete_successful')
-        ], 204);
+        ], 200);
 
     }
 

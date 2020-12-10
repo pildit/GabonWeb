@@ -5,13 +5,14 @@ namespace Modules\User\Entities;
 use App\Traits\Sortable;
 use GenTux\Jwt\JwtPayloadInterface;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Admin\Entities\Company;
 use Modules\Loggable\Traits\Loggable;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Model implements JwtPayloadInterface
 {
-    use HasRoles, Sortable, Loggable;
+    use HasRoles, Sortable, Loggable, SoftDeletes;
 
     const STATUS_DISABLED = 0;
     const STATUS_PENDING = 1;

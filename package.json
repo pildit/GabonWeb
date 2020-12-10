@@ -47,6 +47,7 @@
         "vue-range-component": "^1.0.3",
         "vue-reactive-cookie": "^1.0.4",
         "vue-simple-range-slider": "^0.1.10",
+        "vue-sweetalert2": "^4.1.1",
         "vue-switches": "^2.0.1",
         "vue2-daterange-picker": "^0.6.1",
         "vue2-leaflet": "^2.6.0",

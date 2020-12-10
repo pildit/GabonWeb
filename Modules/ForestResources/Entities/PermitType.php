@@ -5,11 +5,12 @@ namespace Modules\ForestResources\Entities;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Sortable;
 use App\Traits\UserEmailAttribute;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Loggable\Traits\Loggable;
 
 class PermitType extends Model
 {
-    use Sortable, UserEmailAttribute, Loggable;
+    use Sortable, UserEmailAttribute, Loggable, SoftDeletes;
 
     public $timestamps = true;
     const CREATED_AT = "CreatedAt";

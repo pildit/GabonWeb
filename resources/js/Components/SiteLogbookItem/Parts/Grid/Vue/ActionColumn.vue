@@ -17,6 +17,7 @@
     import SiteLogbookItem from "components/SiteLogbookItem/SiteLogbookItem";
     import Switches from 'vue-switches';
     import SiteLogbookItemLogModal from "./SiteLogbookItemLogModal";
+    import Confirmation from "../../../../Common/Confirmation/Confirmation";
 
     export default {
 
@@ -43,9 +44,14 @@
 
         methods: {
             deleteItem () {
-                SiteLogbookItem.delete(this.rowProp.Id).finally(() => {
-                    Vent.$emit('grid-refresh')
+                return Confirmation(this.translate('corfirmation_delete_question')).then((result) => {
+                    if(result.isConfirmed) {
+                        SiteLogbookItem.delete(this.rowProp.Id).finally(() => {
+                            Vent.$emit('grid-refresh')
+                        })
+                    }
                 })
+
             },
             view (logbookId) {
                 SiteLogbookItem.get(logbookId)

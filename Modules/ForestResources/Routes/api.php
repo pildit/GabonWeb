@@ -34,12 +34,12 @@ Route::middleware('jwt:api')->patch('/development_units/approve/{id}', 'Developm
 Route::middleware('jwt:api')->resource('/development_units', DevelopmentUnitController::class)->except(['edit', 'create']);
 //development plan
 Route::middleware('jwt:api')->get('/development_plans/export', 'DevelopmentPlanController@export');
-Route::middleware('jwt:api')->resource('/development_plans', DevelopmentPlanController::class)->except(['edit', 'create']);
+Route::middleware('jwt:api')->resource('/development_plans', DevelopmentPlanController::class)->except(['index', 'edit', 'create']);
 //management plan
 Route::middleware('jwt:api')->get('/management_plans/export', 'ManagementPlanController@export');
 Route::middleware('jwt:api')->get('/management_plans/list', 'ManagementPlanController@listManagementPlans');
-Route::middleware('jwt:api')->patch('/management_plans/approve/{id}', 'ManagementPlanController@approve');
-Route::middleware('jwt:api')->resource('/management_plans', ManagementPlanController::class)->except(['edit', 'create']);
+//Route::middleware('jwt:api')->patch('/management_plans/approve/{id}', 'ManagementPlanController@approve');
+Route::middleware('jwt:api')->resource('/management_plans', ManagementPlanController::class)->except(['index', 'edit', 'create']);
 //management unit
 Route::middleware('jwt:api')->get('/management_units/export', 'ManagementUnitController@export');
 Route::middleware('jwt:api')->get('/management_units/list', 'ManagementUnitController@listManagementUnits');

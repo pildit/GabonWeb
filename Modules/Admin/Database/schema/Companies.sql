@@ -8,9 +8,10 @@ create table "Taxonomy"."CompaniesTable"
     "Name"      varchar(255) not null,
     "GroupName" varchar,
     "User"    integer,
-    "CreatedAt" timestamp default now(),
-    "UpdatedAt" timestamp default now(),
-    "TradeRegister" varchar
+    "TradeRegister" varchar,
+    "CreatedAt" timestamp(0) default now(),
+    "UpdatedAt" timestamp(0) default now(),
+    "DeletedAt" timestamp(0)
 
 );
 
@@ -47,14 +48,15 @@ CREATE TRIGGER user_timestamp BEFORE INSERT OR UPDATE ON "Taxonomy"."CompaniesTa
 
 -- VIEWS
 
-create view "Taxonomy"."Companies" ("Id", "Name", "GroupName", "CreatedAt", "UpdatedAt", "User", "TradeRegister") as
+create view "Taxonomy"."Companies" ("Id", "Name", "GroupName", "User", "TradeRegister", "CreatedAt", "UpdatedAt", "DeletedAt") as
 SELECT "CompaniesTable"."Id",
        "CompaniesTable"."Name",
        "CompaniesTable"."GroupName",
+       "CompaniesTable"."User",
+       "CompaniesTable"."TradeRegister",
        "CompaniesTable"."CreatedAt",
        "CompaniesTable"."UpdatedAt",
-       "CompaniesTable"."User",
-       "CompaniesTable"."TradeRegister"
+       "CompaniesTable"."DeletedAt"
 FROM "Taxonomy"."CompaniesTable";
 
 CREATE OR REPLACE VIEW "Taxonomy"."CompanyTypes"
@@ -70,9 +72,9 @@ CREATE RULE "Companies_instead_of_delete" AS
                                                    WHERE "CompaniesTable"."Id" = old."Id";
 
 CREATE RULE "Companies_instead_of_insert" AS
-    ON INSERT TO "Taxonomy"."Companies" DO INSTEAD INSERT INTO "Taxonomy"."CompaniesTable" ("Name", "GroupName", "User", "CreatedAt", "UpdatedAt", "TradeRegister")
-                                                   VALUES (new."Name", new."GroupName", new."User", new."CreatedAt", new."UpdatedAt", new."TradeRegister")
-                                                   Returning "Id", "Name", "GroupName", "CreatedAt", "UpdatedAt", "User", "TradeRegister";
+    ON INSERT TO "Taxonomy"."Companies" DO INSTEAD INSERT INTO "Taxonomy"."CompaniesTable" ("Name", "GroupName", "User", "TradeRegister", "CreatedAt", "UpdatedAt")
+                                                   VALUES (new."Name", new."GroupName", new."User", new."TradeRegister", new."CreatedAt", new."UpdatedAt")
+                                                   Returning "Id", "Name", "GroupName", "User", "TradeRegister", "CreatedAt", "UpdatedAt", "DeletedAt";
 
 CREATE RULE "Companies_instead_of_update" AS
     ON UPDATE TO "Taxonomy"."Companies" DO INSTEAD UPDATE "Taxonomy"."CompaniesTable"
@@ -80,9 +82,10 @@ CREATE RULE "Companies_instead_of_update" AS
                                                        "GroupName" = new."GroupName",
                                                        "User" = new."User",
                                                        "UpdatedAt" = new."UpdatedAt",
-                                                       "TradeRegister" = new."TradeRegister"
+                                                       "TradeRegister" = new."TradeRegister",
+                                                       "DeletedAt" = new."DeletedAt"
                                                    WHERE "CompaniesTable"."Id" = old."Id"
-                                                   Returning "Id", "Name", "GroupName", "CreatedAt", "UpdatedAt", "User", "TradeRegister";
+                                                   Returning "Id", "Name", "GroupName", "User", "TradeRegister", "CreatedAt", "UpdatedAt", "DeletedAt";
 
 
 create or replace rule "CompanyTypes_instead_of_delete"

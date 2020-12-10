@@ -13,6 +13,7 @@
 <script>
 import speciesModal from "./SpeciesModal";
 import Species from "components/Species/Species";
+import Confirmation from "../../../../Common/Confirmation/Confirmation";
 
 export default {
 
@@ -30,9 +31,14 @@ export default {
 
     methods: {
         deleteItem () {
-            Species.delete(this.rowProp.Id).finally(() => {
-                Vent.$emit('grid-refresh')
+            return Confirmation(this.translate('corfirmation_delete_question')).then((result) => {
+                if(result.isConfirmed) {
+                    Species.delete(this.rowProp.Id).finally(() => {
+                        Vent.$emit('grid-refresh')
+                    })
+                }
             })
+
         },
         edit() {
             this.modals.form = true;

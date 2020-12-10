@@ -105,7 +105,7 @@ class CompanyController extends Controller
 
         return response()->json([
             'message' => lang('company_delete_succesful')
-        ], 204);
+        ], 200);
     }
 
     /**

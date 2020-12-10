@@ -5,7 +5,7 @@
             <i class="fas fa-edit"></i>
         </a>
         <translation-modal v-permission="'translations.edit'" type-prop="edit" v-model="modals.form"></translation-modal>
-        <a v-permission="'translations.delete'" class="text-danger aligned fz-16" @click="deleteTranslation" v-if="rowProp.name != 'admin'"
+        <a v-permission="'translations.delete'" class="text-danger aligned fz-16" @click.prevent="deleteTranslation"
            :title="translate('delete')" v-tooltip>
             <i class="fas fa-trash"></i>
         </a>
@@ -32,7 +32,7 @@
 
         methods: {
             deleteTranslation () {
-                Translation.delete(this.rowProp.Id).finally(() => {
+                Translation.delete(this.rowProp.id).finally(() => {
                     Vent.$emit('grid-refresh')
                 })
             },

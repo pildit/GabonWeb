@@ -43,13 +43,14 @@ alter table "ForestResources"."PermitTypesTable"
 alter table "ForestResources"."PermitTypesTable"
     add "DeletedAt" timestamp null;
 
-create or replace  view "ForestResources"."PermitTypes"("Id", "Name", "Abbreviation", "User", "CreatedAt", "UpdatedAt") as
+create or replace  view "ForestResources"."PermitTypes"("Id", "Name", "Abbreviation", "User", "CreatedAt", "UpdatedAt", "DeletedAt") as
 SELECT pt."Id",
        pt."Name",
        pt."Abbreviation",
        pt."User",
        pt."CreatedAt",
-       pt."UpdatedAt"
+       pt."UpdatedAt",
+       pt."DeletedAt"
 FROM "ForestResources"."PermitTypesTable" pt;
 
 CREATE RULE "PermitTypes_instead_of_insert" AS
@@ -60,20 +61,22 @@ CREATE RULE "PermitTypes_instead_of_insert" AS
     "ForestResources"."PermitTypesTable"."Abbreviation",
     "ForestResources"."PermitTypesTable"."User",
     "ForestResources"."PermitTypesTable"."CreatedAt",
-    "ForestResources"."PermitTypesTable"."UpdatedAt";
+    "ForestResources"."PermitTypesTable"."UpdatedAt",
+    "ForestResources"."PermitTypesTable"."DeletedAt";
 
 
 
 
 CREATE RULE "PermitTypes_instead_of_update" AS
-    ON UPDATE TO "ForestResources"."PermitTypes" DO INSTEAD  UPDATE "ForestResources"."PermitTypesTable" SET "Name" = new."Name", "Abbreviation" = new."Abbreviation"
+    ON UPDATE TO "ForestResources"."PermitTypes" DO INSTEAD  UPDATE "ForestResources"."PermitTypesTable" SET "Name" = new."Name", "Abbreviation" = new."Abbreviation", "UpdatedAt" = new."UpdatedAt", "DeletedAt" = new."DeletedAt"
   WHERE "PermitTypesTable"."Id" = old."Id"
-  RETURNING "ForestResources"."PermitTypesTable"."Id",
-    "ForestResources"."PermitTypesTable"."Name",
-    "ForestResources"."PermitTypesTable"."Abbreviation",
-    "ForestResources"."PermitTypesTable"."User",
-    "ForestResources"."PermitTypesTable"."CreatedAt",
-    "ForestResources"."PermitTypesTable"."UpdatedAt";
+     RETURNING "ForestResources"."PermitTypesTable"."Id",
+         "ForestResources"."PermitTypesTable"."Name",
+         "ForestResources"."PermitTypesTable"."Abbreviation",
+         "ForestResources"."PermitTypesTable"."User",
+         "ForestResources"."PermitTypesTable"."CreatedAt",
+         "ForestResources"."PermitTypesTable"."UpdatedAt",
+         "ForestResources"."PermitTypesTable"."DeletedAt";
 
 
 

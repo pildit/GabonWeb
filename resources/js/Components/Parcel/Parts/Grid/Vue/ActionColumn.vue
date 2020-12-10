@@ -12,6 +12,7 @@ import Switches from 'vue-switches';
 import Notification from "components/Common/Notifications/Notification";
 
 import Parcel from "../../../Parcel";
+import Confirmation from "../../../../Common/Confirmation/Confirmation";
 
 export default {
 
@@ -27,9 +28,14 @@ export default {
 
     methods: {
       deleteParcel () {
-          Parcel.delete(this.rowProp.Id).finally(() => {
-              Vent.$emit('grid-refresh')
+          return Confirmation(this.translate('corfirmation_delete_question')).then((result) => {
+              if(result.isConfirmed) {
+                  Parcel.delete(this.rowProp.Id).finally(() => {
+                      Vent.$emit('grid-refresh')
+                  })
+              }
           })
+
       },
 
       editRoute() {

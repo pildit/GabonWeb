@@ -26,6 +26,7 @@
 import User from "components/User/User";
 
 import Switches from 'vue-switches';
+import Confirmation from "../../../../Common/Confirmation/Confirmation";
 
 export default {
 
@@ -43,8 +44,12 @@ export default {
 
     methods: {
         deleteUser() {
-            User.delete(this.rowProp.id).finally(() => {
-                Vent.$emit('grid-refresh')
+            return Confirmation(this.translate('corfirmation_delete_question')).then((result) => {
+                if(result.isConfirmed) {
+                    User.delete(this.rowProp.id).finally(() => {
+                        Vent.$emit('grid-refresh')
+                    })
+                }
             })
         },
         editRoute() {

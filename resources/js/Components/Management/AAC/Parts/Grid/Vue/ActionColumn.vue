@@ -18,6 +18,7 @@
 import Switches from 'vue-switches';
 import AAC from "components/Management/AAC/AAC";
 import Notification from "components/Common/Notifications/Notification";
+import Confirmation from "../../../../../Common/Confirmation/Confirmation";
 
 export default {
     props: ["rowProp", "optionsProp"],
@@ -26,9 +27,14 @@ export default {
 
     methods: {
         deleteAAC () {
-            AAC.delete(this.rowProp.Id).finally(() => {
-                Vent.$emit('grid-refresh')
+            return Confirmation(this.translate('corfirmation_delete_question')).then((result) => {
+                if(result.isConfirmed) {
+                    AAC.delete(this.rowProp.Id).finally(() => {
+                        Vent.$emit('grid-refresh')
+                    })
+                }
             })
+
         },
 
         editRoute() {

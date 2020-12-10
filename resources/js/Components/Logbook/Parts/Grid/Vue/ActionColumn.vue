@@ -16,6 +16,7 @@
     import Logbook from "components/Logbook/Logbook";
     import Switches from 'vue-switches';
     import LogbookModal from "./LogbookModal";
+    import Confirmation from "../../../../Common/Confirmation/Confirmation";
 
     export default {
 
@@ -33,8 +34,12 @@
 
         methods: {
             deleteLogbook () {
-                Logbook.delete(this.rowProp.Id).finally(() => {
-                    Vent.$emit('grid-refresh')
+                return Confirmation(this.translate('corfirmation_delete_question')).then((result) => {
+                    if(result.isConfirmed) {
+                        Logbook.delete(this.rowProp.Id).finally(() => {
+                            Vent.$emit('grid-refresh')
+                        })
+                    }
                 })
             },
             view (logookId) {

@@ -19,6 +19,7 @@
 import Switches from 'vue-switches';
 import DevelopmentUnit from "components/Management/DevelopmentUnit/DevelopmentUnit";
 import Notification from "components/Common/Notifications/Notification";
+import Confirmation from "../../../../../Common/Confirmation/Confirmation";
 
 export default {
     props: ["rowProp", "optionsProp"],
@@ -28,9 +29,14 @@ export default {
     methods: {
 
         deleteUnit () {
-            DevelopmentUnit.delete(this.rowProp.Id).finally(() => {
-                Vent.$emit('grid-refresh')
+            return Confirmation(this.translate('corfirmation_delete_question')).then((result) => {
+                if(result.isConfirmed) {
+                    DevelopmentUnit.delete(this.rowProp.Id).finally(() => {
+                        Vent.$emit('grid-refresh')
+                    })
+                }
             })
+
         },
 
         editRoute() {

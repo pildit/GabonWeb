@@ -4,7 +4,7 @@
         <i class="fas fa-edit"></i>
     </a>
       <a v-permission="'quality.delete'" class="text-danger aligned fz-16" @click="deleteQuality" :title="translate('delete')" v-tooltip>
-          <i class="fas fa-edit"></i>
+          <i class="fas fa-trash"></i>
       </a>
     <quality-modal :quality-prop="rowProp" type-prop="edit" v-model="modals.form"></quality-modal>
   </div>

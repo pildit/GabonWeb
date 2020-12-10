@@ -21,6 +21,7 @@
 import Switches from 'vue-switches';
 import Notification from "components/Common/Notifications/Notification";
 import ConstituentPermit from "components/ConstituentPermit/ConstituentPermit";
+import Confirmation from "../../../../Common/Confirmation/Confirmation";
 
 export default {
 
@@ -36,9 +37,14 @@ export default {
 
     methods: {
         deletePermit () {
-            ConstituentPermit.delete(this.rowProp.Id).finally(() => {
-                Vent.$emit('grid-refresh')
+            return Confirmation(this.translate('corfirmation_delete_question')).then((result) => {
+                if(result.isConfirmed) {
+                    ConstituentPermit.delete(this.rowProp.Id).finally(() => {
+                        Vent.$emit('grid-refresh')
+                    })
+                }
             })
+
         },
         editRoute() {
             return ConstituentPermit.buildRoute('constituent_permits.edit', {id: this.rowProp.Id});

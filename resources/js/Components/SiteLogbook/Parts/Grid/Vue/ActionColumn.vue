@@ -16,6 +16,7 @@
 <script>
     import Switches from 'vue-switches';
     import SiteLogbook from "components/SiteLogbook/SiteLogbook";
+    import Confirmation from "../../../../Common/Confirmation/Confirmation";
 
     export default {
 
@@ -35,9 +36,14 @@
 
         methods: {
             deleteItem () {
-                SiteLogbook.delete(this.rowProp.Id).finally(() => {
-                    Vent.$emit('grid-refresh')
+                return Confirmation(this.translate('corfirmation_delete_question')).then((result) => {
+                    if(result.isConfirmed) {
+                        SiteLogbook.delete(this.rowProp.Id).finally(() => {
+                            Vent.$emit('grid-refresh')
+                        })
+                    }
                 })
+
             },
             approve (val) {
                 SiteLogbook.approve(this.rowProp.Id, {Approved: val}).finally(() => this.rowProp.Approved = val);
