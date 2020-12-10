@@ -14,6 +14,7 @@
 import qualityModal from "./QualityModal";
 import Translation from "components/Mixins/Translation";
 import Quality from "components/Quality/Quality";
+import Confirmation from "../../../../Common/Confirmation/Confirmation";
 
 export default {
   mixins: [Translation],
@@ -32,9 +33,14 @@ export default {
 
   methods: {
       deleteQuality () {
-          Quality.delete(this.rowProp.Id).finally(() => {
-              Vent.$emit('grid-refresh')
+          return Confirmation(this.translate('corfirmation_delete_question')).then((result) => {
+              if(result.isConfirmed) {
+                  Quality.delete(this.rowProp.Id).finally(() => {
+                      Vent.$emit('grid-refresh')
+                  })
+              }
           })
+
       },
     edit(id) {
       this.modals.form = this.rowProp;
