@@ -30,12 +30,8 @@ export default (options) => {
             Volume: {
                 header: "th_volume"
             },
-            Species: {
+            SpeciesLatinName: {
                 header: "th_species",
-                render: (row) => {
-                    let s = options.speciesList.find((x) => x.Id == row.Species);
-                    return s ? s.LatinName : null;
-                }
             },
             ObserveAt: {
                 header: "th_date",

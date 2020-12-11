@@ -47,7 +47,7 @@ class SiteLogbookItemController extends Controller
 
         return response()->json(
             $pr->getPaginator($request, SiteLogbookItem::class,[
-                'HewingId', 'Length', 'AverageDiameter', 'Volume'
+                'HewingId', 'Length', 'AverageDiameter', 'Volume', 'SpeciesLatinName'
             ],['logs'])
         );
     }
