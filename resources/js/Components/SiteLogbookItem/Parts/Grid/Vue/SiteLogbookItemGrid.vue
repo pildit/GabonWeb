@@ -28,13 +28,14 @@
 
     import grid from "../grid";
     import Grid from "components/Common/Grid/Grid";
+    import Species from "../../../../Species/Species";
 
     export default {
         components: {VuePagination, Grid},
         params: ['id'],
         data() {
             return {
-                grid: grid(),
+                grid: null,
                 logBookPagination: {
                     total: 0,
                     per_page: 20,
@@ -49,6 +50,9 @@
         computed: {
         },
         mounted() {
+            this.speciesList = Species.listSearch('', 500).then((response) => {
+                this.grid = grid({speciesList: response.data});
+            })
             this.getSiteLogbooks();
         },
         methods: {

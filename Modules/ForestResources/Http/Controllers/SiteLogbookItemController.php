@@ -37,17 +37,19 @@ class SiteLogbookItemController extends Controller
 
     /**
      * Display a listing of the resource.
-     * @return Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request, PageResults $pr)
     {
         $pr->setSortFields(['Id']);
-        $sitelogbook = SiteLogbook::where('Id', (int)$request->get("SiteLogbook"))->first();
-        if(!$sitelogbook){
-            throw ValidationException::withMessages(['SiteLogbook' => 'validation.exists']);
-        }
-        $request->merge(['search'=>$request->get("SiteLogbook")]);
-        return response()->json($pr->getPaginator($request, SiteLogbookItem::class,['SiteLogbook'],['logs']));
+        $request->validate(['Logbook' => 'required']);
+        $pr->setWhere(['SiteLogbook' => $request->get('Logbook')]);
+
+        return response()->json(
+            $pr->getPaginator($request, SiteLogbookItem::class,[
+                'HewingId', 'Length', 'AverageDiameter', 'Volume'
+            ],['logs'])
+        );
     }
 
     /**

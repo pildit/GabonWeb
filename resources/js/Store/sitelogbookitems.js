@@ -31,39 +31,11 @@ export default {
     },
     actions: {
         index({commit}, payload) {
-            payload['SiteLogbook'] = payload.Logbook;
             return axios.get('api/site_logbook_items', {params: payload})
                 .then((response) => {
-                    var siteLogbook = response.data.data,
-                        items = response.data.data.items
-                    items.forEach((item) => {
-                        item.aac_name = (siteLogbook.anuualallowablecut) ? siteLogbook.anuualallowablecut.Name : ''
-                        item.ufa = (siteLogbook.developmentunit) ? siteLogbook.developmentunit.Name : ''
-                        item.ufg = (siteLogbook.managementunit) ? siteLogbook.managementunit.Name : ''
-                        item.ReportNote = siteLogbook.ReportNote
-                        item.concession_name = (siteLogbook.concession) ? siteLogbook.concession.Name : ''
-                        item.Localization = siteLogbook.Localization
-                        item.ReportNote = siteLogbook.ReportNote
-                    })
-                    commit('siteLogbookItems', items);
+                    commit('siteLogbookItems', response.data.data);
                     return response
                 });
-            // return axios.get(`api/site_logbooks/${payload.Logbook}`)
-            //     .then((response) => {
-            //         var siteLogbook = response.data.data,
-            //             items = response.data.data.items
-            //         items.forEach((item) => {
-            //             item.aac_name = siteLogbook.anuualallowablecut.Name
-            //             item.ufa = siteLogbook.developmentunit.Name
-            //             item.ufg = siteLogbook.managementunit.Name
-            //             item.ReportNote = siteLogbook.ReportNote
-            //             item.concession_name = siteLogbook.concession.Name
-            //             item.Localization = siteLogbook.Localization
-            //             item.ReportNote = siteLogbook.ReportNote
-            //         })
-            //         commit('siteLogbookItems', items);
-            //         return response
-            //     });
         },
 
         get({commit}, payload) {

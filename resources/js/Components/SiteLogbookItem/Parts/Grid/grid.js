@@ -15,17 +15,27 @@ export default (options) => {
             }
         },
         columns: {
+            Id: {
+                header: "th_id",
+            },
             HewingId: {
-                header: "th_log_id",
+                header: "th_id_abattage"
             },
-            aac_name: {
-                header: "th_aac_name",
+            Length: {
+                header: "th_length"
             },
-            ufa: {
-                header: "th_ufa",
+            AverageDiameter: {
+                header: "th_avg_diameter"
             },
-            ufg: {
-                header: "th_ufg",
+            Volume: {
+                header: "th_volume"
+            },
+            Species: {
+                header: "th_species",
+                render: (row) => {
+                    let s = options.speciesList.find((x) => x.Id == row.Species);
+                    return s ? s.LatinName : null;
+                }
             },
             ObserveAt: {
                 header: "th_date",

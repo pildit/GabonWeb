@@ -132,7 +132,7 @@ class PageResults
 
         if($this->where) {
             foreach ($this->where as $field => $value) {
-                $this->query->orWhere($field, $value);
+                $this->query->where($field, $value);
             }
         }
 
