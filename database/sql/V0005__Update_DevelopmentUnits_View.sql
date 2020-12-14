@@ -1,4 +1,4 @@
-drop view if exists "ForestResources"."DevelopmentUnits"
+drop view if exists "ForestResources"."DevelopmentUnits";
 create or replace view "ForestResources"."DevelopmentUnits"
             ("Id", "Name", "Concession", "ConcessionName", "Start", "End", "PlansList", "Geometry", "Approved", "Number", "User",
              "Email", "ProductType", "CreatedAt", "UpdatedAt", "DeletedAt")

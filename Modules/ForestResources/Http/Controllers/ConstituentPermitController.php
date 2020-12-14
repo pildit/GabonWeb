@@ -5,14 +5,12 @@ namespace Modules\ForestResources\Http\Controllers;
 use Illuminate\Contracts\Support\Response;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\DB;
 use Modules\ForestResources\Entities\ConstituentPermit;
 use App\Services\PageResults;
 use Modules\ForestResources\Http\Requests\CreateConstituentPermitRequest;
 use GenTux\Jwt\GetsJwtToken;
 use App\Traits\Approve;
 use Modules\ForestResources\Services\ConstituentPermit as ConstituentPermitService;
-use Rap2hpoutre\FastExcel\FastExcel;
 
 class ConstituentPermitController extends Controller
 {
@@ -143,7 +141,7 @@ class ConstituentPermitController extends Controller
         }
         $collection = $collection->get();
 
-        return (new FastExcel($collection))->download('constituent_permits.xlsx');
+        return fastexcel($collection)->download('constituent_permits.xlsx');
     }
 
     /**

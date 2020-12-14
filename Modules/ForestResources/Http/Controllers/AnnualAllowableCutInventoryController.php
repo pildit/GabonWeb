@@ -8,18 +8,12 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\ForestResources\Entities\AnnualAllowableCut;
 use Modules\ForestResources\Entities\AnnualAllowableCutInventory;
-use Modules\ForestResources\Entities\Parcel;
-use Modules\ForestResources\Entities\Species;
-use Modules\ForestResources\Exports\AnnualAllowableCutInventoryExporter;
 use Modules\ForestResources\Http\Requests\CreateAnnualAllowableCutInventoryRequest;
 use Modules\ForestResources\Http\Requests\UpdateAnnualAllowableCutInventoryRequest;
 use Illuminate\Support\Facades\DB;
 use Modules\ForestResources\Services\AnnualAllowableCutInventory as AnnualAllowableCutInventoryService;
 use App\Traits\Approve;
-use Modules\ForestResources\Exports\Exporter;
-use Maatwebsite\Excel\Facades\Excel;
 use GenTux\Jwt\GetsJwtToken;
-use Rap2hpoutre\FastExcel\FastExcel;
 
 class AnnualAllowableCutInventoryController extends Controller
 {
@@ -186,7 +180,7 @@ class AnnualAllowableCutInventoryController extends Controller
         }
         $collection = $collection->get();
 
-        return (new FastExcel($collection))->download('annual_allowable_cut_inventory.xlsx');
+        return fastexcel($collection)->download('annual_allowable_cut_inventory.xlsx');
 
     }
 
