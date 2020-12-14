@@ -34,7 +34,7 @@ class AnnualAllowableCutInventory extends PageResults
                 'geometry' => json_decode($item->geom),
                 'properties' => [
                     'id' => $item->Id,
-                    'AnnualAllowableCut' => $item->annualallowablecut ? $item->annualallowablecut->Name : $item->AnnualAllowableCut,
+                    'AnnualAllowableCut' => $item->AnnualAllowableCutName,
                     'Species'=> $item->species ? $item->species->CommonName : $item->Species,
                     'DiameterBreastHeight' => $item->DiameterBreastHeight,
                     'Quality' => $item->Quality,

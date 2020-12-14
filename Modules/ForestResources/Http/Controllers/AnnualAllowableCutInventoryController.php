@@ -10,6 +10,7 @@ use Modules\ForestResources\Entities\AnnualAllowableCut;
 use Modules\ForestResources\Entities\AnnualAllowableCutInventory;
 use Modules\ForestResources\Entities\Parcel;
 use Modules\ForestResources\Entities\Species;
+use Modules\ForestResources\Exports\AnnualAllowableCutInventoryExporter;
 use Modules\ForestResources\Http\Requests\CreateAnnualAllowableCutInventoryRequest;
 use Modules\ForestResources\Http\Requests\UpdateAnnualAllowableCutInventoryRequest;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +19,7 @@ use App\Traits\Approve;
 use Modules\ForestResources\Exports\Exporter;
 use Maatwebsite\Excel\Facades\Excel;
 use GenTux\Jwt\GetsJwtToken;
+use Rap2hpoutre\FastExcel\FastExcel;
 
 class AnnualAllowableCutInventoryController extends Controller
 {
@@ -46,7 +48,7 @@ class AnnualAllowableCutInventoryController extends Controller
     {
         $pr->setSortFields(['Id']);
 
-        return response()->json($pr->getPaginator($request, AnnualAllowableCutInventory::class, ['AnnualAllowableCutName', 'MobileId'], ['annual_allowable_cut']));
+        return response()->json($pr->getPaginator($request, AnnualAllowableCutInventory::class, ['AnnualAllowableCutName', 'MobileId'], []));
     }
 
     /**
@@ -172,8 +174,8 @@ class AnnualAllowableCutInventoryController extends Controller
         $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
         $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
 
-        $headings = ['AnnualAllowableCut', 'Species', 'Quality', 'Parcel', 'TreeId', 'DiameterBreastHeight', 'Lat', 'Lon', 'GpsAccu'];
-        $collection = AnnualAllowableCutInventory::select('Id', 'AnnualAllowableCut', 'Species', 'Quality', 'Parcel', 'TreeId', 'DiameterBreastHeight', 'Lat', 'Lon', 'GpsAccu')->take(1000);
+        $collection = app('db')->table('ForestResources.AnnualAllowableCutInventory')
+            ->select('AnnualAllowableCutName', 'SpeciesCommonName', 'Quality', 'ParcelName', 'TreeId', 'DiameterBreastHeight', 'Lat', 'Lon', 'GpsAccu');
 
         if ($request->get('date_from')) {
             $collection = $collection->where("CreatedAt", ">=", $request->get('date_from'));
@@ -183,34 +185,8 @@ class AnnualAllowableCutInventoryController extends Controller
         }
         $collection = $collection->get();
 
-        $collection = $collection->map(function ($item) {
+        return (new FastExcel($collection))->download('annual_allowable_cut_inventory.xlsx');
 
-            $AnnualAllowableCut = (AnnualAllowableCut::select("Name")->where("Id", $item->AnnualAllowableCut)->first()) ?
-                AnnualAllowableCut::select("Name")->where("Id", $item->AnnualAllowableCut)->first()->Name :
-                $item->AnnualAllowableCut;
-
-            $Species = (Species::select("CommonName")->where("Id", $item->Species)->first()) ?
-                Species::select("CommonName")->where("Id", $item->Species)->first()->CommonName :
-                $item->Species;
-
-            $Parcel = (Parcel::select("Name")->where("Id", $item->Parcel)->first()) ?
-                Parcel::select("Name")->where("Id", $item->Parcel)->first()->Name :
-                $item->Parcel;
-
-            return [
-                'AnnualAllowableCut' => $AnnualAllowableCut,
-                'Species' => $Species,
-                'Quality' => $item->Quality,
-                'Parcel' => $Parcel,
-                'TreeId' => $item->TreeId,
-                'DiameterBreastHeight' => $item->DiameterBreastHeight,
-                'Lat' => $item->Lat,
-                'Lon' => $item->Lon,
-                'GpsAccu' => $item->GpsAccu
-            ];
-        });
-
-        return Excel::download(new Exporter($collection, $headings), 'annual_allowable_cut_inventory.xlsx');
     }
 
 }
