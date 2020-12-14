@@ -78,13 +78,13 @@ CREATE RULE "AnnualAllowableCutInventory_instead_of_insert" AS
                    (SELECT s."CommonName"
                     FROM "Taxonomy"."SpeciesTable" s
                     WHERE "AnnualAllowableCutInventoryTable"."Species" = s."Id"
-                    LIMIT 1) as SpeciesCommonName,
+                    LIMIT 1) as "SpeciesCommonName",
                    "AnnualAllowableCutInventoryTable"."Quality",
                    "AnnualAllowableCutInventoryTable"."Parcel",
                    (SELECT p."Name"
                     FROM "ForestResources"."ParcelsTable" p
                     WHERE "AnnualAllowableCutInventoryTable"."Parcel" = p."Id"
-                    LIMIT 1),
+                    LIMIT 1) as "ParcelName",
                    "AnnualAllowableCutInventoryTable"."TreeId",
                    "AnnualAllowableCutInventoryTable"."DiameterBreastHeight",
                    "AnnualAllowableCutInventoryTable"."Geometry",
@@ -95,7 +95,7 @@ CREATE RULE "AnnualAllowableCutInventory_instead_of_insert" AS
                    (SELECT acc.email
                     FROM admin.accounts acc
                     WHERE "AnnualAllowableCutInventoryTable"."User" = acc.id
-                    LIMIT 1) AS email,
+                    LIMIT 1) AS "Email",
                    "AnnualAllowableCutInventoryTable"."Approved",
                    "AnnualAllowableCutInventoryTable"."MobileId",
                    "AnnualAllowableCutInventoryTable"."ObserveAt",
@@ -132,13 +132,13 @@ CREATE RULE "AnnualAllowableCutInventory_instead_of_update" AS
                                                                                 (SELECT s."CommonName"
                                                                                  FROM "Taxonomy"."SpeciesTable" s
                                                                                  WHERE "AnnualAllowableCutInventoryTable"."Species" = s."Id"
-                                                                                 LIMIT 1) as SpeciesCommonName,
+                                                                                 LIMIT 1) as "SpeciesCommonName",
                                                                                 "AnnualAllowableCutInventoryTable"."Quality",
                                                                                 "AnnualAllowableCutInventoryTable"."Parcel",
                                                                                 (SELECT p."Name"
                                                                                  FROM "ForestResources"."ParcelsTable" p
                                                                                  WHERE "AnnualAllowableCutInventoryTable"."Parcel" = p."Id"
-                                                                                 LIMIT 1),
+                                                                                 LIMIT 1) as "ParcelName",
                                                                                 "AnnualAllowableCutInventoryTable"."TreeId",
                                                                                 "AnnualAllowableCutInventoryTable"."DiameterBreastHeight",
                                                                                 "AnnualAllowableCutInventoryTable"."Geometry",
@@ -149,7 +149,7 @@ CREATE RULE "AnnualAllowableCutInventory_instead_of_update" AS
                                                                                 (SELECT acc.email
                                                                                  FROM admin.accounts acc
                                                                                  WHERE "AnnualAllowableCutInventoryTable"."User" = acc.id
-                                                                                 LIMIT 1) AS email,
+                                                                                 LIMIT 1) AS "Email",
                                                                                 "AnnualAllowableCutInventoryTable"."Approved",
                                                                                 "AnnualAllowableCutInventoryTable"."MobileId",
                                                                                 "AnnualAllowableCutInventoryTable"."ObserveAt",
