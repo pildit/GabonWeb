@@ -8,16 +8,11 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Modules\ForestResources\Entities\ConstituentPermit;
 use App\Services\PageResults;
-use Modules\ForestResources\Entities\PermitType;
 use Modules\ForestResources\Http\Requests\CreateConstituentPermitRequest;
 use GenTux\Jwt\GetsJwtToken;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Auth;
 use App\Traits\Approve;
-use Modules\ForestResources\Exports\Exporter;
-use Maatwebsite\Excel\Facades\Excel;
-use Modules\User\Entities\User;
 use Modules\ForestResources\Services\ConstituentPermit as ConstituentPermitService;
+use Rap2hpoutre\FastExcel\FastExcel;
 
 class ConstituentPermitController extends Controller
 {
@@ -136,8 +131,9 @@ class ConstituentPermitController extends Controller
         $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
         $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
 
-        $headings = [ 'User', 'Email', 'PermitType', 'PermitNumber'];
-        $collection = ConstituentPermit::select('Id', 'User', 'Email', 'PermitType', 'PermitNumber');
+        $collection = app('db')->table('ForestResources.ConstituentPermits')
+            ->select('Id','Email', 'PermitTypeName', 'PermitNumber')
+            ->whereNull('DeletedAt');
 
         if ($request->get('date_from')) {
             $collection = $collection->where("CreatedAt", ">=", $request->get('date_from'));
@@ -147,26 +143,7 @@ class ConstituentPermitController extends Controller
         }
         $collection = $collection->get();
 
-        $collection = $collection->map(function ($item) {
-
-            $PermitType = (PermitType::select("Name")->where("Id", $item->PermitType)->first()) ?
-                PermitType::select("Name")->where("Id", $item->PermitType)->first()->Name :
-                $item->PermitType;
-
-
-            $User = (User::select("firstname","lastname")->where("id", $item->User)->first()) ?
-                User::select("firstname")->where("id", $item->User)->first()->firstname ." ".User::select("lastname")->where("id", $item->User)->first()->lastname :
-                $item->User;
-
-            return [
-                'User' => $User,
-                'Email' => $item->Email,
-                'PermitType' => $PermitType,
-                'PermitNumber' => $item->PermitNumber
-            ];
-        });
-
-        return Excel::download(new Exporter($collection, $headings), 'constituent_permit.xlsx');
+        return (new FastExcel($collection))->download('constituent_permits.xlsx');
     }
 
     /**

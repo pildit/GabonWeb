@@ -169,7 +169,10 @@ class DevelopmentUnitController extends Controller
         $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
 
         $headings  = ['Name', 'Concession', 'Plan ID', 'Start', 'End'];
-        $collection = DevelopmentUnit::select('Id', 'Name', 'Concession', 'Start', 'End');
+//        $collection = DevelopmentUnit::select('Id', 'Name', 'Concession', 'Start', 'End');
+        $du_table = (new DevelopmentUnit())->getTable();
+        $collection = app('db')->table($du_table)
+            ->select('Id', 'Name', 'ConcessionName', 'PlansList', 'Start', 'End');
 
         if($request->get('date_from')){
             $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
@@ -179,6 +182,9 @@ class DevelopmentUnitController extends Controller
         }
 
         $collection = $collection->get();
+
+        return fastexcel($collection)->download('development_units.xlsx');
+
         $collection = $collection->map(function ($item) {
             $concession = (Concession::select("Name")->where("Id",$item->Concession)->first()) ?
                 Concession::select("Name")->where("Id",$item->Concession)->first()->Name :

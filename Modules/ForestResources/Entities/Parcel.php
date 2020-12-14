@@ -9,6 +9,7 @@ use Brick\Geo\IO\EWKBReader;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Loggable\Traits\Loggable;
+use Modules\User\Entities\User;
 
 class Parcel extends Model
 {
@@ -46,8 +47,6 @@ class Parcel extends Model
      * @var string
      */
     protected $table = 'ForestResources.Parcels';
-
-    protected $hidden = ['user'];
 
     protected $primaryKey = "Id";
 

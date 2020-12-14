@@ -234,8 +234,7 @@ class ParcelController extends Controller
         $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
         $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
 
-        $headings  = ['Name'];
-        $collection = Parcel::select('Id','Name');
+        $collection = app('db')->table('ForestResources.Parcels')->select('Id','Name', 'Email as User');
 
         if($request->get('date_from')){
             $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
@@ -245,14 +244,7 @@ class ParcelController extends Controller
         }
 
         $collection = $collection->get();
-        $collection = $collection->map(function ($item) {
 
-            return [
-                'Name' => $item->Name,
-            ];
-
-        });
-
-        return Excel::download(new Exporter($collection,$headings), 'parcel.xlsx');
+        return fastexcel($collection)->download('parcels.xlsx');
     }
 }

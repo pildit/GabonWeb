@@ -175,7 +175,8 @@ class AnnualAllowableCutInventoryController extends Controller
         $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
 
         $collection = app('db')->table('ForestResources.AnnualAllowableCutInventory')
-            ->select('AnnualAllowableCutName', 'SpeciesCommonName', 'Quality', 'ParcelName', 'TreeId', 'DiameterBreastHeight', 'Lat', 'Lon', 'GpsAccu');
+            ->select('AnnualAllowableCutName', 'SpeciesCommonName', 'Quality', 'ParcelName', 'TreeId', 'DiameterBreastHeight', 'Lat', 'Lon', 'GpsAccu')
+            ->whereNull('DeletedAt');
 
         if ($request->get('date_from')) {
             $collection = $collection->where("CreatedAt", ">=", $request->get('date_from'));

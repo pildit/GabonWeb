@@ -29,12 +29,9 @@ export default (options) => {
             ConcessionName: {
                 header: "th_concession_name"
             },
-            plans: {
+            PlansList: {
                 header: "th_plan_id",
                 sort: false,
-                render: (row) => {
-                    return _.map(row.plans, 'Id').join('/')
-                }
             },
             Email: {
                 header: "th_email"
