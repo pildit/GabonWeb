@@ -103,8 +103,7 @@ class ProductTypeController extends Controller
         $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
         $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
 
-        $headings  = ['Name', 'User'];
-        $collection = ProductType::select('Id', 'Name', 'User');
+        $collection = ProductType::select('Id', 'Name', 'Email');
 
         if($request->get('date_from')){
             $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
@@ -114,20 +113,8 @@ class ProductTypeController extends Controller
         }
 
         $collection = $collection->get();
-        $collection = $collection->map(function ($item) {
 
-            $User = (User::select("firstname","lastname")->where("id", $item->User)->first()) ?
-                User::select("firstname")->where("id", $item->User)->first()->firstname ." ".User::select("lastname")->where("id", $item->User)->first()->lastname :
-                $item->User;
-
-            return [
-                'Name' => $item->Name,
-                'User' => $User
-            ];
-
-        });
-
-        return Excel::download(new Exporter($collection,$headings), 'product_type.xlsx');
+        return fastexcel($collection)->download('product_types.xlsx');
     }
 
     /**
