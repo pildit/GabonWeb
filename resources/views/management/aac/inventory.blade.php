@@ -19,7 +19,21 @@
                     </div>
                     <div class="md-form col-sm-4">
                         <div class="form-row justify-content-end">
-                            <div class="col-sm-10">
+                            <div class="col text-right pt-2">
+                                <date-range-picker
+                                    opens="center"
+                                    ref="picker"
+                                    :singleDatePicker="false"
+                                    v-model="dateRange"
+                                    :linkedCalendars="true"
+                                    @update="updateDates"
+                                >
+                                    <template v-slot:input="picker" style="min-width: 350px;">
+                                        {{ picker.startDate | date(translate('start_date')) }} - {{ picker.endDate | date(translate('end_date'))}}
+                                    </template>
+                                </date-range-picker>
+                            </div>
+                            <div class="col">
                                 <label for="role_name">{{translate('search')}}</label>
                                 <input @keyup.enter="fetchData" class="form-control" v-model="search" type="text"  name="aac_inventory_name" id="aac_inventory_name" />
                             </div>
@@ -30,6 +44,10 @@
                     </div>
                 </div>
                 <grid :columns="grid.columns" :options="grid.options"></grid>
+                <button class="btn btn-outline-info btn-sm" @click.prevent="exportXLS" :disabled="exportLoading">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="exportLoading"></span>
+                    Export.xls
+                </button>
             </div>
         </div>
         @endverbatim

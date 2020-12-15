@@ -274,6 +274,11 @@ class PermitController extends Controller
 
         $headings  = [ "PermitNo", "Concession", "ManagementUnit", "DevelopmentUnit", "AnnualAllowableCut", "ClientCompany", "ConcessionaireCompany", "TransporterCompany", "User", "ProductType", "Status", "DriverName", "LicensePlate", "Province", "Destination", "ScanLat", "ScanLon", "ScanGpsAccu", "Lat", "Lon", "GpsAccu", "ObserveAt"];
         $collection = PermitEntity::select("Id", "PermitNo", "Concession", "ManagementUnit", "DevelopmentUnit", "AnnualAllowableCut", "ClientCompany", "ConcessionaireCompany", "TransporterCompany", "User", "ProductType", "Status", "DriverName", "LicensePlate", "Province", "Destination", "ScanLat", "ScanLon", "ScanGpsAccu", "Lat", "Lon", "GpsAccu", "ObserveAt");
+        $permits_table = (new PermitEntity())->getTable();
+        $collection = app('db')->table($permits_table)
+            ->select("Id", "PermitNo", "Concession", "ManagementUnit", "DevelopmentUnit", "AnnualAllowableCut as AnnualAllowableCut", "ClientCompanyName as ClientCompany",
+                "ConcessionaireCompanyName as ConcessionaireCompany", "TransporterCompanyName as TransporterCompany", "Email", "ProductType", "Status", "DriverName", "LicensePlate",
+                "Province", "Destination", "ScanLat", "ScanLon", "ScanGpsAccu", "Lat", "Lon", "GpsAccu", "ObserveAt");
 
         if($request->get('date_from')){
             $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
@@ -283,6 +288,9 @@ class PermitController extends Controller
         }
 
         $collection = $collection->get();
+
+        return fastexcel($collection)->download('transport_permits.xlsx');
+
         $collection = $collection->map(function ($item) {
 
             $Concession = (Concession::select("Name")->where("Id",$item->Concession)->first()) ?
