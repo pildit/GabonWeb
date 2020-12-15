@@ -99,7 +99,7 @@ export default {
                     User.login(this.loginForm.email, this.loginForm.password)
                         .then((data) => {
                             this.failed = null;
-                            this.$setCookie('jwt', data['jwt'], {expires: this.rememberMe ? 365 : 1});
+                            this.$setCookie('jwt', data['jwt'], {expires: this.rememberMe ? 30 : 1});
                             window.location.href = '/';
                         })
                         .catch((error) => {
