@@ -149,8 +149,9 @@ class ManagementUnitController extends Controller
         $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
         $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
 
-        $headings  = ['Name','DevelopmentUnit'];
-        $collection = ManagementUnit::select('Id','Name','DevelopmentUnit');
+        $mu_table = (new ManagementUnit())->getTable();
+        $collection = app('db')->table($mu_table)
+            ->select('Id', 'Name', 'DevelopmentUnitName', 'PlansList', 'Email');
 
         if($request->get('date_from')){
             $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
@@ -160,20 +161,9 @@ class ManagementUnitController extends Controller
         }
 
         $collection = $collection->get();
-        $collection = $collection->map(function ($item) {
 
-            $DevelopmentUnit = (DevelopmentUnit::select("Name")->where("Id", $item->DevelopmentUnit)->first()) ?
-                DevelopmentUnit::select("Name")->where("Id", $item->DevelopmentUnit)->first()->Name :
-                $item->DevelopmentUnit;
+        return fastexcel($collection)->download('management_units.xlsx');
 
-            return [
-                'Name' => $item->Name,
-                'DevelopmentUnit'  => $DevelopmentUnit
-            ];
-
-        });
-
-        return Excel::download(new Exporter($collection,$headings), 'management_unit.xlsx');
     }
 
     /**

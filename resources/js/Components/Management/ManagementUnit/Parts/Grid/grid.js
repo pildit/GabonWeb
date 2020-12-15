@@ -29,12 +29,9 @@ export default (options) => {
             DevelopmentUnitName: {
                 header: "th_dev_unit_name",
             },
-            plans: {
+            PlansList: {
                 header: "th_plan_id",
-                sort: false,
-                render: (row) => {
-                    return _.map(row.plans, 'Number').join('/')
-                }
+                sort: false
             },
             Email: {
                 header: "th_email"

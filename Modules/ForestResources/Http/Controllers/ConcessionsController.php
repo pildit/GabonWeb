@@ -159,8 +159,9 @@ class ConcessionsController extends Controller
         $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
         $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
 
-        $headings = [ 'Name', 'Company', 'Continent', 'ConstituentPermit'];
-        $collection = Concession::select('Id','Name', 'Company', 'Continent', 'ConstituentPermit');
+        $concession_table = (new Concession())->getTable();
+        $collection = app('db')->table($concession_table)
+            ->select('Id','Name', 'CompanyName', 'Continent', 'ConstituentPermitNumber');
 
         if ($request->get('date_from')) {
             $collection = $collection->where("CreatedAt", ">=", $request->get('date_from'));
@@ -170,21 +171,7 @@ class ConcessionsController extends Controller
         }
         $collection = $collection->get();
 
-        $collection = $collection->map(function ($item) {
-
-            $Company = (Company::select("Name")->where("Id", $item->Company)->first()) ?
-                Company::select("Name")->where("Id", $item->Company)->first()->Name :
-                $item->Company;
-
-            return [
-                'Name' => $item->Name,
-                'Company' => $Company,
-                'Continent' => $item->Continent,
-                'ConstituentPermit' => $item->ConstituentPermit
-            ];
-        });
-
-        return Excel::download(new Exporter($collection, $headings), 'concession.xlsx');
+        return fastexcel($collection)->download('concessions.xlsx');
     }
 
 }

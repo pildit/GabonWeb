@@ -29,12 +29,9 @@ export default (options) => {
             ManagementUnitName: {
                 header: "th_ufg",
             },
-            management_plans: {
-                header: "th_plan_id",
+            PlansList: {
+                header: "th_aac_operational_plan_id",
                 sort: false,
-                render: (row) => {
-                    return _.map(row.management_plans, 'Number').join('/')
-                }
             },
             Email: {
                 header: "th_email",

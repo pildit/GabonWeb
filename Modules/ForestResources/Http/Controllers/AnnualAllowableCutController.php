@@ -158,8 +158,9 @@ class AnnualAllowableCutController extends Controller
         $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
         $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
 
-        $headings  = ['Name','AacId','ManagementUnit','ManagementPlan'];
-        $collection = AnnualAllowableCut::select('Id', 'Name','AacId','ManagementUnit','ManagementPlan');
+        $acc_table = (new AnnualAllowableCut())->getTable();
+        $collection = app('db')->table($acc_table)
+            ->select('Id', 'AacId', 'Name', 'ManagementUnit', 'PlansList', 'Email');
 
         if($request->get('date_from')){
             $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
@@ -169,21 +170,7 @@ class AnnualAllowableCutController extends Controller
         }
         $collection = $collection->get();
 
-        $collection = $collection->map(function ($item) {
-
-            $ManagementUnit = (ManagementUnit::select("Name")->where("Id",$item->ManagementUnit)->first()) ?
-                ManagementUnit::select("Name")->where("Id",$item->ManagementUnit)->first()->Name  :
-                $item->ManagementUnit;
-
-            return [
-                'Name' => $item->Name,
-                'ID' => $item->AacId,
-                'ManagementUnit' => $ManagementUnit,
-                'ManagementPlan' => $item->ManagementPlan
-            ];
-        });
-
-        return Excel::download(new Exporter($collection,$headings), 'annual_allowable_cut.xlsx');
+        return fastexcel($collection)->download('annual_allowable_cuts.xlsx');
     }
 
     public function parcels(AnnualAllowableCut $annual_allowable_cut){

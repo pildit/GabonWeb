@@ -168,8 +168,6 @@ class DevelopmentUnitController extends Controller
         $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
         $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
 
-        $headings  = ['Name', 'Concession', 'Plan ID', 'Start', 'End'];
-//        $collection = DevelopmentUnit::select('Id', 'Name', 'Concession', 'Start', 'End');
         $du_table = (new DevelopmentUnit())->getTable();
         $collection = app('db')->table($du_table)
             ->select('Id', 'Name', 'ConcessionName', 'PlansList', 'Start', 'End');
@@ -184,22 +182,5 @@ class DevelopmentUnitController extends Controller
         $collection = $collection->get();
 
         return fastexcel($collection)->download('development_units.xlsx');
-
-        $collection = $collection->map(function ($item) {
-            $concession = (Concession::select("Name")->where("Id",$item->Concession)->first()) ?
-                Concession::select("Name")->where("Id",$item->Concession)->first()->Name :
-                $item->Concession;
-
-            $plans = implode(",",array_column(DevelopmentPlan::select("Id")->where("DevelopmentUnit",$item->Id)->get()->toArray(),"Id"));
-            return [
-                'Name' => $item->Name,
-                'Concession' => $concession,
-                'Plan ID' => $plans,
-                'Start' => $item->Start,
-                'End' => $item->End,
-            ];
-        });
-
-        return Excel::download(new Exporter($collection,$headings), 'development_unit.xlsx');
     }
 }
