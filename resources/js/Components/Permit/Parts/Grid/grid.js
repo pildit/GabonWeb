@@ -10,7 +10,7 @@ export default (options) => {
             },
             sort: {
                 direction: "asc|desc",
-                field: "Approved|Id"
+                field: "Approved|ObserveAt"
             },
             rowHightlight: {
                 'ffe6e6' : (row) => !row.Approved
@@ -31,7 +31,7 @@ export default (options) => {
             },
             ObserveAt: {
                 header: "th_date",
-                render: (row) => `<span>${moment(row.ObserveAt).format('YYYY-MM-DD')}</span>`
+                render: (row) => `<span>${moment(row.ObserveAt).format('YYYY-MM-DD HH:mm:ss')}</span>`
             },
             actions: {
                 header: 'th_actions',
