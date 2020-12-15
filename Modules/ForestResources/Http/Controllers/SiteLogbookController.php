@@ -143,8 +143,10 @@ class SiteLogbookController extends Controller
         $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
         $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
 
-        $headings  = ['AnnualAllowableCut','ManagementUnit','DevelopmentUnit','Concession','Company','Hammer','Localization','ReportNo','ReportNote','ObserveAt'];
-        $collection = SiteLogbook::select('Id','AnnualAllowableCut','ManagementUnit','DevelopmentUnit','Concession','Company','Hammer','Localization','ReportNo','ReportNote','ObserveAt');
+        $slb_table = (new SiteLogbook())->getTable();
+        $collection = app('db')->table($slb_table)
+            ->select('Id','AnnualAllowableCutName','ManagementUnitName','DevelopmentUnitName',
+                'ConcessionName','CompanyName','Hammer','Localization','ReportNo','ReportNote','ObserveAt');
 
         if($request->get('date_from')){
             $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
@@ -154,43 +156,7 @@ class SiteLogbookController extends Controller
         }
 
         $collection = $collection->get();
-        $collection = $collection->map(function ($item) {
 
-            $Concession = (Concession::select("Name")->where("Id",$item->Concession)->first()) ?
-                Concession::select("Name")->where("Id",$item->Concession)->first()->Name :
-                $item->Concession;
-
-            $AnnualAllowableCut = (AnnualAllowableCut::select("Name")->where("Id", $item->AnnualAllowableCut)->first()) ?
-                AnnualAllowableCut::select("Name")->where("Id", $item->AnnualAllowableCut)->first()->Name :
-                $item->AnnualAllowableCut;
-
-            $DevelopmentUnit = (DevelopmentUnit::select("Name")->where("Id", $item->DevelopmentUnit)->first()) ?
-                DevelopmentUnit::select("Name")->where("Id", $item->DevelopmentUnit)->first()->Name :
-                $item->DevelopmentUnit;
-
-            $ManagementUnit = (ManagementUnit::select("Name")->where("Id", $item->ManagementUnit)->first()) ?
-                ManagementUnit::select("Name")->where("Id", $item->ManagementUnit)->first()->Name :
-                $item->ManagementUnit;
-
-            $Company = (Company::select("Name")->where("Id", $item->Company)->first()) ?
-                Company::select("Name")->where("Id", $item->Company)->first()->Name :
-                $item->Company;
-
-
-            return [
-                'AnnualAllowableCut' => $AnnualAllowableCut,
-                'ManagementUnit'  => $ManagementUnit,
-                'DevelopmentUnit'  => $DevelopmentUnit,
-                'Concession'  => $Concession,
-                'Company'  => $Company,
-                'Hammer' => $item->Hammer,
-                'Localization'  => $item->Localization,
-                'ReportNo'  => $item->ReportNo,
-                'ReportNote'  => $item->ReportNote,
-                'ObserveAt'  => $item->ObserveAt
-            ];
-        });
-
-        return Excel::download(new Exporter($collection,$headings), 'sitelogbook.xlsx');
+        return fastexcel($collection)->download('carnet_de_chantier.xlsx');
     }
 }

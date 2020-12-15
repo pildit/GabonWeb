@@ -135,8 +135,9 @@ class LogbookController extends Controller
         $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
         $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
 
-        $headings  = ['Concession','DevelopmentUnit','ManagementUnit','AnnualAllowableCut','ObserveAt'];
-        $collection = Logbook::select('Id', 'Concession','DevelopmentUnit','ManagementUnit','AnnualAllowableCut','ObserveAt');
+        $logbook_table = (new Logbook())->getTable();
+        $collection = app('db')->table($logbook_table)
+            ->select('Id', 'ConcessionName','DevelopmentUnitName','ManagementUnitName','AnnualAllowableCutName','ObserveAt');
 
         if($request->get('date_from')){
             $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
@@ -146,35 +147,7 @@ class LogbookController extends Controller
         }
 
         $collection = $collection->get();
-        $collection = $collection->map(function ($item) {
 
-            $concession = (Concession::select("Name")->where("Id",$item->Concession)->first()) ?
-                Concession::select("Name")->where("Id",$item->Concession)->first()->Name :
-                $item->Concession;
-
-            $AnnualAllowableCut = (AnnualAllowableCut::select("Name")->where("Id", $item->AnnualAllowableCut)->first()) ?
-                AnnualAllowableCut::select("Name")->where("Id", $item->AnnualAllowableCut)->first()->Name :
-                $item->AnnualAllowableCut;
-
-            $DevelopmentUnit = (DevelopmentUnit::select("Name")->where("Id", $item->DevelopmentUnit)->first()) ?
-                    DevelopmentUnit::select("Name")->where("Id", $item->DevelopmentUnit)->first()->Name :
-                    $item->DevelopmentUnit;
-
-            $ManagementUnit = (ManagementUnit::select("Name")->where("Id", $item->ManagementUnit)->first()) ?
-                ManagementUnit::select("Name")->where("Id", $item->ManagementUnit)->first()->Name :
-                    $item->ManagementUnit;
-
-
-
-            return [
-                'Concession' => $concession,
-                'DevelopmentUnit' => $DevelopmentUnit,
-                'ManagementUnit' => $ManagementUnit,
-                'AnnualAllowableCut' => $AnnualAllowableCut,
-                'ObserveAt' => $item->ObserveAt
-            ];
-        });
-
-        return Excel::download(new Exporter($collection,$headings), 'logbook.xlsx');
+        return fastexcel($collection)->download('carnet_de_abattage.xlsx');
     }
 }

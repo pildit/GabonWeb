@@ -33,10 +33,10 @@ Route::middleware('jwt:api')->get('/development_units/export', 'DevelopmentUnitC
 Route::middleware('jwt:api')->patch('/development_units/approve/{id}', 'DevelopmentUnitController@approve');
 Route::middleware('jwt:api')->resource('/development_units', DevelopmentUnitController::class)->except(['edit', 'create']);
 //development plan
-Route::middleware('jwt:api')->get('/development_plans/export', 'DevelopmentPlanController@export');
+//Route::middleware('jwt:api')->get('/development_plans/export', 'DevelopmentPlanController@export');
 Route::middleware('jwt:api')->resource('/development_plans', DevelopmentPlanController::class)->except(['index', 'edit', 'create']);
 //management plan
-Route::middleware('jwt:api')->get('/management_plans/export', 'ManagementPlanController@export');
+//Route::middleware('jwt:api')->get('/management_plans/export', 'ManagementPlanController@export');
 Route::middleware('jwt:api')->get('/management_plans/list', 'ManagementPlanController@listManagementPlans');
 //Route::middleware('jwt:api')->patch('/management_plans/approve/{id}', 'ManagementPlanController@approve');
 Route::middleware('jwt:api')->resource('/management_plans', ManagementPlanController::class)->except(['index', 'edit', 'create']);
@@ -73,7 +73,7 @@ Route::middleware('jwt:api')->get('/logbooks/mobile', 'LogbookController@mobile'
 Route::middleware('jwt:api')->patch('/logbooks/approve/{id}', 'LogbookController@approve');
 Route::middleware('jwt:api')->resource('/logbooks', LogbookController::class)->except(['edit', 'create']);
 //logbook item
-Route::middleware('jwt:api')->get('/logbook_items/export', 'LogbookItemController@export');
+//Route::middleware('jwt:api')->get('/logbook_items/export', 'LogbookItemController@export');
 Route::middleware('jwt:api')->get('/logbook_items/mobile', 'LogbookItemController@mobile');
 Route::middleware('jwt:api')->patch('/logbook_items/approve/{id}', 'LogbookItemController@approve');
 Route::middleware('jwt:api')->resource('/logbook_items', LogbookItemController::class)->except(['edit', 'create']);
