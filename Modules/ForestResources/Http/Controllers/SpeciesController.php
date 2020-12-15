@@ -150,8 +150,9 @@ class SpeciesController extends Controller
         $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
         $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
 
-        $headings  = ['Code', 'LatinName', 'CommonName'];
-        $collection = Species::select('Id', 'Code', 'LatinName', 'CommonName');
+        $species_table = (new Species())->getTable();
+        $collection = app('db')->table($species_table)
+            ->select('Id', 'Code', 'LatinName', 'CommonName');
 
         if($request->get('date_from')){
             $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
@@ -161,16 +162,7 @@ class SpeciesController extends Controller
         }
 
         $collection = $collection->get();
-        $collection = $collection->map(function ($item) {
 
-            return [
-                'Code'=>$item->Code,
-                'LatinName'=>$item->LatinName,
-                'CommonName'=>$item->CommonName,
-
-            ];
-        });
-
-        return Excel::download(new Exporter($collection,$headings), 'species.xlsx');
+        return fastexcel($collection)->download('species.xlsx');
     }
 }

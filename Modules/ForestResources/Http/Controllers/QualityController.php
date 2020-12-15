@@ -118,8 +118,7 @@ class QualityController extends Controller
         $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
         $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
 
-        $headings  = ['Value', 'Description', 'User'];
-        $collection = Quality::select('Id', 'Value', 'Description', 'User');
+        $collection = Quality::select('Id', 'Value', 'Description', 'Email');
 
         if($request->get('date_from')){
             $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
@@ -129,20 +128,8 @@ class QualityController extends Controller
         }
 
         $collection = $collection->get();
-        $collection = $collection->map(function ($item) {
 
-            $User = (User::select("firstname","lastname")->where("id", $item->User)->first()) ?
-                User::select("firstname")->where("id", $item->User)->first()->firstname ." ".User::select("lastname")->where("id", $item->User)->first()->lastname :
-                $item->User;
+        return fastexcel($collection)->download('inveotory_qualities.xlsx');
 
-            return [
-                'Value' => $item->Value,
-                'Description' => $item->Description,
-                'User' => $User
-            ];
-
-        });
-
-        return Excel::download(new Exporter($collection,$headings), 'quality.xlsx');
     }
 }

@@ -10,7 +10,7 @@ use Modules\Loggable\Traits\Loggable;
 
 class PermitType extends Model
 {
-    use Sortable, UserEmailAttribute, Loggable, SoftDeletes;
+    use Sortable, Loggable, SoftDeletes;
 
     public $timestamps = true;
     const CREATED_AT = "CreatedAt";
@@ -22,8 +22,6 @@ class PermitType extends Model
     protected $fillable = ['Abbreviation',  'Name', 'User'];
 
     protected $table = "ForestResources.PermitTypes";
-
-    protected $hidden = ['user'];
 
     protected $primaryKey =  "Id";
 }

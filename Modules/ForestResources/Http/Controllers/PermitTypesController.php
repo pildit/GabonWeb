@@ -107,8 +107,7 @@ class PermitTypesController extends Controller
         $request->validate(['date_from' => 'nullable|date_format:Y-m-d']);
         $request->validate(['date_to' => 'nullable|date_format:Y-m-d']);
 
-        $headings  = ['Abbreviation', 'Name', 'User'];
-        $collection = PermitType::select('Id','Abbreviation',  'Name', 'User');
+        $collection = PermitType::select('Id','Abbreviation','Name','Email');
 
         if($request->get('date_from')){
             $collection = $collection->where("CreatedAt",">=",$request->get('date_from'));
@@ -118,21 +117,8 @@ class PermitTypesController extends Controller
         }
 
         $collection = $collection->get();
-        $collection = $collection->map(function ($item) {
 
-            $User = (User::select("firstname","lastname")->where("id", $item->User)->first()) ?
-                User::select("firstname")->where("id", $item->User)->first()->firstname ." ".User::select("lastname")->where("id", $item->User)->first()->lastname :
-                $item->User;
-
-            return [
-                'Abbreviation' => $item->Abbreviation,
-                'Name' => $item->Name,
-                'User' => $User
-            ];
-
-        });
-
-        return Excel::download(new Exporter($collection,$headings), 'permit_type.xlsx');
+        return fastexcel($collection)->download('permit_types.xlsx');
     }
 
     /**

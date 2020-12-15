@@ -10,7 +10,7 @@ use Modules\Loggable\Traits\Loggable;
 
 class Quality extends Model
 {
-    use Sortable, UserEmailAttribute, Loggable, SoftDeletes;
+    use Sortable, Loggable, SoftDeletes;
 
     protected $fillable = ['Value', 'Description', 'User'];
 
