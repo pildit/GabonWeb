@@ -22,7 +22,7 @@ FROM "ForestResources"."ManagementUnitsTable" mut
          LEFT JOIN admin.accounts acc ON acc.id = mut."User"
          LEFT JOIN "ForestResources"."DevelopmentUnitsTable" du ON du."Id" = mut."DevelopmentUnit"
          LEFT JOIN "ForestResources"."ManagementPlansTable" mp ON mp."ManagementUnit" = mut."Id"
-         LEFT JOIN "Taxonomy"."ProductTypeTable" pt on du."ProductType" = pt."Id"
+         LEFT JOIN "Taxonomy"."ProductTypeTable" pt on mut."ProductType" = pt."Id"
 group by mut."Id", mut."Name", mut."DevelopmentUnit", du."Name", mut."Geometry", mut."Approved", mut."Number", mut."User", acc.email, mut."ProductType", pt."Name", mut."CreatedAt", mut."UpdatedAt", mut."DeletedAt";
 
 CREATE RULE "ManagementUnits_instead_of_delete" AS
