@@ -25,8 +25,10 @@ class AnnualAllowableCut extends PageResults
         $srid = config('forestresources.srid');
         $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_transform(public.st_setsrid("Geometry",'.$srid.'),4326)) as geom');
         $whereIntersects = "public.ST_Intersects(public.st_setsrid(\"Geometry\", {$srid}), public.st_setsrid(public.ST_MakeEnvelope({$bbox}), {$srid}))";
-        $collection = AnnualAllowableCutEntity::select(['Id', $geomCol,'Name','AacId','ManagementUnit','ManagementPlan','ProductType'])
-            ->whereRaw($whereIntersects);
+
+        $aac_table = (new AnnualAllowableCutEntity())->getTable();
+        $collection = app('db')->table($aac_table)
+            ->select(['Id', $geomCol,'Name','AacId','ManagementUnitName','ManagementPlan','ProductTypeName', 'PlansList']);
 
         if($Id){
             $collection = $collection->where("Id","=",$Id);
@@ -35,35 +37,32 @@ class AnnualAllowableCut extends PageResults
             $collection = $collection->where('Name','ilike',"%".$Name."%")->orWhere('AacId','ilike',"%".$AacId."%");
         }
 
-        $collection = $collection->get();
+        $collection = $collection->whereRaw($whereIntersects)->get();
+        $obj = new \ArrayObject($collection->all());
+        $iterator = $obj->getIterator();
 
-        return $collection->map(function ($item) {
-            $annualoperationplan = $item->annualoperation_plans->map(function ($item) {
-                return [
-                    'Id' => $item->Id,
-                    'Species'=> $item->species ? $item->species->CommonName : $item->Species,
-                    'ExploitableVolume'=> $item->ExploitableVolume,
-                    'NonExploitableVolume'=> $item->NonExploitableVolume,
-                    'VolumePerHectare'=> $item->VolumePerHectare,
-                    'AverageVolume'=> $item->AverageVolume,
-                    'TotalVolume'=> $item->TotalVolume
-                ];
-            });
+        $results = [];
+        while ($iterator->valid()) {
+            $item = $iterator->current();
 
-            return [
+            $results[] = [
                 'type' => 'Feature',
                 'geometry' => json_decode($item->geom),
                 'properties' => [
                     'id' => $item->Id,
                     'Name' => $item->Name,
                     'ID' => $item->AacId,
-                    'ManagementUnit' => $item->managementunit ? $item->managementunit->Name : $item->ManagementUnit,
+                    'ManagementUnit' => $item->ManagementUnitName,
                     'ManagementPlan' => $item->ManagementPlan,
-                    'ProductType' => $item->product_type ? $item->product_type->Name : $item->ProductType,
-                    'Plans' => $annualoperationplan
+                    'ProductType' => $item->ProductTypeName,
+                    'Plans' => $item->PlansList
                 ]
             ];
-        });
+
+            $iterator->next();
+        }
+
+        return $results;
     }
 
 
