@@ -19,3 +19,4 @@ baseline_packages:
   - php-readline
   - php-gd
   - php-zip
+  - php-redis
