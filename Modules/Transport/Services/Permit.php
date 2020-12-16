@@ -33,7 +33,11 @@ class Permit extends PageResults
         $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_flipcoordinates(public.st_transform(public.st_setsrid("Geometry",'.$srid.'),4256))) as geom');
 //        $whereIntersects = "public.ST_Intersects(public.st_setsrid(\"Geometry\", {$srid}), public.st_setsrid(public.ST_MakeEnvelope({$bbox}), {$srid}))";
 
-        $collection = PermitEntity::select(['Id', $geomCol, "PermitNo", "Concession", "ManagementUnit", "DevelopmentUnit", "AnnualAllowableCut", "ClientCompany", "ConcessionaireCompany", "TransporterCompany", "Province", "Destination","LicensePlate","ObserveAt"]);
+        $collection = PermitEntity::select();
+        $permits_table = (new PermitEntity())->getTable();
+        $collection = app('db')->table($permits_table)
+            ->select(['Id', $geomCol, "PermitNo", "ConcessionName", "ManagementUnitName", "DevelopmentUnitName", "AnnualAllowableCutName",
+                "ClientCompanyName", "ConcessionaireCompanyName", "TransporterCompanyName", "Province", "Destination","LicensePlate","ObserveAt"]);
 
         if($Id){
             $collection = $collection->where("Id","=",$Id);
@@ -55,29 +59,36 @@ class Permit extends PageResults
         }
 
         $collection = $collection->get();
+        $obj = new \ArrayObject($collection->all());
+        $iterator = $obj->getIterator();
 
-        return $collection->map(function ($item) {
-
-            return [
+        $results = [];
+        while ($iterator->valid()) {
+            $item = $iterator->current();
+            $results[] = [
                 'type' => 'Feature',
                 'geometry' => json_decode($item->geom),
                 'properties' => [
                     "id" => $item->Id,
                     "PermitNo" => $item->PermitNo,
-                    "Concession" => $item->concession ? $item->concession->Name : $item->Concession,
-                    "ManagementUnit" => $item->managementunit ? $item->managementunit->Name : $item->ManagementUnit,
-                    "DevelopmentUnit" => $item->developmentunit ? $item->developmentunit->Name : $item->DevelopmentUnit,
-                    "AnnualAllowableCut" => $item->annualallowablecut ? $item->annualallowablecut->Name : $item->AnnualAllowableCut,
-                    "ClientCompany" => $item->clientcompany ? $item->clientcompany->Name : $item->ClientCompany,
-                    "ConcessionaireCompany" =>  $item->concessionairecompany ? $item->concessionairecompany->Name : $item->ConcessionaireCompany,
-                    "TransporterCompany" =>  $item->transportercompany ? $item->transportercompany->Name : $item->TransporterCompany,
+                    "Concession" => $item->ConcessionName,
+                    "ManagementUnit" => $item->ManagementUnitName,
+                    "DevelopmentUnit" => $item->DevelopmentUnitName,
+                    "AnnualAllowableCut" => $item->AnnualAllowableCutName,
+                    "ClientCompany" => $item->ClientCompanyName,
+                    "ConcessionaireCompany" =>  $item->ConcessionaireCompanyName,
+                    "TransporterCompany" =>  $item->TransporterCompanyName,
                     "Province" => $item->Province,
                     "Destination" => $item->Destination,
                     "LicensePlate" => $item->LicensePlate,
                     "ObserveAt" => $item->ObserveAt,
                 ]
+
             ];
-        });
+            $iterator->next();
+        }
+
+        return $results;
     }
 
     /**

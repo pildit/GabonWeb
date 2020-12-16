@@ -22,26 +22,36 @@ class AnnualAllowableCutInventory extends PageResults
         $srid = config('forestresources.srid');
         $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_flipcoordinates(public.st_transform("Geometry",4256))) as geom');
         //$whereIntersects = "public.ST_Intersects(public.st_setsrid(\"Geometry\", {$srid}), public.st_setsrid(public.ST_MakeEnvelope({$bbox}), {$srid}))";
-        $collection = AnnualAllowableCutInventoryEntity::select(['Id', $geomCol,'AnnualAllowableCut','Species','DiameterBreastHeight','Quality','Parcel']);
+        $aac_table = (new AnnualAllowableCutInventoryEntity())->getTable();
+        $collection = app('db')->table($aac_table)
+            ->select(['Id', $geomCol,'AnnualAllowableCutName','SpeciesCommonName','DiameterBreastHeight','Quality','Parcel']);
         if($Id){
             $collection = $collection->where("Id","=",$Id);
         }
         $collection = $collection->where("Approved", true)->get();
 
-        return $collection->map(function ($item) {
-            return [
+        /** https://www.php.net/manual/en/class.arrayiterator.php */
+        $obj = new \ArrayObject($collection->all());
+        $iterator = $obj->getIterator();
+        $results = [];
+        while ($iterator->valid()) {
+            $item = $iterator->current();
+            $results[] = [
                 'type' => 'Feature',
                 'geometry' => json_decode($item->geom),
                 'properties' => [
                     'id' => $item->Id,
                     'AnnualAllowableCut' => $item->AnnualAllowableCutName,
-                    'Species'=> $item->species ? $item->species->CommonName : $item->Species,
+                    'Species'=> $item->SpeciesCommonName,
                     'DiameterBreastHeight' => $item->DiameterBreastHeight,
                     'Quality' => $item->Quality,
                     'Parcel' => $item->DiameterBreastHeight
                 ]
             ];
-        });
+            $iterator->next();
+        }
+
+        return $results;
     }
     /**
      * Logic from old mobile.php encapsulated

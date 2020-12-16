@@ -20,39 +20,39 @@ class DevelopmentUnit extends PageResults
         $srid = config('forestresources.srid');
         $geomCol = DB::raw('public.ST_AsGeoJSON(public.st_transform(public.st_setsrid("Geometry",'.$srid.'),4326)) as geom');
         $whereIntersects = "public.ST_Intersects(public.st_setsrid(\"Geometry\", {$srid}), public.st_setsrid(public.ST_MakeEnvelope({$bbox}), {$srid}))";
-        $collection = DevelopmentUnitEntity::select(['Id', $geomCol,'Name','Concession','ProductType','Start','End']);
-       if($Id){
+
+        $du_table = (new DevelopmentUnitEntity())->getTable();
+        $collection = app('db')->table($du_table)
+            ->select(['Id', $geomCol,'Name', 'ConcessionName','ProductTypeName','Start','End', 'PlansList']);
+
+        if($Id){
            $collection = $collection->where("Id","=",$Id);
-       }
+        }
         $collection = $collection->whereRaw($whereIntersects)->get();
+        $obj = new \ArrayObject($collection->all());
+        $iterator = $obj->getIterator();
 
-
-        return $collection->map(function ($item) {
-
-            $Plans = $item->plans()->get()->map(function ($item) {
-                return [
-                    'Id' => $item->Id,
-                    'Species'=> $item->species ? $item->species->CommonName : $item->Species,
-                    'MinimumExploitableDiameter'=> $item->MinimumExploitableDiameter,
-                    'VolumeTariff'=> $item->VolumeTariff,
-                    'Increment'=> $item->Increment
-                ];
-            });
-
-            return [
+        $results = [];
+        while ($iterator->valid()) {
+            $item = $iterator->current();
+            $results[] = [
                 'type' => 'Feature',
                 'geometry' => json_decode($item->geom),
                 'properties' => [
                     'id' => $item->Id,
                     'Name' => $item->Name,
-                    'Concession' => $item->concession ? $item->concession->Name : $item->Concession,
-                    'ProductType' => $item->product_type ? $item->product_type->Name : $item->ProductType,
+                    'Concession' => $item->ConcessionName,
+                    'ProductType' => $item->ProductTypeName,
                     'Start' => $item->Start,
                     'End' => $item->End,
-                    'Plans' => $Plans
+                    'Plans' => $item->PlansList
                 ]
             ];
-        });
+
+            $iterator->next();
+        }
+        return $results;
+
     }
 
 

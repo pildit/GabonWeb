@@ -59,21 +59,6 @@ class DevelopmentUnit extends Model
     protected $hidden = ['Geometry'];
 
     /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
-    protected $appends = ['ConcessionName'];
-
-    /**
-     * Concession Name accessor
-     */
-    public function getConcessionNameAttribute()
-    {
-        return (isset($this->concession) && $this->concession) ? $this->concession->Name : null;
-    }
-
-    /**
      * Concession relation
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
