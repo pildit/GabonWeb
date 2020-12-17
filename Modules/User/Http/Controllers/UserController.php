@@ -136,7 +136,7 @@ class UserController extends Controller
 
         $data['password'] = Hash::make($data['password']);
         $data['activationcode'] = Str::random(20);
-        $data['status'] = User::STATUS_DISABLED;
+        $data['status'] = User::STATUS_NOT_CONFIRMED;
         User::create($data);
 
         Mail::send('user::emails.welcome_email', $data, function($message) use ($data)

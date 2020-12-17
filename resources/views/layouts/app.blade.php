@@ -33,9 +33,9 @@
 <script src="/js/app.js"></script>
 @yield('scripts')
 <script>
-    Gabon.Base.getTranslations().then(() => {
+    // Gabon.Base.getTranslations().then(() => {
         Gabon.Pages.render('navigation-menu');
-    });
+    // });
 </script>
 </body>
 </html>

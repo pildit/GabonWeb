@@ -105,12 +105,14 @@ export default {
                         .catch((error) => {
                             console.log(error);
                             if(error) {
-                                window.hcaptcha.reset();
+                                // window.hcaptcha.reset();
                                 this.loginForm.hcaptchaVerified = false;
                                 if([401,404].includes(error.status)) {
                                     this.failed = error.data.message;
                                 }
-                                this.$setErrorsFromResponse(error.data);
+                                if(error.status == 422) {
+                                    this.$setErrorsFromResponse(error.data);
+                                }
                             }
                         });
                 }
