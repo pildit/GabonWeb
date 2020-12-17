@@ -74,32 +74,32 @@
                 :taggable="true"
             ></multiselect>
         </div>
-        <div v-if="isEditType" class="md-form mb-5">
-            <label>{{ translate('permissions') }}</label>
-            <multiselect
-                v-model="form.permissions"
-                :options="permissionList"
-                :placeholder="translate('permissions')"
-                track-by="id"
-                label="name"
-                :allow-empty="true"
-                :multiple="true"
-                :taggable="true"
-            ></multiselect>
-            <div class="text-muted">{{ translate('additional_permissions') }}</div>
-        </div>
-        <div v-if="showRoleName" class="md-form mb-5 ">
-            <label for="role" :class="{'active': form.role}">{{translate('Role')}}</label>
-            <input type="text"
-                   v-model="form.role"
-                   v-validate="{required: this.form.permissions.length > 0}"
-                   :data-vv-as="translate('role')"
-                   class="form-control notempty"
-                   name="role"
-                   id="role"/>
-            <div class="text-muted">{{translate('additional_role_info')}}</div>
-            <div v-show="errors.has('role')" class="invalid-feedback">{{ errors.first('role') }}</div>
-        </div>
+<!--        <div v-if="isEditType" class="md-form mb-5">-->
+<!--            <label>{{ translate('permissions') }}</label>-->
+<!--            <multiselect-->
+<!--                v-model="form.permissions"-->
+<!--                :options="permissionList"-->
+<!--                :placeholder="translate('permissions')"-->
+<!--                track-by="id"-->
+<!--                label="name"-->
+<!--                :allow-empty="true"-->
+<!--                :multiple="true"-->
+<!--                :taggable="true"-->
+<!--            ></multiselect>-->
+<!--            <div class="text-muted">{{ translate('additional_permissions') }}</div>-->
+<!--        </div>-->
+<!--        <div v-if="showRoleName" class="md-form mb-5 ">-->
+<!--            <label for="role" :class="{'active': form.role}">{{translate('Role')}}</label>-->
+<!--            <input type="text"-->
+<!--                   v-model="form.role"-->
+<!--                   v-validate="{required: this.form.permissions.length > 0}"-->
+<!--                   :data-vv-as="translate('role')"-->
+<!--                   class="form-control notempty"-->
+<!--                   name="role"-->
+<!--                   id="role"/>-->
+<!--            <div class="text-muted">{{translate('additional_role_info')}}</div>-->
+<!--            <div v-show="errors.has('role')" class="invalid-feedback">{{ errors.first('role') }}</div>-->
+<!--        </div>-->
         <div class="md-form mb-5">
             <label for="password" :class="{'active': form.password}">{{ translate('password') }}</label>
             <input type="password"
@@ -163,13 +163,14 @@ export default {
 
     computed: {
         ...mapState('user', ['employeeTypes']),
-        ...mapState('role', ['permissions', 'roles']),
+        // ...mapState('role', ['permissions', 'roles']),
+        ...mapState('role', ['roles']),
         isEditType() {
             return this.typeProp == 'edit';
         },
-        permissionList() {
-            return _.filter(this.$diffObj(this.permissions, this.userProp.permissions));
-        }
+        // permissionList() {
+        //     return _.filter(this.$diffObj(this.permissions, this.userProp.permissions));
+        // }
     },
 
     mounted() {

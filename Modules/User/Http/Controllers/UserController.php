@@ -90,11 +90,11 @@ class UserController extends Controller
 
         $user->fill($data);
         $user->save($data);
-        if(isset($data['role_name'])) {
-            $role = Role::create(['name' => $data['role_name']]);
-            $role->syncPermissions($data['permissions']);
-            $data['roles'][] = $role->id;
-        }
+//        if(isset($data['role_name'])) {
+//            $role = Role::create(['name' => $data['role_name']]);
+//            $role->syncPermissions($data['permissions']);
+//            $data['roles'][] = $role->id;
+//        }
 
         if(isset($data['roles'])) {
             $user->syncRoles($data['roles']);
