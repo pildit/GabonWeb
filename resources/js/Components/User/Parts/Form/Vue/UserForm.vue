@@ -223,24 +223,25 @@ export default {
             Company.listSearch(query, this.companyList.limit).then((response) => {
                 this.companyList.data= response.data;
                 this.companyList.isLoading = false;
-                this.form.company = this.companyList.data.find((x) => x['Id'] == this.form.company_id);
+
+                // this.form.company = this.companyList.data.find((x) => x['Id'] == this.form.company_id);
             })
         }
 
     },
 
     watch: {
-        employeeTypes(val) {
-            if(val) {
-                this.form.employee_type = val.find((x) => x.id == this.userProp.employee_type);
-            }
-        },
-        "form.permissions": {
-            deep: true,
-            handler(val) {
-                this.showRoleName = (val && val.length) ? true : false;
-            }
-        },
+        // employeeTypes(val) {
+        //     if(val) {
+        //         this.form.employee_type = val.find((x) => x.id == this.userProp.employee_type);
+        //     }
+        // },
+        // "form.permissions": {
+        //     deep: true,
+        //     handler(val) {
+        //         this.showRoleName = (val && val.length) ? true : false;
+        //     }
+        // },
     }
 
 }

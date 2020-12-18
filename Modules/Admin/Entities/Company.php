@@ -10,7 +10,7 @@ use Modules\Loggable\Traits\Loggable;
 
 class Company extends Model
 {
-    use Sortable, UserEmailAttribute, Loggable, SoftDeletes;
+    use Sortable, Loggable, SoftDeletes;
 
     protected $fillable = ['Name', 'GroupName', 'TradeRegister', 'DeletedAt'];
 
@@ -31,6 +31,6 @@ class Company extends Model
         )->select(['CompanyTypes.Name', 'CompanyTypes.Id']);
     }
 
-    protected $hidden = ['pivot', 'user'];
+    protected $hidden = ['pivot'];
     protected $primaryKey = "Id";
 }

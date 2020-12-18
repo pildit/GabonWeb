@@ -21,7 +21,7 @@ class User extends Model implements JwtPayloadInterface
 
     protected $guard_name = 'api';
 
-    protected $with = ['roles:id,name'];
+    protected $with = ['roles:id,name', 'company:Id,Name', 'employee_type:id,name'];
 
     /**
      * The attributes that are mass assignable.
@@ -42,7 +42,7 @@ class User extends Model implements JwtPayloadInterface
      *
      * @var array
      */
-    protected $hidden = ['password', 'company'];
+    protected $hidden = ['password'];
 
     /**
      * @var string[]
@@ -63,6 +63,11 @@ class User extends Model implements JwtPayloadInterface
     public function company()
     {
         return $this->belongsTo(Company::class, 'company_id');
+    }
+
+    public function employee_type()
+    {
+        return $this->belongsTo(EmployeeType::class, 'employee_type');
     }
 
 

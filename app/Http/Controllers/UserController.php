@@ -18,12 +18,12 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        $permissions = $user->getAllPermissions()->map(function ($item) {
-            return [
-                'id' => $item->id,
-                'name' => $item->name
-            ];
-        });
+//        $permissions = $user->getAllPermissions()->map(function ($item) {
+//            return [
+//                'id' => $item->id,
+//                'name' => $item->name
+//            ];
+//        });
         $data = $user->toArray();
         $data['roles'] = $user->roles->map(function ($item) {
             return [
@@ -31,7 +31,7 @@ class UserController extends Controller
                 'name' => $item->name
             ];
         });
-        $data['permissions'] = $permissions->toArray();
+//        $data['permissions'] = $permissions->toArray();
         return view('users.edit', ['user' => json_encode($data)]);
     }
 }
