@@ -2,13 +2,13 @@
   <div class="container mt-40">
     <h5 class="text-center green-text mb-2">{{ translate('quality') }}</h5>
     <div class="row">
-      <div class="col-sm-8 d-flex align-items-center">
+      <div class="col-sm-6 d-flex align-items-center">
         <button class="btn btn-md" @click="modals.form = true" v-permission="'quality.add'">
           <i class="fas fa-plus-circle"></i> {{ translate('add_quality') }}
         </button>
       </div>
 
-      <div class="md-form col-sm-4">
+      <div class="md-form col-sm-6">
         <div class="form-row justify-content-end">
           <div class="col-sm-10">
             <label for="quality_name">{{ translate('search') }}</label>

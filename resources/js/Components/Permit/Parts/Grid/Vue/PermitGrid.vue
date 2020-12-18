@@ -18,8 +18,8 @@
                     {{ translate("transport_permits") }}
                 </h5>
                 <div class="row">
-                    <div class="col-sm-8 d-flex align-items-center"></div>
-                    <div class="md-form col-sm-4">
+                    <div class="col-sm-6 d-flex align-items-center"></div>
+                    <div class="md-form col-sm-6">
                         <div class="form-row justify-content-end">
                             <div class="col text-right pt-2">
                                 <date-range-picker

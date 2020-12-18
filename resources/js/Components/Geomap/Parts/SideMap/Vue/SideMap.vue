@@ -18,6 +18,7 @@ import * as Vue2Leaflet from "vue2-leaflet";
 import { latLng, Icon, icon } from "leaflet";
 import iconUrl from "leaflet/dist/images/marker-icon.png";
 import shadowUrl from "leaflet/dist/images/marker-shadow.png";
+import iconRetinaUrl from "leaflet/dist/images/marker-icon-2x.png";
 
 import { EventBus } from "components/EventBus/EventBus";
 
@@ -47,6 +48,7 @@ export default {
       icon: icon(
         Object.assign({}, Icon.Default.prototype.options, {
           iconUrl,
+          iconRetinaUrl,
           shadowUrl,
         })
       ),
