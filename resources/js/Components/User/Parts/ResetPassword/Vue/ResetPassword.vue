@@ -51,10 +51,11 @@
     // import VueHcaptcha from '@hcaptcha/vue-hcaptcha';
 
     export default {
+        props: ['tokenProp'],
         data() {
             return {
                 resetForm: {
-                    code: new URLSearchParams(window.location.search).get('code'),
+                    code: null,
                     password: '',
                     password_confirmation: '',
                     hcaptchaVerified: false,
@@ -81,6 +82,7 @@
             onSubmit() {
                 this.$validator.validate().then((valid) => {
                     if(valid) {
+                        this.resetForm.code = this.tokenProp;
                         // if (!this.resetForm.hcaptchaVerified) {
                         //     this.resetForm.hcaptchaError = true;
                         //     this.resetForm.captchaErrorMessage = this.translate("captcha_error");
@@ -97,7 +99,7 @@
                             .catch((error) => {
                                 console.log(error);
                                 if(error) {
-                                    window.hcaptcha.reset();
+                                    // window.hcaptcha.reset();
                                     this.resetForm.hcaptchaVerified = false;
                                     if([401,404].includes(error.status)) {
                                         this.failed = error.data.message;

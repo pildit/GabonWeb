@@ -67,7 +67,7 @@ export default {
                 .then((response) => response);
         },
         reset({}, payload) {
-            return axios.post('api/users/reset', payload)
+            return axios.post('api/users/reset', payload.data)
                 .then((response) => response);
         },
         update({}, payload) {

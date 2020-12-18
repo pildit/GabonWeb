@@ -13,6 +13,10 @@ export default {
         translation(state) {
             return state.translation;
         },
+        ttt(state, test) {
+            console.log(state);
+            console.log(test);
+        }
     },
     mutations: {
         translations(state, translations) {

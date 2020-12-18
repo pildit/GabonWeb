@@ -15,10 +15,12 @@ use Modules\User\Entities\EmployeeType;
 use Modules\User\Entities\User;
 use Illuminate\Http\Request;
 use Modules\User\Http\Requests\CreateUserRequest;
+use Modules\User\Http\Requests\ResetPasswordRequest;
 use Modules\User\Http\Requests\UpdateUserRequest;
 use Modules\User\Http\Requests\ForgotPasswordRequest;
 use Modules\User\Exports\Exporter;
 use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserController extends Controller
 {
@@ -155,7 +157,8 @@ class UserController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
 
-    public function verify(Request $request) {
+    public function verify(Request $request)
+    {
         if($request->get('code') != ''){
             $user = User::where('activationcode', '=', $request->get('code'))->first();
             if ($user !== null) {
@@ -180,7 +183,8 @@ class UserController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
 
-    public function approve(User $user) {
+    public function approve(User $user)
+    {
         if ($user !== null) {
             $user->status = User::STATUS_ACTIVE;
             $user->save();
@@ -208,8 +212,10 @@ class UserController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
 
-    public function forgotPassword(Request $request){
-        $user = User::where('email', $request->email)->firstOrFail();
+    public function forgotPassword(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+        throw_if(!$user, new NotFoundHttpException(lang('user_not_found')));
 
         if ($user !== null) {
             $user->activationcode = Str::random(20);
@@ -239,7 +245,8 @@ class UserController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
 
-    public function changePassword(ForgotPasswordRequest $request){
+    public function changePassword(ForgotPasswordRequest $request)
+    {
         $data = $request->validated();
         $user = User::where('activationcode', '=', $data['code'])->first();
         if ($user !== null) {
@@ -256,14 +263,13 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function resetPassword (Request $request) {
-        $data = $request->validate([
-            'data.code'     => 'required|string',
-            'data.password' => 'required|confirmed'
-        ])['data'];
+    public function resetPassword(ResetPasswordRequest $request)
+    {
+        $data = $request->all();
 
         $user = User::where('activationcode', '=', $data['code'])->first();
-        if ($user !== null) {
+
+        if ($user) {
             $user->activationcode = null;
             $user->password = Hash::make($data['password']);
             $user->save();
@@ -274,7 +280,7 @@ class UserController extends Controller
 
         return response()->json([
             'message' => lang("change_password_error")
-        ], 200);
+        ], 400);
     }
 
     /**
@@ -282,7 +288,8 @@ class UserController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
 
-    public function resendConfirmation(User $user) {
+    public function resendConfirmation(User $user)
+    {
         if ($user !== null) {
             if($user->activationcode != ''){
                 $email_data['email'] = $user->email;
@@ -310,7 +317,8 @@ class UserController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
 
-    public function createAccount(CreateUserRequest $request){
+    public function createAccount(CreateUserRequest $request)
+    {
         $data = $request->validated();
 
         $data['password'] = Hash::make($data['password']);
