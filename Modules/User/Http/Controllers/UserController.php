@@ -45,7 +45,7 @@ class UserController extends Controller
      */
     public function index(Request $request, PageResults $pageResults)
     {
-        return response()->json($pageResults->getPaginator($request, User::class, ['email']));
+        return response()->json($pageResults->getPaginator($request, User::class, ['email', 'firstname', 'lastname']));
     }
 
     /**

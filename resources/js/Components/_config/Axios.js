@@ -7,7 +7,7 @@ import finallyBlock from 'promise.prototype.finally'
 finallyBlock.shim();
 
 let translate = (key) => {
-    return store.getters.translations[key] || `*${key}*`;
+    return store.getters.translations[key] || `${key}`;
 }
 
 let isAbsoluteURLRegex = /^(?:\w+:)\/\//;
