@@ -1,3 +1,6 @@
+html, body {
+    height: auto;
+}
 body {
     padding-bottom: 75px;
 }
