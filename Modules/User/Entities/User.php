@@ -35,7 +35,7 @@ class User extends Model implements JwtPayloadInterface
      *
      * @var string
      */
-    protected $table = 'admin.accounts';
+    protected $table = 'admin.Accounts';
 
     /**
      * The attributes that should be hidden for serialization.
