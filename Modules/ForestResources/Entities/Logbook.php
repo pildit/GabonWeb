@@ -48,7 +48,7 @@ class Logbook extends Model
     protected $primaryKey = "Id";
 
     public function items(){
-        return $this->hasMany(LogbookItem::class,'Logbook');
+        return $this->hasMany(LogbookItem::class,'Logbook')->orderBy('Id');
     }
 
     public function concession(){
