@@ -14,6 +14,7 @@ class ConstituentPermit extends Base {
 
     static buildForm(data) {
         let obj = {
+            Concession: data.Concession.Id,
             permit_number: data.PermitNumber,
             geometry: data.Geometry,
             permit_type: data.PermitType.Id

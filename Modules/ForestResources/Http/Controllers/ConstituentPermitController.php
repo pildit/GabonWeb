@@ -54,6 +54,7 @@ class ConstituentPermitController extends Controller
         $constituent_permit->PermitType = $data['permit_type'];
         $constituent_permit->PermitNumber = $data['permit_number'];
         $constituent_permit->Geometry = $data['geometry'];
+        $constituent_permit->Concession = $data['Concession'];
         $constituent_permit->User = $this->jwtPayload('data.id');
 
         $constituent_permit->save();
@@ -85,6 +86,7 @@ class ConstituentPermitController extends Controller
     {
         $data = $request->validate([
             'permit_type' => 'exists:pgsql.ForestResources.PermitTypes,Id',
+            'Concession' => 'exists:Modules\ForestResources\Entities\Concession,Id',
             'permit_number' => 'string',
             'geometry' => 'string',
         ]);
@@ -94,6 +96,9 @@ class ConstituentPermitController extends Controller
 
         if ($request->has('permit_number'))
             $constituent_permit->PermitNumber = $data['permit_number'];
+
+        if ($request->has('Concession'))
+            $constituent_permit->Concession = $data['Concession'];
 
         if ($request->has('geometry'))
             $constituent_permit->Geometry = $data['geometry'];

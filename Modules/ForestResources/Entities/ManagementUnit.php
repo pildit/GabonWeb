@@ -33,11 +33,6 @@ class ManagementUnit extends Model
     ];
 
     /**
-     * @var string
-     */
-    protected $dateFormat = 'Y-m-d H:i:s.u';
-
-    /**
      * The table associated with the model.
      *
      * @var string

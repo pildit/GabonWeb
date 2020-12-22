@@ -12,7 +12,7 @@ class Tracking extends Model
 
     protected $primaryKey = 'Id';
     public $timestamps = true;
-    protected $dateFormat = 'Y-m-d H:i:s.u';
+
 
     protected $fillable = ['User', 'Lat', 'Lon','GpsAccu', 'ObserveAt'];
 

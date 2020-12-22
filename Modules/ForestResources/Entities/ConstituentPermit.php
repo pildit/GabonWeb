@@ -14,7 +14,7 @@ class ConstituentPermit extends Model
 {
 	use Sortable, SoftDeletes, Geometry, Loggable;
 
-    protected $fillable = ['PermitType', 'Geometry', 'PermitNumber', 'Approved'];
+    protected $fillable = ['PermitType', 'Geometry', 'PermitNumber','Concession', 'Approved'];
 
     /**
      * The model's attributes.
@@ -27,7 +27,7 @@ class ConstituentPermit extends Model
 
     protected $table = 'ForestResources.ConstituentPermits';
 
-    protected $dateFormat = 'Y-m-d H:i:s.u';
+
 
     protected $primaryKey = 'Id';
 
@@ -55,5 +55,9 @@ class ConstituentPermit extends Model
     public function permit_type()
     {
         return $this->belongsTo('Modules\ForestResources\Entities\PermitType', 'PermitType');
+    }
+
+    public function concession(){
+        return $this->hasOne('Modules\ForestResources\Entities\Concession', 'Id');
     }
 }
