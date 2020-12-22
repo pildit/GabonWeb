@@ -15,7 +15,6 @@ class Concession extends Base {
 
     static buildForm(data) {
         let obj = {
-            ConstituentPermit: data.ConstituentPermit.Id,
             Company: data.Company.Id,
             Continent: data.Continent.Name,
             ProductType: data.ProductType.Id,

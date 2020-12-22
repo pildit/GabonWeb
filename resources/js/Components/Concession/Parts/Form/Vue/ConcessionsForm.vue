@@ -38,50 +38,6 @@
                     <div class="col">
                         <div class="md-form">
                             <multiselect
-                                name="ConstituentPermit"
-                                v-validate="'required'"
-                                v-model="form.ConstituentPermit"
-                                :options="constituentPermitList.data"
-                                :placeholder="translate('constituent_permit_select_label')"
-                                track-by="Id"
-                                label="PermitNumber"
-                                :hide-selected="true"
-                                :options-limit="50"
-                                :searchable="true"
-                                :loading="constituentPermitList.isLoading"
-                                :allow-empty="false"
-                                @select="$forceUpdate()"
-                                @search-change="asyncFindCP"
-                            ></multiselect>
-                            <div v-show="errors.has('ConstituentPermit')" class="invalid-feedback">{{ errors.first('ConstituentPermit') }}</div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="md-form">
-                            <multiselect
-                                name="Company"
-                                v-model="form.Company"
-                                v-validate="'required'"
-                                :options="companyList.data"
-                                :placeholder="translate('company_select_label')"
-                                track-by="Id"
-                                label="Name"
-                                :hide-selected="true"
-                                :options-limit="50"
-                                :searchable="true"
-                                :loading="companyList.isLoading"
-                                :allow-empty="false"
-                                @select="$forceUpdate()"
-                                @search-change="asyncFindCompany"
-                            ></multiselect>
-                            <div v-show="errors.has('Company')" class="invalid-feedback">{{ errors.first('Company') }}</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col">
-                        <div class="md-form">
-                            <multiselect
                                 name="Continent"
                                 v-validate="'required'"
                                 v-model="form.Continent"
@@ -110,6 +66,29 @@
                         </div>
                     </div>
                 </div>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="md-form">
+                            <multiselect
+                                name="Company"
+                                v-model="form.Company"
+                                v-validate="'required'"
+                                :options="companyList.data"
+                                :placeholder="translate('company_select_label')"
+                                track-by="Id"
+                                label="Name"
+                                :hide-selected="true"
+                                :options-limit="50"
+                                :searchable="true"
+                                :loading="companyList.isLoading"
+                                :allow-empty="false"
+                                @select="$forceUpdate()"
+                                @search-change="asyncFindCompany"
+                            ></multiselect>
+                            <div v-show="errors.has('Company')" class="invalid-feedback">{{ errors.first('Company') }}</div>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-row float-right text-white">
                     <button @click="save()" class="btn btn-info z-depth-0 my-4" :disabled="saveLoading">
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="saveLoading"></span>
@@ -127,7 +106,6 @@ import {mapState, mapGetters} from 'vuex';
 import Multiselect from 'vue-multiselect';
 import Company from "components/Company/Company";
 import Concession from "components/Concession/Concession";
-import ConstituentPermit from "components/ConstituentPermit/ConstituentPermit";
 import Notification from "components/Common/Notifications/Notification";
 import _ from "lodash";
 
@@ -143,11 +121,6 @@ export default {
         return {
             form: {},
             saveLoading: false,
-            constituentPermitList: {
-                data: [],
-                isLoading: false,
-                limit: 50
-            },
             companyList: {
                 data: [],
                 isLoading: false,
@@ -167,7 +140,6 @@ export default {
 
     created() {
         this.asyncFindCompany();
-        this.asyncFindCP();
     },
 
     methods: {
@@ -198,13 +170,6 @@ export default {
             })
 
         },
-        asyncFindCP(query = '') {
-            this.constituentPermitList.isLoading = true;
-            ConstituentPermit.listSearch(query, this.constituentPermitList.limit).then((response) => {
-                this.constituentPermitList.data = response.data;
-                this.constituentPermitList.isLoading = false;
-            })
-        },
         asyncFindCompany(query = '') {
             this.companyList.isLoading = true;
             Company.listSearch(query, this.companyList.limit).then((response) => {
@@ -228,7 +193,6 @@ export default {
                 this.isCreatedFormType = false;
                 this.form = _.merge(this.form, value);
                 this.form.Geometry = value.geometry_as_text;
-                this.form.ConstituentPermit = this.constituentPermitList.data.find((x) => x.Id == value.ConstituentPermit);
                 this.form.Company = this.companyList.data.find((x) => x.Id == value.Company);
                 this.form.Continent = this.continents.find((x) => x.Name == value.Continent);
                 this.form.ProductType = this.productTypeList.find((x) => x.Id == this.form.ProductType);

@@ -17,6 +17,7 @@ class CreateConstituentPermitRequest extends FormRequest
             'permit_type' => 'required|exists:pgsql.ForestResources.PermitTypes,Id',
             'permit_number' => 'required',
             'geometry' => 'required',
+            'Concession' => 'required|exists:Modules\ForestResources\Entities\Concession,Id',
         ];
     }
 

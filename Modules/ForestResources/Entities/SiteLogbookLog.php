@@ -16,13 +16,7 @@ class SiteLogbookLog extends Model
     const UPDATED_AT = "UpdatedAt";
     const DELETED_AT = "DeletedAt";
 
-    public $timestamps = true;
-    /**
-     * @var string
-     */
-    protected $dateFormat = 'Y-m-d H:i:s.u';
-
-    /**
+    public $timestamps = true;/**
      * The attributes that are mass assignable.
      *
      * @var array

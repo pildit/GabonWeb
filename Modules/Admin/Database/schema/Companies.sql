@@ -48,7 +48,7 @@ CREATE TRIGGER user_timestamp BEFORE INSERT OR UPDATE ON "Taxonomy"."CompaniesTa
 
 -- VIEWS
 
-create view "Taxonomy"."Companies" ("Id", "Name", "GroupName", "User", "TradeRegister", "CreatedAt", "UpdatedAt", "DeletedAt") as
+create or replace view "Taxonomy"."Companies" ("Id", "Name", "GroupName", "User", "TradeRegister", "CreatedAt", "UpdatedAt", "DeletedAt") as
 SELECT "CompaniesTable"."Id",
        "CompaniesTable"."Name",
        "CompaniesTable"."GroupName",

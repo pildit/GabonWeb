@@ -47,7 +47,7 @@ class Permit extends Model
 
     public $timestamps = true;
 
-    protected $dateFormat = 'Y-m-d H:i:s.u';
+
 
     /**
      * The attributes that are mass assignable.

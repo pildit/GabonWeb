@@ -21,7 +21,7 @@ class Concession extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'Number', 'Name', 'Company', 'Geometry', 'ProductType', 'Continent', 'ConstituentPermit','Approved', 'User'
+        'Number', 'Name', 'Company', 'Geometry', 'ProductType', 'Continent','Approved', 'User'
     ];
 
     /**
@@ -35,14 +35,7 @@ class Concession extends Model
 
     protected $table = "ForestResources.Concessions";
 
-    protected $with = ['constituent_permit:Id,PermitNumber'];
-
-    /**
-     * @var string
-     */
-    protected $dateFormat = 'Y-m-d H:i:s.u';
-
-    protected $primaryKey = "Id";
+    protected $with = ['constituent_permit:Id,PermitNumber'];protected $primaryKey = "Id";
 
     protected $hidden = ['Geometry'];
 
@@ -63,7 +56,7 @@ class Concession extends Model
 
     public function constituent_permit()
     {
-        return $this->belongsTo(ConstituentPermit::class, 'ConstituentPermit');
+        return $this->hasMany(ConstituentPermit::class, 'Concession', 'Id');
     }
 
     public function company()

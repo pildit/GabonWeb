@@ -47,6 +47,31 @@
                     <label for="Geometry" :class="{'active': form.Geometry}">{{translate('geometry_input_label')}}</label>
                     <div v-show="errors.has('Geometry')" class="invalid-feedback">{{ errors.first('Geometry') }}</div>
                 </div>
+
+                <div class="form-row">
+                    <div class="col">
+                        <div class="md-form">
+                            <multiselect
+                                name="Concession"
+                                v-validate="'required'"
+                                v-model="form.Concession"
+                                :options="concessionList.data"
+                                :placeholder="translate('concession_select_label')"
+                                track-by="Id"
+                                label="Name"
+                                :hide-selected="true"
+                                :options-limit="50"
+                                :searchable="true"
+                                :loading="concessionList.isLoading"
+                                :allow-empty="false"
+                                @select="$forceUpdate()"
+                                @search-change="asyncFindConcession"
+                            ></multiselect>
+                            <div v-show="errors.has('Concession')" class="invalid-feedback">{{ errors.first('Concession') }}</div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="form-row float-right text-white">
                     <button @click="save()" class="btn btn-info z-depth-0 my-4" :disabled="saveLoading">
                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" v-if="saveLoading"></span>
@@ -61,13 +86,14 @@
 
 <script>
 import PermitType from "components/PermitType/PermitType";
+import Concession from "components/Concession/Concession";
 import ConstituentPermit from "components/ConstituentPermit/ConstituentPermit";
 import Notification from "components/Common/Notifications/Notification";
 import Multiselect from "vue-multiselect";
 import _ from "lodash";
 
 import { EventBus } from "components/EventBus/EventBus";
-
+ConstituentPermit
 export default {
 
     props: ['constituentPermitProp', 'endpointCreate', 'endpointEdit'],
@@ -81,7 +107,12 @@ export default {
           permitTypeList: {
               data: [],
               isLoading: false
-          }
+          },
+          concessionList: {
+              data: [],
+              isLoading: false,
+              limit: 50
+          },
       }
     },
 
@@ -93,6 +124,7 @@ export default {
 
     created() {
         this.asyncFindPermitType('');
+        this.asyncFindConcession();
     },
 
     methods: {
@@ -124,7 +156,13 @@ export default {
                 window.location.href = this.indexRoute();
             })
         },
-
+        asyncFindConcession(query = '') {
+            this.concessionList.isLoading = true;
+            Concession.listSearch(query, this.concessionList.limit).then((response) => {
+                this.concessionList.data = response.data;
+                this.concessionList.isLoading = false;
+            })
+        },
         asyncFindPermitType(query) {
             this.permitTypeList.isLoading = true;
             PermitType.listSearch(query, this.permitTypeList.limit).then((response) => {
@@ -149,6 +187,7 @@ export default {
                 this.form = _.merge(this.form, value);
                 this.form.Geometry = value.geometry_as_text;
                 this.form.PermitType = this.permitTypeList.data.find((x) => x.Id == value.PermitType);
+                this.form.Concession = this.concessionList.data.find((x) => x.Id == value.Concession);
 
                 if (this.endpointEdit) {
                     EventBus.$emit(this.endpointEdit, value.geometry_as_text);
