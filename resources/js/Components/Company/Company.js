@@ -34,6 +34,10 @@ class Company extends Base {
         return store.dispatch('company/listSearch', {name, limit}).then(response => response.data);
     }
 
+    static listCompanyTypes() {
+        return store.dispatch('company/listCompanyTypes').then(response => response.data);
+    }
+
 }
 
 export default Company;

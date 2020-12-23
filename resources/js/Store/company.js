@@ -5,11 +5,7 @@ export default {
     state: {
         companies: [],
         company: {},
-        types: [
-            {Id: 1, Name: 'concessionaire'},
-            {Id: 2, Name: 'transporter'},
-            {Id: 3, Name: 'client'}
-        ]
+        types: []
     },
     getters: {
         companies(state) {
@@ -30,7 +26,7 @@ export default {
             state.company = company;
         },
         types(state, types) {
-            return state.types = types;
+            state.types = types;
         }
     },
     actions: {
@@ -66,6 +62,12 @@ export default {
         listSearch({}, payload) {
             return axios.get(`api/companies/list?name=${payload.name}&limit=${payload.limit}`)
                 .then((response) => response);
+        },
+
+        listCompanyTypes({commit}) {
+            return axios.get(`api/company_types`)
+                .then((response) => response.data)
+                .then((responseData) => commit('types', responseData.data));
         }
     }
 }
