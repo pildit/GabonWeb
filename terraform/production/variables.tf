@@ -18,6 +18,11 @@ variable "webserver_instance_storage" {
   default = 50
 }
 
+variable "tiles_instance_storage" {
+  type    = number
+  default = 50
+}
+
 variable "rdspsql_instance_type" {
   type    = string
   default = "db.m5.large"
