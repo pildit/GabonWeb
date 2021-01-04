@@ -16,7 +16,9 @@ export default (selector, options) => {
             store.dispatch('productType/getList');
             if(options.id) {
                 let id = options.id;
-                store.dispatch('development_unit/get', {id});
+                this.$refs.development_unit_form.isCreatedFormType = false;
+                this.$refs.development_unit_form.isReady = false;
+                store.dispatch('development_unit/get', {id}).then(() => this.$refs.development_unit_form.isReady = true);
             }
         }
     };

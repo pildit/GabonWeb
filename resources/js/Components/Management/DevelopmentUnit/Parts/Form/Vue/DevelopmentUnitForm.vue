@@ -2,13 +2,20 @@
   <!-- Material form contact -->
   <div class="card" ref="development-unit-form">
     <h5 class="card-header success-color white-text text-center py-4">
-      <strong>{{ translate("development_unit_create_form_title") }}</strong>
+      <strong v-if="isCreatedFormType">{{ translate("development_unit_create_form_title") }}</strong>
+      <strong v-else>{{ translate("development_unit_edit_form_title") }}</strong>
     </h5>
 
     <!--Card content-->
     <div class="card-body px-lg-5 pt-0" v-permission="'development-unit.add'">
+        <div v-if="!isReady" class="text-center mt-2">
+            <div class="spinner-border text-success" role="status">
+                <span class="sr-only">{{translate('loading')}}...</span>
+            </div>
+        </div>
       <!-- Form -->
       <form
+        v-if="isReady"
         @submit.prevent="save"
         class="text-center"
         style="color: #757575"
@@ -201,6 +208,7 @@ export default {
 
   data() {
     return {
+      isReady: true,
       form: {},
       formPlansCount: 0,
       saveLoading: false,
@@ -338,6 +346,7 @@ export default {
 
   watch: {
     developmentUnitProp(value) {
+        console.log('v', value);
       if (value) {
         this.isCreatedFormType = false;
         this.form = _.merge(this.form, value);
