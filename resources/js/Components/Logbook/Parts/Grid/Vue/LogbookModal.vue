@@ -28,6 +28,13 @@
                 <p class="lead text-center">
                     {{ translate('logbook_items') }}
                 </p>
+
+                <div class="text-left" v-if="logbook.items.length === 0">
+                    <p class="lead text-center">
+                        {{ translate('no_logbook_items') }}
+                    </p>
+                </div>
+
                 <div class="text-left">
                     <table class="table table-stripped table-bordered" v-for="(item, i) in logbook.items" :key="'item-' + i">
                         <tbody>
