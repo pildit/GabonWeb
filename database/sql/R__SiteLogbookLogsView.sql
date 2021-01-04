@@ -26,8 +26,6 @@ SELECT slbl."Id",
        slbl."DeletedAt"
 FROM "ForestResources"."SiteLogbookLogsTable" slbl;
 
-alter table "ForestResources"."SiteLogbookLogs"
-    owner to homestead;
 
 CREATE OR REPLACE RULE "SiteLogbookLogs_instead_of_delete" AS
     ON DELETE TO "ForestResources"."SiteLogbookLogs" DO INSTEAD DELETE

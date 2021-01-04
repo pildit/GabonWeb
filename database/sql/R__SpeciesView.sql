@@ -11,9 +11,6 @@ SELECT st."Id",
 FROM "Taxonomy"."SpeciesTable" st
          LEFT JOIN admin.accounts acc ON st."User" = acc.id;
 
-alter table "Taxonomy"."Species"
-    owner to homestead;
-
 CREATE OR REPLACE RULE "Species_instead_of_delete" AS
     ON DELETE TO "Taxonomy"."Species" DO INSTEAD DELETE
                                                  FROM "Taxonomy"."SpeciesTable"

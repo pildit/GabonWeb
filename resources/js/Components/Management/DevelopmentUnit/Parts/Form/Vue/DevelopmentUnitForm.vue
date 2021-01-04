@@ -343,7 +343,7 @@ export default {
         this.form = _.merge(this.form, value);
         this.form.Geometry = value.geometry_as_text;
         this.form.Concession = this.concessionsList.data.find(
-          (x) => x.Id == value.concession.Id
+          (x) => x.Id == value.Concession
         );
         this.form.ProductType = this.productTypeList.find(
           (x) => x.Id == this.form.ProductType
