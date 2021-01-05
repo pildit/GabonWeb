@@ -1,7 +1,7 @@
 resource "aws_elasticache_cluster" "cacheGabonWebFE" {
   cluster_id           = "cache-gabon-webfe"
   engine               = "redis"
-  node_type            = "cache.r4.large"
+  node_type            = "cache.r5.large"
   num_cache_nodes      = 1
   parameter_group_name = "default.redis6.x"
   engine_version       = "6.x"

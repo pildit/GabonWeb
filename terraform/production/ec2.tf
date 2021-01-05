@@ -114,7 +114,7 @@ resource "aws_lb_listener_rule" "alblrProductionGabonGlobalOriginOrg" {
 
 resource "aws_lb_listener_rule" "alblrProductionTilesGlobalOriginOrg" {
   listener_arn = aws_lb_listener.alblProductionHttps.arn
-  priority     = 100
+  priority     = 200
 
   condition {
     host_header {
