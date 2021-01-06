@@ -40,6 +40,9 @@ Route::middleware('auth.jwt')->group(function () {
 
     Route::get('/nomenclatures/{nomenclature_type?}', 'NomenclaturesController@index');
 
+    Route::get('/management/management-units/{id}/plans', 'ManagementUnitController@plans');
+    Route::get('/management/development-units/{id}/plans', 'DevelopmentUnitController@plans');
+
     Route::resource('/management/development-units', 'DevelopmentUnitController')->only(['create', 'edit']);
     Route::resource('/management/management-units', 'ManagementUnitController')->only(['create', 'edit']);
     Route::get('/management/aac-inventory', 'AnnualAllowableCutController@inventory');
@@ -55,7 +58,7 @@ Route::middleware('auth.jwt')->group(function () {
     Route::get('/translations', 'TranslationController@index');
     Route::view('/logbooks', 'transportation.logbooks');
     Route::get('/sitelogbooks', 'SiteLogbookItemsController@index');
-    Route::get('/sitelogbook', 'SiteLogbookItemsController@view');
+    Route::get('/sitelogbooks/{id}/items', 'SiteLogbookItemsController@items');
     Route::view('/permits', 'transportation.permits');
 
 });

@@ -43,6 +43,15 @@ class ManagementUnit extends Model
 
     protected $hidden = ['Geometry'];
 
+    protected $appends = ['plans_count'];
+
+    public function getPlansCountAttribute()
+    {
+        $plans = collect($this->plans);
+        return $plans->count();
+    }
+
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

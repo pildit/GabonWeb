@@ -2,12 +2,14 @@ import ActionColumn from "./Vue/ActionColumn";
 import store from "store/store"
 
 export default (options) => {
+    console.log(options);
     return {
         options: {
             instance: "sitelogbookitems",
             store: {
                 getter: 'sitelogbookitems/siteLogbookItems',
-                action: 'sitelogbookitems/index'
+                action: 'sitelogbookitems/index',
+                payload: options
             },
             sort: {
                 direction: "desc",

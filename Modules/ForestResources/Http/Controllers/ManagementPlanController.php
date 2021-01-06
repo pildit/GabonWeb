@@ -3,6 +3,7 @@
 namespace Modules\ForestResources\Http\Controllers;
 
 use App\Services\PageResults;
+use GenTux\Jwt\GetsJwtToken;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -14,20 +15,42 @@ use Modules\ForestResources\Http\Requests\CreateManagementPlanRequest;
 use Modules\ForestResources\Http\Requests\UpdateManagementPlanRequest;
 use Modules\ForestResources\Exports\Exporter;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Traits\Approve;
 
 class ManagementPlanController extends Controller
 {
+    use Approve, GetsJwtToken;
+
     private $modelName = ManagementPlan::class;
 
     public function __construct()
     {
-        $this->middleware('permission:management-unit.view')->only( 'show');
+        $this->middleware('permission:management-unit.view')->only( 'show','index');
         $this->middleware('permission:management-unit.add|management-unit.sync')->only('store');
         $this->middleware('permission:management-unit.edit')->only('update');
         $this->middleware('permission:management-unit.approve')->only('approve');
 
 //        $this->middleware('role:admin')->only('delete');
 
+    }
+
+    /**
+     * Display a listing of the resource.
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index(Request $request, PageResults $pr,$ManagementUnit)
+    {
+        $pr->setSortFields(['Id']);
+        if(!$ManagementUnit){
+            throw ValidationException::withMessages(['ManagementUnit' => 'validation.exists']);
+        }
+        $pr->setWhere(['ManagementUnit' => $ManagementUnit]);
+
+        return response()->json(
+            $pr->getPaginator($request, ManagementPlan::class,[
+                'Species', 'GrossVolumeUFG', 'GrossVolumeYear', 'YieldVolumeYear', 'CommercialVolumeYear', 'CreatedAt'
+            ])
+        );
     }
 
     /**

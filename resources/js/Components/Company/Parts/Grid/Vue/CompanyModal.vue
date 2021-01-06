@@ -31,7 +31,6 @@ export default {
     computed: {
        ...mapGetters('company', ['company', 'types'])
     },
-
     methods: {
         submit() {
             if(this.typeProp == 'create') {

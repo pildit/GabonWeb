@@ -39,11 +39,13 @@ class SiteLogbookItemController extends Controller
      * Display a listing of the resource.
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index(Request $request, PageResults $pr)
+    public function index(Request $request, PageResults $pr,$SiteLogbook)
     {
         $pr->setSortFields(['Id']);
-        $request->validate(['Logbook' => 'required']);
-        $pr->setWhere(['SiteLogbook' => $request->get('Logbook')]);
+        if(!$SiteLogbook){
+            throw ValidationException::withMessages(['ManagementUnit' => 'validation.exists']);
+        }
+        $pr->setWhere(['SiteLogbook' => $SiteLogbook]);
 
         return response()->json(
             $pr->getPaginator($request, SiteLogbookItem::class,[

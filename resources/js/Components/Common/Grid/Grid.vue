@@ -135,6 +135,10 @@ export default {
                 data[entry[0]] = entry[1]
             }
 
+            if(this.options.store.hasOwnProperty('payload')){
+                data = _.merge(data,this.options.store.payload);
+            }
+
             this.$store.dispatch(this.options.store.action, data)
                 .then((response) => response.data)
                 .then((pagination) => {

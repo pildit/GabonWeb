@@ -34,11 +34,14 @@ Route::middleware('jwt:api')->patch('/development_units/approve/{id}', 'Developm
 Route::middleware('jwt:api')->resource('/development_units', DevelopmentUnitController::class)->except(['edit', 'create']);
 //development plan
 //Route::middleware('jwt:api')->get('/development_plans/export', 'DevelopmentPlanController@export');
+Route::middleware('jwt:api')->get('/development_plans/{DevelopmentUnit}', 'DevelopmentPlanController@index');
+Route::middleware('jwt:api')->patch('/development_plans/approve/{id}', 'DevelopmentPlanController@approve');
 Route::middleware('jwt:api')->resource('/development_plans', DevelopmentPlanController::class)->except(['index', 'edit', 'create']);
 //management plan
 //Route::middleware('jwt:api')->get('/management_plans/export', 'ManagementPlanController@export');
 Route::middleware('jwt:api')->get('/management_plans/list', 'ManagementPlanController@listManagementPlans');
-//Route::middleware('jwt:api')->patch('/management_plans/approve/{id}', 'ManagementPlanController@approve');
+Route::middleware('jwt:api')->get('/management_plans/{ManagementUnit}', 'ManagementPlanController@index');
+Route::middleware('jwt:api')->patch('/management_plans/approve/{id}', 'ManagementPlanController@approve');
 Route::middleware('jwt:api')->resource('/management_plans', ManagementPlanController::class)->except(['index', 'edit', 'create']);
 //management unit
 Route::middleware('jwt:api')->get('/management_units/export', 'ManagementUnitController@export');
@@ -85,6 +88,7 @@ Route::middleware('jwt:api')->resource('/site_logbooks', SiteLogbookController::
 //Sitelogbook items
 //Route::middleware('jwt:api')->get('/site_logbook_items/export', 'SiteLogbookItemController@export');
 Route::middleware('jwt:api')->get('/site_logbook_items/mobile', 'SiteLogbookItemController@mobile');
+Route::middleware('jwt:api')->get('/site_logbook_items/{SiteLogbook}', 'SiteLogbookItemController@index');
 Route::middleware('jwt:api')->patch('/site_logbook_items/approve/{id}', 'SiteLogbookItemController@approve');
 Route::middleware('jwt:api')->resource('/site_logbook_items', SiteLogbookItemController::class)->except(['edit', 'create']);
 //Sitelogbook logs

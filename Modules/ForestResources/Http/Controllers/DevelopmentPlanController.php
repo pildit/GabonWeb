@@ -3,6 +3,7 @@
 namespace Modules\ForestResources\Http\Controllers;
 
 use App\Services\PageResults;
+use GenTux\Jwt\GetsJwtToken;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
@@ -15,18 +16,42 @@ use Modules\ForestResources\Http\Requests\UpdateDevelopmentPlanRequest;
 use Modules\ForestResources\Services\DevelopmentPlan as DevelopmentPlanService;
 use Modules\ForestResources\Exports\Exporter;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Traits\Approve;
+
 
 class DevelopmentPlanController extends Controller
 {
+    use Approve, GetsJwtToken;
+    private $modelName = DevelopmentPlan::class;
 
     public function __construct()
     {
-        $this->middleware('permission:development-unit.view')->only('show');
+        $this->middleware('permission:development-unit.view')->only('show','index');
         $this->middleware('permission:development-unit.add|development-unit.sync')->only('store');
         $this->middleware('permission:development-unit.edit')->only('update');
+        $this->middleware('permission:development-unit.approve')->only('approve');
 
 //        $this->middleware('role:admin')->only('delete');
 
+    }
+
+    /**
+     * Display a listing of the resource.
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index(Request $request, PageResults $pr,$DevelopmentUnit)
+    {
+        $pr->setSortFields(['Id']);
+        if(!$DevelopmentUnit){
+            throw ValidationException::withMessages(['DevelopmentUnit' => 'validation.exists']);
+        }
+        $pr->setWhere(['DevelopmentUnit' => $DevelopmentUnit]);
+
+        return response()->json(
+            $pr->getPaginator($request, DevelopmentPlan::class,[
+                'Species', 'MinimumExploitableDiameter', 'VolumeTariff', 'Increment', 'CreatedAt'
+            ])
+        );
     }
 
     /**
