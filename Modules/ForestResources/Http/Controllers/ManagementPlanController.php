@@ -48,7 +48,7 @@ class ManagementPlanController extends Controller
 
         return response()->json(
             $pr->getPaginator($request, ManagementPlan::class,[
-                'Species', 'GrossVolumeUFG', 'GrossVolumeYear', 'YieldVolumeYear', 'CommercialVolumeYear', 'CreatedAt'
+                'Species', 'SpeciesCommonName', 'GrossVolumeUFG', 'GrossVolumeYear', 'YieldVolumeYear', 'CommercialVolumeYear', 'CreatedAt'
             ])
         );
     }

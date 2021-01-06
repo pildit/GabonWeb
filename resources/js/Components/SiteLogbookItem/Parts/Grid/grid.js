@@ -32,8 +32,9 @@ export default (options) => {
             Volume: {
                 header: "th_volume"
             },
-            SpeciesLatinName: {
-                header: "th_species",
+            SpeciesCommonName: {
+                header: "th_plan_species",
+                sort: false
             },
             ObserveAt: {
                 header: "th_date",

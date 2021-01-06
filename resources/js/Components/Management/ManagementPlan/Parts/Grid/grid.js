@@ -22,7 +22,7 @@ export default (options) => {
             Id: {
                 header: "id"
             },
-            Species: {
+            SpeciesCommonName: {
                 header: "th_plan_species",
                 sort: false
             },

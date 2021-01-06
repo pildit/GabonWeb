@@ -49,7 +49,7 @@ class DevelopmentPlanController extends Controller
 
         return response()->json(
             $pr->getPaginator($request, DevelopmentPlan::class,[
-                'Species', 'MinimumExploitableDiameter', 'VolumeTariff', 'Increment', 'CreatedAt'
+                'Species', 'SpeciesCommonName','MinimumExploitableDiameter', 'VolumeTariff', 'Increment', 'CreatedAt'
             ])
         );
     }
