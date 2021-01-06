@@ -12,7 +12,7 @@
 {{--    <link href="zenith_src/css/app.css" rel="stylesheet">--}}
     @yield('styles')
 </head>
-<body style="height: 100vh">
+<body>
 <div class="page-loader d-flex justify-content-center" id="page-loader">
     <div class="spinner-border text-success" role="status">
         <span class="sr-only">{{lang('loading')}}...</span>
@@ -33,9 +33,9 @@
 <script src="/js/app.js"></script>
 @yield('scripts')
 <script>
-    Gabon.Base.getTranslations().then(() => {
+    // Gabon.Base.getTranslations().then(() => {
         Gabon.Pages.render('navigation-menu');
-    });
+    // });
 </script>
 </body>
 </html>

@@ -24,8 +24,6 @@ FROM "ForestResources"."LogbooksTable" lb
          LEFT JOIN "ForestResources"."DevelopmentUnitsTable" du ON du."Id" = lb."DevelopmentUnit"
          LEFT JOIN "ForestResources"."ManagementUnitsTable" mu ON mu."Id" = lb."ManagementUnit";
 
-alter table "ForestResources"."Logbooks"
-    owner to homestead;
 
 CREATE OR REPLACE RULE "Logbooks_instead_of_delete" AS
     ON DELETE TO "ForestResources"."Logbooks" DO INSTEAD DELETE

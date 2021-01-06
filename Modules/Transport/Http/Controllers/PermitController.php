@@ -59,7 +59,7 @@ class PermitController extends Controller
 //        $request->merge(['search'=>$request->get("search")]);
         // TODO: search does'nt work.
         return response()->json($pr->getPaginator($request, PermitEntity::class,
-            ['AnnualAllowableCutName', 'TransporterCompanyName','LicensePlate'],
+            ['PermitNo','AnnualAllowableCutName', 'TransporterCompanyName','LicensePlate'],
             ['annualallowablecut', 'clientcompany', 'concessionairecompany', 'transportercompany']
         ));
 

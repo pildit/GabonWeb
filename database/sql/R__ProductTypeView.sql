@@ -9,8 +9,6 @@ SELECT "ProductTypeTable"."Id",
 FROM "Taxonomy"."ProductTypeTable"
          LEFT JOIN admin.accounts acc ON "ProductTypeTable"."User" = acc.id;
 
-alter table "Taxonomy"."ProductType"
-    owner to homestead;
 
 CREATE OR REPLACE RULE "ProductType_instead_of_delete" AS
     ON DELETE TO "Taxonomy"."ProductType" DO INSTEAD DELETE

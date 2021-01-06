@@ -33,6 +33,10 @@ class DevelopmentPlan extends Model
         'Approved' => false // default for Approved
     ];
 
+    protected $casts = [
+        'MinimumExploitableDiameter' => 'integer'
+    ];
+
     /**
      * The table associated with the model.
      *

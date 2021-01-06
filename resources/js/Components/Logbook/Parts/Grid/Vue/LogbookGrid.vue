@@ -2,10 +2,10 @@
     <div class="container mt-40" v-permission="'logbook.view'" >
         <h5 class="text-center green-text mb-2">{{translate('logbooks')}}</h5>
         <div class="row"  v-permission="'logbook.view'">
-            <div class="col-sm-8 d-flex align-items-center">
+            <div class="col-sm-6 d-flex align-items-center">
 
             </div>
-            <div class="md-form col-sm-4">
+            <div class="md-form col-sm-6">
                 <div class="form-row justify-content-end">
                     <div class="col-sm-10">
                         <label for="aac_name">{{translate('search')}}</label>

@@ -23,8 +23,6 @@ SELECT slbi."Id",
 FROM "ForestResources"."SiteLogbookItemsTable" slbi
          LEFT JOIN "Taxonomy"."SpeciesTable" s ON slbi."Species" = s."Id";
 
-alter table "ForestResources"."SiteLogbookItems"
-    owner to homestead;
 
 CREATE OR REPLACE RULE "SiteLogbookItems_instead_of_delete" AS
     ON DELETE TO "ForestResources"."SiteLogbookItems" DO INSTEAD DELETE

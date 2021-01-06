@@ -31,9 +31,6 @@ FROM "ForestResources"."AnnualAllowableCutInventoryTable" aacit
          LEFT JOIN "ForestResources"."ParcelsTable" p ON aacit."Parcel" = p."Id"
          LEFT JOIN admin.accounts acc ON acc.id = aacit."User";
 
-alter table "ForestResources"."AnnualAllowableCutInventory"
-    owner to homestead;
-
 CREATE OR REPLACE RULE "AnnualAllowableCutInventory_instead_of_delete" AS
     ON DELETE TO "ForestResources"."AnnualAllowableCutInventory" DO INSTEAD DELETE
                                                                             FROM "ForestResources"."AnnualAllowableCutInventoryTable"

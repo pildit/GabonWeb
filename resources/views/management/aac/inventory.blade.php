@@ -15,9 +15,9 @@
             <div class="mt-4">
                 <h5 class="text-center green-text mb-2">{{translate('aac_inventory')}}</h5>
                 <div class="row">
-                    <div class="col-sm-8 d-flex align-items-center">
+                    <div class="col-sm-6 d-flex align-items-center">
                     </div>
-                    <div class="md-form col-sm-4">
+                    <div class="md-form col-sm-6">
                         <div class="form-row justify-content-end">
                             <div class="col text-right pt-2">
                                 <date-range-picker

@@ -32,8 +32,6 @@ FROM "ForestResources"."SiteLogbooksTable" slb
          LEFT JOIN "ForestResources"."DevelopmentUnitsTable" du ON slb."DevelopmentUnit" = du."Id"
          LEFT JOIN "Taxonomy"."CompaniesTable" com ON com."Id" = slb."Company";
 
-alter table "ForestResources"."SiteLogbooks"
-    owner to homestead;
 
 CREATE OR REPLACE RULE "SiteLogbooks_instead_of_delete" AS
     ON DELETE TO "ForestResources"."SiteLogbooks" DO INSTEAD DELETE

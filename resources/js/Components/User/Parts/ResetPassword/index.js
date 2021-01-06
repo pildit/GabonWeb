@@ -8,7 +8,9 @@ export default (selector, options) => {
         store,
         el: selector,
         components: {ResetPassword},
-        data: {},
+        data: {
+            token: options.token
+        },
     }
 
     return new Vue(_.merge(options, vueOptions));

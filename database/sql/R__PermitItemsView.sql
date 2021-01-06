@@ -17,8 +17,6 @@ SELECT peri."Id",
        peri."DeletedAt"
 FROM "Transportation"."PermitItemsTable" peri;
 
-alter table "Transportation"."PermitItems"
-    owner to homestead;
 
 CREATE OR REPLACE RULE "PermitItems_instead_of_delete" AS
     ON DELETE TO "Transportation"."PermitItems" DO INSTEAD DELETE

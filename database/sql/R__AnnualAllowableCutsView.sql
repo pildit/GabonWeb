@@ -27,8 +27,6 @@ GROUP BY aac."Id", aac."Name", aac."AacId", aac."ManagementUnit", mu."Name", aac
          aac."ProductType", pt."Name", aac."User", acc.email, aac."Approved", aac."CreatedAt", aac."UpdatedAt",
          aac."DeletedAt";
 
-alter table "ForestResources"."AnnualAllowableCuts"
-    owner to homestead;
 
 CREATE OR REPLACE RULE "AnnualAllowableCuts_instead_of_delete" AS
     ON DELETE TO "ForestResources"."AnnualAllowableCuts" DO INSTEAD DELETE

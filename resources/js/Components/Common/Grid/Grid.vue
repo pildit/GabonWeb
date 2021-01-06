@@ -168,4 +168,16 @@ export default {
 .word-break {
     word-break: break-all;
 }
+th {
+    position: relative;
+}
+.sortable {
+    position: absolute;
+    right: 5px;
+    top: 0;
+    bottom: 0;
+    align-items: center;
+    display: flex;
+}
+
 </style>

@@ -12,8 +12,6 @@ SELECT pt."Id",
        pt."UpdatedAt"
 FROM "Transportation"."PermitTrackingTable" pt;
 
-alter table "Transportation"."PermitTracking"
-    owner to homestead;
 
 CREATE OR REPLACE RULE "PermitTracking_instead_of_delete" AS
     ON DELETE TO "Transportation"."PermitTracking" DO INSTEAD DELETE

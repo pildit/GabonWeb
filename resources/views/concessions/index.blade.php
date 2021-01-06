@@ -15,12 +15,12 @@
                     @verbatim
                         <h5 class="text-center green-text mb-2">{{translate('concessions_title')}}</h5>
                         <div class="row">
-                            <div class="col-sm-8 d-flex align-items-center">
+                            <div class="col-sm-6 d-flex align-items-center">
                                 <a class="btn btn-md" :href="createRoute()" v-permission="'concession.add'">
                                     <i class="fas fa-plus-circle"></i> {{translate('add_concessions')}}
                                 </a>
                             </div>
-                            <div class="md-form col-sm-4">
+                            <div class="md-form col-sm-6">
                                 <div class="form-row justify-content-end" v-permission="'concession.view'">
                                     <div class="col-sm-10">
                                         <label for="company_name">{{translate('Search')}}</label>

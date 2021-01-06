@@ -27,8 +27,6 @@ FROM "ForestResources"."DevelopmentUnitsTable" du
 GROUP BY du."Id", du."Name", du."Concession", con."Name", du."Start", du."End", du."Geometry", du."Approved",
          du."Number", du."User", acc.email, du."ProductType", pt."Name", du."CreatedAt", du."UpdatedAt", du."DeletedAt";
 
-alter table "ForestResources"."DevelopmentUnits"
-    owner to homestead;
 
 CREATE OR REPLACE RULE "DevelopmentUnits_instead_of_delete" AS
     ON DELETE TO "ForestResources"."DevelopmentUnits" DO INSTEAD DELETE

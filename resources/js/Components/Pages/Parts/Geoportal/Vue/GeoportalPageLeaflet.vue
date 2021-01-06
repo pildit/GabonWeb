@@ -118,6 +118,7 @@ import Vue2LeafletMarkercluster from "./MapLeaflet/Vue2LeafletMarkercluster";
 import MapSidebar from "./MapLeaflet/MapSidebar";
 import iconUrl from "leaflet/dist/images/marker-icon.png";
 import shadowUrl from "leaflet/dist/images/marker-shadow.png";
+import iconRetinaUrl from "leaflet/dist/images/marker-icon-2x.png";
 
 // import { PruneCluster, PruneClusterForLeaflet } from '../utilsPruneCluster'
 // import '../utilsPruneCluster.css'
@@ -212,6 +213,7 @@ export default {
       icon: icon(
         Object.assign({}, Icon.Default.prototype.options, {
           iconUrl,
+          iconRetinaUrl,
           shadowUrl,
         })
       ),
@@ -668,6 +670,7 @@ export default {
       let iconOptions = Icon.Default.prototype.options;
       iconOptions.iconUrl = iconUrl;
       iconOptions.shadowUrl = shadowUrl;
+      iconOptions.iconRetinaUrl = iconRetinaUrl;
       let myIcon = L.icon(iconOptions);
       return L.marker(latlng, { icon: myIcon });
     },

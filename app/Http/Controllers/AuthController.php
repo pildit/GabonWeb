@@ -45,18 +45,20 @@ class AuthController extends Controller
     /**
      * @return \Illuminate\View\View
      */
-    public function forgotPassword () {
-
+    public function forgotPassword ()
+    {
         return view('auth.forgot_password');
     }
 
-    public function verify () {
-        $code = request()->get('code');
-
+    /**
+     * @param $token
+     * @return \Illuminate\View\View
+     */
+    public function resetPassword($token)
+    {
         return view('auth.reset_password')->with([
-            'code'  => $code
+            'token'  => $token
         ]);
-
     }
 
 }

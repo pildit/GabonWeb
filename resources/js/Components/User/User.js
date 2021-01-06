@@ -126,7 +126,7 @@ class User extends Base {
     }
 
     static reset(data) {
-        return store.dispatch('user/reset', {data});
+        return store.dispatch('user/reset', {data}).then((response) => response.data);
     }
 
     static resendConfirmation(id) {

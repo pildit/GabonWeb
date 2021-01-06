@@ -11,9 +11,6 @@ SELECT iqt."Id",
 FROM "ForestResources"."InventoryQualitiesTable" iqt
          LEFT JOIN admin.accounts acc ON acc.id = iqt."User";
 
-alter table "ForestResources"."InventoryQualities"
-    owner to homestead;
-
 CREATE OR REPLACE RULE "InventoryQualities_instead_of_delete" AS
     ON DELETE TO "ForestResources"."InventoryQualities" DO INSTEAD DELETE
                                                                    FROM "ForestResources"."InventoryQualitiesTable"

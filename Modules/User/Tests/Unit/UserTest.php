@@ -118,7 +118,7 @@ class UserTest extends TestCase
     /** @test */
     public function it_verifies_users_from_email_link()
     {
-        $user = factory(User::class)->create(['status' => User::STATUS_DISABLED,'activationcode' => Str::random(20)]);
+        $user = factory(User::class)->create(['status' => User::STATUS_NOT_CONFIRMED,'activationcode' => Str::random(20)]);
         $response = $this->postJson('/api/users/verify', [
             'code' => $user->activationcode,
         ]);
@@ -195,7 +195,7 @@ class UserTest extends TestCase
 
     /** @test */
     public function it_approve_the_user() {
-        $user = factory(User::class)->create(['status' => User::STATUS_DISABLED,'activationcode' => Str::random(20)]);
+        $user = factory(User::class)->create(['status' => User::STATUS_NOT_CONFIRMED,'activationcode' => Str::random(20)]);
 
         $response = $this->postJson('/api/users/'.$user->id.'/approve',[
             'token' => $this->generateJwtToken()

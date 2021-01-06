@@ -17,8 +17,6 @@ SELECT aopt."Id",
        aopt."DeletedAt"
 FROM "ForestResources"."AnnualOperationPlansTable" aopt;
 
-alter table "ForestResources"."AnnualOperationPlans"
-    owner to homestead;
 
 CREATE OR REPLACE RULE "AnnualOperationPlans_instead_of_delete" AS
     ON DELETE TO "ForestResources"."AnnualOperationPlans" DO INSTEAD DELETE

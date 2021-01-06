@@ -6,6 +6,10 @@ import finallyBlock from 'promise.prototype.finally'
 
 finallyBlock.shim();
 
+let translate = (key) => {
+    return store.getters.translations[key] || `${key}`;
+}
+
 let isAbsoluteURLRegex = /^(?:\w+:)\/\//;
 
 axios.interceptors.request.use((config) => {
@@ -35,19 +39,20 @@ axios.interceptors.response.use(function (response) {
 
     if (rejection.status == 422 && rejection.data.errors) {
         let errors = rejection.data.errors;
-        let messages = Object.keys(errors).map((key)=> `${store.getters.translations[key]} - ${Array.isArray(errors[key]) ? store.getters.translations[errors[key][0]] : JSON.stringify(store.getters.translations[errors[key]])}`);
+
+        let messages = Object.keys(errors).map((key)=> `${translate(key)} - ${Array.isArray(errors[key]) ? translate(errors[key][0]) : JSON.stringify(translate(errors[key]))}`);
         messages.forEach((message)=> {
             Vue.notify({
                 group: "server",
                 text: message,
-                title: 'Invalid Data sent',
+                title: translate('validation_failed_title'),
                 type: 'error'
             });
         });
     }
-    if (rejection.status == 404) {
-        return;
-    }
+    // if (rejection.status == 404) {
+    //     return;
+    // }
     if (rejection.status == 401 && window.location.pathname != '/login') {
         window.location.href = '/login';
         return;

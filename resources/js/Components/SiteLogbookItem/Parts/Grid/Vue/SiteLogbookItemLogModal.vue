@@ -30,7 +30,7 @@
 
             <div class="items" v-if="itemLogs.length === 0">
                 <p class="lead text-center">
-                    {{ translate('no_logbook_items') }}
+                    {{ translate('no_sitelogbook_items') }}
                 </p>
             </div>
             <div class="items" v-if="itemLogs.length > 0">

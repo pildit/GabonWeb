@@ -12,8 +12,6 @@ SELECT pt."Id",
 FROM "ForestResources"."ParcelsTable" pt
          LEFT JOIN admin.accounts acc ON acc.id = pt."User";
 
-alter table "ForestResources"."Parcels"
-    owner to homestead;
 
 CREATE OR REPLACE RULE "Parcels_instead_of_delete" AS
     ON DELETE TO "ForestResources"."Parcels" DO INSTEAD DELETE

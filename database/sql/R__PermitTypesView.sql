@@ -11,8 +11,6 @@ SELECT pt."Id",
 FROM "ForestResources"."PermitTypesTable" pt
          LEFT JOIN admin.accounts acc ON acc.id = pt."User";
 
-alter table "ForestResources"."PermitTypes"
-    owner to homestead;
 
 CREATE OR REPLACE RULE "PermitTypes_instead_of_insert" AS
     ON INSERT TO "ForestResources"."PermitTypes" DO INSTEAD INSERT INTO "ForestResources"."PermitTypesTable" ("Id", "Name", "Abbreviation", "User", "CreatedAt", "UpdatedAt")

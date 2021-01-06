@@ -16,8 +16,6 @@ SELECT mpt."Id",
        mpt."DeletedAt"
 FROM "ForestResources"."ManagementPlansTable" mpt;
 
-alter table "ForestResources"."ManagementPlans"
-    owner to homestead;
 
 CREATE OR REPLACE RULE "ManagementPlans_instead_of_delete" AS
     ON DELETE TO "ForestResources"."ManagementPlans" DO INSTEAD DELETE

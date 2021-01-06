@@ -17,8 +17,6 @@ SELECT dpt."Id",
 FROM "ForestResources"."DevelopmentPlansTable" dpt
          LEFT JOIN "Taxonomy"."SpeciesTable" sp ON dpt."Species" = sp."Id";
 
-alter table "ForestResources"."DevelopmentPlans"
-    owner to homestead;
 
 CREATE  or replace RULE "DevelopmentPlans_instead_of_delete" AS
     ON DELETE TO "ForestResources"."DevelopmentPlans" DO INSTEAD DELETE

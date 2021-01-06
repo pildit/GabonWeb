@@ -23,8 +23,6 @@ SELECT lbi."Id",
        lbi."DeletedAt"
 FROM "ForestResources"."LogbookItemsTable" lbi;
 
-alter table "ForestResources"."LogbookItems"
-    owner to homestead;
 
 CREATE OR REPLACE RULE "LogbookItems_instead_of_delete" AS
     ON DELETE TO "ForestResources"."LogbookItems" DO INSTEAD DELETE

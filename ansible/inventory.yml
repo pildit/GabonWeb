@@ -16,19 +16,32 @@ all:
       ansible_port: 22
       ansible_user: ubuntu
       become: true
+    prod-webfe-1:
+      ansible_host: ec2-13-244-102-177.af-south-1.compute.amazonaws.com
+      ansible_port: 22
+      ansible_user: ubuntu
+      become: true
+    prod-webfe-2:
+      ansible_host: ec2-13-244-106-135.af-south-1.compute.amazonaws.com
+      ansible_port: 22
+      ansible_user: ubuntu
+      become: true
   children:
     debians:
       hosts:
         wwwgabon-dev:
         wwwgabon-test:
-        wwwgabon-prod:
+        prod-webfe-1:
+        prod-webfe-2:
     apaches:
       hosts:
         wwwgabon-dev:
         wwwgabon-test:
-        wwwgabon-prod:
+        prod-webfe-1:
+        prod-webfe-2:
     websites:
       hosts:
         wwwgabon-dev:
         wwwgabon-test:
-        wwwgabon-prod:
+        prod-webfe-1:
+        prod-webfe-2:

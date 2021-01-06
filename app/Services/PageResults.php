@@ -140,7 +140,7 @@ class PageResults
             foreach ($this->whereBetween as $field => $value)
                 $this->query->whereBetween($field, $value);
         }
-
+//        dd($this->query->toSql());
         return $this->query->paginate($this->per_page);
     }
 

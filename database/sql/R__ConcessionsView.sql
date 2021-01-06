@@ -27,9 +27,6 @@ FROM "ForestResources"."ConcessionsTable" ct
 group by ct."Id", ct."Number", ct."Name", ct."Continent", cp."PermitNumber", ct."Geometry",
          ct."ProductType",pt."Name", ct."Company",com."Name", ct."Approved", ct."User", acc."email", ct."CreatedAt", ct."UpdatedAt", ct."DeletedAt";
 
-alter table "ForestResources"."Concessions"
-    owner to homestead;
-
 CREATE or replace RULE "Concessions_instead_of_delete" AS
     ON DELETE TO "ForestResources"."Concessions" DO INSTEAD DELETE
                                                             FROM "ForestResources"."ConcessionsTable"

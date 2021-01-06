@@ -22,7 +22,9 @@ class AuthController extends Controller
 
         throw_if(!$user, new NotFoundHttpException(lang('user_not_found')));
 
-        throw_if($user->status != User::STATUS_ACTIVE, new HttpException(401,lang('not_validated')));
+        throw_if($user->status == User::STATUS_PENDING, new HttpException(401,lang('account_not_approved')));
+        throw_if($user->status == User::STATUS_NOT_CONFIRMED, new HttpException(401,lang('account_not_confirmed')));
+        throw_if($user->status == User::STATUS_DISABLED, new HttpException(401,lang('account_disabled')));
 
         throw_if(
             !app('hash')->check($data['password'], $user->password),

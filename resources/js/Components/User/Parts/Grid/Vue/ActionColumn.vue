@@ -12,7 +12,7 @@
             <span v-if="resendLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             <i v-else class="far fa-envelope"></i>
         </a>
-        <switches v-permission="'users.approve'" v-model="rowProp.Approved" color="green" :title="translate('approve_user')" @input="approve" :emit-on-mount="false" v-tooltip></switches>
+        <switches v-permission="'users.approve'" v-model="isApproved" color="green" :title="translate('approve_user')" @input="approve" :emit-on-mount="false" v-tooltip></switches>
 
         <a v-permission="'users.delete'" @click="deleteUser" href="#" class="text-danger aligned fz-16"
            :title="translate('delete')"
@@ -45,7 +45,7 @@ export default {
     computed: {
         isApproved: {
             get() {
-                return this.rowProp.status == 2
+                return +this.rowProp.status == 2
             },
             set(value) {
                 return value;

@@ -39,6 +39,9 @@ export default (options) => {
             Approved: {
                 header: 'th_approved',
                 forceRender: true,
+                css: {
+                    minWidth: '100px'
+                },
                 render: (row) => {
                     return `<span class="badge badge-${row.Approved ? 'success' : 'danger'}">${row.Approved || false}</span>`
                 }

@@ -14,14 +14,14 @@ class User extends Model implements JwtPayloadInterface
 {
     use HasRoles, Sortable, Loggable, SoftDeletes;
 
-    const STATUS_DISABLED = 0;
+    const STATUS_NOT_CONFIRMED = 0;
     const STATUS_PENDING = 1;
     const STATUS_ACTIVE = 2;
-    const STATUS_INACTIVE = 3;
+    const STATUS_DISABLED = 3;
 
     protected $guard_name = 'api';
 
-    protected $with = ['roles:id,name'];
+    protected $with = ['roles:id,name', 'company:Id,Name', 'employee_type:id,name'];
 
     /**
      * The attributes that are mass assignable.
@@ -35,14 +35,14 @@ class User extends Model implements JwtPayloadInterface
      *
      * @var string
      */
-    protected $table = 'admin.accounts';
+    protected $table = 'admin.Accounts';
 
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var array
      */
-    protected $hidden = ['password', 'company'];
+    protected $hidden = ['password'];
 
     /**
      * @var string[]
@@ -63,6 +63,11 @@ class User extends Model implements JwtPayloadInterface
     public function company()
     {
         return $this->belongsTo(Company::class, 'company_id');
+    }
+
+    public function employee_type()
+    {
+        return $this->belongsTo(EmployeeType::class, 'employee_type');
     }
 
 

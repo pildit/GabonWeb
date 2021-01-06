@@ -77,7 +77,7 @@
                             .catch((error) => {
                                 console.log(error);
                                 if(error) {
-                                    window.hcaptcha.reset();
+                                    // window.hcaptcha.reset();
                                     this.recoveryForm.hcaptchaVerified = false;
                                     if([401,404].includes(error.status)) {
                                         this.failed = error.data.message;

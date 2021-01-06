@@ -25,8 +25,6 @@ FROM "ForestResources"."ManagementUnitsTable" mut
 GROUP BY mut."Id", mut."Name", mut."DevelopmentUnit", du."Name", mut."Geometry", mut."Approved", mut."Number",
          mut."User", acc.email, mut."ProductType", pt."Name", mut."CreatedAt", mut."UpdatedAt", mut."DeletedAt";
 
-alter table "ForestResources"."ManagementUnits"
-    owner to homestead;
 
 CREATE OR REPLACE RULE "ManagementUnits_instead_of_delete" AS
     ON DELETE TO "ForestResources"."ManagementUnits" DO INSTEAD DELETE

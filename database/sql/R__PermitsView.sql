@@ -54,8 +54,6 @@ FROM "Transportation"."PermitsTable" per
          LEFT JOIN "Taxonomy"."CompaniesTable" tcom ON tcom."Id" = per."TransporterCompany"
          LEFT JOIN "Taxonomy"."CompaniesTable" cscom ON cscom."Id" = per."ConcessionaireCompany";
 
-alter table "Transportation"."Permits"
-    owner to homestead;
 
 CREATE OR REPLACE RULE "Permits_instead_of_delete" AS
     ON DELETE TO "Transportation"."Permits" DO INSTEAD DELETE
