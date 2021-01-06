@@ -2,6 +2,12 @@
 # tasks file for website
 - name: Load Vault
   include_vars: vars/vault.yml
+- name: Add php ppa
+  become: yes
+  apt_repository:
+    repo: "ppa:ondrej/php"
+    state: present
+    update_cache: yes
 - name: Baseline installation
   become: yes
   apt:
