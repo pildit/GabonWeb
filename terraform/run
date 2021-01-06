@@ -8,7 +8,7 @@ function usage() {
     echo "  The provided argument must be a valid terraform command"
 }
 
-case "${CMD}" in
+case "${CMD?}" in
     "")
         usage;
         ;;
@@ -16,6 +16,6 @@ case "${CMD}" in
         terraform "graph" --draw-cycles $*;
         ;;
     *)
-        terraform "${CMD}" --var-file "${HOME}/.terraform-secrets/gabontransportapp.secrets.tfvars" $*;
+        terraform "${CMD?}" --var-file "${HOME?}/.terraform-secrets/gabontransportapp.secrets.tfvars" $*;
         ;;
 esac;

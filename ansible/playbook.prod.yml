@@ -1,4 +1,4 @@
-- hosts: wwwgabon-prod
+- hosts: prod-webfe-*
   roles:
     - debian
     - apache
