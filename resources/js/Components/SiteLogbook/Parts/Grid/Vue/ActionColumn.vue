@@ -1,6 +1,6 @@
 <template>
     <div class="text-right">
-        <a v-permission="'site_logbook.view'" v-if="rowProp.items_count" class="text-info aligned fz-16" :href="'/sitelogbook?Logbook=' + rowProp.Id" target="_blank" :title="translate('view')" v-tooltip>
+        <a v-permission="'site_logbook.view'" v-if="rowProp.items_count" :href="itemsRoute()" class="text-info aligned fz-16" :title="translate('view_items')" v-tooltip>
             <i class="fas fa-info-circle"></i>
         </a>
         <a v-permission="'site_logbook.view'" v-if="!rowProp.items_count" class="text-muted aligned fz-16" :title="translate('no_site_logbook_rows')" v-tooltip>
@@ -14,42 +14,45 @@
 </template>
 
 <script>
-    import Switches from 'vue-switches';
-    import SiteLogbook from "components/SiteLogbook/SiteLogbook";
-    import Confirmation from "../../../../Common/Confirmation/Confirmation";
+import Switches from 'vue-switches';
+import SiteLogbook from "components/SiteLogbook/SiteLogbook";
+import Confirmation from "../../../../Common/Confirmation/Confirmation";
 
-    export default {
+export default {
 
-        props: ["rowProp", "optionsProp"],
+    props: ["rowProp", "optionsProp"],
 
-        components: {Switches},
-        computed: {
-            isApproved: {
-                get() {
-                    return this.rowProp.Approved
-                },
-                set(value) {
-                    return value;
-                }
-            }
-        },
-
-        methods: {
-            deleteItem () {
-                return Confirmation(this.translate('corfirmation_delete_question')).then((result) => {
-                    if(result.isConfirmed) {
-                        SiteLogbook.delete(this.rowProp.Id).finally(() => {
-                            Vent.$emit('grid-refresh')
-                        })
-                    }
-                })
-
+    components: {Switches},
+    computed: {
+        isApproved: {
+            get() {
+                return this.rowProp.Approved
             },
-            approve (val) {
-                SiteLogbook.approve(this.rowProp.Id, {Approved: val}).finally(() => this.rowProp.Approved = val);
+            set(value) {
+                return value;
             }
         }
+    },
+
+    methods: {
+        deleteItem () {
+            return Confirmation(this.translate('corfirmation_delete_question')).then((result) => {
+                if(result.isConfirmed) {
+                    SiteLogbook.delete(this.rowProp.Id).finally(() => {
+                        Vent.$emit('grid-refresh')
+                    })
+                }
+            })
+
+        },
+        itemsRoute() {
+            return SiteLogbook.buildRoute('sitelogbooks.items', {id: this.rowProp.Id});
+        },
+        approve (val) {
+            SiteLogbook.approve(this.rowProp.Id, {Approved: val}).finally(() => this.rowProp.Approved = val);
+        }
     }
+}
 </script>
 
 <style scoped>

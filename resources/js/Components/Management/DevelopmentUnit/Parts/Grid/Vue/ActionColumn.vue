@@ -1,5 +1,11 @@
 <template>
     <div>
+        <a v-permission="'development-unit.view'" v-if="rowProp.plans_count" :href="plansRoute()" class="text-info aligned fz-16" :title="translate('view_plans')" v-tooltip>
+            <i class="fas fa-info-circle"></i>
+        </a>
+        <a v-permission="'management-unit.view'" v-if="!rowProp.plans_count" class="text-muted aligned fz-16" :title="translate('no_plans')" v-tooltip>
+            <i class="fas fa-info-circle"></i>
+        </a>
         <a v-permission="'development-unit.add'" :href="editRoute()" class="text-success aligned fz-16"
            :title="translate('edit')"
            v-tooltip>
@@ -42,7 +48,9 @@ export default {
         editRoute() {
             return DevelopmentUnit.buildRoute('development_units.edit', {id: this.rowProp.Id});
         },
-
+        plansRoute() {
+            return DevelopmentUnit.buildRoute('development_units.plans', {id: this.rowProp.Id});
+        },
         approve(value) {
             DevelopmentUnit.approve(this.rowProp.Id, {Approved: value}).then((response) => {
                 Notification.success(this.translate('development_unit'), response.message);

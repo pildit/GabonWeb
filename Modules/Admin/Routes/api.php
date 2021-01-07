@@ -24,6 +24,7 @@ Route::middleware('jwt:api')->group(function (){
     Route::get('/companies/list', 'CompanyController@listCompanies');
     Route::resource('/companies', CompanyController::class)->except(['edit', 'create', 'delete']);
     Route::get('/mobile_maps', 'MapController@mobileFeatures');
+    Route::get('/company_types', 'CompanyTypeController@listCompanyTypes');
 });
 
 Route::get('/menu', 'MenuController@index');

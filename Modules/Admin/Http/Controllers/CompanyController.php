@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller;
 use Modules\Admin\Entities\CompanyType;
 use Modules\Admin\Entities\Company;
 use Modules\Admin\Http\Requests\CreateCompanyRequest;
+use Modules\Admin\Http\Requests\UpdateCompanyRequest;
 use GenTux\Jwt\GetsJwtToken;
 use Modules\Transport\Exports\Exporter;
 use Maatwebsite\Excel\Facades\Excel;
@@ -74,7 +75,7 @@ class CompanyController extends Controller
      * @param int $id
      * @return Response
      */
-    public function update(CreateCompanyRequest $request, Company $company)
+    public function update(UpdateCompanyRequest $request, Company $company)
     {
         $data = $request->validated();
 

@@ -1,9 +1,11 @@
-import SiteLogbookItem from "../../SiteLogbookItem";
+import ManagementPlan from "../../ManagementPlan";
 import grid from "./grid";
 import store from "store/store";
+import ManagementUnit from "../../../ManagementUnit/ManagementUnit";
+
 
 export default (selector, options) => {
-    return SiteLogbookItem.renderTable(selector, grid(options), {
+    return ManagementPlan.renderTable(selector, grid(options), {
         store,
         data: {
             sort: {
