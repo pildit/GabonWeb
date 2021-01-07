@@ -1,3 +1,4 @@
+drop view "ForestResources"."ManagementPlans";
 create or replace view "ForestResources"."ManagementPlans"
             ("Id", "ManagementUnit", "Number", "Species", "SpeciesCommonName", "GrossVolumeUFG", "GrossVolumeYear", "YieldVolumeYear",
              "CommercialVolumeYear", "Approved", "CreatedAt", "UpdatedAt", "DeletedAt")

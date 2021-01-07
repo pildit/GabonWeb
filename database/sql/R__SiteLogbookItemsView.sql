@@ -1,3 +1,4 @@
+drop view "ForestResources"."SiteLogbookItems";
 create or replace view "ForestResources"."SiteLogbookItems"
             ("Id", "SiteLogbook", "Species", "SpeciesLatinName", "SpeciesCommonName", "HewingId", "Date", "MaxDiameter", "MinDiameter",
              "AverageDiameter", "Length", "Volume", "ObserveAt", "Approved", "MobileId", "CreatedAt", "UpdatedAt",
