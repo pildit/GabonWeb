@@ -1,9 +1,5 @@
-DB_CONNECTION: "{{ DEV_DB_CONNECTION }}"
-DB_DATABASE: "{{ DEV_DB_DBNAME }}"
-DB_HOSTNAME: "{{ DEV_DB_HOSTNAME }}"
-DB_PASSWORD: "{{ DEV_DB_PASSWORD }}"
-DB_PORT: "{{ DEV_DB_PORT }}"
-DB_USERNAME: "{{ DEV_DB_USERNAME }}"
+# APP Configuration
+DEBUG: true
 www_document_root: "{{ local_repo }}/public"
 remote_repo: "git@{{ gitlab_host }}:eia-global/transportapps/gabonweb.git"
 WEBSITE_APP_NAME: "Gabon"
@@ -11,10 +7,20 @@ WEBSITE_APP_TITLE: "Gabon - Development Server"
 WEBSITE_DEPLOYMENT_COMMIT: "develop"
 WEBSITE_DOMAIN: "gabon-dev.globalorigin.org"
 JWT_SECRET: "{{ DEV_JWT_SECRET }}"
+# DB Configuration
+DB_CONNECTION: "{{ DEV_DB_CONNECTION }}"
+DB_DATABASE: "{{ DEV_DB_DBNAME }}"
+DB_HOSTNAME: "{{ DEV_DB_HOSTNAME }}"
+DB_PASSWORD: "{{ DEV_DB_PASSWORD }}"
+DB_PORT: "{{ DEV_DB_PORT }}"
+DB_USERNAME: "{{ DEV_DB_USERNAME }}"
+# MAIL Configuration
 MAIL_DRIVER: "{{ DEV_MAIL_DRIVER}}"
 MAILGUN_ENDPOINT: "{{ DEV_MAILGUN_ENDPOINT }}"
 MAILGUN_DOMAIN: "{{ DEV_MAILGUN_DOMAIN}}"
 MAILGUN_SECRET: "{{ DEV_MAILGUN_SECRET}}"
+# CACHE Configuration
+CACHE_DRIVER: "{{ DEV_CACHE_DRIVER }}"
 REDIS_HOST: "{{ DEV_REDIS_HOST }}"
 REDIS_PASSWORD: "{{ DEV_REDIS_PASSWORD }}"
 REDIS_PORT: "{{ DEV_REDIS_PORT }}"
