@@ -30,6 +30,8 @@
                :allow-empty="true"
                :multiple="true"
                :taggable="true"
+               :close-on-select="false"
+               :clear-on-select="false"
            ></multiselect>
        </div>
    </div>
