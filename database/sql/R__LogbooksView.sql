@@ -1,6 +1,6 @@
 create or replace view "ForestResources"."Logbooks"
             ("Id", "Concession", "ConcessionName", "DevelopmentUnit", "DevelopmentUnitName", "ManagementUnit",
-             "ManagementUnitName", "AnnualAllowableCut", "AnnualAllowableCutName", "ObserveAt", "Approved", "MobileId",
+             "ManagementUnitName", "AnnualAllowableCut", "AnnualAllowableCutName", "ObserveAt", "LogBookName", "Approved", "MobileId",
              "CreatedAt", "UpdatedAt", "DeletedAt")
 as
 SELECT lb."Id",
@@ -13,6 +13,7 @@ SELECT lb."Id",
        lb."AnnualAllowableCut",
        aac."Name" AS "AnnualAllowableCutName",
        lb."ObserveAt",
+       lb."LogBookName",
        lb."Approved",
        lb."MobileId",
        lb."CreatedAt",
@@ -37,6 +38,7 @@ CREATE OR REPLACE RULE "Logbooks_instead_of_insert" AS
                                                                                                         "ManagementUnit",
                                                                                                         "AnnualAllowableCut",
                                                                                                         "ObserveAt",
+                                                                                                        "LogBookName",
                                                                                                         "Approved",
                                                                                                         "MobileId",
                                                                                                         "CreatedAt",
@@ -44,7 +46,7 @@ CREATE OR REPLACE RULE "Logbooks_instead_of_insert" AS
                                                          VALUES (nextval('"ForestResources"."SEQ_LogbooksTable"'::regclass),
                                                                  new."Concession", new."DevelopmentUnit",
                                                                  new."ManagementUnit", new."AnnualAllowableCut",
-                                                                 new."ObserveAt", new."Approved", new."MobileId",
+                                                                 new."ObserveAt",  new."LogBookName", new."Approved", new."MobileId",
                                                                  new."CreatedAt", new."UpdatedAt")
                                                          RETURNING "LogbooksTable"."Id", "LogbooksTable"."Concession", (SELECT con."Name"
                                                                                                                         FROM "ForestResources"."ConcessionsTable" con
@@ -58,7 +60,7 @@ CREATE OR REPLACE RULE "Logbooks_instead_of_insert" AS
                                                                                                                                                                                                                                                                 LIMIT 1) AS "ManagementUnitName", "LogbooksTable"."AnnualAllowableCut", (SELECT aac."Name"
                                                                                                                                                                                                                                                                                                                                          FROM "ForestResources"."AnnualAllowableCutsTable" aac
                                                                                                                                                                                                                                                                                                                                          WHERE "LogbooksTable"."AnnualAllowableCut" = aac."Id"
-                                                                                                                                                                                                                                                                                                                                         LIMIT 1) AS "AnnualAllowableCutName", "LogbooksTable"."ObserveAt", "LogbooksTable"."Approved", "LogbooksTable"."MobileId", "LogbooksTable"."CreatedAt", "LogbooksTable"."UpdatedAt", "LogbooksTable"."DeletedAt";
+                                                                                                                                                                                                                                                                                                                                         LIMIT 1) AS "AnnualAllowableCutName", "LogbooksTable"."ObserveAt", "LogbooksTable"."LogBookName", "LogbooksTable"."Approved", "LogbooksTable"."MobileId", "LogbooksTable"."CreatedAt", "LogbooksTable"."UpdatedAt", "LogbooksTable"."DeletedAt";
 
 CREATE OR REPLACE RULE "Logbooks_instead_of_update" AS
     ON UPDATE TO "ForestResources"."Logbooks" DO INSTEAD UPDATE "ForestResources"."LogbooksTable"
@@ -67,6 +69,7 @@ CREATE OR REPLACE RULE "Logbooks_instead_of_update" AS
                                                              "ManagementUnit"     = new."ManagementUnit",
                                                              "AnnualAllowableCut" = new."AnnualAllowableCut",
                                                              "ObserveAt"          = new."ObserveAt",
+                                                             "LogBookName"          = new."LogBookName",
                                                              "Approved"           = new."Approved",
                                                              "MobileId"           = new."MobileId",
                                                              "UpdatedAt"          = new."UpdatedAt",
@@ -84,5 +87,5 @@ CREATE OR REPLACE RULE "Logbooks_instead_of_update" AS
                                                                                                                                                                                                                                                                 LIMIT 1) AS "ManagementUnitName", "LogbooksTable"."AnnualAllowableCut", (SELECT aac."Name"
                                                                                                                                                                                                                                                                                                                                          FROM "ForestResources"."AnnualAllowableCutsTable" aac
                                                                                                                                                                                                                                                                                                                                          WHERE "LogbooksTable"."AnnualAllowableCut" = aac."Id"
-                                                                                                                                                                                                                                                                                                                                         LIMIT 1) AS "AnnualAllowableCutName", "LogbooksTable"."ObserveAt", "LogbooksTable"."Approved", "LogbooksTable"."MobileId", "LogbooksTable"."CreatedAt", "LogbooksTable"."UpdatedAt", "LogbooksTable"."DeletedAt";
+                                                                                                                                                                                                                                                                                                                                         LIMIT 1) AS "AnnualAllowableCutName", "LogbooksTable"."ObserveAt", "LogbooksTable"."LogBookName", "LogbooksTable"."Approved", "LogbooksTable"."MobileId", "LogbooksTable"."CreatedAt", "LogbooksTable"."UpdatedAt", "LogbooksTable"."DeletedAt";
 
