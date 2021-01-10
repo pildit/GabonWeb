@@ -2,6 +2,7 @@
 
 namespace Modules\Loggable\Traits;
 
+use Brick\Geo\IO\EWKBReader;
 use GenTux\Jwt\GetsJwtToken;
 use GenTux\Jwt\Exceptions\NoTokenException;
 
@@ -36,7 +37,7 @@ trait Loggable
     /**
      *  Append log attribute
      */
-    public function initializeAppendAttributeTrait()
+    public function initializeLoggable()
     {
         $this->append('log');
     }
@@ -71,16 +72,26 @@ trait Loggable
         if(!$this->logTableExists()) return;
         if(!$this->getToken()) return;
 
-        $changes = [];
+//        $changes = [];
+//        foreach ($this->getDirty() as $field => $value) {
+//            $changes[$field] = $value;
+//            if($field == 'Geometry') {
+//                dd();
+//            }
+//        }
 
-        foreach ($this->getDirty() as $field => $value) {
-            $changes[$field] = $value;
+        $changes = $this->getChanges();
+        $original = $this->getOriginal();
+        if(isset($changes['Geometry'])) {
+            $changes['geometry_as_text'] = $this->geometryAsText($changes['Geometry']);
+            unset($changes['Geometry']);
         }
-
-
+        if(isset($original['Geometry'])) {
+            $original['geometry_as_text'] = $this->geometryAsText($original['Geometry']);
+            unset($original['Geometry']);
+        }
         // If there is no token, then this is the public /register route ;
 //		$user_id = $this->getToken() ? $this->jwtPayload('data.id') : null;
-
         $logEntry = new LogEntry();
 
         $logEntry->action        = $action;
@@ -90,6 +101,7 @@ trait Loggable
         $logEntry->user_id       = $this->jwtPayload('data.id');
         $logEntry->version       = $this->getNewVersionNumber();
         $logEntry->data          = json_encode($changes);
+        $logEntry->original_data = json_encode($original);
 
         $logEntry->save();
 
@@ -116,7 +128,9 @@ trait Loggable
         return DB::table('public.log_entries')
             ->where('loggable_id', '=', $this->getKey())
             ->where('loggable_type', '=', get_class($this))
+            ->where('action', '=', self::$actionUpdate)
             ->orderBy('version', 'desc')
+//            ->skip(1) // take the previous change.
             ->first();
     }
 
@@ -140,6 +154,17 @@ trait Loggable
             return true;
         } catch (\Exception $e) {
             return false;
+        }
+    }
+
+    protected function geometryAsText($value)
+    {
+        if(ctype_xdigit($value)) {
+            $reader = new EWKBReader();
+            $geom = $reader->read(hex2bin($value));
+            return $geom->asText();
+        }else{
+            return $value;
         }
     }
 }

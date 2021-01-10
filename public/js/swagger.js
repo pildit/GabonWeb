@@ -7166,7 +7166,7 @@ __webpack_require__.r(__webpack_exports__);
 
 swagger_ui__WEBPACK_IMPORTED_MODULE_0___default()({
   dom_id: '#swagger-ui',
-  url: "https://gabonweb.test" + '/doc/swagger.json'
+  url: "http://localhost:8000" + '/doc/swagger.json'
 });
 
 /***/ }),
@@ -7178,7 +7178,7 @@ swagger_ui__WEBPACK_IMPORTED_MODULE_0___default()({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! E:\WORK\Transportapps\gabonweb\resources\js\swagger.js */"./resources/js/swagger.js");
+module.exports = __webpack_require__(/*! /Users/constantin/Code/code4nature/gabon-web/resources/js/swagger.js */"./resources/js/swagger.js");
 
 
 /***/ })

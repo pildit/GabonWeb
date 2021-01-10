@@ -12,7 +12,7 @@ class LogEntry extends Model
 
     protected $table = 'public.log_entries';
 
-    protected $fillable = ['action', 'logged_at', 'object_id', 'object_class', 'user_id', 'data', 'version'];
+    protected $fillable = ['action', 'logged_at', 'object_id', 'object_class', 'user_id', 'data', 'version', 'original_data'];
 
     protected $dates = ['logged_at'];
 

@@ -9,12 +9,13 @@ class DevelopmentPlan extends Base {
             "development-unit-plans" : vuePlans,
         }
     }
-    static buildForm(data) {
+    static buildForm(data, unit_id) {
         let obj = {
+            DevelopmentUnit: unit_id,
+            Number: data.Number,
             Species: data.Species.Id,
             MinimumExploitableDiameter: data.MinimumExploitableDiameter,
             VolumeTariff: data.VolumeTariff,
-            Increment: data.Increment,
             CreatedAt: data.CreatedAt,
             Approved: data.Approved
         }

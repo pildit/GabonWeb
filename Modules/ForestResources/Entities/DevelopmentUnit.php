@@ -4,6 +4,7 @@ namespace Modules\ForestResources\Entities;
 
 use App\Traits\Geometry;
 use App\Traits\Sortable;
+use Brick\Geo\IO\EWKBReader;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Loggable\Traits\Loggable;
@@ -34,6 +35,8 @@ class DevelopmentUnit extends Model
         'Approved' => false // default for Approved
     ];
 
+    protected $appends = ['geometry_as_text', 'plans_count'];
+
     /**
      * The table associated with the model.
      *
@@ -53,7 +56,18 @@ class DevelopmentUnit extends Model
      */
     protected $hidden = ['Geometry'];
 
-    protected $appends = ['plans_count'];
+    public function getGeometryAsTextAttribute()
+    {
+        if(!$this->Geometry) return null;
+
+        if(ctype_xdigit($this->Geometry)) {
+            $reader = new EWKBReader();
+            $geom = $reader->read(hex2bin($this->Geometry));
+            return $geom->asText();
+        }else{
+            return $this->Geometry;
+        }
+    }
 
     public function getPlansCountAttribute()
     {

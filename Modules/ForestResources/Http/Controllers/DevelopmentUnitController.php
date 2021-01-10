@@ -71,10 +71,7 @@ class DevelopmentUnitController extends Controller
      */
     public function show($development_unit)
     {
-        $geomCol = DB::raw('public.ST_AsText("Geometry") as geometry_as_text');
-
         $development_unit = DevelopmentUnit::select()
-            ->addSelect($geomCol)
             ->with(['plans'])->find($development_unit);
 
         return response()->json(['data' => $development_unit]);
