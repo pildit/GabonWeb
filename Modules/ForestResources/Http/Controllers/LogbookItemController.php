@@ -60,14 +60,17 @@ class LogbookItemController extends Controller
     {
 
         $data = $request->validated();
-        $logbook = is_int($data['Logbook']) ?
-            Logbook::where('Id', (int)$data['Logbook'])->orWhere('MobileId', $data['Logbook'])->first():
-            Logbook::where('MobileId', $data['Logbook'])->first();
-        if(!$logbook){
-            throw ValidationException::withMessages(['Logbook' => 'validation.exists']);
-        }
+
+        $logbook = Logbook::where('LogBookName', $data['LogBookName'])->first();
+
         $data['Logbook'] = $logbook->Id;
-        $logbook_item = LogbookItem::create($data);
+        $logbook_item = LogbookItem::where('Logbook', $logbook->Id)->where('HewingId', $data['HewingId'])->first();
+
+        if($logbook_item !== null) {
+            LogbookItem::where('Id', $logbook_item->Id)->update($data);
+        } else {
+            LogbookItem::create($data);
+        }
 
         return response()->json([
             'message' => lang("logbook_item_created_successfully")
