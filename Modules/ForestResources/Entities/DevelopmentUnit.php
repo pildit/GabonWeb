@@ -53,6 +53,14 @@ class DevelopmentUnit extends Model
      */
     protected $hidden = ['Geometry'];
 
+    protected $appends = ['plans_count'];
+
+    public function getPlansCountAttribute()
+    {
+        $plans = collect($this->plans);
+        return $plans->count();
+    }
+
     /**
      * Concession relation
      *

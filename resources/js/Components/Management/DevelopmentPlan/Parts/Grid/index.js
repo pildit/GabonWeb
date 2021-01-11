@@ -1,9 +1,10 @@
-import SiteLogbookItem from "../../SiteLogbookItem";
+import DevelopmentPlan from "../../DevelopmentPlan";
 import grid from "./grid";
 import store from "store/store";
 
+
 export default (selector, options) => {
-    return SiteLogbookItem.renderTable(selector, grid(options), {
+    return DevelopmentPlan.renderTable(selector, grid(options), {
         store,
         data: {
             sort: {

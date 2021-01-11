@@ -31,7 +31,7 @@ export default {
     },
     actions: {
         index({commit}, payload) {
-            return axios.get('api/site_logbook_items', {params: payload})
+            return axios.get(`api/site_logbook_items/${payload.id}`,{params: payload})
                 .then((response) => {
                     commit('siteLogbookItems', response.data.data);
                     return response

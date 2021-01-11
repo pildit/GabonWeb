@@ -7,7 +7,10 @@ export default (selector, options) => {
     let vueOptions = {
         store,
         el: selector,
-        components: {CompaniesGrid}
+        components: {CompaniesGrid},
+        mounted() {
+            store.dispatch('company/listCompanyTypes');
+        }
     }
 
     return new Vue(_.merge(options, vueOptions));

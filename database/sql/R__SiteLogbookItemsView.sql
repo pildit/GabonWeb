@@ -1,5 +1,6 @@
+-- drop view "ForestResources"."SiteLogbookItems";
 create or replace view "ForestResources"."SiteLogbookItems"
-            ("Id", "SiteLogbook", "Species", "SpeciesLatinName", "HewingId", "Date", "MaxDiameter", "MinDiameter",
+            ("Id", "SiteLogbook", "Species", "SpeciesLatinName", "SpeciesCommonName", "HewingId", "Date", "MaxDiameter", "MinDiameter",
              "AverageDiameter", "Length", "Volume", "ObserveAt", "Approved", "MobileId", "CreatedAt", "UpdatedAt",
              "DeletedAt")
 as
@@ -7,6 +8,7 @@ SELECT slbi."Id",
        slbi."SiteLogbook",
        slbi."Species",
        s."LatinName" AS "SpeciesLatinName",
+       s."CommonName" AS "SpeciesCommonName",
        slbi."HewingId",
        slbi."Date",
        slbi."MaxDiameter",
@@ -55,7 +57,10 @@ CREATE OR REPLACE RULE "SiteLogbookItems_instead_of_insert" AS
                                                                  RETURNING "SiteLogbookItemsTable"."Id", "SiteLogbookItemsTable"."SiteLogbook", "SiteLogbookItemsTable"."Species", (SELECT s."LatinName"
                                                                                                                                                                                     FROM "Taxonomy"."SpeciesTable" s
                                                                                                                                                                                     WHERE s."Id" = "SiteLogbookItemsTable"."Species"
-                                                                                                                                                                                    LIMIT 1) AS "LatinName", "SiteLogbookItemsTable"."HewingId", "SiteLogbookItemsTable"."Date", "SiteLogbookItemsTable"."MaxDiameter", "SiteLogbookItemsTable"."MinDiameter", "SiteLogbookItemsTable"."AverageDiameter", "SiteLogbookItemsTable"."Length", "SiteLogbookItemsTable"."Volume", "SiteLogbookItemsTable"."ObserveAt", "SiteLogbookItemsTable"."Approved", "SiteLogbookItemsTable"."MobileId", "SiteLogbookItemsTable"."CreatedAt", "SiteLogbookItemsTable"."UpdatedAt", "SiteLogbookItemsTable"."DeletedAt";
+                                                                                                                                                                                    LIMIT 1) AS "LatinName", (SELECT s."CommonName"
+                                                                                                                                                                                    FROM "Taxonomy"."SpeciesTable" s
+                                                                                                                                                                                    WHERE s."Id" = "SiteLogbookItemsTable"."Species"
+                                                                                                                                                                                    LIMIT 1) AS "CommonName", "SiteLogbookItemsTable"."HewingId", "SiteLogbookItemsTable"."Date", "SiteLogbookItemsTable"."MaxDiameter", "SiteLogbookItemsTable"."MinDiameter", "SiteLogbookItemsTable"."AverageDiameter", "SiteLogbookItemsTable"."Length", "SiteLogbookItemsTable"."Volume", "SiteLogbookItemsTable"."ObserveAt", "SiteLogbookItemsTable"."Approved", "SiteLogbookItemsTable"."MobileId", "SiteLogbookItemsTable"."CreatedAt", "SiteLogbookItemsTable"."UpdatedAt", "SiteLogbookItemsTable"."DeletedAt";
 
 CREATE OR REPLACE RULE "SiteLogbookItems_instead_of_update" AS
     ON UPDATE TO "ForestResources"."SiteLogbookItems" DO INSTEAD UPDATE "ForestResources"."SiteLogbookItemsTable"
@@ -76,5 +81,8 @@ CREATE OR REPLACE RULE "SiteLogbookItems_instead_of_update" AS
                                                                  RETURNING "SiteLogbookItemsTable"."Id", "SiteLogbookItemsTable"."SiteLogbook", "SiteLogbookItemsTable"."Species", (SELECT s."LatinName"
                                                                                                                                                                                     FROM "Taxonomy"."SpeciesTable" s
                                                                                                                                                                                     WHERE s."Id" = "SiteLogbookItemsTable"."Species"
-                                                                                                                                                                                    LIMIT 1) AS "LatinName", "SiteLogbookItemsTable"."HewingId", "SiteLogbookItemsTable"."Date", "SiteLogbookItemsTable"."MaxDiameter", "SiteLogbookItemsTable"."MinDiameter", "SiteLogbookItemsTable"."AverageDiameter", "SiteLogbookItemsTable"."Length", "SiteLogbookItemsTable"."Volume", "SiteLogbookItemsTable"."ObserveAt", "SiteLogbookItemsTable"."Approved", "SiteLogbookItemsTable"."MobileId", "SiteLogbookItemsTable"."CreatedAt", "SiteLogbookItemsTable"."UpdatedAt", "SiteLogbookItemsTable"."DeletedAt";
+                                                                                                                                                                                    LIMIT 1) AS "LatinName", (SELECT s."CommonName"
+                                                                                                                                                                                    FROM "Taxonomy"."SpeciesTable" s
+                                                                                                                                                                                    WHERE s."Id" = "SiteLogbookItemsTable"."Species"
+                                                                                                                                                                                    LIMIT 1) AS "CommonName", "SiteLogbookItemsTable"."HewingId", "SiteLogbookItemsTable"."Date", "SiteLogbookItemsTable"."MaxDiameter", "SiteLogbookItemsTable"."MinDiameter", "SiteLogbookItemsTable"."AverageDiameter", "SiteLogbookItemsTable"."Length", "SiteLogbookItemsTable"."Volume", "SiteLogbookItemsTable"."ObserveAt", "SiteLogbookItemsTable"."Approved", "SiteLogbookItemsTable"."MobileId", "SiteLogbookItemsTable"."CreatedAt", "SiteLogbookItemsTable"."UpdatedAt", "SiteLogbookItemsTable"."DeletedAt";
 

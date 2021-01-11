@@ -7,13 +7,15 @@ export default {
     development_units: {
         index: '/management/development-units',
         create: '/management/development-units/create',
-        edit: '/management/development-units/{id}/edit'
+        edit: '/management/development-units/{id}/edit',
+        plans: '/management/development-units/{id}/plans'
     },
 
     management_units: {
         index: '/management/management-units',
         create: '/management/management-units/create',
         edit: '/management/management-units/{id}/edit',
+        plans: '/management/management-units/{id}/plans'
     },
 
     aac: {
@@ -32,6 +34,10 @@ export default {
         index: '/concessions/constituent-permits',
         create: '/concessions/constituent-permits/create',
         edit: '/concessions/constituent-permits/{id}/edit',
+    },
+
+    sitelogbooks: {
+        items: '/sitelogbooks/{id}/items',
     },
 
     concessions: {

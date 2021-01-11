@@ -15,4 +15,8 @@ class DevelopmentUnitController extends Controller
     {
         return view('management.development-units.edit', ['id' => $id]);
     }
+
+    public function plans($id){
+        return view('management.development-units.plans', ['id' => $id]);
+    }
 }

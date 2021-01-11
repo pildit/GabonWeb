@@ -1,7 +1,7 @@
 create or replace view "ForestResources"."SiteLogbooks"
             ("Id", "AnnualAllowableCut", "AnnualAllowableCutName", "ManagementUnit", "ManagementUnitName",
              "DevelopmentUnit", "DevelopmentUnitName", "Concession", "ConcessionName", "Company", "CompanyName",
-             "Hammer", "Localization", "ReportNo", "ReportNote", "ObserveAt", "Approved", "MobileId", "CreatedAt",
+             "Hammer", "Localization", "ReportNo", "ReportNote", "ObserveAt", "SiteLogBookName", "Approved", "MobileId", "CreatedAt",
              "UpdatedAt", "DeletedAt")
 as
 SELECT slb."Id",
@@ -20,6 +20,7 @@ SELECT slb."Id",
        slb."ReportNo",
        slb."ReportNote",
        slb."ObserveAt",
+       slb."SiteLogBookName",
        slb."Approved",
        slb."MobileId",
        slb."CreatedAt",
@@ -50,6 +51,7 @@ CREATE OR REPLACE RULE "SiteLogbooks_instead_of_insert" AS
                                                                                                                 "ReportNo",
                                                                                                                 "ReportNote",
                                                                                                                 "ObserveAt",
+                                                                                                                "SiteLogBookName",
                                                                                                                 "Approved",
                                                                                                                 "MobileId",
                                                                                                                 "CreatedAt",
@@ -58,7 +60,7 @@ CREATE OR REPLACE RULE "SiteLogbooks_instead_of_insert" AS
                                                                      new."AnnualAllowableCut", new."ManagementUnit",
                                                                      new."DevelopmentUnit", new."Concession",
                                                                      new."Company", new."Hammer", new."Localization",
-                                                                     new."ReportNo", new."ReportNote", new."ObserveAt",
+                                                                     new."ReportNo", new."ReportNote", new."ObserveAt",new."SiteLogBookName",
                                                                      new."Approved", new."MobileId", new."CreatedAt",
                                                                      new."CreatedAt")
                                                              RETURNING "SiteLogbooksTable"."Id", "SiteLogbooksTable"."AnnualAllowableCut", (SELECT aac."Name"
@@ -76,7 +78,7 @@ CREATE OR REPLACE RULE "SiteLogbooks_instead_of_insert" AS
                                                                                                                                                                                                                                                                                                                                             LIMIT 1) AS "ConcessionName", "SiteLogbooksTable"."Company", (SELECT com."Name"
                                                                                                                                                                                                                                                                                                                                                                                                           FROM "Taxonomy"."CompaniesTable" com
                                                                                                                                                                                                                                                                                                                                                                                                           WHERE "SiteLogbooksTable"."Company" = com."Id"
-                                                                                                                                                                                                                                                                                                                                                                                                          LIMIT 1) AS companyname, "SiteLogbooksTable"."Hammer", "SiteLogbooksTable"."Localization", "SiteLogbooksTable"."ReportNo", "SiteLogbooksTable"."ReportNote", "SiteLogbooksTable"."ObserveAt", "SiteLogbooksTable"."Approved", "SiteLogbooksTable"."MobileId", "SiteLogbooksTable"."CreatedAt", "SiteLogbooksTable"."UpdatedAt", "SiteLogbooksTable"."DeletedAt";
+                                                                                                                                                                                                                                                                                                                                                                                                          LIMIT 1) AS companyname, "SiteLogbooksTable"."Hammer", "SiteLogbooksTable"."Localization", "SiteLogbooksTable"."ReportNo", "SiteLogbooksTable"."ReportNote", "SiteLogbooksTable"."ObserveAt", "SiteLogbooksTable"."SiteLogBookName", "SiteLogbooksTable"."Approved", "SiteLogbooksTable"."MobileId", "SiteLogbooksTable"."CreatedAt", "SiteLogbooksTable"."UpdatedAt", "SiteLogbooksTable"."DeletedAt";
 
 CREATE OR REPLACE RULE "SiteLogbooks_instead_of_update" AS
     ON UPDATE TO "ForestResources"."SiteLogbooks" DO INSTEAD UPDATE "ForestResources"."SiteLogbooksTable"
@@ -90,6 +92,7 @@ CREATE OR REPLACE RULE "SiteLogbooks_instead_of_update" AS
                                                                  "ReportNo"           = new."ReportNo",
                                                                  "ReportNote"         = new."ReportNote",
                                                                  "ObserveAt"          = new."ObserveAt",
+                                                                 "SiteLogBookName"          = new."SiteLogBookName",
                                                                  "Approved"           = new."Approved",
                                                                  "MobileId"           = new."MobileId",
                                                                  "CreatedAt"          = new."CreatedAt",
@@ -111,5 +114,5 @@ CREATE OR REPLACE RULE "SiteLogbooks_instead_of_update" AS
                                                                                                                                                                                                                                                                                                                                             LIMIT 1) AS "ConcessionName", "SiteLogbooksTable"."Company", (SELECT com."Name"
                                                                                                                                                                                                                                                                                                                                                                                                           FROM "Taxonomy"."CompaniesTable" com
                                                                                                                                                                                                                                                                                                                                                                                                           WHERE "SiteLogbooksTable"."Company" = com."Id"
-                                                                                                                                                                                                                                                                                                                                                                                                          LIMIT 1) AS companyname, "SiteLogbooksTable"."Hammer", "SiteLogbooksTable"."Localization", "SiteLogbooksTable"."ReportNo", "SiteLogbooksTable"."ReportNote", "SiteLogbooksTable"."ObserveAt", "SiteLogbooksTable"."Approved", "SiteLogbooksTable"."MobileId", "SiteLogbooksTable"."CreatedAt", "SiteLogbooksTable"."UpdatedAt", "SiteLogbooksTable"."DeletedAt";
+                                                                                                                                                                                                                                                                                                                                                                                                          LIMIT 1) AS companyname, "SiteLogbooksTable"."Hammer", "SiteLogbooksTable"."Localization", "SiteLogbooksTable"."ReportNo", "SiteLogbooksTable"."ReportNote", "SiteLogbooksTable"."ObserveAt", "SiteLogbooksTable"."SiteLogBookName", "SiteLogbooksTable"."Approved", "SiteLogbooksTable"."MobileId", "SiteLogbooksTable"."CreatedAt", "SiteLogbooksTable"."UpdatedAt", "SiteLogbooksTable"."DeletedAt";
 

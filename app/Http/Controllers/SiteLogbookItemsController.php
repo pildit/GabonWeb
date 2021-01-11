@@ -22,8 +22,7 @@ class SiteLogbookItemsController extends Controller
      * @param $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function view() {
-
-        return view('site-logbooks.view');
+    public function items($id){
+        return view('site-logbooks.items', ['id' => $id]);
     }
 }

@@ -4,7 +4,7 @@ create or replace view "Transportation"."Permits"
              "ClientCompanyName", "ConcessionaireCompany", "ConcessionaireCompanyName", "TransporterCompany",
              "TransporterCompanyName", "User", "Email", "ProductType", "Status", "DriverName", "LicensePlate",
              "Province", "Destination", "ScanLat", "ScanLon", "ScanGpsAccu", "Lat", "Lon", "GpsAccu", "Geometry",
-             "MobileId", "Approved", "ObserveAt", "CreatedAt", "UpdatedAt", "DeletedAt")
+             "MobileId", "Approved", "ObserveAt", "ImgFront", "ImgBack", "ImgSide", "CreatedAt", "UpdatedAt", "DeletedAt")
 as
 SELECT per."Id",
        per."PermitNo",
@@ -41,6 +41,9 @@ SELECT per."Id",
        per."MobileId",
        per."Approved",
        per."ObserveAt",
+       per."ImgFront",
+       per."ImgBack",
+       per."ImgSide",
        per."CreatedAt",
        per."UpdatedAt",
        per."DeletedAt"
@@ -86,6 +89,9 @@ CREATE OR REPLACE RULE "Permits_instead_of_insert" AS
                                                                                                     "MobileId",
                                                                                                     "Approved",
                                                                                                     "ObserveAt",
+                                                                                                    "ImgFront",
+                                                                                                    "ImgBack",
+                                                                                                    "ImgSide",
                                                                                                     "CreatedAt",
                                                                                                     "UpdatedAt",
                                                                                                     "DeletedAt")
@@ -99,7 +105,7 @@ CREATE OR REPLACE RULE "Permits_instead_of_insert" AS
                                                                new."Destination", new."ScanLat", new."ScanLon",
                                                                new."ScanGpsAccu", new."Lat", new."Lon", new."GpsAccu",
                                                                new."Geometry", new."MobileId", new."Approved",
-                                                               new."ObserveAt", new."CreatedAt", new."UpdatedAt",
+                                                               new."ObserveAt",new."ImgFront",new."ImgBack",new."ImgSide", new."CreatedAt", new."UpdatedAt",
                                                                new."DeletedAt")
                                                        RETURNING "PermitsTable"."Id", "PermitsTable"."PermitNo", "PermitsTable"."PermitNoMobile", "PermitsTable"."Concession", (SELECT cs."Name"
                                                                                                                                                                                 FROM "ForestResources"."ConcessionsTable" cs
@@ -125,7 +131,7 @@ CREATE OR REPLACE RULE "Permits_instead_of_insert" AS
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    LIMIT 1) AS "Name", "PermitsTable"."User", (SELECT aac.email
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                FROM admin.accounts aac
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                WHERE "PermitsTable"."User" = aac.id
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               LIMIT 1) AS email, "PermitsTable"."ProductType", "PermitsTable"."Status", "PermitsTable"."DriverName", "PermitsTable"."LicensePlate", "PermitsTable"."Province", "PermitsTable"."Destination", "PermitsTable"."ScanLat", "PermitsTable"."ScanLon", "PermitsTable"."ScanGpsAccu", "PermitsTable"."Lat", "PermitsTable"."Lon", "PermitsTable"."GpsAccu", "PermitsTable"."Geometry", "PermitsTable"."MobileId", "PermitsTable"."Approved", "PermitsTable"."ObserveAt", "PermitsTable"."CreatedAt", "PermitsTable"."UpdatedAt", "PermitsTable"."DeletedAt";
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               LIMIT 1) AS email, "PermitsTable"."ProductType", "PermitsTable"."Status", "PermitsTable"."DriverName", "PermitsTable"."LicensePlate", "PermitsTable"."Province", "PermitsTable"."Destination", "PermitsTable"."ScanLat", "PermitsTable"."ScanLon", "PermitsTable"."ScanGpsAccu", "PermitsTable"."Lat", "PermitsTable"."Lon", "PermitsTable"."GpsAccu", "PermitsTable"."Geometry", "PermitsTable"."MobileId", "PermitsTable"."Approved", "PermitsTable"."ObserveAt", "PermitsTable"."ImgFront", "PermitsTable"."ImgBack", "PermitsTable"."ImgSide", "PermitsTable"."CreatedAt", "PermitsTable"."UpdatedAt", "PermitsTable"."DeletedAt";
 
 CREATE OR REPLACE RULE "Permits_instead_of_update" AS
     ON UPDATE TO "Transportation"."Permits" DO INSTEAD UPDATE "Transportation"."PermitsTable"
@@ -155,6 +161,9 @@ CREATE OR REPLACE RULE "Permits_instead_of_update" AS
                                                            "MobileId"              = new."MobileId",
                                                            "Approved"              = new."Approved",
                                                            "ObserveAt"             = new."ObserveAt",
+                                                           "ImgFront"             = new."ImgFront",
+                                                           "ImgBack"             = new."ImgBack",
+                                                           "ImgSide"             = new."ImgSide",
                                                            "CreatedAt"             = new."CreatedAt",
                                                            "UpdatedAt"             = new."UpdatedAt",
                                                            "DeletedAt"             = new."DeletedAt"
@@ -183,5 +192,5 @@ CREATE OR REPLACE RULE "Permits_instead_of_update" AS
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    LIMIT 1) AS "Name", "PermitsTable"."User", (SELECT aac.email
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                FROM admin.accounts aac
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                WHERE "PermitsTable"."User" = aac.id
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               LIMIT 1) AS email, "PermitsTable"."ProductType", "PermitsTable"."Status", "PermitsTable"."DriverName", "PermitsTable"."LicensePlate", "PermitsTable"."Province", "PermitsTable"."Destination", "PermitsTable"."ScanLat", "PermitsTable"."ScanLon", "PermitsTable"."ScanGpsAccu", "PermitsTable"."Lat", "PermitsTable"."Lon", "PermitsTable"."GpsAccu", "PermitsTable"."Geometry", "PermitsTable"."MobileId", "PermitsTable"."Approved", "PermitsTable"."ObserveAt", "PermitsTable"."CreatedAt", "PermitsTable"."UpdatedAt", "PermitsTable"."DeletedAt";
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               LIMIT 1) AS email, "PermitsTable"."ProductType", "PermitsTable"."Status", "PermitsTable"."DriverName", "PermitsTable"."LicensePlate", "PermitsTable"."Province", "PermitsTable"."Destination", "PermitsTable"."ScanLat", "PermitsTable"."ScanLon", "PermitsTable"."ScanGpsAccu", "PermitsTable"."Lat", "PermitsTable"."Lon", "PermitsTable"."GpsAccu", "PermitsTable"."Geometry", "PermitsTable"."MobileId", "PermitsTable"."Approved", "PermitsTable"."ObserveAt", "PermitsTable"."ImgFront", "PermitsTable"."ImgBack", "PermitsTable"."ImgSide", "PermitsTable"."CreatedAt", "PermitsTable"."UpdatedAt", "PermitsTable"."DeletedAt";
 
