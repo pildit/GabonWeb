@@ -14,6 +14,7 @@ class CreateLogbookRequest extends FormRequest
     public function rules()
     {
         return [
+            'LogBookName' => 'string|unique',
             'Concession' => 'required|exists:Modules\ForestResources\Entities\Concession,Id',
             'DevelopmentUnit' => 'required|exists:Modules\ForestResources\Entities\DevelopmentUnit,Id',
             'ManagementUnit' => 'required|exists:Modules\ForestResources\Entities\ManagementUnit,Id',
