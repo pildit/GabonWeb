@@ -20,6 +20,10 @@
                         <td>{{ translate('aac') }}</td>
                         <td class="bold">{{ (logbook.anuualallowablecut) ? logbook.anuualallowablecut.Name : '' }}</td>
                     </tr>
+                    <tr>
+                        <td>{{ translate('logbook_id') }}</td>
+                        <td class="bold" colspan="3">{{ logbook.Id }}</td>
+                    </tr>
                     </tbody>
                 </table>
             </div>

@@ -55,8 +55,28 @@ class LogbookController extends Controller
     {
 
         $data = $request->validated();
+        /**
+         *
+         * 0 - Concession
+         * 1 - DevelopmentUnit
+         * 2 - ManagementUnit
+         * 3 - AnualAllowableCut
+         *
+         */
+        $parts = explode('_', request['LogBookName']);
 
-        $logbook = Logbook::create($data);
+        $logbook = Logbook::where( function ($query) use ($parts) {
+            $query->where('Concession', $parts[0]);
+            $query->where('DevelopmentUnit', $parts[1]);
+            $query->where('ManagementUnit', $parts[2]);
+            $query->where('AnualAllowableCut', $parts[3]);
+        })->first();
+
+        if($logbook !== null) {
+            Logbook::where('Id', $logbook->Id)->update($data);
+        } else {
+            Logbook::create($data);
+        }
 
         return response()->json([
             'message' => lang("logbook_created_successfully")
