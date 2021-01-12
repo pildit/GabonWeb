@@ -80,6 +80,7 @@ class Permit extends Model
         "Geometry",
         "MobileId",
         "ObserveAt",
+        "Park",
         "Approved"];
 
     /**

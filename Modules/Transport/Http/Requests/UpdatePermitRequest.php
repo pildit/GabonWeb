@@ -35,6 +35,7 @@ class UpdatePermitRequest extends FormRequest
             "MobileId" => 'string',
             "ObserveAt" => 'date_format:Y-m-d H:i:s',
             "Geometry" => 'string',
+            "Park" => 'sometimes|required|integer|exists:Modules\Transport\Entities\ParkType,Id',
         ];
     }
 

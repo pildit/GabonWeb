@@ -35,6 +35,7 @@ class CreatePermitRequest extends FormRequest
             "MobileId" => 'required|unique:Modules\Transport\Entities\Permit,MobileId',
             "ObserveAt" => 'required|date_format:Y-m-d H:i:s',
             "Geometry" => 'string',
+            "Park" => 'sometimes|required|integer|exists:Modules\Transport\Entities\ParkType,Id',
         ];
     }
 

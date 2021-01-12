@@ -26,3 +26,6 @@ Route::middleware('jwt:api')->resource('/permit_items', PermitItemController::cl
 //Permit tracking
 Route::middleware('jwt:api')->get('/permits_tracking/vectors', 'PermitController@trackingVectors');
 Route::middleware('jwt:api')->post('/permits_tracking', 'PermitController@storeTracking');
+//Permit nomenclators
+Route::middleware('jwt:api')->get('/park_types', 'ParkTypeController@listParkTypes');
+Route::middleware('jwt:api')->get('/transportation_types', 'TransportTypeController@listTransportTypes');
