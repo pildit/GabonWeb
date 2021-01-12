@@ -63,7 +63,7 @@ class LogbookController extends Controller
          * 3 - AnualAllowableCut
          *
          */
-        $parts = explode('_', request['LogBookName']);
+        $parts = explode('_', $request['LogBookName']);
 
         $logbook = Logbook::where( function ($query) use ($parts) {
             $query->where('Concession', $parts[0]);
