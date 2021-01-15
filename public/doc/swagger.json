@@ -7180,28 +7180,6 @@
       }
     },
     "/management_plans/{management_plan}": {
-      "get": {
-        "summary": "Display the specified resource.",
-        "tags": [
-          "ManagementPlan"
-        ],
-        "description": "",
-        "deprecated": false,
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        },
-        "parameters": [
-          {
-            "in": "path",
-            "name": "management_plan",
-            "type": "string",
-            "required": true,
-            "description": ""
-          }
-        ]
-      },
       "put": {
         "summary": "Update the specified resource in storage.",
         "tags": [
@@ -7358,6 +7336,96 @@
             "type": "string",
             "required": true,
             "description": ""
+          }
+        ]
+      }
+    },
+    "/management_plans/{management_unit}" : {
+      "get": {
+        "summary": "Get management plans for a certain management unit",
+        "tags": [
+          "ManagementPlan"
+        ],
+        "description": "",
+        "deprecated": false,
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "current_page": 1,
+                "data": [
+                  {
+                    "Id": 4,
+                    "ManagementUnit": 1,
+                    "Number": "112",
+                    "Species": 12,
+                    "SpeciesCommonName": "Andoung de Heitz",
+                    "GrossVolumeUFG": "75381340.971795",
+                    "GrossVolumeYear": "23006406.195194",
+                    "YieldVolumeYear": "87.0765352249",
+                    "CommercialVolumeYear": "38458310.782165",
+                    "Approved": true,
+                    "CreatedAt": "2021-01-09 14:08:52",
+                    "UpdatedAt": "2021-01-09 14:08:52",
+                    "DeletedAt": null,
+                    "log": null
+                  },
+                  {
+                    "Id": 3,
+                    "ManagementUnit": 1,
+                    "Number": "112",
+                    "Species": 11,
+                    "SpeciesCommonName": "Andok",
+                    "GrossVolumeUFG": "75381340.971795",
+                    "GrossVolumeYear": "23006406.195194",
+                    "YieldVolumeYear": "87.0765352249",
+                    "CommercialVolumeYear": "38458310.782165",
+                    "Approved": true,
+                    "CreatedAt": "2021-01-08 19:54:48",
+                    "UpdatedAt": "2021-01-08 19:54:48",
+                    "DeletedAt": null,
+                    "log": null
+                  },
+                  {
+                    "Id": 2,
+                    "ManagementUnit": 1,
+                    "Number": "111",
+                    "Species": 1,
+                    "SpeciesCommonName": "Abura, Bahia",
+                    "GrossVolumeUFG": "75381340.971795",
+                    "GrossVolumeYear": "23006406.195194",
+                    "YieldVolumeYear": "87.0765352249",
+                    "CommercialVolumeYear": "38458310.782165",
+                    "Approved": false,
+                    "CreatedAt": "2021-01-08 19:14:40",
+                    "UpdatedAt": "2021-01-08 19:14:41",
+                    "DeletedAt": null,
+                    "log": null
+                  }
+                ],
+                "first_page_url": "http://gabon-dev.globalorigin.org/api/management_plans/1?page=1",
+                "from": 1,
+                "last_page": 1,
+                "last_page_url": "http://gabon-dev.globalorigin.org/api/management_plans/1?page=1",
+                "next_page_url": null,
+                "path": "http://gabon-dev.globalorigin.org/api/management_plans/1",
+                "per_page": 50,
+                "prev_page_url": null,
+                "to": 3,
+                "total": 3
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "management_unit",
+            "type": "string",
+            "required": true,
+            "description": "",
+            "example" : 1
           }
         ]
       }
@@ -13580,8 +13648,13 @@
         "description": "",
         "deprecated": false,
         "responses": {
-          "200": {
-            "description": "OK"
+          "201": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "message" : "*logbook_created_successfully"
+              }
+            }
           }
         },
         "parameters": [
@@ -13592,6 +13665,7 @@
             "schema": {
               "type": "object",
               "required": [
+                "LogBookName",
                 "Concession",
                 "DevelopmentUnit",
                 "ManagementUnit",
@@ -13599,6 +13673,11 @@
                 "ObserveAt"
               ],
               "properties": {
+                "LogBookName" : {
+                  "type" : "string",
+                  "pattern": '^\d+_\d+_\d+_\d+$',
+                  "description" :  "It should be of form : Concession_DevelopmentUnit_ManagementUnit_AAC ",
+                },
                 "Concession": {
                   "type": "string"
                 },
@@ -13620,6 +13699,16 @@
                 "MobileId": {
                   "type": "string"
                 }
+              },
+              "example" : {
+                "LogBookName" : "1_1_1_1",
+                "Concession": "1",
+                "DevelopmentUnit": "2",
+                "ManagementUnit": "3",
+                "AnnualAllowableCut": "4",
+                "ObserveAt": "2020-01-01 10:00:00",
+                "Approved": true,
+                "MobileId": "5"
               }
             }
           }
@@ -25293,8 +25382,13 @@
         "description": "",
         "deprecated": false,
         "responses": {
-          "200": {
-            "description": "OK"
+          "201": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "message" : "*logbook_item_created_successfully*"
+              }
+            }
           }
         },
         "parameters": [
@@ -26625,6 +26719,7 @@
             "schema": {
               "type": "object",
               "required": [
+                "SiteLogBookName",
                 "Concession",
                 "DevelopmentUnit",
                 "ManagementUnit",
@@ -26634,6 +26729,11 @@
                 "ObserveAt"
               ],
               "properties": {
+                "SiteLogBookName" : {
+                  "type" : "string",
+                  "pattern": '^\d+_\d+_\d+_\d+$',
+                  "description" :  "It should be of form : Concession_DevelopmentUnit_ManagementUnit_AAC "
+                },
                 "Concession": {
                   "type": "string"
                 },
@@ -26672,6 +26772,7 @@
                 }
               },
               "example": {
+                "SiteLogBookName" : "1_2_3_4",
                 "Concession": "1",
                 "DevelopmentUnit": "2",
                 "ManagementUnit": "3",
@@ -28748,7 +28849,7 @@
       "LogbookItemsRequest": {
         "type": "object",
         "required": [
-          "Logbook",
+          "LogBookName",
           "TreeId",
           "HewingId",
           "Species",
@@ -28760,8 +28861,10 @@
           "ObserveAt"
         ],
         "properties": {
-          "Logbook": {
-            "type": "string"
+          "LogBookName": {
+            "type" : "string",
+            "pattern": '^\d+_\d+_\d+_\d+$',
+            "description" :  "It should be of form : Concession_DevelopmentUnit_ManagementUnit_AAC ",,
           },
           "TreeId": {
             "type": "string"
@@ -28807,7 +28910,7 @@
           }
         },
         "example": {
-          "Logbook": "1",
+          "LogBookName": "1_1_1_1",
           "TreeId": "1",
           "HewingId": "2",
           "Species": 3,
