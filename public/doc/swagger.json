@@ -7158,7 +7158,7 @@
         "deprecated": false,
         "parameters": [
           {
-            "in": "path",
+            "in": "query",
             "name": "name",
             "type": "string",
             "required": false,
@@ -7166,7 +7166,7 @@
             "example": "112"
           },
           {
-            "in": "path",
+            "in": "query",
             "name": "limit",
             "type": "integer",
             "required": false,
