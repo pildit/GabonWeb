@@ -9,12 +9,14 @@
   "host": "gabonweb.test",
   "basePath": "/api",
   "securityDefinitions": {
-    APIKeyHeader: {
-      type: apiKey,
-      in: header,
-      name: Authorization,
-      default: "Bearer {token}"
+    "APIKeyHeader": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
     }
+  },
+  "security" : {
+    "APIKeyHeader" : []
   },
   "parameters": {
     "date_from" : {
@@ -23,7 +25,7 @@
       "required" : false,
       "type": "string",
       "format": "date",
-      "example"  : "2020-01-31",
+      "example"  : "2020-01-31"
     },
     "date_to" :
     {
@@ -69,7 +71,7 @@
       "in": "query",
       "type": "string",
       "description": "Text to search by (optional)."
-    },
+    }
   },
   "schemes": [
     "http"
@@ -93,11 +95,21 @@
           "application/json"
         ],
         "parameters": [
-          { "$ref" :  "#/parameters/per_page" },
-          { "$ref" :  "#/parameters/page" },
-          { "$ref" :  "#/parameters/sort" },
-          { "$ref" :  "#/parameters/sort_fields" },
-          { "$ref" :  "#/parameters/search" }
+          {
+            "$ref": "#/parameters/per_page"
+          },
+          {
+            "$ref": "#/parameters/page"
+          },
+          {
+            "$ref": "#/parameters/sort"
+          },
+          {
+            "$ref": "#/parameters/sort_fields"
+          },
+          {
+            "$ref": "#/parameters/search"
+          }
         ],
         "responses": {
           "200": {
@@ -339,8 +351,12 @@
           "application/json"
         ],
         "parameters": [
-          { "$ref" : "#/parameters/date_from"},
-          { "$ref" : "#/parameters/date_to"}
+          {
+            "$ref": "#/parameters/date_from"
+          },
+          {
+            "$ref": "#/parameters/date_to"
+          }
         ],
         "responses": {
           "200": {
@@ -763,11 +779,21 @@
           "application/json"
         ],
         "parameters": [
-          { "$ref" :  "#/parameters/per_page" },
-          { "$ref" :  "#/parameters/page" },
-          { "$ref" :  "#/parameters/sort" },
-          { "$ref" :  "#/parameters/sort_fields" },
-          { "$ref" :  "#/parameters/search" }
+          {
+            "$ref": "#/parameters/per_page"
+          },
+          {
+            "$ref": "#/parameters/page"
+          },
+          {
+            "$ref": "#/parameters/sort"
+          },
+          {
+            "$ref": "#/parameters/sort_fields"
+          },
+          {
+            "$ref": "#/parameters/search"
+          }
         ],
         "responses": {
           "200": {
@@ -974,8 +1000,7 @@
           }
         }
       },
-      "delete" : {
-
+      "delete": {
         "description": "Delete Concession",
         "summary": "Delete Concession",
         "tags": [
@@ -1014,8 +1039,12 @@
           "application/json"
         ],
         "parameters": [
-          { "$ref" : "#/parameters/date_from"},
-          { "$ref" : "#/parameters/date_to"}
+          {
+            "$ref": "#/parameters/date_from"
+          },
+          {
+            "$ref": "#/parameters/date_to"
+          }
         ],
         "responses": {
           "200": {
@@ -1048,12 +1077,22 @@
         "consumes": [
           "application/json"
         ],
-        "parameters" : [
-          { "$ref" :  "#/parameters/per_page" },
-          { "$ref" :  "#/parameters/page" },
-          { "$ref" :  "#/parameters/sort" },
-          { "$ref" :  "#/parameters/sort_fields" },
-          { "$ref" :  "#/parameters/search" }
+        "parameters": [
+          {
+            "$ref": "#/parameters/per_page"
+          },
+          {
+            "$ref": "#/parameters/page"
+          },
+          {
+            "$ref": "#/parameters/sort"
+          },
+          {
+            "$ref": "#/parameters/sort_fields"
+          },
+          {
+            "$ref": "#/parameters/search"
+          }
         ],
         "responses": {
           "200": {
@@ -1675,12 +1714,22 @@
         "consumes": [
           "application/json"
         ],
-        "parameters" : [
-          { "$ref" :  "#/parameters/per_page" },
-          { "$ref" :  "#/parameters/page" },
-          { "$ref" :  "#/parameters/sort" },
-          { "$ref" :  "#/parameters/sort_fields" },
-          { "$ref" :  "#/parameters/search" }
+        "parameters": [
+          {
+            "$ref": "#/parameters/per_page"
+          },
+          {
+            "$ref": "#/parameters/page"
+          },
+          {
+            "$ref": "#/parameters/sort"
+          },
+          {
+            "$ref": "#/parameters/sort_fields"
+          },
+          {
+            "$ref": "#/parameters/search"
+          }
         ],
         "responses": {
           "200": {
@@ -1967,8 +2016,12 @@
           "application/json"
         ],
         "parameters": [
-          { "$ref" : "#/parameters/date_from"},
-          { "$ref" : "#/parameters/date_to"}
+          {
+            "$ref": "#/parameters/date_from"
+          },
+          {
+            "$ref": "#/parameters/date_to"
+          }
         ],
         "responses": {
           "200": {
@@ -2029,11 +2082,21 @@
           "Companies"
         ],
         "parameters": [
-          { "$ref" :  "#/parameters/per_page" },
-          { "$ref" :  "#/parameters/page" },
-          { "$ref" :  "#/parameters/sort" },
-          { "$ref" :  "#/parameters/sort_fields" },
-          { "$ref" :  "#/parameters/search" }
+          {
+            "$ref": "#/parameters/per_page"
+          },
+          {
+            "$ref": "#/parameters/page"
+          },
+          {
+            "$ref": "#/parameters/sort"
+          },
+          {
+            "$ref": "#/parameters/sort_fields"
+          },
+          {
+            "$ref": "#/parameters/search"
+          }
         ],
         "operationId": "Listcompanies",
         "deprecated": false,
@@ -2442,8 +2505,12 @@
           "application/json"
         ],
         "parameters": [
-          { "$ref" : "#/parameters/date_from"},
-          { "$ref" : "#/parameters/date_to"}
+          {
+            "$ref": "#/parameters/date_from"
+          },
+          {
+            "$ref": "#/parameters/date_to"
+          }
         ],
         "responses": {
           "200": {
@@ -2476,11 +2543,21 @@
           "application/json"
         ],
         "parameters": [
-          { "$ref" :  "#/parameters/per_page" },
-          { "$ref" :  "#/parameters/page" },
-          { "$ref" :  "#/parameters/sort" },
-          { "$ref" :  "#/parameters/sort_fields" },
-          { "$ref" :  "#/parameters/search" }
+          {
+            "$ref": "#/parameters/per_page"
+          },
+          {
+            "$ref": "#/parameters/page"
+          },
+          {
+            "$ref": "#/parameters/sort"
+          },
+          {
+            "$ref": "#/parameters/sort_fields"
+          },
+          {
+            "$ref": "#/parameters/search"
+          }
         ],
         "responses": {
           "200": {
@@ -2822,8 +2899,12 @@
           "application/json"
         ],
         "parameters": [
-          { "$ref" : "#/parameters/date_from"},
-          { "$ref" : "#/parameters/date_to"}
+          {
+            "$ref": "#/parameters/date_from"
+          },
+          {
+            "$ref": "#/parameters/date_to"
+          }
         ],
         "responses": {
           "200": {
@@ -3397,11 +3478,21 @@
             "description": "",
             "example": 1
           },
-          { "$ref" :  "#/parameters/per_page" },
-          { "$ref" :  "#/parameters/page" },
-          { "$ref" :  "#/parameters/sort" },
-          { "$ref" :  "#/parameters/sort_fields" },
-          { "$ref" :  "#/parameters/search" }
+          {
+            "$ref": "#/parameters/per_page"
+          },
+          {
+            "$ref": "#/parameters/page"
+          },
+          {
+            "$ref": "#/parameters/sort"
+          },
+          {
+            "$ref": "#/parameters/sort_fields"
+          },
+          {
+            "$ref": "#/parameters/search"
+          }
         ],
         "responses": {
           "200": {
@@ -3614,11 +3705,21 @@
           "application/json"
         ],
         "parameters": [
-          { "$ref" :  "#/parameters/per_page" },
-          { "$ref" :  "#/parameters/page" },
-          { "$ref" :  "#/parameters/sort" },
-          { "$ref" :  "#/parameters/sort_fields" },
-          { "$ref" :  "#/parameters/search" }
+          {
+            "$ref": "#/parameters/per_page"
+          },
+          {
+            "$ref": "#/parameters/page"
+          },
+          {
+            "$ref": "#/parameters/sort"
+          },
+          {
+            "$ref": "#/parameters/sort_fields"
+          },
+          {
+            "$ref": "#/parameters/search"
+          }
         ],
         "responses": {
           "200": {
@@ -5422,11 +5523,21 @@
           "application/json"
         ],
         "parameters": [
-          { "$ref" :  "#/parameters/per_page" },
-          { "$ref" :  "#/parameters/page" },
-          { "$ref" :  "#/parameters/sort" },
-          { "$ref" :  "#/parameters/sort_fields" },
-          { "$ref" :  "#/parameters/search" }
+          {
+            "$ref": "#/parameters/per_page"
+          },
+          {
+            "$ref": "#/parameters/page"
+          },
+          {
+            "$ref": "#/parameters/sort"
+          },
+          {
+            "$ref": "#/parameters/sort_fields"
+          },
+          {
+            "$ref": "#/parameters/search"
+          }
         ],
         "responses": {
           "200": {
@@ -5975,8 +6086,12 @@
         "description": "",
         "deprecated": false,
         "parameters": [
-          { "$ref" : "#/parameters/date_from"},
-          { "$ref" : "#/parameters/date_to"}
+          {
+            "$ref": "#/parameters/date_from"
+          },
+          {
+            "$ref": "#/parameters/date_to"
+          }
         ],
         "responses": {
           "200": {
@@ -6666,11 +6781,21 @@
         ],
         "description": "",
         "parameters": [
-          { "$ref" :  "#/parameters/per_page" },
-          { "$ref" :  "#/parameters/page" },
-          { "$ref" :  "#/parameters/sort" },
-          { "$ref" :  "#/parameters/sort_fields" },
-          { "$ref" :  "#/parameters/search" }
+          {
+            "$ref": "#/parameters/per_page"
+          },
+          {
+            "$ref": "#/parameters/page"
+          },
+          {
+            "$ref": "#/parameters/sort"
+          },
+          {
+            "$ref": "#/parameters/sort_fields"
+          },
+          {
+            "$ref": "#/parameters/search"
+          }
         ],
         "deprecated": false,
         "responses": {
@@ -7340,7 +7465,7 @@
         ]
       }
     },
-    "/management_plans/{management_unit}" : {
+    "/management_plans/{management_unit}": {
       "get": {
         "summary": "Get management plans for a certain management unit",
         "tags": [
@@ -7425,7 +7550,7 @@
             "type": "string",
             "required": true,
             "description": "",
-            "example" : 1
+            "example": 1
           }
         ]
       }
@@ -7437,8 +7562,12 @@
           "AnnualAllowableCut"
         ],
         "parameters": [
-          { "$ref" : "#/parameters/date_from"},
-          { "$ref" : "#/parameters/date_to"}
+          {
+            "$ref": "#/parameters/date_from"
+          },
+          {
+            "$ref": "#/parameters/date_to"
+          }
         ],
         "description": "",
         "deprecated": false,
@@ -7642,11 +7771,21 @@
         "description": "",
         "deprecated": false,
         "parameters": [
-          { "$ref" :  "#/parameters/per_page" },
-          { "$ref" :  "#/parameters/page" },
-          { "$ref" :  "#/parameters/sort" },
-          { "$ref" :  "#/parameters/sort_fields" },
-          { "$ref" :  "#/parameters/search" }
+          {
+            "$ref": "#/parameters/per_page"
+          },
+          {
+            "$ref": "#/parameters/page"
+          },
+          {
+            "$ref": "#/parameters/sort"
+          },
+          {
+            "$ref": "#/parameters/sort_fields"
+          },
+          {
+            "$ref": "#/parameters/search"
+          }
         ],
         "responses": {
           "200": {
@@ -8350,8 +8489,12 @@
         ],
         "description": "",
         "parameters": [
-          { "$ref" : "#/parameters/date_from"},
-          { "$ref" : "#/parameters/date_to"}
+          {
+            "$ref": "#/parameters/date_from"
+          },
+          {
+            "$ref": "#/parameters/date_to"
+          }
         ],
         "deprecated": false,
         "responses": {
@@ -10665,11 +10808,21 @@
     "/annual_allowable_cut_inventory": {
       "get": {
         "parameters": [
-          { "$ref" :  "#/parameters/per_page" },
-          { "$ref" :  "#/parameters/page" },
-          { "$ref" :  "#/parameters/sort" },
-          { "$ref" :  "#/parameters/sort_fields" },
-          { "$ref" :  "#/parameters/search" }
+          {
+            "$ref": "#/parameters/per_page"
+          },
+          {
+            "$ref": "#/parameters/page"
+          },
+          {
+            "$ref": "#/parameters/sort"
+          },
+          {
+            "$ref": "#/parameters/sort_fields"
+          },
+          {
+            "$ref": "#/parameters/search"
+          }
         ],
         "summary": "Display a listing of the resource.",
         "tags": [
@@ -11007,11 +11160,21 @@
           "application/json"
         ],
         "parameters": [
-          { "$ref" :  "#/parameters/per_page" },
-          { "$ref" :  "#/parameters/page" },
-          { "$ref" :  "#/parameters/sort" },
-          { "$ref" :  "#/parameters/sort_fields" },
-          { "$ref" :  "#/parameters/search" }
+          {
+            "$ref": "#/parameters/per_page"
+          },
+          {
+            "$ref": "#/parameters/page"
+          },
+          {
+            "$ref": "#/parameters/sort"
+          },
+          {
+            "$ref": "#/parameters/sort_fields"
+          },
+          {
+            "$ref": "#/parameters/search"
+          }
         ],
         "responses": {
           "200": {
@@ -13087,12 +13250,22 @@
         "consumes": [
           "application/json"
         ],
-        "parameters" : [
-          { "$ref" :  "#/parameters/per_page" },
-          { "$ref" :  "#/parameters/page" },
-          { "$ref" :  "#/parameters/sort" },
-          { "$ref" :  "#/parameters/sort_fields" },
-          { "$ref" :  "#/parameters/search" }
+        "parameters": [
+          {
+            "$ref": "#/parameters/per_page"
+          },
+          {
+            "$ref": "#/parameters/page"
+          },
+          {
+            "$ref": "#/parameters/sort"
+          },
+          {
+            "$ref": "#/parameters/sort_fields"
+          },
+          {
+            "$ref": "#/parameters/search"
+          }
         ],
         "responses": {
           "200": {
@@ -13193,8 +13366,12 @@
         "description": "",
         "deprecated": false,
         "parameters": [
-          { "$ref" : "#/parameters/date_from"},
-          { "$ref" : "#/parameters/date_to"}
+          {
+            "$ref": "#/parameters/date_from"
+          },
+          {
+            "$ref": "#/parameters/date_to"
+          }
         ],
         "responses": {
           "200": {
@@ -13520,11 +13697,21 @@
         "description": "",
         "deprecated": false,
         "parameters": [
-          { "$ref" :  "#/parameters/per_page" },
-          { "$ref" :  "#/parameters/page" },
-          { "$ref" :  "#/parameters/sort" },
-          { "$ref" :  "#/parameters/sort_fields" },
-          { "$ref" :  "#/parameters/search" }
+          {
+            "$ref": "#/parameters/per_page"
+          },
+          {
+            "$ref": "#/parameters/page"
+          },
+          {
+            "$ref": "#/parameters/sort"
+          },
+          {
+            "$ref": "#/parameters/sort_fields"
+          },
+          {
+            "$ref": "#/parameters/search"
+          }
         ],
         "responses": {
           "200": {
@@ -13652,7 +13839,7 @@
             "description": "OK",
             "examples": {
               "application/json": {
-                "message" : "*logbook_created_successfully"
+                "message": "*logbook_created_successfully"
               }
             }
           }
@@ -13673,10 +13860,10 @@
                 "ObserveAt"
               ],
               "properties": {
-                "LogBookName" : {
-                  "type" : "string",
+                "LogBookName": {
+                  "type": "string",
                   "pattern": '^\d+_\d+_\d+_\d+$',
-                  "description" :  "It should be of form : Concession_DevelopmentUnit_ManagementUnit_AAC ",
+                  "description": "It should be of form : Concession_DevelopmentUnit_ManagementUnit_AAC "
                 },
                 "Concession": {
                   "type": "string"
@@ -13700,8 +13887,8 @@
                   "type": "string"
                 }
               },
-              "example" : {
-                "LogBookName" : "1_1_1_1",
+              "example": {
+                "LogBookName": "1_1_1_1",
                 "Concession": "1",
                 "DevelopmentUnit": "2",
                 "ManagementUnit": "3",
@@ -14117,8 +14304,12 @@
         "description": "",
         "deprecated": false,
         "parameters": [
-          { "$ref" : "#/parameters/date_from"},
-          { "$ref" : "#/parameters/date_to"}
+          {
+            "$ref": "#/parameters/date_from"
+          },
+          {
+            "$ref": "#/parameters/date_to"
+          }
         ],
         "responses": {
           "200": {
@@ -25214,11 +25405,21 @@
         ],
         "description": "",
         "parameters": [
-          { "$ref" :  "#/parameters/per_page" },
-          { "$ref" :  "#/parameters/page" },
-          { "$ref" :  "#/parameters/sort" },
-          { "$ref" :  "#/parameters/sort_fields" },
-          { "$ref" :  "#/parameters/search" }
+          {
+            "$ref": "#/parameters/per_page"
+          },
+          {
+            "$ref": "#/parameters/page"
+          },
+          {
+            "$ref": "#/parameters/sort"
+          },
+          {
+            "$ref": "#/parameters/sort_fields"
+          },
+          {
+            "$ref": "#/parameters/search"
+          }
         ],
         "deprecated": false,
         "responses": {
@@ -25386,7 +25587,7 @@
             "description": "OK",
             "examples": {
               "application/json": {
-                "message" : "*logbook_item_created_successfully*"
+                "message": "*logbook_item_created_successfully*"
               }
             }
           }
@@ -26032,11 +26233,21 @@
         "description": "",
         "deprecated": false,
         "parameters": [
-          { "$ref" :  "#/parameters/per_page" },
-          { "$ref" :  "#/parameters/page" },
-          { "$ref" :  "#/parameters/sort" },
-          { "$ref" :  "#/parameters/sort_fields" },
-          { "$ref" :  "#/parameters/search" }
+          {
+            "$ref": "#/parameters/per_page"
+          },
+          {
+            "$ref": "#/parameters/page"
+          },
+          {
+            "$ref": "#/parameters/sort"
+          },
+          {
+            "$ref": "#/parameters/sort_fields"
+          },
+          {
+            "$ref": "#/parameters/search"
+          }
         ],
         "responses": {
           "200": {
@@ -26729,10 +26940,10 @@
                 "ObserveAt"
               ],
               "properties": {
-                "SiteLogBookName" : {
-                  "type" : "string",
+                "SiteLogBookName": {
+                  "type": "string",
                   "pattern": '^\d+_\d+_\d+_\d+$',
-                  "description" :  "It should be of form : Concession_DevelopmentUnit_ManagementUnit_AAC "
+                  "description": "It should be of form : Concession_DevelopmentUnit_ManagementUnit_AAC "
                 },
                 "Concession": {
                   "type": "string"
@@ -26772,7 +26983,7 @@
                 }
               },
               "example": {
-                "SiteLogBookName" : "1_2_3_4",
+                "SiteLogBookName": "1_2_3_4",
                 "Concession": "1",
                 "DevelopmentUnit": "2",
                 "ManagementUnit": "3",
@@ -28248,9 +28459,9 @@
           "Chantier"
         ],
         "parameters": {
-          "in" : "query",
-          "name" : "dates",
-          "schema" : {
+          "in": "query",
+          "name": "dates",
+          "schema": {
             "$ref": "#/definitions/ExportRequest"
           }
         },
@@ -28428,11 +28639,21 @@
           "Chantier"
         ],
         "parameters": [
-          { "$ref" :  "#/parameters/per_page" },
-          { "$ref" :  "#/parameters/page" },
-          { "$ref" :  "#/parameters/sort" },
-          { "$ref" :  "#/parameters/sort_fields" },
-          { "$ref" :  "#/parameters/search" }
+          {
+            "$ref": "#/parameters/per_page"
+          },
+          {
+            "$ref": "#/parameters/page"
+          },
+          {
+            "$ref": "#/parameters/sort"
+          },
+          {
+            "$ref": "#/parameters/sort_fields"
+          },
+          {
+            "$ref": "#/parameters/search"
+          }
         ],
         "description": "",
         "deprecated": false,
@@ -28769,8 +28990,9 @@
           }
         }
       }
-    },
-    "definitions": {
+    }
+  },
+  "definitions": {
       "CreateSiteLogbookLogRequest": {
         "type": "object",
         "properties": {
@@ -28864,7 +29086,7 @@
           "LogBookName": {
             "type" : "string",
             "pattern": '^\d+_\d+_\d+_\d+$',
-            "description" :  "It should be of form : Concession_DevelopmentUnit_ManagementUnit_AAC ",,
+            "description" :  "It should be of form : Concession_DevelopmentUnit_ManagementUnit_AAC "
           },
           "TreeId": {
             "type": "string"
@@ -32161,5 +32383,4 @@
         }
       ]
     }
-  }
 }
